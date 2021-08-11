@@ -1,0 +1,34 @@
+<apex:component controller="Chart_HiringFunnelController">
+
+    <apex:attribute type="string" name="ReportId" required="true" description="The Report Id used for drilldown on the chart"/>
+
+    <apex:outputPanel layout="block" styleClass="center">
+        <apex:outputText ><b>Hiring Funnel</b>
+            <span class="vfHelpText">
+                <apex:outputLink value="javascript:return false;">
+                    <img src="/img/msg_icons/info16.png" alt="" />
+                    <span>The Hiring Funnel shows the total number of candidates that made it to each stage of hiring last month for candidates whose final status has been confirmed.</span>
+                </apex:outputLink>
+            </span>
+        </apex:outputText>
+    </apex:outputPanel> 
+    
+    <!-- make chart a clickable area to open report in new window -->
+    <apex:outputPanel onclick="window.open('','_new').location.href='/{!ReportId}';" styleClass="clicker">
+        <apex:chart width="350" height="350" data="{!HiringFunnelData}" rendered="{!HiringFunnelData_Size > 0}" resizable="true">
+            <apex:axis type="Numeric" position="bottom" fields="recCount" minimum="0"
+                title="Candidate Count" grid="true"></apex:axis>
+            <apex:axis type="Category" position="left" fields="name" title="">
+            </apex:axis>
+            <apex:barSeries orientation="horizontal" colorSet="#CCCFCE,#00AEEF,#00274C" colorsProgressWithinSeries="true"
+                axis="bottom" yField="name" xField="recCount" >   <apex:chartLabel display="insideEnd" color="#ffffff"/>
+                <apex:chartTips width="110"/>
+           </apex:barSeries> 
+        </apex:chart>  
+    </apex:outputPanel>
+                    
+    <apex:outputText rendered="{!HiringFunnelData_Size == 0}"><br/><br/>No data found</apex:outputText> 
+    <br/><br/>
+
+                
+</apex:component>

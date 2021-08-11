@@ -1,0 +1,343 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="MFG_NotificationController">
+    
+    <aura:html tag="style">
+
+        .MuiIconButton-root {
+        flex: 0 0 auto;
+        color: rgba(0, 0, 0, 0.54);
+        padding: 12px;
+        overflow: visible;
+        font-size: 1.5rem;
+        text-align: center;
+        transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 50%;
+        }
+        .MuiIconButton-root:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiIconButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        background-color: transparent;
+        }
+        @media (hover: none) {
+        .MuiIconButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-edgeStart {
+        margin-left: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeStart {
+        margin-left: -3px;
+        }
+        .MuiIconButton-edgeEnd {
+        margin-right: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeEnd {
+        margin-right: -3px;
+        }
+        .MuiIconButton-colorInherit {
+        color: inherit;
+        }
+        .MuiIconButton-colorPrimary {
+        color: #0047ad;
+        }
+        .MuiIconButton-colorPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-colorSecondary {
+        color: #002b6b;
+        }
+        .MuiIconButton-colorSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-sizeSmall {
+        padding: 3px;
+        font-size: 1.125rem;
+        }
+        .MuiIconButton-label {
+        width: 100%;
+        display: flex;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        
+<!--        .jss820 {-->
+<!--        &lt;!&ndash;        margin-left: 1% auto;&ndash;&gt;-->
+<!--        padding: 16px;-->
+<!--        max-width: 1300px-->
+<!--        min-height: 500px;-->
+<!--        padding-bottom: 200px;-->
+<!--        }-->
+
+        .jss820 {
+        margin: 0 auto;
+        padding: 16px;
+        max-width: 1300px;
+        min-height: 500px;
+        padding-bottom: 200px;
+        }
+
+
+
+        @media (max-width:959.95px) {
+        .jss820 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss820 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        .jss821 {
+        color: #0047ae;
+        margin: 0;
+        font-size: 3em;
+        font-family: glober, helvetica, sans-serif;
+        font-weight: 300;
+        margin-bottom: 12px;
+        }
+        @media (max-width:959.95px) {
+        .jss821 {
+        font-size: 2.5em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss821 {
+        font-size: 2em;
+        }
+        }
+        .jss822 {
+        display: flex;
+        }
+        @media (max-width:599.95px) {
+        .jss822 {
+        flex-flow: column-reverse;
+        }
+        }
+        .jss823 {
+        flex: 1;
+        width: 50%;
+        text-align: right;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss823 {
+        width: 100%;
+        }
+        }
+        .jss824 {
+        flex: 1;
+        width: 50%;
+        text-align: left;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss824 {
+        width: 100%;
+        }
+        }
+        
+        .MuiCollapse-container {
+        height: 0;
+        overflow: hidden;
+        transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiCollapse-entered {
+        height: auto;
+        overflow: visible;
+        }
+        .MuiCollapse-hidden {
+        visibility: hidden;
+        }
+        .MuiCollapse-wrapper {
+        display: flex;
+        }
+        .MuiCollapse-wrapperInner {
+        width: 100%;
+        }
+        
+        .MuiExpansionPanel-root {
+        position: relative;
+        transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanel-root:before {
+        top: -1px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        content: "";
+        opacity: 1;
+        position: absolute;
+        transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiExpansionPanel-root.Mui-expanded {
+        margin: 16px 0;
+        }
+        .MuiExpansionPanel-root.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiExpansionPanel-root.Mui-expanded+.MuiExpansionPanel-root:before {
+        display: none;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:first-child {
+        margin-top: 0;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:last-child {
+        margin-bottom: 0;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:before {
+        opacity: 0;
+        }
+        .MuiExpansionPanel-root:first-child:before {
+        display: none;
+        }
+        .MuiExpansionPanel-rounded {
+        border-radius: 0;
+        }
+        .MuiExpansionPanel-rounded:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        }
+        .MuiExpansionPanel-rounded:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        }
+        @supports (-ms-ime-align: auto) {
+        .MuiExpansionPanel-rounded:last-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        }
+        }
+        
+        .MuiExpansionPanelDetails-root {
+        display: flex;
+        padding: 8px 24px 24px;
+        }
+        
+        .MuiExpansionPanelSummary-root {
+        display: flex;
+        padding: 0 24px 0 24px;
+        min-height: 48px;
+        transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-root:hover:not(.Mui-disabled) {
+        cursor: pointer;
+        }
+        .MuiExpansionPanelSummary-root.Mui-expanded {
+        min-height: 64px;
+        }
+        .MuiExpansionPanelSummary-root.Mui-focused {
+        background-color: #e0e0e0;
+        }
+        .MuiExpansionPanelSummary-root.Mui-disabled {
+        opacity: 0.38;
+        }
+        .MuiExpansionPanelSummary-content {
+        margin: 12px 0;
+        display: flex;
+        flex-grow: 1;
+        transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-content.Mui-expanded {
+        margin: 20px 0;
+        }
+        .MuiExpansionPanelSummary-expandIcon {
+        transform: rotate(0deg);
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-expandIcon:hover {
+        background-color: transparent;
+        }
+        .MuiExpansionPanelSummary-expandIcon.Mui-expanded {
+        transform: rotate(180deg);
+        }
+        
+        .jss1080 {
+        border-bottom: solid 1px #bbb;
+        }
+        .jss1081 {
+        font-weight: 700;
+        }
+        .jss1082 {
+        width: 100%;
+        display: flex;
+        }
+        .jss1083 {
+        flex: 1;
+        margin: 0;
+        font-size: 1.2em;
+        font-family: din, helvetica, sans-serif;
+        font-weight: 500;
+        }
+        @media (max-width:959.95px) {
+        .jss1083 {
+        font-size: 1.1em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss1083 {
+        font-size: 1.0em;
+        }
+        }
+        .jss1083 span {
+        width: 110px;
+        display: inline-block;
+        font-size: 0.8em;
+        font-weight: 300;
+        }
+        @media (max-width:599.95px) {
+        .jss1083 span {
+        width: 250px;
+        }
+        }
+        .jss1084 {
+        margin: 0px !important;
+        }
+        .jss1085 {
+        color: #0047ad;
+        line-height: 2em;
+        }
+        .jss1086 {
+        padding: 16px;
+
+        }
+        @media (max-width:599.95px) {
+        .jss1086 {
+        padding: 8px;
+        }
+        }
+        
+    </aura:html>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>  
+     <aura:attribute name="notifications" type="List" default="[]"/>
+<!--    <div class="jss14">-->
+        <div class="jss820">
+            <h2 class="jss821">{!$Label.c.MFG_Notifications}</h2>
+            <div class="jss822"></div>
+            <div class="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded">
+                <div class="jss1086">
+                    <aura:iteration items="{!v.notifications}" var="item">
+                    <c:MFG_NotificationItem objId="{!item.Id}" collapsed="{!item.collapsed}"/>
+                    </aura:iteration>
+                </div>
+            </div>
+        </div>
+<!--    </div>-->
+    
+    
+</aura:component>

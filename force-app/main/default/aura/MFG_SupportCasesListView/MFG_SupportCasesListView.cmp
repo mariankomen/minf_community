@@ -1,0 +1,1326 @@
+<aura:component  controller="MFG_FAQController">
+    
+    <aura:html tag="style">
+        .MuiIconButton-root {
+        flex: 0 0 auto;
+        color: rgba(0, 0, 0, 0.54);
+        padding: 12px;
+        overflow: visible;
+        //font-size: 1.5rem;
+        text-align: center;
+        transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 50%;
+        }
+        .MuiIconButton-root:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiIconButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        background-color: transparent;
+        }
+        @media (hover: none) {
+        .MuiIconButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-edgeStart {
+        margin-left: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeStart {
+        margin-left: -3px;
+        }
+        .MuiIconButton-edgeEnd {
+        margin-right: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeEnd {
+        margin-right: -3px;
+        }
+        .MuiIconButton-colorInherit {
+        color: inherit;
+        }
+        .MuiIconButton-colorPrimary {
+        color: #0047ad;
+        }
+        .MuiIconButton-colorPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-colorSecondary {
+        color: #002b6b;
+        }
+        .MuiIconButton-colorSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-sizeSmall {
+        padding: 3px;
+        font-size: 1.125rem;
+        }
+        .MuiIconButton-label {
+        width: 100%;
+        display: flex;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        
+        .MuiButton-root {
+        color: rgba(0, 0, 0, 0.87);
+        padding: 6px 16px;
+        font-size: 0.875rem;
+        min-width: 64px;
+        box-sizing: border-box;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        border-radius: 4px;
+        text-transform: uppercase;
+        }
+        .MuiButton-root:hover {
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-root:hover.Mui-disabled {
+        background-color: transparent;
+        }
+        .MuiButton-label {
+        width: 100%;
+        display: inherit;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        .MuiButton-text {
+        padding: 6px 8px;
+        }
+        .MuiButton-textPrimary {
+        color: #0047ad;
+        }
+        .MuiButton-textPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-textSecondary {
+        color: #002b6b;
+        }
+        .MuiButton-textSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlined {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        padding: 5px 15px;
+        }
+        .MuiButton-outlined.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButton-outlinedPrimary {
+        color: #0047ad;
+        border: 1px solid rgba(0, 71, 173, 0.5);
+        }
+        .MuiButton-outlinedPrimary:hover {
+        border: 1px solid #0047ad;
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlinedSecondary {
+        color: #002b6b;
+        border: 1px solid rgba(0, 43, 107, 0.5);
+        }
+        .MuiButton-outlinedSecondary:hover {
+        border: 1px solid #002b6b;
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        .MuiButton-outlinedSecondary.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-contained {
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        .MuiButton-contained:hover {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        background-color: #d5d5d5;
+        }
+        .MuiButton-contained.Mui-focusVisible {
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained:active {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        @media (hover: none) {
+        .MuiButton-contained:hover {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        }
+        .MuiButton-contained:hover.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-containedPrimary {
+        color: #fff;
+        background-color: #0047ad;
+        }
+        .MuiButton-containedPrimary:hover {
+        background-color: rgb(0, 49, 121);
+        }
+        @media (hover: none) {
+        .MuiButton-containedPrimary:hover {
+        background-color: #0047ad;
+        }
+        }
+        .MuiButton-containedSecondary {
+        color: #fff;
+        background-color: #002b6b;
+        }
+        .MuiButton-containedSecondary:hover {
+        background-color: rgb(0, 30, 74);
+        }
+        @media (hover: none) {
+        .MuiButton-containedSecondary:hover {
+        background-color: #002b6b;
+        }
+        }
+        .MuiButton-colorInherit {
+        color: inherit;
+        border-color: currentColor;
+        }
+        .MuiButton-textSizeSmall {
+        padding: 4px 5px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-textSizeLarge {
+        padding: 8px 11px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-outlinedSizeSmall {
+        padding: 3px 9px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-outlinedSizeLarge {
+        padding: 7px 21px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-containedSizeSmall {
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-containedSizeLarge {
+        padding: 8px 22px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-fullWidth {
+        width: 100%;
+        }
+        .MuiButton-startIcon {
+        display: inherit;
+        margin-left: -4px;
+        margin-right: 8px;
+        }
+        .MuiButton-endIcon {
+        display: inherit;
+        margin-left: 8px;
+        margin-right: -4px;
+        }
+        .MuiButton-iconSizeSmall>*:first-child {
+        font-size: 18px;
+        }
+        .MuiButton-iconSizeMedium>*:first-child {
+        font-size: 20px;
+        }
+        .MuiButton-iconSizeLarge>*:first-child {
+        font-size: 22px;
+        }
+        
+        .jss111 {
+        margin: 0 auto;
+        padding: 16px;
+        max-width: 1300px;
+        min-height: 500px;
+        padding-bottom: 200px;
+        }
+        @media (max-width:959.95px) {
+        .jss111 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss111 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        .jss112 {
+        color: #0047ae;
+        margin: 0;
+        font-size: 3em;
+        font-family: glober, helvetica, sans-serif;
+        font-weight: 300;
+        margin-bottom: 12px;
+        }
+        @media (max-width:959.95px) {
+        .jss112 {
+        font-size: 2.5em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss112 {
+        font-size: 2em;
+        }
+        }
+        .jss113 {
+        display: flex;
+        }
+        @media (max-width:599.95px) {
+        .jss113 {
+        flex-flow: column-reverse;
+        }
+        }
+        .jss114 {
+        border-top: solid 0px #eee;
+        border-bottom: solid 0px #eee;
+        flex: 1;
+        width: 50%;
+        text-align: right;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss114 {
+        width: 100%;
+        }
+        }
+        .jss115 {
+        flex: 1;
+        width: 50%;
+        text-align: left;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss115 {
+        width: 100%;
+        }
+        }
+        
+        .MuiLink-underlineNone {
+        text-decoration: none;
+        }
+        .MuiLink-underlineHover {
+        text-decoration: none;
+        }
+        .MuiLink-underlineHover:hover {
+        text-decoration: underline;
+        }
+        .MuiLink-underlineAlways {
+        text-decoration: underline;
+        }
+        .MuiLink-button {
+        border: 0;
+        cursor: pointer;
+        margin: 0;
+        outline: 0;
+        padding: 0;
+        position: relative;
+        user-select: none;
+        border-radius: 0;
+        vertical-align: middle;
+        -moz-appearance: none;
+        background-color: transparent;
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        }
+        .MuiLink-button::-moz-focus-inner {
+        border-style: none;
+        }
+        .MuiLink-button.Mui-focusVisible {
+        outline: auto;
+        }
+        
+        .MuiButtonGroup-root {
+        display: inline-flex;
+        border-radius: 4px;
+        }
+        .MuiButtonGroup-contained {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButtonGroup-fullWidth {
+        width: 100%;
+        }
+        .MuiButtonGroup-grouped {
+        min-width: 40px;
+        }
+        .MuiButtonGroup-grouped:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        }
+        .MuiButtonGroup-grouped:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        }
+        .MuiButtonGroup-groupedText:not(:last-child) {
+        border-right: 1px solid rgba(0, 0, 0, 0.23);
+        }
+        .MuiButtonGroup-groupedTextPrimary:not(:last-child) {
+        border-color: rgba(0, 71, 173, 0.5);
+        }
+        .MuiButtonGroup-groupedTextSecondary:not(:last-child) {
+        border-color: rgba(0, 43, 107, 0.5);
+        }
+        .MuiButtonGroup-groupedOutlined:not(:first-child) {
+        margin-left: -1px;
+        }
+        .MuiButtonGroup-groupedOutlined:not(:last-child) {
+        border-right-color: transparent;
+        }
+        .MuiButtonGroup-groupedOutlinedPrimary:hover {
+        border-color: #0047ad;
+        }
+        .MuiButtonGroup-groupedOutlinedSecondary:hover {
+        border-color: #002b6b;
+        }
+        .MuiButtonGroup-groupedContained {
+        box-shadow: none;
+        }
+        .MuiButtonGroup-groupedContained:not(:last-child) {
+        border-right: 1px solid #bdbdbd;
+        }
+        .MuiButtonGroup-groupedContained:not(:last-child).Mui-disabled {
+        border-right: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButtonGroup-groupedContainedPrimary:not(:last-child) {
+        border-right: 1px solid rgb(0, 49, 121);
+        }
+        .MuiButtonGroup-groupedContainedSecondary:not(:last-child) {
+        border-right: 1px solid rgb(0, 30, 74);
+        }
+        
+        .MuiInputBase-root {
+        color: rgba(0, 0, 0, 0.87);
+        cursor: text;
+        display: inline-flex;
+        position: relative;
+        font-size: 1rem;
+        box-sizing: border-box;
+        align-items: center;
+        font-family: din, Helvetica, Arial sans-serif;
+        line-height: 1.1875em;
+        }
+        .MuiInputBase-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.38);
+        cursor: default;
+        }
+        .MuiInputBase-multiline {
+        padding: 6px 0 7px;
+        }
+        .MuiInputBase-multiline.MuiInputBase-marginDense {
+        padding-top: 3px;
+        }
+        .MuiInputBase-fullWidth {
+        width: 100%;
+        }
+        .MuiInputBase-input {
+        font: inherit;
+        color: currentColor;
+        width: 100%;
+        border: 0;
+        height: 1.1875em;
+        margin: 0;
+        display: block;
+        padding: 6px 0 7px;
+        min-width: 0;
+        background: none;
+        box-sizing: content-box;
+        animation-name: MuiInputBase-keyframes-auto-fill-cancel;
+        -webkit-tap-highlight-color: transparent;
+        }
+        .MuiInputBase-input::-webkit-input-placeholder {
+        color: currentColor;
+        opacity: 0.42;
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputBase-input::-moz-placeholder {
+        color: currentColor;
+        opacity: 0.42;
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputBase-input:-ms-input-placeholder {
+        color: currentColor;
+        opacity: 0.42;
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputBase-input::-ms-input-placeholder {
+        color: currentColor;
+        opacity: 0.42;
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputBase-input:focus {
+        outline: 0;
+        }
+        .MuiInputBase-input:invalid {
+        box-shadow: none;
+        }
+        .MuiInputBase-input::-webkit-search-decoration {
+        -webkit-appearance: none;
+        }
+        .MuiInputBase-input.Mui-disabled {
+        opacity: 1;
+        }
+        .MuiInputBase-input:-webkit-autofill {
+        animation-name: MuiInputBase-keyframes-auto-fill;
+        animation-duration: 5000s;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-webkit-input-placeholder {
+        opacity: 0 !important;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-moz-placeholder {
+        opacity: 0 !important;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:-ms-input-placeholder {
+        opacity: 0 !important;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-ms-input-placeholder {
+        opacity: 0 !important;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-webkit-input-placeholder {
+        opacity: 0.42;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-moz-placeholder {
+        opacity: 0.42;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus:-ms-input-placeholder {
+        opacity: 0.42;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-ms-input-placeholder {
+        opacity: 0.42;
+        }
+        @-webkit-keyframes MuiInputBase-keyframes-auto-fill {}
+        @-webkit-keyframes MuiInputBase-keyframes-auto-fill-cancel {}
+        .MuiInputBase-inputMarginDense {
+        padding-top: 3px;
+        }
+        .MuiInputBase-inputSelect {
+        padding-right: 24px;
+        }
+        .MuiInputBase-inputMultiline {
+        height: auto;
+        resize: none;
+        padding: 0;
+        }
+        .MuiInputBase-inputTypeSearch {
+        -moz-appearance: textfield;
+        -webkit-appearance: textfield;
+        }
+        
+        .MuiSelect-select {
+        cursor: pointer;
+        min-width: 16px;
+        user-select: none;
+        border-radius: 0;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        }
+        .MuiSelect-select:focus {
+        border-radius: 0;
+        background-color: rgba(0, 0, 0, 0.05);
+        }
+        .MuiSelect-select::-ms-expand {
+        display: none;
+        }
+        .MuiSelect-select.Mui-disabled {
+        cursor: default;
+        }
+        .MuiSelect-select[multiple] {
+        height: auto;
+        }
+        .MuiSelect-select:not([multiple]) option,
+        .MuiSelect-select:not([multiple]) optgroup {
+        background-color: #fff;
+        }
+        .MuiSelect-outlined {
+        border-radius: 4px;
+        }
+        .MuiSelect-selectMenu {
+        height: auto;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        }
+        .MuiSelect-icon {
+        top: calc(50% - 12px);
+        color: rgba(0, 0, 0, 0.54);
+        right: 0;
+        position: absolute;
+        pointer-events: none;
+        }
+        .MuiSelect-iconFilled {
+        right: 7px;
+        }
+        .MuiSelect-iconOutlined {
+        right: 7px;
+        }
+        
+        .MuiTableCell-root {
+        display: table-cell;
+        padding: 16px;
+        font-size: 0.875rem;
+        text-align: left;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 400;
+        line-height: 1.43;
+        border-bottom: 1px solid rgba(224, 224, 224, 1);
+        vertical-align: inherit;
+        }
+        .MuiTableCell-head {
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: 500;
+        line-height: 1.5rem;
+        }
+        .MuiTableCell-body {
+        color: rgba(0, 0, 0, 0.87);
+        }
+        .MuiTableCell-footer {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 0.75rem;
+        line-height: 1.3125rem;
+        }
+        .MuiTableCell-sizeSmall {
+        padding: 6px 24px 6px 16px;
+        }
+        .MuiTableCell-sizeSmall:last-child {
+        padding-right: 16px;
+        }
+        .MuiTableCell-sizeSmall.MuiTableCell-paddingCheckbox {
+        width: 24px;
+        padding: 0px 12px 0 16px;
+        }
+        .MuiTableCell-sizeSmall.MuiTableCell-paddingCheckbox:last-child {
+        padding-left: 12px;
+        padding-right: 16px;
+        }
+        .MuiTableCell-sizeSmall.MuiTableCell-paddingCheckbox>* {
+        padding: 0;
+        }
+        .MuiTableCell-paddingCheckbox {
+        width: 48px;
+        padding: 0 0 0 4px;
+        }
+        .MuiTableCell-paddingCheckbox:last-child {
+        padding-left: 0;
+        padding-right: 4px;
+        }
+        .MuiTableCell-paddingNone {
+        padding: 0;
+        }
+        .MuiTableCell-paddingNone:last-child {
+        padding: 0;
+        }
+        .MuiTableCell-alignLeft {
+        text-align: left;
+        }
+        .MuiTableCell-alignCenter {
+        text-align: center;
+        }
+        .MuiTableCell-alignRight {
+        text-align: right;
+        flex-direction: row-reverse;
+        }
+        .MuiTableCell-alignJustify {
+        text-align: justify;
+        }
+        .MuiTableCell-stickyHeader {
+        top: 0;
+        left: 0;
+        z-index: 1;
+        position: sticky;
+        background-color: #fafafa;
+        }
+        
+        .MuiToolbar-root {
+        display: flex;
+        position: relative;
+        align-items: center;
+        }
+        .MuiToolbar-gutters {
+        padding-left: 16px;
+        padding-right: 16px;
+        }
+        @media (min-width:600px) {
+        .MuiToolbar-gutters {
+        padding-left: 24px;
+        padding-right: 24px;
+        }
+        }
+        .MuiToolbar-regular {
+        min-height: 56px;
+        }
+        @media (min-width:0px) and (orientation: landscape) {
+        .MuiToolbar-regular {
+        min-height: 48px;
+        }
+        }
+        @media (min-width:600px) {
+        .MuiToolbar-regular {
+        min-height: 64px;
+        }
+        }
+        .MuiToolbar-dense {
+        min-height: 48px;
+        }
+        
+        .MuiTablePagination-root {
+        color: rgba(0, 0, 0, 0.87);
+        font-size: 0.875rem;
+        }
+        .MuiTablePagination-root:last-child {
+        padding: 0;
+        }
+        .MuiTablePagination-toolbar {
+        min-height: 52px;
+        padding-right: 2px;
+        }
+        .MuiTablePagination-spacer {
+        flex: 1 1 100%;
+        }
+        .MuiTablePagination-caption {
+        flex-shrink: 0;
+        }
+        .MuiTablePagination-selectRoot {
+        margin-left: 8px;
+        margin-right: 32px;
+        }
+        .MuiTablePagination-select {
+        text-align: right;
+        padding-left: 8px;
+        padding-right: 24px;
+        text-align-last: right;
+        }
+        .MuiTablePagination-selectIcon {
+        top: 1px;
+        }
+        .MuiTablePagination-input {
+        color: inherit;
+        font-size: inherit;
+        flex-shrink: 0;
+        }
+        .MuiTablePagination-actions {
+        flex-shrink: 0;
+        margin-left: 20px;
+        }
+        
+        .MuiTableBody-root {
+        display: table-row-group;
+        }
+        
+        .MuiTableRow-root {
+        color: inherit;
+        display: table-row;
+        outline: 0;
+        vertical-align: middle;
+        }
+        .MuiTableRow-root.Mui-selected {
+        background-color: rgba(0, 0, 0, 0.04);
+        }
+        .MuiTableRow-root.MuiTableRow-hover:hover {
+        background-color: rgba(0, 0, 0, 0.07);
+        }
+        
+        .MuiTableHead-root {
+        display: table-header-group;
+        }
+        
+        .MuiTable-root {
+        width: 100%;
+        display: table;
+        border-spacing: 0;
+        border-collapse: collapse;
+        }
+        .MuiTable-root caption {
+        color: rgba(0, 0, 0, 0.54);
+        padding: 16px;
+        font-size: 0.875rem;
+        text-align: left;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 400;
+        line-height: 1.43;
+        caption-side: bottom;
+        }
+        .MuiTable-stickyHeader {
+        border-collapse: separate;
+        }
+        
+        .jss407 {
+        width: 100%;
+        overflow-x: auto;
+        }
+        .jss408 {
+        min-width: 650px;
+        }
+        .jss410 {
+        width: 50px;
+        padding: 8px;
+        position: sticky;
+        min-width: 50px;
+        text-overflow: ellipsis;
+        }
+        .jss411 {
+        width: 50px;
+        padding: 8px;
+        position: sticky;
+        min-width: 50px;
+        text-overflow: ellipsis;
+        }
+        .jss412 {
+        width: 70px;
+        padding: 8px;
+        position: sticky;
+        min-width: 50px;
+        text-overflow: ellipsis;
+        }
+        .jss413 {
+        width: 90px;
+        padding: 8px;
+        position: sticky;
+        min-width: 50px;
+        text-overflow: ellipsis;
+        }
+        .jss414 {
+        width: auto;
+        padding: 8px;
+        position: sticky;
+        min-width: 200px;
+        text-overflow: ellipsis;
+        }
+        .jss415 {
+        width: auto;
+        padding: 8px;
+        position: sticky;
+        min-width: 200px;
+        text-overflow: ellipsis;
+        }
+        .jss416 {
+        width: 60px;
+        padding: 8px;
+        position: sticky;
+        min-width: 50px;
+        text-overflow: ellipsis;
+        }
+        .jss417 {
+        font-size: 1.1em;
+        font-weight: 700;
+        }
+        .jss417 span {
+        display: inline-flex;
+        }
+        .jss418 {
+        padding: 8px;
+        }
+        .jss419 {
+        padding: 0;
+        }
+        
+        .jss428 {
+        color: #fff;
+        background-color: #444;
+        }
+        
+        .jss390 {
+        color: #fff;
+        background: #0047ad;
+        }
+        .jss390:hover {
+        background: #0047ad;
+        }
+        .jss391 {
+        display: inline-block;
+        margin-left: 8px;
+        }
+        .jss392 {
+        display: none;
+        }
+        
+        /* Chart.js */
+        /*
+        * DOM element rendering detection
+        * https://davidwalsh.name/detect-node-insertion
+        */
+        @keyframes chartjs-render-animation {
+        from {
+        opacity: 0.99;
+        }
+        to {
+        opacity: 1;
+        }
+        }
+        .chartjs-render-monitor {
+        animation: chartjs-render-animation 0.001s;
+        }
+        /*
+        * DOM element resizing detection
+        * https://github.com/marcj/css-element-queries
+        */
+        .chartjs-size-monitor,
+        .chartjs-size-monitor-expand,
+        .chartjs-size-monitor-shrink {
+        position: absolute;
+        direction: ltr;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        pointer-events: none;
+        visibility: hidden;
+        z-index: -1;
+        }
+        .chartjs-size-monitor-expand>div {
+        position: absolute;
+        width: 1000000px;
+        height: 1000000px;
+        left: 0;
+        top: 0;
+        }
+        .chartjs-size-monitor-shrink>div {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        left: 0;
+        top: 0;
+        }
+        
+        .MuiBackdrop-root {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        z-index: -1;
+        position: fixed;
+        align-items: center;
+        touch-action: none;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-tap-highlight-color: transparent;
+        }
+        .MuiBackdrop-invisible {
+        background-color: transparent;
+        }
+        
+        @media print {
+        .MuiDialog-root {
+        position: absolute !important;
+        }
+        }
+        .MuiDialog-scrollPaper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        .MuiDialog-scrollBody {
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align: center;
+        }
+        .MuiDialog-scrollBody:after {
+        width: 0;
+        height: 100%;
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        }
+        .MuiDialog-container {
+        height: 100%;
+        outline: 0;
+        }
+        @media print {
+        .MuiDialog-container {
+        height: auto;
+        }
+        }
+        .MuiDialog-paper {
+        margin: 48px;
+        position: relative;
+        overflow-y: auto;
+        }
+        @media print {
+        .MuiDialog-paper {
+        box-shadow: none;
+        overflow-y: visible;
+        }
+        }
+        .MuiDialog-paperScrollPaper {
+        display: flex;
+        max-height: calc(100% - 96px);
+        flex-direction: column;
+        }
+        .MuiDialog-paperScrollBody {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+        }
+        .MuiDialog-paperWidthFalse {
+        max-width: calc(100% - 96px);
+        }
+        .MuiDialog-paperWidthXs {
+        max-width: 444px;
+        }
+        @media (max-width:539.95px) {
+        .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperWidthSm {
+        width: 100%;
+        max-width: 600px;
+        }
+        @media (max-width:695.95px) {
+        .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperWidthMd {
+        max-width: 960px;
+        }
+        @media (max-width:1055.95px) {
+        .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperWidthLg {
+        max-width: 1280px;
+        }
+        @media (max-width:1375.95px) {
+        .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperWidthXl {
+        max-width: 1920px;
+        }
+        @media (max-width:2015.95px) {
+        .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperFullWidth {
+        width: calc(100% - 96px);
+        }
+        .MuiDialog-paperFullScreen {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        max-width: 100%;
+        max-height: none;
+        border-radius: 0;
+        }
+        .MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+        margin: 0;
+        max-width: 100%;
+        }
+        
+        
+        .MuiDialogActions-root {
+        flex: 0 0 auto;
+        display: flex;
+        padding: 8px;
+        align-items: center;
+        justify-content: flex-end;
+        }
+        .MuiDialogActions-spacing > * + * {
+        margin-left: 8px;
+        }
+        
+        
+        .MuiDialogContent-root {
+        flex: 1 1 auto;
+        padding: 8px 24px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        }
+        .MuiDialogContent-root:first-child {
+        padding-top: 20px;
+        }
+        .MuiDialogContent-dividers {
+        padding: 16px 24px;
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        }
+        
+        .MuiDialogContentText-root {
+        margin-bottom: 12px;
+        }
+        
+        .MuiDialogTitle-root {
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 16px 24px;
+        }
+        
+        
+    </aura:html> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>  
+    <aura:attribute name="allCases" type="List"/> 
+    <aura:attribute name="cases" type="List" /> 
+    <aura:attribute name="maxResults" type="Integer" default="25"/> 
+    <aura:attribute name="settings" type="Object"/> 
+    
+    
+    
+    
+    <aura:attribute name="title" type="String"/> 
+    <aura:attribute name="caseId" type="String"/> 
+    <aura:attribute name="viewCase" type="Boolean" default="false"/> 
+    <aura:attribute name="fields" type="List" default="['id','CaseNumber','Subject','Status','Priority','Type','Client_Account__c','Case_Is_Related_to_Specific_Job__c','Description','Comments_to_User_on_Solution__c']"/> 
+        <aura:attribute name="activeCss" type="String" default="MuiButtonBase-root 
+                                                            MuiButton-root 
+                                                            jss390 
+                                                            MuiButton-outlined 
+                                                            MuiButtonGroup-grouped 
+                                                            MuiButtonGroup-groupedOutlined 
+                                                            MuiButton-outlinedPrimary 
+                                                            MuiButton-outlinedSizeSmall 
+                                                            MuiButton-sizeSmall"/>
+    
+    <aura:attribute name="inactiveCss" type="String" default="MuiButtonBase-root 
+                                                              MuiButton-root 
+                                                              MuiButton-outlined 
+                                                              MuiButtonGroup-grouped 
+                                                              MuiButtonGroup-groupedOutlined 
+                                                              MuiButton-outlinedSizeSmall 
+                                                              MuiButton-sizeSmal"/>
+        <aura:attribute name="open" type="Boolean" default="true"/>
+    
+    <aura:if isTrue="{! and(v.cases!='null' , v.cases!=null)}">
+        <div class="jss113">
+            <div class="jss115">
+                <div>
+                    <div role="group" class="MuiButtonGroup-root" aria-label="large outlined secondary button group">
+                        <button class="{!if(v.open,v.activeCss,v.inactiveCss)}" 
+                                tabindex="0" 
+                                type="button" 
+                                data-value="open"
+                                onclick="{!c.changeList}">
+                            <span class="MuiButton-label">
+                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/OpenIcon.svg#OpenIcon'}" size="small" />
+                                <span class="jss391">{!$Label.c.MFG_Open}</span>
+                            </span>
+                            <span  class="MuiTouchRipple-root"></span>
+                        </button>
+                        <button class="{!if(!v.open,v.activeCss,v.inactiveCss)}" 
+                                tabindex="0" 
+                                type="button" 
+                                data-value="completed"
+                                onclick="{!c.changeList}">
+                            <span class="MuiButton-label">
+                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/CompletedIcon.svg#CompletedIcon'}" size="small" />
+                                <span class="jss391">{!$Label.c.MFG_Closed}</span>
+                            </span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                    </div>
+                    <div class="jss392">
+                        <span>Open</span>
+                        <span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="jss114">
+                <!--button  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary" 
+                        tabindex="0"
+                        type="button"
+                        onclick="{!c.addNewJob}">
+                    <span class="MuiButton-label">
+                        <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/newJobIcon.svg#newJobIcon'}" size="small" />
+                            {!$Label.c.MFG_New_Job}
+                    </span>
+                    <span class="MuiTouchRipple-root"></span>
+                </button-->
+            </div>
+        </div>
+        
+        <div class="MuiPaper-root MuiPaper-elevation1 jss407 MuiPaper-rounded">
+            <table class="MuiTable-root" aria-label="simple table">
+                <thead class="MuiTableHead-root">
+                <tr class="MuiTableRow-root MuiTableRow-head">
+
+                    <th class="MuiTableCell-root jss410 MuiTableCell-sizeSmall MuiTableCell-head jss428" scope="col">
+                            {!$Label.c.MFG_Case_Number}
+                    </th>
+                    <th class="MuiTableCell-root jss413 MuiTableCell-sizeSmall MuiTableCell-head jss428" scope="col">
+                            {!$Label.c.MFG_Subject}
+                    </th>
+                    <th class="MuiTableCell-root jss412 MuiTableCell-sizeSmall MuiTableCell-head jss428" scope="col">
+                            {!$Label.c.MFG_Status}
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="MuiTableBody-root">
+                    
+                    <aura:iteration items="{!v.cases}" var="case">
+                        <tr class="MuiTableRow-root">
+                            <td class="MuiTableCell-root jss418 MuiTableCell-paddingNone  MuiTableCell-sizeSmall MuiTableCell-body">
+                                <a onclick="{!c.openCaseDetails}" data-value="{!case.Id}" data-name="{!case.Subject}"> 
+                                    {!case.CaseNumber}
+                                </a>
+                                
+                            </td>
+                            
+                            <td class="MuiTableCell-root jss418 MuiTableCell-sizeSmall MuiTableCell-body">  
+                                {!case.Subject}
+                            </td>
+                            
+                            <td class="MuiTableCell-root jss418  MuiTableCell-sizeSmall MuiTableCell-body">
+                                <div style="display: flex;">
+                                    {!case.Status}
+                                </div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            
+            
+            <div class="MuiTablePagination-root">
+                <div class="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters">
+                    <div class="MuiTablePagination-spacer"></div>
+                    
+                    <p class="MuiTypography-root 
+                              MuiTablePagination-caption MuiTypography-body2
+                              MuiTypography-colorInherit" style="margin-right: 12px;">
+                    {!$Label.c.MFG_Rows_per_page}:
+                    </p>
+                    <lightning:buttonMenu aura:id="menu" 
+                                          variant="container"
+                                          label="{!v.maxResults}"
+                                          menuAlignment="auto" 
+                                          onselect="{!c.changeRowsPerPage}"
+                                          name="outstanding"
+                                          value="{!v.maxResults}">
+                        <lightning:menuItem value="25" label="25" checked="{! or(v.maxResults==25,v.maxResults=='25')}"/>
+                        <lightning:menuItem value="50" label="50" checked="{! or(v.maxResults==50,v.maxResults=='50')}"/>
+                        <lightning:menuItem value="100" label="100" checked="{! or(v.maxResults==100,v.maxResults=='100')}"/>
+                        
+                    </lightning:buttonMenu>
+                    <p class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 
+                              MuiTypography-colorInherit" style="margin-left: 12px;">
+                        {!v.settings.curentpage*v.maxResults-v.maxResults+1} 
+                        -
+                        {!if( lessthan(v.settings.curentpage*v.maxResults , v.allCases.length),
+                        v.settings.curentpage*v.maxResults,
+                        v.allCases.length
+                        )}
+                        of 
+                        {!v.allCases.length}
+                    </p>
+                    <div class="MuiTablePagination-actions">
+                        <button class="{! if(v.settings.curentpage==1,
+                                       'MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled',
+                                       'MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit')}"
+                                tabindex="-1" 
+                                type="button" 
+                                disabled="" 
+                                aria-label="previous page"
+                                data-value="open"
+                                onclick="{!c.previouspage}">
+                            <span class="MuiIconButton-label">
+                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/jobsTableIconLeft.svg#jobsTableIconLeft'}" size="small" />
+                            </span>
+                        </button>
+                        <button class="{! if(v.settings.curentpage==v.settings.pages,
+                                       'MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled',
+                                       'MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit')}" 
+                                tabindex="0"
+                                type="button"
+                                aria-label="next page"
+                                onclick="{!c.nextpage}">
+                            <span class="MuiIconButton-label">
+                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/jobsTableIconRight.svg#jobsTableIconRight'}" size="small" />
+                            </span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.viewCase}">
+        <div role="presentation" class="MuiDialog-root" aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description" style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;">
+            <div class="MuiBackdrop-root" aria-hidden="true" style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;">
+            </div>
+            <div tabindex="0" data-test="sentinelStart"></div>
+            <div class="MuiDialog-container MuiDialog-scrollPaper" role="none presentation" 
+                 tabindex="-1" style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;">
+                <div class="MuiPaper-root MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiPaper-rounded" role="dialog">
+                    <div class="MuiDialogTitle-root" id="alert-dialog-title">
+                        <h2 class="MuiTypography-root MuiTypography-h6">{!v.title}</h2>
+                    </div>
+                    <div class="MuiDialogContent-root">
+                        <p class="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary" id="alert-dialog-description">
+                            
+                            <lightning:recordForm recordId="{!v.caseId}"
+                                                  objectApiName="Case"
+                                                  fields="{!v.fields}"
+                                                  columns="1"
+                                                  density="comfy"
+                                                  mode="readonly" />
+                            
+                            
+                        </p>
+                    </div>
+                    <div class="MuiDialogActions-root MuiDialogActions-spacing">
+                        <button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary" 
+                                tabindex="0" 
+                                type="button"
+                                onclick="{!c.cancel}"
+                                >
+                            <span class="MuiButton-label">{!$Label.c.MFG_CANCEL}</span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div tabindex="0" data-test="sentinelEnd">
+            </div>
+        </div>  
+    </aura:if>
+</aura:component>

@@ -1,0 +1,152 @@
+<apex:page controller="Announcement_Controller" >
+  <script type="text/javascript" id="hs-script-loader" async="//js.hs-scripts.com/7969380.js"></script> 
+
+
+<!---  holiday message.......
+<table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%" style="display:{!if(getIsHoliday=true,"block","none")};">
+    <tbody>
+    
+    
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Announcement</span></font>
+        </td>
+    </tr>
+    <tr>    
+        <td>
+            <br/>Hello!<br/><br/>
+
+            The Mindfield office will be closed <apex:outputText value="{0, date, EEEE MMMM d','  yyyy}">
+                                                    <apex:param value="{!NOW()}" />
+                                                </apex:outputText> in observance of&nbsp;<apex:outputText value="{!getStatHolidayName}"/>.
+            Normal support hours of 7am to 5pm PST will resume on the next business day.
+            If you require any assistance while we are closed please email us at <apex:outputlink value="mailto:{support@mindfieldgroup.com}"> support@mindfieldgroup.com</apex:outputLink> and we will respond to your email first thing next business day morning.<br/><br/>
+
+            Thank you!<br/>
+            Team Customer Experience<br/><br/>
+        </td>
+    </tr>
+    </tbody>
+</table>
+-->
+    
+    <!-- 2019 message------------------------------------------------------------------------------------------------
+     <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Portal Announcements</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+             <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="3"><tbody><tr><td>
+                   <p>
+                    <h1>Customer Satisfaction Survey</h1><br/>
+                   Thank you for those that completed the satisfaction survey, your feedback is very important and valuable to us.
+                   We are constantly striving to improve our service to you and make hiring as painless as possible.
+                   You can expect some new initiatives in the New Year based on your feedback. 
+                    </p> 
+                                 
+                     <p>
+                    <h1>New Apply Process</h1><br/>
+                    Mindfield has launched a new and improved online application process for applicants that makes it easier and faster than ever to apply to jobs from any device.
+                    You can view this new process by clicking ‘apply’ on a job on your career site.
+                    We have seen a marked increase in completed applications since we implemented it.
+                    </p>  
+                    
+                    <p>
+                    The Mindfield Team 
+                    </p>  
+                     
+                 </td></tr></tbody>
+                </table>
+               </span></td></tr></tbody>
+     </table>
+     <br/>
+     <br/>
+    END 2019 -------------------------------------------------------------------------------------------------- -->
+    <apex:outputPanel rendered="{!NOT(Contains($Profile.Name, 'Marks'))}">
+    <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Customer Support Hours And Notifications</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="5">
+ 
+                <tbody><tr><td>
+                  
+                Connect with the MFG Help Desk via:
+                  <ul>
+                    <li><strong>Live Chat</strong> click the "Live Chat" link at the top right corner of your screen.&nbsp; </li>
+                    <li>Call the Toll Free number at 1-877-834-1751</li>
+                    <li>Email: <a href="mailto:support@mindfieldgroup.com">support@mindfieldgroup.com</a></li>
+                    </ul>After hours? Leave a message via Offline Chat Request or Voicemail and we’ll respond within 1 business day. We’re here to help. &nbsp;It’s that easy. 
+                                     </td></tr></tbody>
+                </table>
+               </span></td></tr></tbody>
+     </table>
+     </apex:outputPanel>
+
+    <!-- NSM Image for Marks -->
+    <apex:outputPanel rendered="{!OR(Contains($Profile.Name, 'Marks'))}">
+       <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Customer Support Hours And Notifications</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="5">
+                     <tbody><tr><td> 
+                <p >Starting Tuesday August 4th, Mindfield is happy to offer our recruitment services to all CTC banners again. Recruitment support is available for all hourly positions and Mindfield will now be supporting with Seasonal hiring with the addition of Seasonal Associate and Seasonal Order Fulfillment Associate as new job titles available for each banner.</p>
+                             
+Customer Support Hours – Monday to Friday, 7:00am to 5:00pm (PST)
+                <br></br>
+Connect with the MFG Help Desk via:
+                    <ul>
+                    <li><strong>Live Chat</strong> click the "Live Chat" link at the top right corner of your screen.&nbsp; </li>
+                    <li>Call the Toll Free number at 1-877-834-1751</li>
+                    <li>Email: <a href="mailto:support@mindfieldgroup.com">support@mindfieldgroup.com</a></li>
+                    </ul>After hours? Leave a message via Offline Chat Request or Voicemail and we’ll respond within 1 business day. We’re here to help. &nbsp;It’s that easy.
+      
+                    </td></tr>
+                                    </tbody>
+                
+                </table>
+               </span></td></tr></tbody>
+     </table>
+         <br/>
+         <img src="https://mindfield--c.na37.content.force.com/servlet/servlet.ImageServer?id=0150P000007AFjV&oid=00DU0000000YNAR&lastMod=1516822838000" height="619" width="1100" ></img>
+     </apex:outputPanel>
+     
+     <!-- NSM Image for Ecoservice AND Golf Town -->
+    <apex:outputPanel rendered="{!OR( Contains($Profile.Name, 'Eco Group'), 
+                                      Contains($Profile.Name, 'Golf Town hireportal HR User (NSM) EN'),
+                                      Contains($Profile.Name, 'Golf Town hireportal Store User (NSM) EN'),
+                                      Contains($Profile.Name, 'Sporting Life HR User (NSM) EN'),
+                                      Contains($Profile.Name, 'Sporting Life Store User (NSM) EN'),
+                                      Contains($Profile.Name, 'Sporting Life Store User (NSM) EN'),
+                                      Contains($Profile.Name, 'Tim Hortons'),
+                                      Contains($Profile.Name, 'Lube')                                   
+                                    )}">
+         <br/>
+<img src="https://mindfield--c.na37.content.force.com/servlet/servlet.ImageServer?id=0150P000007AFjV&oid=00DU0000000YNAR&lastMod=1516822838000" height="619" width="1100" ></img>
+  
+      </apex:outputPanel>
+      
+
+</apex:page>

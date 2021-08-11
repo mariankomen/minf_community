@@ -1,0 +1,293 @@
+<apex:page >
+
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8" />
+<!--Script below looks for a star in the field label, and if exists, forces that field to be filled in-->
+
+<script>
+function fcn_verify_required_fields()
+{
+   var inputErrors = 0;
+   var errorFields = "";
+   var formlabels = document.getElementsByTagName('LABEL');
+   for (var i = 0; i < formlabels.length; i++)
+   {
+    if ((formlabels[i].innerText.lastIndexOf("*")>-1 ) && (formlabels[i].htmlFor != ''))
+    {
+         var elem = document.getElementById(formlabels[i].htmlFor);
+         if (elem)
+         {
+            if ((elem.value == null) | ( elem.value == "") | (elem.value == "--None--"))
+            {
+             inputErrors = inputErrors  + 1;
+             errorFields = errorFields + formlabels[i].innerText.replace("*","") + '\n';
+            }
+            else
+            {
+               if (elem.name == "email") 
+               {
+                   var emailval = elem.value;
+                   if ((emailval.lastIndexOf("@")<0) | (emailval.lastIndexOf(".")<0) | (emailval.length < 6))
+                   {
+                      inputErrors = inputErrors  + 1;
+                      errorFields = errorFields + formlabels[i].innerText.replace("*","") + '\n';
+                   }
+                  else
+                  {
+                   emailsuffix = emailval.substr(emailval.lastIndexOf(".") + 1);
+                   var validemailsuffixes = ["com", "org", "edu", "net", "gov", "us", "ca"];
+                   if (validemailsuffixes.indexOf(emailsuffix) < 0)
+                   {
+                      inputErrors = inputErrors  + 1;
+                      errorFields = errorFields + formlabels[i].innerText.replace("*","") + '\n';
+                   }
+                }
+               }
+            }
+        }
+    }
+   }
+   if (inputErrors > 0)
+   {
+     alert('The following required fields have not yet been filled in completely:' + '\n' + errorFields);
+     return false;
+   }
+}
+</script>
+
+<form action="https://mindfield.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST"  onsubmit="return fcn_verify_required_fields();">
+<input type="hidden" name="orgid" value="00DU0000000YNAR" />
+<input type="hidden" name="origin" value="Recruiter Entered in Portal" />
+<input type="hidden" name="recordType" value="012U00000009Rjl" /> <!-- MFG Recruitment Services -->
+<input type="hidden" name="00NU0000003CKZy" value="{!$User.id}" />  <!-- pass user's ID into hidden field on Case to set Recruiter/MFG Employee lookup -->
+
+<h1><STRONG>Submit a Case!</STRONG></H1><BR /><BR />
+Submit a Case for the Recruitment Team
+
+<table border="0">
+<TR>
+<TD WIDTH="110">
+<label for="name">Your Name*</label>
+</TD>
+<TD WIDTH="300">
+<input  id="name" maxlength="80" name="name" size="20" type="text" value="{!$user.firstname} {!$user.lastname}"/>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="email">Your Email*</label>
+</TD>
+<TD WIDTH="300">
+<input  id="email" maxlength="80" name="email" size="20" type="text" value="{!$user.email}"/>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="subject">Subject*</label>
+</TD>
+<TD WIDTH="300">
+<input  id="subject" maxlength="80" name="subject" size="70" type="text" />
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="description">Description*</label>
+</TD>
+<TD WIDTH="300">
+<textarea id="description" name="description" rows="8" cols="150"></textarea>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="type">Type*<br/>Definitions Below</label>
+</TD>
+<TD WIDTH="300">
+<select  id="type" name="type"><option value="">--None--</option>
+
+<!--ER 00174345: remove these options
+    <option value="Account Knowledge">Account Knowledge</option>
+    <option value="General Account Information">General Account Information</option>
+    <option value="IT Issues">IT Issues</option>
+    <option value="Open Referred Job">Open Referred Job</option>
+    <option value="Rejection Update Time Out">Rejection Update Time Out</option>
+    <option value="New Job for Closed/Unfilled">New Job for Closed/Unfilled</option>
+    
+-->
+<option value="Broadcasting Needed">Broadcasting Needed</option>
+<option value="Changes in SF for Sent Candidates">Changes in SF for Sent Candidates</option>
+<option value="HM Support">HM Support</option>
+<option value="HR Checks">HR Checks</option>
+<option value="Internal Program Support">Internal Program Support</option>
+<option value="Job Status Change">Job Status Change</option>
+<option value="Tier 1 Job Issue">Tier 1 Job Issue</option>
+<option value="User changes">User changes</option>
+<!--<option value="Other">Other</option>-->
+</select>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+Due Date: [DD/MM/YYYY]<BR /><STRONG>Wrong Format Previously Shown - Use DD/MM/YYYY Format</STRONG>
+</TD>
+<TD WIDTH="300">
+<span class="dateInput dateOnlyInput"><input  id="00NU0000003C1Mg" name="00NU0000003C1Mg" size="12" type="text" /></span>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="relatedjob">Related to Job:</label>
+</TD>
+<TD WIDTH="300">
+<input  id="00NU0000003C7Az" maxlength="255" name="00NU0000003C7Az" size="40" type="text" />
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="relatedjob">Related to Store Number:</label>
+</TD>
+<TD WIDTH="300">
+<input  id="00NU0000003Aw0k" maxlength="255" name="00NU0000003Aw0k" size="40" type="text" />
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="relatedteam">Related Team:</label>
+</TD>
+<TD WIDTH="300">
+<select  id="00NU0000003BErR" name="00NU0000003BErR" title="Related Team"><option value="">--None--</option>
+<option value="Team Universal">Team Universal</option>
+<option value="Team FGL">Team FGL</option>
+<!--<option value="Team OFG">Team OFG</option>-->
+<option value="Team Marks">Team Marks</option>
+<option value="Team PPG">Team PPG</option>
+</select>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<input type="hidden"  id="external" name="external" value="1" />
+</TD>
+<TD WIDTH="300">
+<input type="submit" name="submit" />
+</TD>
+</TR>
+</table>
+<br /><br /><br /><br /><h1>Case Types</h1><br /><br />
+<table border="1" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="266" valign="top"><p><strong>Type</strong></p></td>
+    <td width="500" valign="top"><p><strong>Definition</strong></p></td>
+
+  </tr>
+    <tr>
+    <td width="266" valign="top"><p>Broadcasting Needed</p></td>
+    <td width="500" valign="top"><p>When a job internal status is currently set to Broadcasting Not Needed and needs to be updated to Broadcasting Needed.</p></td>
+
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Changes in SF for Sent Cands</p></td>
+    <td width="500" valign="top"><p>When a candidate needs to be moved to a different job ID</p></td>
+
+  </tr>
+
+  <tr>
+    <td width="266" valign="top"><p>HM Support</p></td>
+    <td width="500" valign="top"><p>To request CE to follow up with a Hiring Managers to provide additional support on the Hire Program and/or the HirePortal.</p></td>
+
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>HR Checks</p></td>
+    <td width="500" valign="top"><p>HR check requests</p></td>
+
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Internal Program Support</p></td>
+    <td width="500" valign="top"><p>If you have a question about the Hire Program, the HirePortal or any existing systems or processes in place.</p></td>
+
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Job Status Change</p></td>
+    <td width="500" valign="top"><p>When the job status needs to  changed (ie from Candidate Sent/Awaiting Hire back to Open/Active job). </p></td>
+ 
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Tier 1 Job Issue</p></td>
+    <td width="500" valign="top"><p>When a job or the interview scheduler is not working as expected.</p></td>
+    
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>User changes</p></td>
+    <td width="500" valign="top"><p>When there has been a change to the Hiring Manager responsible for managing a job.</p></td>
+
+  </tr>
+  
+  
+  
+  <!--
+   <tr>
+    <td width="266" valign="top"><p>Other</p></td>
+    <td width="500" valign="top"><p>&nbsp;</p></td>
+    <td width="64" valign="top"><p>&nbsp;</p></td>
+  </tr>-->
+  
+  <!--ER 00174345: remove these options
+  <tr>
+    <td width="266" valign="top"><p>IT Issues </p></td>
+    <td width="500" valign="top"><p>Recruitment Services is aware of an IT issue they need to share with the client.</p></td>
+    <td width="64" valign="top"><p>High</p></td>
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Account Knowledge</p></td>
+    <td width="500" valign="top"><p>Recruitment Services requires information about an account in order to complete a send.</p></td>
+    <td width="64" valign="top"><p>High</p></td>
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Job Discovery – New Role</p></td>
+    <td width="500" valign="top"><p>Recruitment Services has identified a new role opened by a client that requires a job discovery. </p></td>
+    <td width="64" valign="top"><p>High</p></td>
+    <a name="_GoBack" id="_GoBack"></a></tr>
+  <tr>
+    <td width="266" valign="top"><p>General Account Information</p></td>
+    <td width="500" valign="top"><p>Recruitment Services requires additional information or a review on an existing client.</p></td>
+    <td width="64" valign="top"><p>Med</p></td>
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Candidate Not Contacted </p></td>
+    <td width="500" valign="top"><p>Recruitment Services alerting Customer Success that a candidate has not been contacted. (*Look at implementing process similar to OFG for all clients)</p></td>
+    <td width="64" valign="top"><p>High</p></td>
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Changes in SF for Sent Candidates </p></td>
+    <td width="500" valign="top"><p>Recruitment Services needs to provide an update in SalesForce for a sent candidate.</p></td>
+    <td width="64" valign="top"><p>Med</p></td>
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Criminal Record</p></td>
+    <td width="500" valign="top"><p>Recruitment Services wants to approve a candidate based on some criminal record questions.</p></td>
+    <td width="64" valign="top"><p>High</p></td>
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Open Referred Job</p></td>
+    <td width="500" valign="top"><p>To open a referred job for a referred candidate.</p></td>
+    <td width="64" valign="top"><p>High</p></td>
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>Rejection Update Time Out</p></td>
+    <td width="500" valign="top"><p>If the client provided an update to the Recruiter within the 48hr/7day disposition timeframe but the Recruiter was not able to update the candidate status in time and the result requires a reversal.</p></td>
+    <td width="64" valign="top"><p>High</p></td>
+  </tr>
+  <tr>
+    <td width="266" valign="top"><p>New Job for Closed/Unfilled</p></td>
+    <td width="500" valign="top"><p>Recruiter submits this case when a new job is required to be opened by CE, referencing the Taleo req# and the original MFG Salesforce job ID number/s.</p></td>
+    <td width="64" valign="top"><p>High</p></td>
+  </tr>
+  -->
+  
+  
+  
+ 
+</table>
+
+
+</form>
+
+</apex:page>

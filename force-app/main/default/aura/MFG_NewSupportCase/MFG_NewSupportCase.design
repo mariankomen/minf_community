@@ -1,0 +1,6 @@
+<design:component>
+	  <design:attribute name="caseRecordTypeId" 
+                        label="Case Record Type" 
+                        datasource="apex://CaseRecordTypes"
+                        description="Default Case Record Type. If empty - assign default recort type for profile."/>
+</design:component>

@@ -1,0 +1,22 @@
+<apex:page standardController="SFDC_Employee__c">
+<apex:includeScript value="/soap/ajax/34.0/connection.js" />
+<apex:includeScript value="/apex/dsfs__DocuSign_JavaScript" />
+  
+  
+  <script>
+  
+var emp = new sforce.SObject('SFDC_Employee__c');
+emp.id = '{!SFDC_Employee__c.Id}';
+emp.Employee_Update_Request__c = new Boolean(true);
+result = sforce.connection.update([emp]);
+
+if (result[0].success === "false"){
+ alert('An error occured, please try again later. ERROR->' + result[0].errors.message);
+}
+else{
+ alert('An email has been sent to HR to start the update request. You will receive the official form via Docusign shortly');
+}
+   
+  </script>
+  
+</apex:page>

@@ -1,0 +1,204 @@
+<aura:component >
+    <aura:html tag="style">
+        .blue{
+        fill: rgba(0, 0, 0, 0.87) !important;
+        }
+        .star{
+        fill: rgb(221, 221, 221);
+        }
+        
+        
+        .slds-popover {
+        margin-left: 50px;
+        position: fixed;
+        width: auto;
+        min-height: 2rem;
+        z-index: 6000;
+        background-color:  #002b6b;
+        visibility: hidden;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 3px 0px;
+        border-radius: 0.25rem;
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgb(212, 212, 212);
+        border-image: initial;
+        }
+        
+        
+        
+        
+        
+        
+        #help0:hover .slds-popover_tooltip{
+        visibility: visible;
+        }
+        
+        #help1:hover .slds-popover_tooltip{
+        visibility: visible;
+        }
+        #help2:hover .slds-popover_tooltip{
+        visibility: visible;
+        }
+        #help3:hover .slds-popover_tooltip{
+        visibility: visible;
+        }
+        #help4:hover .slds-popover_tooltip{
+        visibility: visible;
+        }
+        
+    </aura:html>  
+    
+    <aura:attribute name="rating" type="Integer"/> 
+    <aura:handler name="change" value="{!v.rating}" action="{!c.handleValueChange}"/>
+    <div class="MuiTypography-root MuiTypography-body1" style="display: flex;">
+        
+        
+        <div style="position:relative" id="help0">
+            <a href="javascript:void(0)" aria-describedby="help0">
+                <span class="slds-icon_container slds-icon-utility-info">
+                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>0,'blue','star')}"/>
+                    <span class="slds-assistive-text"></span>
+                </span>
+            </a>
+            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip"  style="position:absolute; top:-50px;left:-63px; width: max-content;">
+                <div class="slds-popover__body"> {!$Label.c.MFG_Keep_looking}
+                    <div class="slds-m-top_x-small" aria-hidden="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="position:relative" id="help1">
+            <a href="javascript:void(0)" aria-describedby="help0">
+                <span class="slds-icon_container slds-icon-utility-info">
+                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>1,'blue','star')}"/>
+                    <span class="slds-assistive-text"></span>
+                </span>
+            </a>
+            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" 
+                 style="position:absolute;top:-50px;left:-63px; width: max-content;"
+                 aria-hidden="true">
+                <div class="slds-popover__body">{!$Label.c.MFG_Not_quite_there}
+                    <div class="slds-m-top_x-small" aria-hidden="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div style="position:relative" id="help2">
+            <a href="javascript:void(0)" aria-describedby="help0">
+                <span class="slds-icon_container slds-icon-utility-info">
+                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>2,'blue','star')}"/>
+                    <span class="slds-assistive-text"></span>
+                </span>
+            </a>
+            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip"  style="position:absolute;top:-50px;left:-63px; width: max-content;">
+                <div class="slds-popover__body">{!$Label.c.MFG_Hit_the_mark_on_the_qualifications}
+                    <div class="slds-m-top_x-small" aria-hidden="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="position:relative" id="help3">
+            <a href="javascript:void(0)" aria-describedby="help0">
+                <span class="slds-icon_container slds-icon-utility-info">
+                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>3,'blue','star')}"/>
+                    <span class="slds-assistive-text"></span>
+                </span>
+            </a>
+            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" style="position:absolute;top:-50px;left:-63px; width: max-content;">
+                <div class="slds-popover__body"> {!$Label.c.MFG_Will_make_a_good_addition_to_the_team}
+                    <div class="slds-m-top_x-small" aria-hidden="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="position:relative" id="help4">
+            <a href="javascript:void(0)" aria-describedby="help0">
+                <span class="slds-icon_container slds-icon-utility-info">
+                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>4,'blue','star')}"/>
+                    <span class="slds-assistive-text"></span>
+                </span>
+            </a>
+            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip"  style="position:absolute;top:-50px;left:-63px; width: max-content;">
+                <div class="slds-popover__body">{!$Label.c.MFG_Great_candidate}
+                    <div class="slds-m-top_x-small" aria-hidden="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--div style="position:relative">
+                    <a href="javascript:void(0)" aria-describedby="help1">
+                        <span class="slds-icon_container slds-icon-utility-info">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>0,'blue','star')}"/>
+                            <span class="slds-assistive-text"></span>
+                        </span>
+                    </a>
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help1" style="position:absolute;top:-70px;left:-64px">
+                        <div class="slds-popover__body">Not quite there
+                            <div class="slds-m-top_x-small" aria-hidden="true">
+                        </div>
+                    </div>
+                </div>
+                </div>
+                                
+                <div style="position:relative">
+                    <a href="javascript:void(0)" aria-describedby="help2">
+                        <span class="slds-icon_container slds-icon-utility-info">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>0,'blue','star')}"/>
+                            <span class="slds-assistive-text"></span>
+                        </span>
+                    </a>
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help2" style="position:absolute;top:-70px;left:-64px">
+                        <div class="slds-popover__body"> Hit the mark on the qualifications
+                            <div class="slds-m-top_x-small" aria-hidden="true">
+                        </div>
+                    </div>
+                </div>
+                </div>
+                                
+                <div style="position:relative">
+                    <a href="javascript:void(0)" aria-describedby="help3">
+                        <span class="slds-icon_container slds-icon-utility-info">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>0,'blue','star')}"/>
+                            <span class="slds-assistive-text"></span>
+                        </span>
+                    </a>
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help3" style="position:absolute;top:-70px;left:-64px">
+                        <div class="slds-popover__body">Will make a good addition to the team
+                            <div class="slds-m-top_x-small" aria-hidden="true">
+                        </div>
+                    </div>
+                </div>
+                </div>
+                                
+                <div style="position:relative">
+                    <a href="javascript:void(0)" aria-describedby="help4">
+                        <span class="slds-icon_container slds-icon-utility-info">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>0,'blue','star')}"/>
+                            <span class="slds-assistive-text"></span>
+                        </span>
+                    </a>
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help4" style="position:absolute;top:-70px;left:-64px">
+                        <div class="slds-popover__body"> Great candidate!
+                            <div class="slds-m-top_x-small" aria-hidden="true">
+                        </div>
+                    </div>
+                </div>
+                </div-->
+        
+        
+        
+        
+        <!--span > <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>1,'blue','star')}"/></span>
+            <span > <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>2,'blue','star')}"/></span>
+            <span > <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>3,'blue','star')}"/></span>
+            <span > <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/star.svg#star'}" size="small" class="{!if(v.rating>4,'blue','star')}"/></span-->
+        
+        
+        
+    </div>
+</aura:component>

@@ -1,0 +1,255 @@
+<apex:component >
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 50%;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .container {
+            padding: 2px 2px;
+        }
+       
+     </style>
+     
+         <!-- video library -->     
+         <div class="card">
+              <div class="container">
+                  <b>Candidate Sourcing Solution</b><br/><br/>
+                        <a target='_blank' href='https://youtu.be/8fWSmeCTd2I'>
+                            <apex:image url="{!URLFOR($Resource.HirePortal_Resources,'images/HirePortal_Quick_Guide_thumbnail.png')}" width="300" height="150"/>
+                        </a>
+              
+                  <!--<b>Video Library</b> <br/><br/>
+                  <!--<table border="0" style="width:100%">
+                   <tr>
+                    <td>
+                        Save-On-Foods HirePortal Quick Guide
+                        <a target='_blank' href='https://youtu.be/_-MJNcEJ1QQ'>
+                            <apex:image url="{!URLFOR($Resource.HirePortal_Resources,'images/HirePortal_Quick_Guide_thumbnail.png')}" width="300" height="150"/>
+                        </a>
+                    </td>
+                    <td>
+                        Like-minds Predictor Report Demo
+                        <a target='_blank' href='https://youtu.be/O1p9DqoVSyM'>
+                            <apex:image url="{!URLFOR($Resource.HirePortal_Resources,'images/Like-minds_Predictor_Report_Demo_thumbnail.png')}" width="300" height="150"/>
+                        </a>
+                    </td>
+                   </tr>
+                  </table> --> 
+                </div>
+          </div>
+                     
+          <!-- quick links section      
+          <br/><br/>
+          <div class="card">
+              <div class="container">
+                  <b>Training Quick Links</b> <br/><br/>
+                  <table border="0" style="width:100%">
+                   <tr>
+                    <td><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oqvg'>The Complete Mindfield Process</a></td>
+                    <td><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oy4G'>The Mindfield Process ‘Quick Guide’</a></td>
+                   </tr>
+                   <tr> 
+                    <td><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oxsy'>Requested Candidates</a></td>
+                    <td><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oqvb'>Interview Scheduling</a></td>
+                   </tr> 
+                    <tr> 
+                    <td><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oy3w'>The Qualified Candidate Profile</a></td>
+                    <td><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oxfz'>Like-minds Predictor</a></td>
+                   </tr> 
+                  </table>  
+                </div>
+          </div>-->
+          
+          <!-- HM tips section      
+          <br/><br/>
+          <div class="card">
+              <div class="container">
+                  <b>Hiring Manager Recruitment Tips</b>
+                  <ol>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oqwA'>Two easy steps can improve the quality of your applicants.</a></li>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oqwF'>The Save-On-Foods Qualified Candidate Profile.</a></li>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oxrW'>How to priorize great candidates.</a></li>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oxrl'>Know the non-negotiables for your role.</a></li>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oxrv'>Predict who your top performers are</a></li>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oxs0'>Be interview-ready</a></li>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005oxsF'>Update candidate status promptly</a></li>
+                  </ol>  
+              </div>
+           </div>  -->   
+          
+          <!-- QCP section    
+          <br/><br/>
+           <div class="card">
+              <div class="container">
+                  <b>Qualified Candidate Profiles</b><br/><br/>
+                   
+                  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+                  <link rel="stylesheet" href="/resources/demos/style.css"/>
+                  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                  <script>
+                      $( function() {
+                        $( "#accordion" ).accordion();
+                        $("#accordion").accordion({ header: "h3", collapsible: true, active: false });
+                      } );
+  
+                  </script>
+                   <div id="accordion">
+                       <h3>All Save-On-Foods Stores</h3>
+                        <div>
+                         <ul style='list-style-type: none'>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2ml'>Coffee Bar Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2mv'>Meat Cutter</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2n0'>Overnight Stocking Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2n5'>Personal Shopper</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2nK'>Restaurant Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2nP'>Shipper/Receiver</a></li>
+                         </ul>   
+                        </div>
+                        
+                        <h3>BC Save-On-Foods Stores</h3>
+                        <div>
+                         <ul style='list-style-type: none'>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2nZ'>General Clerk</a></li>
+                         </ul>  
+                        </div>
+                        
+                        <h3>AB, MB, SK and YK Save-On-Foods Stores</h3>
+                        <div>
+                         <ul style='list-style-type: none'>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2ne'>Bakery Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2nj'>Cake Centre Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2no'>Cashier</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2o3'>Deli Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2o8'>Floral Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2oI'>Grocery Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2oN'>Meat Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2oS'>Price Change Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2oX'>Product Clerk </a></li>
+                         </ul>   
+                        </div>
+                        
+                        <h3>All PriceSmart Foods Stores</h3>
+                        <div>
+                         <ul style='list-style-type: none'>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2mW'>Ethnic Deli Clerk</a></li>
+                            <li>- <a target='_blank' href='/servlet/servlet.FileDownload?file=0150P000005p2or'>Ethnic Seafood Clerk </a></li>
+                         </ul> 
+                        </div>
+                   </div>
+                   
+             </div>  
+          </div>  -->     
+          <!--OLD VERSION <br/><br/>
+          <div class="card">
+              <div class="container">
+                  <b>QCPs</b>
+                  <ol>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P0000063fv8'>QCP 1</a></li>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P0000063fv9'>QCP 2</a></li>
+                    <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P0000063fvA'>QCP 3</a></li>
+                </ol>  
+              </div>
+           </div>  
+            -->   
+          
+          <!-- questions section -->     
+          <br/><br/>
+           <div class="card">
+              <div class="container">
+                  <b>FAQs</b><br/><br/>
+                   
+                  
+                  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+                  <link rel="stylesheet" href="/resources/demos/style.css"/>
+                  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                  <script>
+                      $( function() {
+                        $( "#accordion2" ).accordion();
+                        $("#accordion2").accordion({ header: "h3", collapsible: true, active: false });
+                      } );
+  
+                  </script>
+                   <div id="accordion2">
+                       <h3>What is the Candidate Sourcing program and how does it differ from Mindfield’s previous Full-Cycle Recruitment offering?</h3>
+                        <div>
+                         <p>
+                          The Candidate Sourcing program supports hiring managers by taking a simplified job order, hosting the job on a branded careers site and broadcasting it to a range of popular and effective job boards. 
+                          The candidates will be visible to hiring managers as soon as they have completed the streamlined online application process.
+                          Unlike with the previous Full Cycle Recruitment offering, Mindfield will not  be screening and scheduling interviews for these candidates.  
+                         </p>
+                        </div>
+                    
+                        <h3>What happened to my existing jobs opened prior to January of 2018?</h3>
+                        <div>
+                         <p>
+                          Any Full Cycle Recruitment jobs that were still open as of January 2nd, 2018 will be closed and re-opened as Candidate Sourcing jobs. 
+                          All Full Cycle Recruitment jobs that had outstanding candidates will be viewable in the HirePortal until all candidates are updated. 
+                          <br/><br/>
+                          Any new job opened as of January 2nd will be opened as a Candidate Sourcing job.  
+                         </p>
+                        </div>
+                    
+                        <h3>Why do I need to mark candidates as Hired?</h3>
+                        <div>
+                         <p>
+                          If you don’t mark a candidate as Hired, we may reach out this candidate in email campaigns regarding new job opportunities.
+                          This can be confusing and disruptive for the candidate, and can be easily avoided by telling us who you have hired.
+                          This will also let us know how effective our sourcing efforts have been. 
+                         </p>
+                        </div>
+                        
+                        <h3>Do I need to mark the Candidates as Hired in Peoplesoft?</h3>
+                        <div>
+                         <p>
+                          As of January 2nd, 2018, all candidate who applied through a candidate sourcing job will no longer automatically sync to PeopleSoft for hiring.
+                          Hiring Managers will be responsible for entering all new hire information into PeopleSoft in addition to updating the candidate to Hired in the Mindfield HirePortal. 
+                         </p>
+                        </div>
+                        
+                        <h3>What is a duplicate job check?</h3>
+                        <div>
+                         <p>
+                          Most job boards have quality controls in place to prevent spamming. 
+                          When an organization posts the same job title as another active job already posted at a given location it may get flagged as spam and can lead to suspension from that job board.
+                          Therefore, Mindfield has put a duplicate job check in place to prevent this.    
+                         </p>
+                        </div>
+                        
+                        <h3>How do I request additional sourcing actions?</h3>
+                        <div>
+                         <p>
+                          Additional sourcing actions can be requested via the Save-On-Foods Head Office by contacting Shabnam Grewal at <a href="mailto:Shabnam_grewal@saveonfoods.com" target="_top">Shabnam_grewal@saveonfoods.com</a>.
+                          The Save-On-Foods Head Office will then manage this request directly with Mindfield and if approved, Mindfield will layer on appropriate additional sourcing activities.  
+                         </p>
+                        </div>
+                        
+                        <h3>Still have questions?</h3>
+                        <div>
+                         <p>
+                           Our Customer Experience team is available Monday through Friday 7am to 5pm PST through any of the following channels:
+                             <ul>
+                                 <li>Phone: 1-866-631-1566 x 4</li>
+                                 <li>Support Case</li>
+                                 <li>Instant Message</li>
+                             </ul>
+                         </p>
+                        </div>
+                        
+                       
+                        
+                       </div>
+                   
+                  <br/>                 
+              </div>
+          </div>
+     
+     
+</apex:component>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>28.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>page directs user to the new job functionality and if cancels, goes back to the Home tab.  Added to support multiple record types for portal users (FGL) so we don&apos;t have to hardcode the record type selection screen into HTML area.</description>
+    <label>HR Shortcut Create Job</label>
+</ApexPage>

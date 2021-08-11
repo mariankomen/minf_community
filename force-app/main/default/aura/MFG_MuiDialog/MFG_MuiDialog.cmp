@@ -1,0 +1,108 @@
+<aura:component >
+    <!--aura:attribute name="show" type="Boolean" default="false"/-->  
+    
+    <aura:html tag="style">
+        
+        
+        
+        .MuiBackdrop-root {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        z-index: -1;
+        position: fixed;
+        align-items: center;
+        touch-action: none;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-tap-highlight-color: transparent;
+        }
+        .MuiBackdrop-invisible {
+        background-color: transparent;
+        }
+        
+        .MuiDialogActions-root {
+        flex: 0 0 auto;
+        display: flex;
+        padding: 8px;
+        align-items: center;
+        justify-content: flex-end;
+        }
+        .MuiDialogActions-spacing > * + * {
+        margin-left: 8px;
+        }
+        
+        .MuiDialogContent-root {
+        flex: 1 1 auto;
+        padding: 8px 24px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        }
+        .MuiDialogContent-root:first-child {
+        padding-top: 20px;
+        }
+        .MuiDialogContent-dividers {
+        padding: 16px 24px;
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        }
+        
+        .MuiDialogContentText-root {
+        margin-bottom: 12px;
+        }
+        
+        .MuiDialogTitle-root {
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 16px 24px;
+        }
+        
+    </aura:html> 
+    
+    <aura:attribute name="isShown" type="Boolean" default="false" access="global"/>
+
+    
+    <aura:method name="show" action="{!c.showNotification}" access="global">
+        <aura:attribute name="cmpb" type="Aura.Component[]" required="false"/>
+        <aura:attribute name="config" type="Object" default="{}"/>
+    </aura:method>
+    
+    
+    <aura:attribute name="header" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="body" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="footer" type="Aura.Component[]" required="false"/>
+    
+    
+    <aura:method name="hide" action="{!c.hideNotification}" access="global"/>
+    
+    <aura:if isTrue="{!v.isShown}">
+        
+        <div role="presentation" class="MuiDialog-root" aria-labelledby="form-dialog-title"
+             style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;" >
+            
+            <div class="MuiBackdrop-root" 
+                 aria-hidden="true"
+                 style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;" >
+            </div>
+            
+            <div tabindex="0" data-test="sentinelStart"></div>
+             
+            <div class="MuiDialog-container MuiDialog-scrollPaper" role="none presentation" 
+                 tabindex="-1"
+                 style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;">
+                 
+                <div class="MuiPaper-root MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiPaper-rounded"
+                     role="dialog" 
+                     style="min-width: 330px; min-height: 200px;">
+
+                     {!v.body} 
+
+
+                </div>
+            </div>
+            <div tabindex="0" data-test="sentinelEnd"></div>
+        </div> 
+    </aura:if> 
+</aura:component>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>41.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>New page for dispositioning SOF sourcing candidates.
+Jan 2018, had  to update to &apos;standardController=&quot;SFDC_Job_Candidate__c&apos; so when going to this page, the candidate tab highlights instead on the job.</description>
+    <label>CandidateJobListView_Sourcing</label>
+</ApexPage>

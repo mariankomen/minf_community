@@ -1,0 +1,34 @@
+<apex:page standardController="Case" title="{!$ObjectType.Case.labelplural}"  extensions="CaseListViews" recordSetVar="cans"
+    action="{!case($Profile.UserType, 
+            'CustomerSuccess', null,
+            'PowerCustomerSuccess', null,
+            'CSPLitePortal', null, 
+             URLFor($Action.Case.Tab, $ObjectType.Case, null, true))}"> 
+
+        <apex:sectionHeader title="{!$ObjectType.Case.labelplural}" subtitle="{!$Label.Home}"/>
+        <!-- section with dropdown with relevant list view names -->
+        <apex:form >
+            <apex:pageBlock >
+                <!-- add new options into the apex class CaseListViews -->
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$Label.View}:" />                  
+                        <apex:selectList value="{!selectedlist}" size="1"  >
+                            <apex:selectOptions value="{!listnames}"/>
+                            <apex:actionSupport event="onchange" 
+                                rerender="lists" status="upd1" />
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+        </apex:form>
+
+<style type="text/css">
+    h2.title {color:black;}
+</style>        
+        <!-- section that rerenders based on selection to display the correct list view -->
+        <apex:outputPanel id="lists">
+            <apex:enhancedList customizable="true" listid="{!selectedlist}" height="500" />
+        </apex:outputPanel>        
+
+</apex:page>

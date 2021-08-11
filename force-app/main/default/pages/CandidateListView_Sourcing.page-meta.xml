@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>41.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>New page for dispositioning SOF sourcing candidates.
+Wrapper for &apos;c:CandidateListView_Sourcing_Component&apos; so candidate tab will highlight when selected.
+
+Jan 2018
+This page is embedded in the job page layout.
+Separate from &apos;CandidateJobListView_Sourcing&apos;</description>
+    <label>CandidateListView_Sourcing</label>
+</ApexPage>

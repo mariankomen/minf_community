@@ -1,0 +1,79 @@
+<apex:page controller="FranchiseHirePortal_OrderWizard" title="Franchise HirePortal Full-Cycle Recruitment Step 1" standardStylesheets="false" applyBodyTag="false" >
+ <html>
+ <head>
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+ </head>
+ 
+<apex:form > 
+    <body>
+
+         <div id="tacn_packages-container">
+            <div class="tacn_full-width">
+
+                <div class="tacn_headline">
+                    <img class="tacn_icon" src="{!URLFOR($Resource.HirePortal_Resources, '/images/mf_homeicon_x2_2.png')}" alt="full cycle recruitment" /><br />
+                    <span class="tacn_flex-h1"><h1>Full-Cycle Recruitment</h1> <h1 class="tacn_price"><strong>
+                        <apex:outputText value="${0, number,###,##0}">
+                           <apex:param value="{!utility.ClientJobCost_FCR}"/>
+                         </apex:outputText>
+                         {!utility.clientOrderCurrencyDisplay} </strong></h1></span>
+                </div>
+
+                <div class="tacn_banner tacn_b-2">
+                    <h2>Full-Cycle recruitment dramatically simplifies your hiring process.</h2>
+                </div>
+                
+                <div class="tacn_details">
+
+                    <div class="tacn_description">
+                        <br />
+                        <h3 class="tacn_h3">All you need to do is login to the HirePortal to open a Truck Team Member job and we will take care of finding you the top two qualified candidates. </h3>
+                        <p><br />Every role is advertised with a customized recruitment strategy and posted on the 1-800-GOT-JUNK? careers site. Once an applicant has applied, they will be asked to complete an online assessment called the Like-minds Predictor to measure for fit. Only applicants with the appropriate behaviours will be pre-screened and resumes reviewed before being considered for a phone interview with our recruitment team. During the phone interviews our recruiters will be looking for candidates that match the 1-800-GOT-JUNK? Truck Team Member Qualified Candidate Profile and present the top two qualified candidates to you for final interviews. 
+                        <br/><br/>
+                        This solution is best for franchise partners that have a challenge with time and/or quality. Mindfield takes on all of the screening steps including the pre-screen, resume review, initial telephone interview, and even scheduling the interviews (optional) saving franchise partners extremely valuable time! Also, Mindfield owns the results by sending only the top two qualified candidates so quality is guaranteed. 
+                        <br/><br/>
+                        This service is available for the Truck Team Member role.
+                        </p>
+                        
+                        <apex:commandButton action="{!gotoOrderPg2_FullRecruit}" value="BUY NOW" styleClass="tacn_btn tacn_btn-reg"/>
+                        <a class="tacn_btn tacn_btn-gray" href="/apex/Support_Page" target="_blank">HELP?</a> 
+
+                    </div>
+                    
+                    <div class="tacn_divider"></div>
+                    
+                    <div class="tacn_features">
+                        <br />
+                        <h3>Features:</h3>
+                        <br />
+                        <ul>
+                            <li>Job Broadcasting</li>
+                            <li>Job Hosting on SEO Optimized Careers Site</li>
+                            <li>Local Outreach</li>
+                            <li>Direct Target Email Campaigns</li>
+                            <li>Candidate Pre-screening</li>
+                            <li>Like-minds Predictor Assessment</li>
+                            <li>Resume Review</li>
+                            <li>Telephone Interviews</li>
+                            <li>Top Candidate Selection</li>
+                            <li>Interview Scheduling (optional)</li>
+                            <li>HirePortal Access &amp; Support</li>
+                        </ul>
+
+                    </div>   
+
+                </div>
+
+            </div>
+
+             
+
+        </div>
+
+    </body>
+
+ </apex:form>
+
+ </html>
+</apex:page>

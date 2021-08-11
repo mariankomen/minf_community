@@ -1,0 +1,51 @@
+<apex:page standardController="SFDC_Job_Candidate__c" title="{!$ObjectType.SFDC_Job_Candidate__c.label}"  
+    id="pg" extensions="CandidateListViews" recordSetVar="cans">  
+
+        <apex:sectionHeader title="{!$ObjectType.SFDC_Job_Candidate__c.label}" subtitle="{!$Label.Home}"/>
+        <!-- section with dropdown with relevant list view names -->
+        <apex:form >
+            <apex:pageBlock >
+                <!-- add new options into the apex class CandidateListViews -->
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="View:" />                  
+                        <apex:selectList value="{!selectedlist}" size="1"  >
+                            <apex:outputPanel rendered="{!$Profile.Name == 'AkzoNobel HirePortal HR User EN' || $Profile.Name == 'AkzoNobel HirePortal HR User FR'}">
+                                <apex:selectOption itemValue="00BU0000002HiLF" itemLabel="{!$Label.All_Active_Candidates}" />
+                                <apex:selectOption itemValue="00BU0000002HiLP" itemLabel="{!$Label.All_Current_Employee}"/>
+                                <apex:selectOption itemValue="00BU0000002HiLK" itemLabel="{!$Label.All_Inactive_Candidates}"/>
+                                <apex:selectOption itemValue="00BU0000002HiLU" itemLabel="{!$Label.All_Past_Employee}" />
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!$profile.name == 'AkzoNobel HirePortal Regional Mgr EN' || $profile.name == 'AkzoNobel HirePortal Regional Mgr FR' ||
+                                                          $profile.name == 'AkzoNobel HirePortal Store User EN' || $profile.name == 'AkzoNobel HirePortal Store User FR'}">
+                                <apex:selectOption itemValue="00BU0000002HkUD" itemLabel="{!$Label.All_Active_Candidates}" />
+                                <apex:selectOption itemValue="00BU0000002HkUI" itemLabel="{!$Label.All_Current_Employee}"/>
+                                <apex:selectOption itemValue="00BU0000002HkUN" itemLabel="{!$Label.All_Inactive_Candidates}"/>
+                                <apex:selectOption itemValue="00BU0000002HkUS" itemLabel="{!$Label.All_Past_Employee}" />
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!begins($Profile.Name, 'easyhome') || begins($Profile.Name, 'easyfinancial')}">
+                                <apex:selectOption itemValue="00BU0000002HkgJ" itemLabel="{!$Label.All_Active_CandidatesEH}" />
+                                <apex:selectOption itemValue="00BU0000002HkgT" itemLabel="{!$Label.All_Active_CandidatesEF}" />
+                                <apex:selectOption itemValue="00BU0000002HiLP" itemLabel="{!$Label.All_Current_Employee}"/>
+                                <apex:selectOption itemValue="00BU0000002HiLK" itemLabel="{!$Label.All_Inactive_Candidates}"/>
+                                <apex:selectOption itemValue="00BU0000002HiLU" itemLabel="{!$Label.All_Past_Employee}" />
+                            </apex:outputPanel>
+
+                   
+                            <apex:actionSupport event="onchange" 
+                                rerender="lists" status="upd1" />
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+        </apex:form>
+
+<style type="text/css">
+    h2.title {color:black;}
+</style>        
+        <!-- section that rerenders based on selection to display the correct list view -->
+        <apex:outputPanel id="lists" >
+            <apex:enhancedList customizable="false" listid="{!selectedlist}" height="500" />
+        </apex:outputPanel>      
+
+</apex:page>

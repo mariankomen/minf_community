@@ -1,0 +1,87 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="MFG_DashBoardController">
+    <aura:attribute name="userProfileTitle" type="String" default=""/>
+    <aura:attribute name="notificationTitle" type="String" default=""/>
+    <aura:attribute name="notificationBody" type="String" default=""/>
+    <aura:attribute name="showAlert" type="Boolean" default="false"/>
+    <aura:attribute name="notificationItems" type="Object" default=""/> 
+    <aura:handler name="init" value="{!this}" action="{!c.showToast}"/>
+
+    <aura:html tag="style">
+
+        .main {
+            width:98vw;;
+            height:100vh;
+            background-color: rgba(0, 0, 0, 0.4);;
+            position: absolute;
+            top: 0;
+            left: 0;
+            <!-- opacity: 0.5; -->
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .not_title{
+            color: #000 !important;
+        }
+        .not_title h2{
+            color: #000 !important;
+        }
+        .alert_item {
+            color: #0000008A !important;
+            width: 600px;
+            <!-- height: 30%;; -->
+            background: #fff !important;
+            margin-top:-10%;
+            padding: 20px;
+            border-radius: 3px;
+        }
+        .head {
+            font-size: 24px !important;
+            height: 10%;
+            font-weight:400;
+            margin-top: 1rem;
+        }
+        .remind {   
+            height: 75%;
+            font-size: 16px;
+
+        }
+        .footer_btn {
+            height: 15%;
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px;
+        }
+        .remind span {
+            background-color: #fff !important;
+            color: #0000008A !important;
+        }
+
+
+    </aura:html>
+    <aura:if isTrue="{!v.showAlert}">
+        <div class="main">
+                <div class="alert_item" style="color:#0000008A !important;">
+                    <div class="not_title" style="color: #000 !important">
+                        <h2><lightning:icon iconName="utility:notification" alternativeText="Warning!" title="Warning" size="small"/> Notification</h2>
+                    </div>
+                    
+
+                    <div class="head">
+                            <h5>{!v.notificationTitle}</h5>
+                    </div>
+                    <div class="remind" style="color:#0000008A !important;" >
+                        <lightning:formattedRichText value="{!v.notificationBody}"/>
+
+                    </div>
+                    <div class="footer_btn">
+                        <div></div>
+                        <div>
+                            <lightning:button label="Neutral" title="Non-primary action" onclick="{!c.handleSubmitChangeT}" class="slds-m-left_x-small">DISMISS</lightning:button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </aura:if>
+</aura:component>

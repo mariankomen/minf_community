@@ -1,0 +1,28 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+
+<a name="skiplink"><img src="/s.gif" height='1' width='1' alt="Content Starts Here" class="skiplink" title="Content Starts Here"/></a><div class="bPageTitle"><div class="ptBody secondaryPalette"><div class="content"><img src="/s.gif" alt="Candidate"  class="pageTitleIcon" title="Candidate"/><h1 class="pageType">Help<span  class="titleSeparatingColon">:</span></h1><h2 class="pageDescription"> Home</h2><div class="blank">&nbsp;</div></div></div>
+ 
+<div id="container">
+  <div id="header">
+  <!-- end #header --></div>
+  <!-- end #sidebar1 --></div>
+  <div id="mainContent">
+  <font FACE="Verdana" SIZE="2"><a href="/500?fcf=00BU0000002vOlQ" target="_blank">View Open Cases</a><BR/>
+  <a href="/015/o" target="_blank">Access Documents (e.g. Hiring Guides, Wage Matrixes, etc.)</a><BR/><BR/>
+  
+  
+  We are here to help you! While we are developing a comprehensive Frequently Asked Questions page and Training Videos, we encourage you to interact with us through the following methods if you need ANY help whatsoever:<BR/><BR/>
+  - Live Chat (click the Live Chat button to the left) to chat live with our Customer Support Team<BR/><BR/>
+  - Call Us at 604-899-4473 and dial extension 4<BR/><BR/>
+  - Contact Your Customer Success Manager<BR/><BR/>
+  Alternatively, you can also <a href="/500/e?retURL=/apex/CasesTab?save_new=1&amp;sfdc.override=1" target="_blank">Log a Case</a> or <a href="/500?fcf=00BU0000002vOlP" target="_blank">View Your Open Cases</a>.<BR/><BR/>
+  We also invite you to follow us on <a href="http://www.twitter.com/MindFieldGroup" target="_blank">Twitter</a> and <a href="http://www.facebook.com/pages/Vancouver-BC/MindField-Group/7720906372" target="_blank">Facebook</a>.
+</font>
+    <p>&nbsp;</p>
+    <!-- end #mainContent --></div>
+    <!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats -->
+    <br class="clearfloat" />
+    <!-- end #container --></div>
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>

@@ -1,0 +1,6 @@
+<design:component>
+	<design:attribute name="url" />
+    <design:attribute name="mode"  />
+    <design:attribute name="tooltip"  />
+    <design:attribute name="URLLabel" />
+</design:component>

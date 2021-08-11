@@ -1,0 +1,1239 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId"
+                controller="MFG_JobDetailsController">
+    
+    <aura:html tag="style">
+        
+        .MuiIconButton-root {
+        flex: 0 0 auto;
+        color: rgba(0, 0, 0, 0.54);
+        padding: 12px;
+        overflow: visible;
+        // font-size: 1.5rem;
+        text-align: center;
+        transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 50%;
+        }
+        .MuiIconButton-root:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiIconButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        background-color: transparent;
+        }
+        @media (hover: none) {
+        .MuiIconButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-edgeStart {
+        margin-left: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeStart {
+        margin-left: -3px;
+        }
+        .MuiIconButton-edgeEnd {
+        margin-right: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeEnd {
+        margin-right: -3px;
+        }
+        .MuiIconButton-colorInherit {
+        color: inherit;
+        }
+        .MuiIconButton-colorPrimary {
+        color: #0047ad;
+        }
+        .MuiIconButton-colorPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-colorSecondary {
+        color: #002b6b;
+        }
+        .MuiIconButton-colorSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-sizeSmall {
+        padding: 3px;
+        font-size: 1.125rem;
+        }
+        .MuiIconButton-label {
+        width: 100%;
+        display: flex;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        
+        .MuiButton-root {
+        color: rgba(0, 0, 0, 0.87);
+        padding: 6px 16px;
+        font-size: 0.875rem;
+        min-width: 64px;
+        box-sizing: border-box;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        border-radius: 4px;
+        text-transform: uppercase;
+        }
+        .MuiButton-root:hover {
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-root:hover.Mui-disabled {
+        background-color: transparent;
+        }
+        .MuiButton-label {
+        width: 100%;
+        display: inherit;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        .MuiButton-text {
+        padding: 6px 8px;
+        }
+        .MuiButton-textPrimary {
+        color: #0047ad;
+        }
+        .MuiButton-textPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-textSecondary {
+        color: #002b6b;
+        }
+        .MuiButton-textSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlined {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        padding: 5px 15px;
+        }
+        .MuiButton-outlined.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButton-outlinedPrimary {
+        color: #0047ad;
+        border: 1px solid rgba(0, 71, 173, 0.5);
+        }
+        .MuiButton-outlinedPrimary:hover {
+        border: 1px solid #0047ad;
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlinedSecondary {
+        color: #002b6b;
+        border: 1px solid rgba(0, 43, 107, 0.5);
+        }
+        .MuiButton-outlinedSecondary:hover {
+        border: 1px solid #002b6b;
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        .MuiButton-outlinedSecondary.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-contained {
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        .MuiButton-contained:hover {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        background-color: #d5d5d5;
+        }
+        .MuiButton-contained.Mui-focusVisible {
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained:active {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        @media (hover: none) {
+        .MuiButton-contained:hover {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        }
+        .MuiButton-contained:hover.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-containedPrimary {
+        color: #fff;
+        background-color: #0047ad;
+        }
+        .MuiButton-containedPrimary:hover {
+        background-color: rgb(0, 49, 121);
+        }
+        @media (hover: none) {
+        .MuiButton-containedPrimary:hover {
+        background-color: #0047ad;
+        }
+        }
+        .MuiButton-containedSecondary {
+        color: #fff;
+        background-color: #002b6b;
+        }
+        .MuiButton-containedSecondary:hover {
+        background-color: rgb(0, 30, 74);
+        }
+        @media (hover: none) {
+        .MuiButton-containedSecondary:hover {
+        background-color: #002b6b;
+        }
+        }
+        .MuiButton-colorInherit {
+        color: inherit;
+        border-color: currentColor;
+        }
+        .MuiButton-textSizeSmall {
+        padding: 4px 5px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-textSizeLarge {
+        padding: 8px 11px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-outlinedSizeSmall {
+        padding: 3px 9px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-outlinedSizeLarge {
+        padding: 7px 21px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-containedSizeSmall {
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-containedSizeLarge {
+        padding: 8px 22px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-fullWidth {
+        width: 100%;
+        }
+        .MuiButton-startIcon {
+        display: inherit;
+        margin-left: -4px;
+        margin-right: 8px;
+        }
+        .MuiButton-endIcon {
+        display: inherit;
+        margin-left: 8px;
+        margin-right: -4px;
+        }
+        .MuiButton-iconSizeSmall>*:first-child {
+        font-size: 18px;
+        }
+        .MuiButton-iconSizeMedium>*:first-child {
+        font-size: 20px;
+        }
+        .MuiButton-iconSizeLarge>*:first-child {
+        font-size: 22px;
+        }
+        
+        .jss111 {
+        margin: 0 auto;
+        padding: 16px;
+        max-width: 1300px;
+        min-height: 500px;
+        padding-bottom: 200px;
+        }
+        @media (max-width:959.95px) {
+        .jss111 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss111 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        .jss112 {
+        color: #0047ae;
+        margin: 0;
+        font-size: 3em;
+        font-family: glober, helvetica, sans-serif;
+        font-weight: 300;
+        margin-bottom: 12px;
+        }
+        @media (max-width:959.95px) {
+        .jss112 {
+        font-size: 2.5em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss112 {
+        font-size: 2em;
+        }
+        }
+        .jss113 {
+        display: flex;
+        }
+        @media (max-width:599.95px) {
+        .jss113 {
+        flex-flow: column-reverse;
+        }
+        }
+        .jss114 {
+        flex: 1;
+        width: 50%;
+        text-align: right;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss114 {
+        width: 100%;
+        }
+        }
+        .jss115 {
+        flex: 1;
+        width: 50%;
+        text-align: left;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss115 {
+        width: 100%;
+        }
+        }
+        
+        .MuiButtonGroup-root {
+        display: inline-flex;
+        border-radius: 4px;
+        }
+        .MuiButtonGroup-contained {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButtonGroup-fullWidth {
+        width: 100%;
+        }
+        .MuiButtonGroup-grouped {
+        min-width: 40px;
+        }
+        .MuiButtonGroup-grouped:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        }
+        .MuiButtonGroup-grouped:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        }
+        .MuiButtonGroup-groupedText:not(:last-child) {
+        border-right: 1px solid rgba(0, 0, 0, 0.23);
+        }
+        .MuiButtonGroup-groupedTextPrimary:not(:last-child) {
+        border-color: rgba(0, 71, 173, 0.5);
+        }
+        .MuiButtonGroup-groupedTextSecondary:not(:last-child) {
+        border-color: rgba(0, 43, 107, 0.5);
+        }
+        .MuiButtonGroup-groupedOutlined:not(:first-child) {
+        margin-left: -1px;
+        }
+        .MuiButtonGroup-groupedOutlined:not(:last-child) {
+        border-right-color: transparent;
+        }
+        .MuiButtonGroup-groupedOutlinedPrimary:hover {
+        border-color: #0047ad;
+        }
+        .MuiButtonGroup-groupedOutlinedSecondary:hover {
+        border-color: #002b6b;
+        }
+        .MuiButtonGroup-groupedContained {
+        box-shadow: none;
+        }
+        .MuiButtonGroup-groupedContained:not(:last-child) {
+        border-right: 1px solid #bdbdbd;
+        }
+        .MuiButtonGroup-groupedContained:not(:last-child).Mui-disabled {
+        border-right: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButtonGroup-groupedContainedPrimary:not(:last-child) {
+        border-right: 1px solid rgb(0, 49, 121);
+        }
+        .MuiButtonGroup-groupedContainedSecondary:not(:last-child) {
+        border-right: 1px solid rgb(0, 30, 74);
+        }
+        
+        .MuiCollapse-container {
+        height: 0;
+        overflow: hidden;
+        transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiCollapse-entered {
+        height: auto;
+        overflow: visible;
+        }
+        .MuiCollapse-hidden {
+        visibility: hidden;
+        }
+        .MuiCollapse-wrapper {
+        display: flex;
+        }
+        .MuiCollapse-wrapperInner {
+        width: 100%;
+        }
+        
+        .MuiExpansionPanel-root {
+        position: relative;
+        transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanel-root:before {
+        top: -1px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        content: "";
+        opacity: 1;
+        position: absolute;
+        transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiExpansionPanel-root.Mui-expanded {
+        margin: 16px 0;
+        }
+        .MuiExpansionPanel-root.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiExpansionPanel-root.Mui-expanded+.MuiExpansionPanel-root:before {
+        display: none;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:first-child {
+        margin-top: 0;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:last-child {
+        margin-bottom: 0;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:before {
+        opacity: 0;
+        }
+        .MuiExpansionPanel-root:first-child:before {
+        display: none;
+        }
+        .MuiExpansionPanel-rounded {
+        border-radius: 0;
+        }
+        .MuiExpansionPanel-rounded:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        }
+        .MuiExpansionPanel-rounded:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        }
+        @supports (-ms-ime-align: auto) {
+        .MuiExpansionPanel-rounded:last-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        }
+        }
+        
+        .MuiExpansionPanelDetails-root {
+        display: flex;
+        padding: 8px 24px 24px;
+        }
+        
+        .MuiExpansionPanelSummary-root {
+        display: flex;
+        padding: 0 24px 0 24px;
+        min-height: 48px;
+        transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-root:hover:not(.Mui-disabled) {
+        cursor: pointer;
+        }
+        .MuiExpansionPanelSummary-root.Mui-expanded {
+        min-height: 64px;
+        }
+        .MuiExpansionPanelSummary-root.Mui-focused {
+        background-color: #e0e0e0;
+        }
+        .MuiExpansionPanelSummary-root.Mui-disabled {
+        opacity: 0.38;
+        }
+        .MuiExpansionPanelSummary-content {
+        margin: 12px 0;
+        display: flex;
+        flex-grow: 1;
+        transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-content.Mui-expanded {
+        margin: 20px 0;
+        }
+        .MuiExpansionPanelSummary-expandIcon {
+        transform: rotate(0deg);
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-expandIcon:hover {
+        background-color: transparent;
+        }
+        .MuiExpansionPanelSummary-expandIcon.Mui-expanded {
+        transform: rotate(180deg);
+        }
+        
+        .jss516 {
+        flex: 1;
+        display: flex;
+        min-width: 330px;
+        padding-right: 4px;
+        padding-bottom: 4px;
+        }
+        .jss517 {
+        border-bottom: solid 1px #bbb;
+        }
+        .jss518 {
+        font-weight: 700;
+        }
+        
+        .jss519 {
+        flex: 1;
+        margin: 8px;
+        display: flex;
+        padding: 8px;
+        max-width: 325px;
+        min-width: 325px;
+        border-left: solid 4px #aaa;
+        }
+        .jss520 {
+        border-bottom: solid 1px #bbb;
+        }
+        .jss521 {
+        font-weight: 700;
+        }
+        
+        .jss492 {
+        color: #fff;
+        background: #0047ad;
+        }
+        .jss492:hover {
+        background: #0047ad;
+        }
+        .jss493 {
+        display: inline-block;
+        margin-left: 8px;
+        }
+        .jss494 {
+        display: none;
+        }
+        .jss495 {
+        width: 100%;
+        display: flex;
+        }
+        .jss496 {
+        flex: 1;
+        margin: 0;
+        font-size: 1.6em;
+        font-family: din, helvetica, sans-serif;
+        font-weight: 500;
+        }
+        @media (max-width:959.95px) {
+        .jss496 {
+        font-size: 1.3em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss496 {
+        font-size: 1.1em;
+        }
+        }
+        .jss496 span {
+        font-weight: 300;
+        }
+        .jss497 {
+        margin: 0px !important;
+        }
+        .jss498 {
+        color: #0047ad;
+        line-height: 2em;
+        }
+        .jss499 {
+        padding-top: 24px;
+        }
+        
+        /* Chart.js */
+        /*
+        * DOM element rendering detection
+        * https://davidwalsh.name/detect-node-insertion
+        */
+        @keyframes chartjs-render-animation {
+        from {
+        opacity: 0.99;
+        }
+        to {
+        opacity: 1;
+        }
+        }
+        .chartjs-render-monitor {
+        animation: chartjs-render-animation 0.001s;
+        }
+        /*
+        * DOM element resizing detection
+        * https://github.com/marcj/css-element-queries
+        */
+        .chartjs-size-monitor,
+        .chartjs-size-monitor-expand,
+        .chartjs-size-monitor-shrink {
+        position: absolute;
+        direction: ltr;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        pointer-events: none;
+        visibility: hidden;
+        z-index: -1;
+        }
+        .chartjs-size-monitor-expand>div {
+        position: absolute;
+        width: 1000000px;
+        height: 1000000px;
+        left: 0;
+        top: 0;
+        }
+        .chartjs-size-monitor-shrink>div {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        left: 0;
+        top: 0;
+        }
+        
+    </aura:html> 
+    
+    <aura:attribute name="collapsed" default="false" type="Boolean" />
+    <aura:attribute name="outstanding" default="true" type="Boolean" />
+    <aura:attribute name="accepted" default="false" type="Boolean" />
+    <aura:attribute name="rejected" default="false" type="Boolean" />
+    <aura:attribute name="job"  type="Object" />
+    <aura:attribute name="BannerOfStoreTest" type="String" default="{!v.job.jobDetails.Banner_of_Store__c}" />
+    <aura:attribute name="RoleClassificationTest" type="String" default="{!v.job.jobDetails.Role_Classification__c}" />
+    <aura:attribute name="EmailAlertTest" type="String" default="{!v.job.jobDetails.External_Alert_Email_Address__c}" />
+    <aura:attribute name="SpecificnameTest" type="String" default="{!v.job.jobDetails.Specific_Candidate_Name__c}" />
+    <aura:attribute name="JobDepartmentTest" type="Boolean" default="{!v.JobDepartmentStrTest.length > 0}" />
+    <aura:attribute name="JobDepartmentStrTest" type="String" default="{!v.job.jobDetails.Department__c}" />
+    
+    
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div class="">
+        <div>
+
+            <button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary" 
+                    tabindex="0"
+                    type="button"
+                    onclick="{!c.returnToJobList}"
+                    >
+                <span class="MuiButton-label">
+                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JDReturn.svg#JDReturn'}" size="small" />
+                       {!$Label.c.MFG_Open_Jobs}
+                </span>
+                <span class="MuiTouchRipple-root"></span>
+            </button>
+        </div>
+        
+        <aura:if isTrue="{!v.job}">
+          <aura:if isTrue="{!v.JobDepartmentTest == True}"> 
+            <h2 class="jss112 test-cord" style="margin-bottom: 5px;">
+                <span>
+                   
+                    <aura:if isTrue="{!or(v.job.jobDetails.Record_Type_Developer_Name__c == 'FGL_Sports',v.job.jobDetails.Record_Type_Developer_Name__c == 'Mr_Lube_Franchise')}">                                                
+                        {!v.job.jobDetails.Name}: {!v.job.jobDetails.Job_Title_for_Banner__c} - {!v.job.jobDetails.Department__c}
+                    	<aura:set attribute="else">
+                        {!v.job.jobDetails.Name}: {!v.job.jobDetails.Job_Title_for_Role__c} - {!v.job.jobDetails.Department__c}
+                        </aura:set>
+                   	</aura:if><small></small>
+                </span>
+            </h2>
+          </aura:if> 
+            
+            <aura:if isTrue="{!v.JobDepartmentTest == False }"> 
+            <h2 class="jss112 test-bord" style="margin-bottom: 5px;">
+                <span>
+                    <aura:if isTrue="{!or(v.job.jobDetails.Record_Type_Developer_Name__c == 'FGL_Sports',v.job.jobDetails.Record_Type_Developer_Name__c == 'Mr_Lube_Franchise')}">
+                            {!v.job.jobDetails.Name}: {!v.job.jobDetails.Job_Title_for_Banner__c}
+                    	<aura:set attribute="else">
+                        	{!v.job.jobDetails.Name}: {!v.job.jobDetails.Job_Title_for_Role__c}
+                        </aura:set>
+                   	</aura:if><small></small>
+                </span>
+            </h2>
+                 </aura:if>  
+            
+            <div class="jss113"></div>
+            <div class="MuiPaper-root MuiPaper-elevation1 MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-rounded">
+                <div class="{! if(v.collapsed,
+                            'MuiButtonBase-root MuiExpansionPanelSummary-root Mui-expanded',
+                            'MuiButtonBase-root MuiExpansionPanelSummary-root')}" 
+                     tabindex="0" 
+                     role="button"
+                     aria-disabled="false" 
+                     aria-expanded="false" 
+                     aria-controls="panel1c-content" 
+                     id="panel1c-header"
+                     onclick="{!c.expandCollaps}">
+                    <div class="MuiExpansionPanelSummary-content">
+                        <div class="jss495">
+                            <h3 class="MuiTypography-root jss496 MuiTypography-h3">
+                                
+                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JDCase.svg#JDCase'}" size="small" />
+                                
+                                <span style="margin: 5px;">  
+                                 <aura:if isTrue="{!v.JobDepartmentTest == True}"> 
+           
+                <span>
+                    <aura:if isTrue="{!or(v.job.jobDetails.Record_Type_Developer_Name__c == 'FGL_Sports',v.job.jobDetails.Record_Type_Developer_Name__c == 'Mr_Lube_Franchise')}">
+                        {!v.job.jobDetails.Name}: {!v.job.jobDetails.Job_Title_for_Banner__c} - {!v.job.jobDetails.Department__c}
+                    	<aura:set attribute="else">
+                        	{!v.job.jobDetails.Name}: {!v.job.jobDetails.Job_Title_for_Role__c} - {!v.job.jobDetails.Department__c}
+                        </aura:set>
+                   	</aura:if><small></small>
+                </span>
+            
+          </aura:if> 
+            
+            <aura:if isTrue="{!v.JobDepartmentTest == False }"> 
+            
+                <span><aura:if isTrue="{!or(v.job.jobDetails.Record_Type_Developer_Name__c == 'FGL_Sports',v.job.jobDetails.Record_Type_Developer_Name__c == 'Mr_Lube_Franchise')}">
+                    
+                        {!v.job.jobDetails.Name}: {!v.job.jobDetails.Job_Title_for_Banner__c}
+                    	<aura:set attribute="else">
+                        	{!v.job.jobDetails.Name}: {!v.job.jobDetails.Job_Title_for_Role__c}
+                        </aura:set>
+                   	</aura:if><small></small>
+                </span>
+            
+                 </aura:if> 
+                                
+                                
+                                
+                                </span></h3>
+                            <div class="jss498">{!$Label.c.MFG_Details}</div>
+                        </div>
+                    </div>
+                    <div class="{! if(v.collapsed,'','Mui-expanded ')+
+                                'MuiButtonBase-root 
+                                MuiIconButton-root 
+                                MuiExpansionPanelSummary-expandIcon 
+                                MuiIconButton-edgeEnd'}"
+                         tabindex="-1" 
+                         role="button" 
+                         aria-disabled="false"
+                         aria-hidden="true">
+                        <span class="MuiIconButton-label">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/Collapsehidden.svg#Collapsehidden'}" size="small" />
+                        </span>
+                        <span class="MuiTouchRipple-root"></span>
+                    </div>
+                </div>
+                
+                <div class="{!if(v.collapsed,'MuiCollapse-container MuiCollapse-hidden','MuiCollapse-container MuiCollapse-entered')}" 
+                     style="min-height: 0px;">
+                    <div class="MuiCollapse-wrapper">
+                        <div class="MuiCollapse-wrapperInner">
+                            <div aria-labelledby="panel1c-header" id="panel1c-content" role="region">
+                                <div class="MuiExpansionPanelDetails-root">
+                                    <div style="flex: 1 1 0%; display: flex; flex-flow: column wrap;">
+                                        
+                                        <!-- Disabled until profile names can be used as logical auraif
+                                        <aura:if isTrue="{!not(empty(v.BannerOfStoreTest))}">
+  											
+                                        	<div style="display: flex; flex-flow: row wrap;">
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Banner_Store}</div>
+                                                       <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Banner_of_Store__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+  			
+										</aura:if> 
+                                        
+                                        
+                                        
+    									<aura:if isTrue="{!not(empty(v.RoleClassificationTest))}">
+  											
+                                        	<div style="display: flex; flex-flow: row wrap;">
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Role_Type}</div>
+                                                       <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Role_Classification__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+  											</div>
+
+ 										</aura:if>-->
+                                        
+                                        
+                                        <!-- Disable below dov after logical views are added -->
+                                        <div style="display: flex; flex-flow: row wrap;">
+                                         
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Status}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Job_Status__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+  											</div>
+                                        
+                                        
+                                        
+                                        
+                                     <!-- Disabled until profile names can be used as logical auraif     
+											<div style="display: flex; flex-flow: row wrap;">
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Status}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Job_Status__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Store_Name}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Store__r.Name} 
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>-->
+                                        
+                                        
+                                        
+                                        <div style="display: flex; flex-flow: row wrap;">
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Type}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Full_Time_Part_Time__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Availability_Required}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Availability_Required__c} 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                       
+                                                                             
+                                        <div style="display: flex; flex-flow: row wrap;">
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Min_Hours}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Minimum_Hours__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Max_Hours}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Maximum_Hours__c} 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       <aura:if isTrue="{!not(empty(v.SpecificnameTest))}"> 
+                                        <div style="display: flex; flex-flow: row wrap;">
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Specific_Candidate_Name}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Specific_Candidate_Name__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_Specific_Candidate_Email}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Specific_Candidate_Email__c} 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            </aura:if>
+                                        <aura:if isTrue="{!not(empty(v.EmailAlertTest))}">
+                                        <div style="display: flex; flex-flow: row wrap;">
+                                            
+                                        <div class="jss516">
+                                            <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Addition_Details}</div>
+                                                <div class="MuiTypography-root MuiTypography-body1"
+                                                     style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                    {!v.job.jobDetails.Job_Comments__c}
+                                                </div>
+                                         </div>
+                                        </div>
+                                        
+                                           
+                                         <div class="jss516">
+                                            <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job_External_Email}</div>
+                                                <div class="MuiTypography-root MuiTypography-body1"
+                                                     style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                    {!v.job.jobDetails.External_Alert_Email_Address__c}
+                                                </div>
+                                            </div>
+                                        </div>    
+                                        
+                                        </div>
+                                        </aura:if> 
+                                        
+                                        <aura:if isTrue="{!not(empty(v.EmailAlertTest))}">
+                                        <div style="display: flex; flex-flow: row wrap;">                                           
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Days_Open}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Days_Job_Open__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     	</aura:if> 
+                                        
+                                            <aura:if isTrue="{!empty(v.EmailAlertTest)}">
+                                        <div style="display: flex; flex-flow: row wrap;">
+                                            
+                                        <div class="jss516">
+                                            <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Addition_Details}</div>
+                                                <div class="MuiTypography-root MuiTypography-body1"
+                                                     style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                    {!v.job.jobDetails.Job_Comments__c}
+                                                </div>
+                                         </div>
+                                        </div>
+                                                                        
+                                                                                  
+                                            <div class="jss516">
+                                                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Days_Open}</div>
+                                                    <div class="MuiTypography-root MuiTypography-body1"
+                                                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                                                        {!v.job.jobDetails.Days_Job_Open__c}
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                    </div>
+                                        </aura:if> 
+                                        
+                                    </div>
+                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="MuiTypography-root MuiTypography-h4" style="margin-top: 24px; margin-bottom: 8px;">{!$Label.c.MFG_Job_Candidates}
+            </h4>
+            <div>
+                <div role="group" class="MuiButtonGroup-root" aria-label="large outlined secondary button group">
+                    <button  class="{!if(v.outstanding,
+                                    'jss492 MuiButton-outlinedPrimary','')+
+                                    'MuiButtonBase-root 
+                                    MuiButton-root 
+                                    MuiButton-outlined 
+                                    MuiButtonGroup-grouped 
+                                    MuiButtonGroup-groupedOutlined 
+                                    MuiButtonGroup-groupedOutlined
+                                    MuiButton-outlinedSizeSmall 
+                                    MuiButton-sizeSmall'}"
+                            tabindex="0" 
+                            type="button"
+                            data-value="Outstanding"
+                            onclick="{!c.filterJobCandidates}"
+                            >
+                        <span class="MuiButton-label">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCOutstanding.svg#JCOutstanding'}" size="small" />
+                            <span class="jss493">{!$Label.c.MFG_Outstanding}</span>
+                        </span>
+                        <span class="MuiTouchRipple-root"></span>
+                    </button>
+                    <button  class="{!if(v.accepted,
+                                    'jss492 MuiButton-outlinedPrimary','')+
+                                    'MuiButtonBase-root 
+                                    MuiButton-root 
+                                    MuiButton-outlined 
+                                    MuiButtonGroup-grouped 
+                                    MuiButtonGroup-groupedOutlined 
+                                    MuiButtonGroup-groupedOutlined
+                                    MuiButton-outlinedSizeSmall 
+                                    MuiButton-sizeSmall'}"
+                            tabindex="0" 
+                            type="button"
+                            data-value="Accepted"
+                            onclick="{!c.filterJobCandidates}">
+                        <span class="MuiButton-label">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCAccepted.svg#JCAccepted'}" size="small" />
+                            <span class="jss493">{!$Label.c.MFG_Accepted}</span>
+                        </span>
+                        <span class="MuiTouchRipple-root"></span>
+                    </button>
+                    
+                    <button  class="{!if(v.rejected,
+                                    'jss492 MuiButton-outlinedPrimary','')+
+                                    'MuiButtonBase-root 
+                                    MuiButton-root 
+                                    MuiButton-outlined 
+                                    MuiButtonGroup-grouped 
+                                    MuiButtonGroup-groupedOutlined 
+                                    MuiButtonGroup-groupedOutlined
+                                    MuiButton-outlinedSizeSmall 
+                                    MuiButton-sizeSmall'}"
+                            tabindex="0" 
+                            type="button"
+                            data-value="Rejected"
+                            onclick="{!c.filterJobCandidates}">
+                        <span class="MuiButton-label">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCRejected.svg#JCRejected'}" size="small" />
+                            <span class="jss493">{!$Label.c.MFG_Rejected}</span>
+                        </span>
+                        <span class="MuiTouchRipple-root"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="jss499">
+                <div style="display: flex; flex-flow: row wrap;">
+                    <aura:renderIf isTrue="{!v.outstanding}"> 
+                        <aura:iteration items="{!v.job.outstanding}" var="item">
+                            <div class="MuiPaper-root MuiPaper-elevation1 jss519 MuiPaper-rounded"
+                                 style="border-left: 4px solid rgb(170, 170, 170);">
+                                <div style="display: flex; width: 100%; padding-bottom: 4px; padding-right: 8px;">
+                                 <!--   <div style="width: 66px; padding: 8px;">
+                                        <div style="border: 1px solid rgb(238, 238, 238); width: 50px; height: 50px; border-radius: 6px; margin: 0px auto; background: rgb(249, 249, 249);">
+                                            <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCIMG.svg#JCIMG'}"
+                                                              class="MuiSvgIcon-root" 
+                                                              focusable="false" 
+                                                              viewBox="0 0 24 24" 
+                                                              ariahidden="true" 
+                                                              role="presentation" 
+                                                              style="color: rgb(204, 204, 204); width: 50px; height: 50px;" />
+                                        </div> 
+
+                                    </div>
+-->
+                                    <div style="flex: 1 1 0%;">
+                                        <div class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary"
+                                             style="width: 100%; text-overflow: ellipsis;">
+                                            {!item.Candidate_Complete_Name__c}
+                                        </div>
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            
+                                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/OUTSTANDINGIcon.svg#OUTSTANDINGIcon'}" size="small" /> 
+                                            <span>OUTSTANDING</span></div>
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            <span style="color: rgb(221, 221, 221);">
+                                                
+                                                <c:MFG_JobCandidateRating rating="{!item.Candidate_Rating__c}"/>
+                                            </span>
+                                        </div>
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            
+                                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCCalendar.svg#JCCalendar'}" size="small" />  
+                                            <span>
+                                                
+                                                <lightning:formattedDateTime value="{!item.Scheduled_Interview_Date_Time__c}" 
+                                                                             month="short" 
+                                                                             day="numeric"
+                                                                             hour="numeric" 
+                                                                             minute="numeric"
+                                                                             />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div style="width: 50px; padding: 8px;">
+                                        <button class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary" 
+                                                tabindex="0"
+                                                type="button"
+                                                data-value="{!item.Id}"
+                                                onclick="{!c.navigateToCandidate}"
+                                                >
+                                            <span class="MuiIconButton-label">
+                                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/goToCandidate.svg#goToCandidate'}" size="small" />   
+                                            </span>
+                                            <span class="MuiTouchRipple-root"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:iteration>   
+                    </aura:renderIf>
+                    
+                    <aura:renderIf isTrue="{!v.accepted}"> 
+                        <aura:iteration items="{!v.job.accepted}" var="item">
+                            <div class="MuiPaper-root MuiPaper-elevation1 jss519 MuiPaper-rounded"
+                                 style="border-left: 4px solid rgb(92, 179, 37);">
+                                <div style="display: flex; width: 100%; padding-bottom: 4px; padding-right: 8px;">
+                                    
+                                    <div style="flex: 1 1 0%;">
+                                        <div class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary"
+                                             style="width: 100%; text-overflow: ellipsis;">
+                                            {!item.Candidate_Complete_Name__c}
+                                        </div>
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCAccepted.svg#JCAccepted'}" size="small" /> 
+                                            <span>{!$Label.c.MFG_Accepted}</span></div>
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            <span style="color: rgb(221, 221, 221);">
+                                                <c:MFG_JobCandidateRating rating="{!item.Candidate_Rating__c}"/>
+                                            </span>
+                                        </div>
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCCalendar.svg#JCCalendar'}" size="small" />  
+                                            <span>
+                                                <lightning:formattedDateTime value="{!item.Scheduled_Interview_Date_Time__c}" 
+                                                                             month="short" 
+                                                                             day="numeric"
+                                                                             hour="numeric" 
+                                                                             minute="numeric"
+                                                                             />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div style="width: 50px; padding: 8px;">
+                                        <button class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary" 
+                                                tabindex="0"
+                                                type="button"
+                                                data-value="{!item.Id}"
+                                                onclick="{!c.navigateToCandidate}">
+                                            <span class="MuiIconButton-label">
+                                                
+                                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/goToCandidate.svg#goToCandidate'}" size="small" />   
+                                            </span>
+                                            <span class="MuiTouchRipple-root"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:iteration>
+                    </aura:renderIf>
+                    
+                    <aura:renderIf isTrue="{!v.rejected}"> 
+                        <aura:iteration items="{!v.job.rejected}" var="item">
+                            <div class="MuiPaper-root MuiPaper-elevation1 jss519 MuiPaper-rounded"
+                                 style="border-left: 4px solid rgb(179, 37, 37);">
+                                <div style="display: flex; width: 100%; padding-bottom: 4px; padding-right: 8px;">
+                                    
+                                    <div style="flex: 1 1 0%;">
+                                        <div class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary"
+                                             style="width: 100%; text-overflow: ellipsis;">
+                                            {!item.Candidate_Complete_Name__c}
+                                        </div>
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCAccepted.svg#JCAccepted'}"  size="small"/> 
+                                            <span>{!$Label.c.MFG_Rejected}</span>
+                                        </div>
+                                        
+                                        
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            <span style="color: rgb(221, 221, 221);">
+                                                <c:MFG_JobCandidateRating rating="{!item.Candidate_Rating__c}"/>
+                                            </span>
+                                        </div>
+                                        <div class="MuiTypography-root MuiTypography-body1" style="display: flex; padding-bottom: 4px;">
+                                            
+                                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCCalendar.svg#JCCalendar'}" size="" />  
+                                            <span>
+                                                <lightning:formattedDateTime value="{!item.Scheduled_Interview_Date_Time__c}" 
+                                                                             month="short" 
+                                                                             day="numeric"
+                                                                             hour="numeric" 
+                                                                             minute="numeric"
+                                                                             />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div style="width: 50px; padding: 8px;">
+                                        <button class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary" 
+                                                tabindex="0"
+                                                type="button"
+                                                data-value="{!item.Id}"
+                                                onclick="{!c.navigateToCandidate}">
+                                            <span class="MuiIconButton-label">
+                                                
+                                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/goToCandidate.svg#goToCandidate'}" size="small" />   
+                                            </span>
+                                            <span class="MuiTouchRipple-root"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </aura:iteration>
+                    </aura:renderIf>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

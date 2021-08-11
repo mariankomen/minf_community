@@ -1,0 +1,98 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Employee Portal Help</h1><BR />
+  Last Updated on July 27th, 2013<BR /><BR />
+  
+Welcome to the MindField Group Employee Portal Help!<BR /><BR />
+
+<STRONG><U>View Your Employee Information</U></STRONG><BR />
+To see current Employee Information on file (e.g. Contact Information, Emergency Contact, etc.) Search your name in the top left search bar. Click on your name with two emoticons beside it to see your employee profile (this is different form your user profile). You can also click on the <i>Employees</i> tab at the top of the screen. Click Go near the top of the screen. Click on your name to see your details. To edit your employee information, Select Edit or talk with the MindField Group HR Team.<BR /><BR />
+
+<STRONG><U>Submitting Timesheets</U></STRONG><BR />
+<UL>
+<LI>Navigate to your employee profile</LI>
+<LI>Scroll Down to the bottom of the screen</LI>
+<LI>In the section Timesheets, click the New Timesheet button</LI>
+<LI>Add in details for each day you work and what you work on. Please see the instructions below on how to add individual day's details. Once you have added all the days/hours worked in the payment period, submit it to your manager for approval by pressing the Submit for Approval button.</LI>
+<LI>Enter the fields shown on the screen and click Save</LI>
+<LI>You will be notified automatically by email once your timesheet has been approved/rejected</LI>
+</UL><BR />
+
+<STRONG><U>Adding Days/Hours Worked to a Timesheet</U></STRONG><BR />
+<UL>
+<LI>Navigate to your employee profile</LI>
+<LI>Scroll Down to the bottom of the screen</LI>
+<LI>In the section Timesheets, click on the Timesheet you created above at the start of the week. Alternatively your timesheet may be displayed under Recent Items on the left sidebar.</LI>
+<LI>Click on the button New Timesheet Detail and enter the fields shown on screen and click Save</LI>
+<LI>You will then repeat this process until you have completed all the days/hours worked for a timesheet</LI>
+</UL><BR /><STRONG>You MUST add days/hours worked to your timesheet after the end of each day.</STRONG><BR />
+
+<STRONG><U>Checking and Submitting your Timesheet</U></STRONG><BR />
+<UL>
+<LI>Click Reports Tab</LI>
+<LI>Select the TAS and IS Accessible folder </LI>
+<LI>Search and select the Report Timesheet Hours. Use this report to confirm your hours are all accurate. </LI>
+<LI>Once you have confirmed your time sheet is accurate return to your timesheet
+Scroll down to the bottom of the screen and click Submit for Approval; this must be done on the last day of the pay period (or earlier if you won’t be working on the last day). </LI>
+</UL><BR />Scroll down to the bottom of the screen and click <I>Submit for Approval</I>; this <strong>must</strong> be done on the last day of the pay period (or earlier if you won’t be working on the last day). <BR />
+
+<STRONG><U>Submitting Vacation/Sick/Personal Day Requests</U></STRONG><BR />
+To submit a Vacation/Sick/Personal Day, you need to do the following:
+<UL>
+<LI>Navigate to your employee profile</li>
+<LI>Scroll to the bottom to the section called PTO/Vacation Requests</li>
+<LI>Click the New PTO Request button</li>
+<LI>Enter the fields shown on screen, including the number of days off work</li>
+<LI>Note that hourly employees are not eligible for paid time off and as such should always select “unpaid”</li>
+<LI>Click “Save” and the request will automatically be submitted to your manager for approval.</li> 
+<LI>You will be notified, automatically by email, once your request has been approved/rejected</li>
+</UL>
+
+
+<STRONG><U>Adding Banking Information:</U></STRONG><BR />
+<UL>
+<LI>Navigate to you employee profile</LI>
+<LI>Scroll down to DIRECT DEPOSIT INFORMATION </LI>
+<LI>In the designated section Add: Bank Name, Bank Transit Number, Financial Institution Number and Account Number. </LI>
+<LI>All this information is easily accessible. You can call any bank branch and they will give you all the information needed. Or you can visit a local branch and they will give you a void cheque:<IMG SRC="https://mindfield.my.salesforce.com/servlet/servlet.ImageServer?id=015U0000001D07E&oid=00DU0000000YNAR&lastMod=1374878087000"></IMG></LI>
+</UL>
+
+<STRONG><U>Signing up for EPOST:</U></STRONG><BR />
+<UL>
+<LI>Navigate to www.epost.ca and 
+Create a new account to sign up for any services offered by epost. You are signing up for the online pay statement and/or tax forms from Ceridian. Enter the required information. Follow the instructions on the screen
+Note: Your username should be easy to remember, contain no spaces, and contain between 1 and 32 characters. It may contain the character (period) or (underscore).Usernames are not case sensitive. Your password is case sensitive and must be between 8 and 32 characters and contain uppercase, lowercase, number and/or special character</LI>
+<LI>Click Sign Up</LI>
+<LI>Read the epost Terms and Conditions</LI>
+<LI>Click Agree to Continue</LI>
+<LI>Complete the Activate My Mailbox page</LI>
+<LI>Click Submit</LI>
+<LI>Review the information on the Address Confirmation page. If it is correct, click Continue</LI>
+<LI>Your digital mailbox is activated. Click Go to my Personal Mailbox</LI>
+<LI>Click Add a NEW bill or statement</LI>
+<LI>Choose Ceridian from the list of available Mailers and Click Next</LI>
+<LI>Click Continue. The system transfers your request to Ceridian Canada Ltd. This New Subscription window opens</LI>
+<LI>Complete the following fields:<BR />
+o   a. Employer Number: F702<BR />
+o   b. Employee Number: Enter your Employee number as it appears on your pay statement (Also your Salesforce employee number).<BR />
+o   c. Social Insurance Number: Enter the 1st, 3rd, 5th, 7th and 9th characters of your SIN number.</LI>
+<LI>Click Add New - The Add New Documents window opens</LI>
+<LI>Select Pay Statement and Tax Form</LI>
+<LI>Click <I>Submit</I>. The Agreement window opens – Click Accept</LI>
+<LI>Click <I>Continue</I> to Finish</LI>
+</UL>
+
+<STRONG><U>View Vacation/Sick/Personal Days You Have</U></STRONG><BR />
+Click on the Employees tab at the top of the screen. Click <I>Go</I> near the top of the screen. Click on your name to see your details. Scroll down to the sections named Vacation Days/Personal Days/Sick Days to find your current details. Please talk with the MindField Group HR Team if you have any questions.<BR /><BR />
+
+Vacation days are accrued throughout the year. Sick and Personal days are populated on your start date and are prorated for partial years of service.<BR /><BR />
+
+For employees filing timesheets time taken is calculated from approved timesheets.<BR /><BR />
+
+For employees not filing timesheets time taken is calculated from approved PTO requests, even if the days have not been taken yet.<BR /><BR />
+
+
+
+
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>

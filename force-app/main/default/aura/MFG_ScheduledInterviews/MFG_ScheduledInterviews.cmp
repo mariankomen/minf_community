@@ -1,0 +1,578 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="MFG_ScheduledInterviewsController">
+
+    <aura:html tag="style">
+        .MuiButton-root {
+        color: rgba(0, 0, 0, 0.87);
+        padding: 6px 16px;
+        font-size: 0.875rem;
+        min-width: 64px;
+        box-sizing: border-box;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2,
+        1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        border-radius: 4px;
+        text-transform: uppercase;
+        }
+        .MuiButton-root:hover {
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-root:hover.Mui-disabled {
+        background-color: transparent;
+        }
+        .MuiButton-label {
+        width: 100%;
+        display: inherit;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        .MuiButton-text {
+        padding: 6px 8px;
+        }
+        .MuiButton-textPrimary {
+        color: #0047ad;
+        }
+        .MuiButton-textPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-textSecondary {
+        color: #002b6b;
+        }
+        .MuiButton-textSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlined {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        padding: 5px 15px;
+        }
+        .MuiButton-outlined.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButton-outlinedPrimary {
+        color: #0047ad;
+        border: 1px solid rgba(0, 71, 173, 0.5);
+        }
+        .MuiButton-outlinedPrimary:hover {
+        border: 1px solid #0047ad;
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlinedSecondary {
+        color: #002b6b;
+        border: 1px solid rgba(0, 43, 107, 0.5);
+        }
+        .MuiButton-outlinedSecondary:hover {
+        border: 1px solid #002b6b;
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        .MuiButton-outlinedSecondary.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-contained {
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0,
+        0, 0.12);
+        background-color: #e0e0e0;
+        }
+        .MuiButton-contained:hover {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,
+        0, 0, 0.12);
+        background-color: #d5d5d5;
+        }
+        .MuiButton-contained.Mui-focusVisible {
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0,
+        0, 0, 0.12);
+        }
+        .MuiButton-contained:active {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0,
+        0, 0, 0.12);
+        }
+        .MuiButton-contained.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        @media (hover: none) {
+        .MuiButton-contained:hover {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0,
+        0, 0.12);
+        background-color: #e0e0e0;
+        }
+        }
+        .MuiButton-contained:hover.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-containedPrimary {
+        color: #fff;
+        background-color: #0047ad;
+        }
+        .MuiButton-containedPrimary:hover {
+        background-color: rgb(0, 49, 121);
+        }
+        @media (hover: none) {
+        .MuiButton-containedPrimary:hover {
+        background-color: #0047ad;
+        }
+        }
+        .MuiButton-containedSecondary {
+        color: #fff;
+        background-color: #002b6b;
+        }
+        .MuiButton-containedSecondary:hover {
+        background-color: rgb(0, 30, 74);
+        }
+        @media (hover: none) {
+        .MuiButton-containedSecondary:hover {
+        background-color: #002b6b;
+        }
+        }
+        .MuiButton-colorInherit {
+        color: inherit;
+        border-color: currentColor;
+        }
+        .MuiButton-textSizeSmall {
+        padding: 4px 5px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-textSizeLarge {
+        padding: 8px 11px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-outlinedSizeSmall {
+        padding: 3px 9px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-outlinedSizeLarge {
+        padding: 7px 21px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-containedSizeSmall {
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-containedSizeLarge {
+        padding: 8px 22px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-fullWidth {
+        width: 100%;
+        }
+        .MuiButton-startIcon {
+        display: inherit;
+        margin-left: -4px;
+        margin-right: 8px;
+        }
+        .MuiButton-endIcon {
+        display: inherit;
+        margin-left: 8px;
+        margin-right: -4px;
+        }
+        .MuiButton-iconSizeSmall>*:first-child {
+        font-size: 18px;
+        }
+        .MuiButton-iconSizeMedium>*:first-child {
+        font-size: 20px;
+        }
+        .MuiButton-iconSizeLarge>*:first-child {
+        font-size: 22px;
+        }
+
+        .jss306 {
+        margin: 0 auto;
+        padding: 16px;
+        max-width: 1300px;
+        min-height: 500px;
+        padding-bottom: 200px;
+        }
+        @media (max-width:959.95px) {
+        .jss306 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss306 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        .jss307 {
+        color: #0047ae;
+        margin: 0;
+        font-size: 3em;
+        font-family: glober, helvetica, sans-serif;
+        font-weight: 300;
+        margin-bottom: 12px;
+        }
+        @media (max-width:959.95px) {
+        .jss307 {
+        font-size: 2.5em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss307 {
+        font-size: 2em;
+        }
+        }
+        .jss308 {
+        display: flex;
+        }
+        @media (max-width:599.95px) {
+        .jss308 {
+        flex-flow: column-reverse;
+        }
+        }
+        .jss309 {
+        flex: 1;
+        width: 50%;
+        text-align: right;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss309 {
+        width: 100%;
+        }
+        }
+        .jss310 {
+        flex: 1;
+        width: 50%;
+        text-align: left;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss310 {
+        width: 100%;
+        }
+        }
+
+        .MuiListItemIcon-root {
+        color: rgba(0, 0, 0, 0.54);
+        display: inline-flex;
+        min-width: 56px;
+        flex-shrink: 0;
+        }
+        .MuiListItemIcon-alignItemsFlexStart {
+        margin-top: 8px;
+        }
+
+        .MuiListItemText-root {
+        flex: 1 1 auto;
+        min-width: 0;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        }
+        .MuiListItemText-multiline {
+        margin-top: 6px;
+        margin-bottom: 6px;
+        }
+        .MuiListItemText-inset {
+        padding-left: 56px;
+        }
+
+        .jss461 {
+        color: #fff;
+        padding: 4px 12px;
+        font-size: 1.2em;
+        font-weight: 500;
+        background-color: #444;
+        }
+        .jss462 {
+        display: inline-block;
+        font-size: 1.1em;
+        font-weight: 500;
+        padding-left: 8px;
+        }
+
+        .MuiButtonGroup-root {
+        display: inline-flex;
+        border-radius: 4px;
+        }
+        .MuiButtonGroup-contained {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0,
+        0, 0.12);
+        }
+        .MuiButtonGroup-fullWidth {
+        width: 100%;
+        }
+        .MuiButtonGroup-grouped {
+        min-width: 40px;
+        }
+        .MuiButtonGroup-grouped:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        }
+        .MuiButtonGroup-grouped:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        }
+        .MuiButtonGroup-groupedText:not(:last-child) {
+        border-right: 1px solid rgba(0, 0, 0, 0.23);
+        }
+        .MuiButtonGroup-groupedTextPrimary:not(:last-child) {
+        border-color: rgba(0, 71, 173, 0.5);
+        }
+        .MuiButtonGroup-groupedTextSecondary:not(:last-child) {
+        border-color: rgba(0, 43, 107, 0.5);
+        }
+        .MuiButtonGroup-groupedOutlined:not(:first-child) {
+        margin-left: -1px;
+        }
+        .MuiButtonGroup-groupedOutlined:not(:last-child) {
+        border-right-color: transparent;
+        }
+        .MuiButtonGroup-groupedOutlinedPrimary:hover {
+        border-color: #0047ad;
+        }
+        .MuiButtonGroup-groupedOutlinedSecondary:hover {
+        border-color: #002b6b;
+        }
+        .MuiButtonGroup-groupedContained {
+        box-shadow: none;
+        }
+        .MuiButtonGroup-groupedContained:not(:last-child) {
+        border-right: 1px solid #bdbdbd;
+        }
+        .MuiButtonGroup-groupedContained:not(:last-child).Mui-disabled {
+        border-right: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButtonGroup-groupedContainedPrimary:not(:last-child) {
+        border-right: 1px solid rgb(0, 49, 121);
+        }
+        .MuiButtonGroup-groupedContainedSecondary:not(:last-child) {
+        border-right: 1px solid rgb(0, 30, 74);
+        }
+
+        .jss501 {
+        color: #fff;
+        background: #0047ad;
+        }
+        .jss501:hover {
+        background: #0047ad;
+        }
+        .jss9090 {
+        display: inline-block;
+        margin-left: 8px;
+        }
+        .jss503 {
+        display: none;
+        }
+
+        /* Chart.js */
+        /*
+        * DOM element rendering detection
+        * https://davidwalsh.name/detect-node-insertion
+        */
+        @keyframes chartjs-render-animation {
+        from {
+        opacity: 0.99;
+        }
+        to {
+        opacity: 1;
+        }
+        }
+        .chartjs-render-monitor {
+        animation: chartjs-render-animation 0.001s;
+        }
+        /*
+        * DOM element resizing detection
+        * https://github.com/marcj/css-element-queries
+        */
+        .chartjs-size-monitor,
+        .chartjs-size-monitor-expand,
+        .chartjs-size-monitor-shrink {
+        position: absolute;
+        direction: ltr;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        pointer-events: none;
+        visibility: hidden;
+        z-index: -1;
+        }
+        .chartjs-size-monitor-expand>div {
+        position: absolute;
+        width: 1000000px;
+        height: 1000000px;
+        left: 0;
+        top: 0;
+        }
+        .chartjs-size-monitor-shrink>div {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        left: 0;
+        top: 0;
+        }
+
+    </aura:html>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute name="upcoming" type="Boolean" default="true"/>
+    <aura:attribute name="scheduledInterviews" type="List" default="[]"/>
+    <aura:attribute name="adjustedDate" type="DateTime" default="{!interview.seduledDate}"/>
+
+
+        <div class="">
+            <div class="jss306">
+                <h2 class="jss307">{!$Label.c.MFG_Scheduled_Interviews}</h2>
+                <div class="jss308">
+                    <div class="jss310">
+                        <div>
+                            <div role="group" class="MuiButtonGroup-root"
+                                 aria-label="large outlined secondary button group">
+
+
+                                <button class="{! if(v.upcoming,'MuiButton-outlinedPrimary jss501 ','')+
+                                        'MuiButtonBase-root
+                                        MuiButton-root
+                                        MuiButton-outlined
+                                        MuiButtonGroup-grouped
+                                        MuiButtonGroup-groupedOutlined
+                                        MuiButton-outlinedSizeSmall
+                                        MuiButton-sizeSmall'}"
+                                        tabindex="0" type="button"
+                                        data-value="true"
+                                        onclick="{!c.geUpcomingtInterviews}">
+                                <span class="MuiButton-label">
+                                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/Upcoming.svg#Upcoming'}"
+                                               size="small"/>
+                                    
+                                    <span class="jss502">{!$Label.c.MFG_Upcoming}</span>
+                                </span>
+                                    <span class="MuiTouchRipple-root"></span>
+                                </button>
+                                <button class="{! if(!v.upcoming,'MuiButton-outlinedPrimary jss501 ','')+
+                                        'MuiButtonBase-root
+                                        MuiButton-root
+                                        MuiButton-outlined
+                                        MuiButtonGroup-grouped
+                                        MuiButtonGroup-groupedOutlined
+                                        MuiButton-outlinedSizeSmall
+                                        MuiButton-sizeSmall'}"
+                                        tabindex="0"
+                                        type="button"
+                                        data-value="false"
+                                        onclick="{!c.getInterviews}"
+                                >
+                                <span class="MuiButton-label">
+                                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/PastNDays.svg#PastNDays'}"
+                                               size="small"/>
+                                    
+                                    <span class="jss502">{!$Label.c.MFG_Past_30_Days}</span>
+                                </span>
+                                    <span class="MuiTouchRipple-root"></span>
+                                </button>
+                            </div>
+                            <div class="jss503"><span>fdafd</span><span></span></div>
+                        </div>
+                    </div>
+                    <div class="jss309">
+                        <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+                                tabindex="0"
+                                type="button" onclick="{!c.updateInterviewAvailability}">
+                        <span class="MuiButton-label">
+                            <c:svgIcon
+                                    svgPath="{!$Resource.MindfieldHirePortal + '/UpdateInterviewAvailability.svg#UpdateInterviewAvailability'}"
+                                    size="small"></c:svgIcon>
+                            <span class="jss9090">
+                                    {!$Label.c.MFG_Update_Interview_Availability}
+                            </span>
+                           </span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded">
+                    <ol class="MuiList-root MuiList-dense">
+                        <aura:iteration items="{!v.scheduledInterviews}" var="interview">
+                            <div class="jss461">
+                                <lightning:formattedDateTime value="{!interview.seduledDate}" month="short"
+                                                             day="2-digit" weekday="long" timeZone="UTC" />
+                            </div>
+
+                            <aura:iteration items="{!interview.candidateInterview}" var="candidate">
+                                <div class="MuiButtonBase-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-button"
+                                     tabindex="0" role="button"
+                                     aria-disabled="false"
+                                     data-value="{!candidate.Job_Candidate__c}"
+                                     onclick="{!c.goToCandidate}"
+                                >
+                                    <div class="MuiListItemIcon-root" style="width: 120px;">
+                                        <div style="display: inline-flex;">
+                                            <c:svgIcon
+                                                    svgPath="{!$Resource.MindfieldHirePortal + '/ScheduledInterviewsIcon1.svg#ScheduledInterviewsIcon1'}"
+                                                    size="small"/>
+                                            <span class="jss462">
+                                            <lightning:formattedDateTime value="{!candidate.Start_Date__c}"
+                                                                         hour="2-digit" minute="2-digit" timeZone="America/Los_Angeles"  />
+                                        </span></div>
+                                    </div>
+                                    <div class="MuiListItemText-root MuiListItemText-dense MuiListItemText-multiline">
+                                        <div><span
+                                                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary">
+                                                {!candidate.Job_Candidate__r.Candidate__r.Name}
+                                        </span>
+                                        </div>
+                                        <div>
+                                            <div>
+                                            <span class="MuiTypography-root MuiTypography-overline">
+                                                <aura:if isTrue="{!candidate.Job_Candidate__r.SFDC_Job__r.RecordType.DeveloperName == 'FGL_Sports'}">
+                                                    {!candidate.Job_Candidate__r.SFDC_Job__r.Name} -
+                                                        {!candidate.Job_Candidate__r.SFDC_Job__r.Job_Title_for_Banner__c}
+                                                    <aura:set attribute="else">
+                                                        {!candidate.Job_Candidate__r.SFDC_Job__r.Name} -
+                                                        {!candidate.Job_Candidate__r.SFDC_Job__r.Job_Title_for_Role__c}
+                                                    </aura:set>
+                                                </aura:if>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="MuiTouchRipple-root"></span>
+                                </div>
+                            </aura:iteration>
+
+
+                        </aura:iteration>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+
+
+</aura:component>

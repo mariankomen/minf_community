@@ -1,0 +1,156 @@
+<apex:page controller="Announcement_Controller" >
+<!---  holiday message.......
+<table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%" style="display:{!if(getIsHoliday=true,"block","none")};">
+    <tbody>
+    
+    
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Announcement</span></font>
+        </td>
+    </tr>
+    <tr>    
+        <td>
+            <br/>Hello!<br/><br/>
+
+            The Mindfield office will be closed <apex:outputText value="{0, date, EEEE MMMM d','  yyyy}">
+                                                    <apex:param value="{!NOW()}" />
+                                                </apex:outputText> in observance of&nbsp;<apex:outputText value="{!getStatHolidayName}"/>.
+            Normal support hours of 7am to 5pm PST will resume on the next business day.
+            If you require any assistance while we are closed please email us at <apex:outputlink value="mailto:{support@mindfieldgroup.com}"> support@mindfieldgroup.com</apex:outputLink> and we will respond to your email first thing next business day morning.<br/><br/>
+
+            Thank you!<br/>
+            Team Customer Experience<br/><br/>
+        </td>
+    </tr>
+    </tbody>
+</table>
+-->
+    
+    <!-- PPG closure announcement ----------------------------------------------------------------------------------------------->
+    <p style='font-size:large;'>
+    <strong>
+   
+    Effective December 21, 2018 Managers will no longer be able to create requisitions in the Mindfield Group Portal.
+    Beginning January 2, 2019, all requisitions will now be entered into Workday and the Taleo Applicant Tracking system will be utilized for all postings.
+    Please work with your local HR manager to initiate the process of getting a requisition built into Workday.
+    Managers will still be able to disposition candidates in the Mindfield Group Portal till the end of January 2019. 
+    <br/>
+    Thank you.
+    </strong>
+    </p>
+    <!-- END PPG closure announcement ----------------------------------------------------------------------------------------------->
+    
+    <!-- 2018 holiday message-------------------------------------------------------------------------------------------------- 
+     <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Holiday Portal Announcement</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+             <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="3"><tbody><tr><td>
+                    <p>
+                    <h1>Office Closure</h1><br/>
+                    Mindfield will be closed from <strong><u>December 24 – January 1st</u></strong>.
+                    Hiring Managers will continue to have access to the portal and any active candidates.
+                    Any jobs opened up during this period will still be broadcasted and candidates applying for these and other jobs will be unaffected.
+                    </p>
+                     
+                    <p>
+                    <h1>Customer Satisfaction Survey</h1><br/>
+                   Thank you for those that completed the satisfaction survey, your feedback is very important and valuable to us.
+                   We are constantly striving to improve our service to you and make hiring as painless as possible.
+                   You can expect some new initiatives in the New Year based on your feedback. 
+                    </p>                 
+                    
+                     <p>
+                    <h1>New Apply Process</h1><br/>
+                    Mindfield has launched a new and improved online application process for applicants that makes it easier and faster than ever to apply to jobs from any device.
+                    You can view this new process by clicking ‘apply’ on a job on your career site.
+                    We have seen a marked increase in completed applications since we implemented it.
+                    </p>  
+                    
+                    <p>
+                    Happy Holidays to you and your families. <br/>
+                    The Mindfield Team 
+                    </p>  
+                     
+                 </td></tr></tbody>
+                </table>
+               </span></td></tr></tbody>
+     </table>
+     <br/>
+     <br/>
+    END 2018 holiday message-------------------------------------------------------------------------------------------------- -->
+    
+    
+    
+    
+<table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Customer Support Hours</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="5"><tbody><tr><td>
+                Customer Support Hours – Monday to Friday, 7:00am to 5:00pm (PST)
+                <br></br>Connect with the MFG Help Desk via:
+                <ul>
+                <li><strong>Live Chat</strong> click the "Live Chat" link at the top right corner of your screen.&nbsp; </li>
+                <li>Call the Toll Free number at 1-877-834-1751</li>
+                </ul>After hours? Leave a message via Offline Chat Request or Voicemail and we’ll respond within 1 business day. We’re here to help. &nbsp;It’s that easy.
+                </td>
+                </tr>
+                </tbody>
+                </table>
+            </span>
+          </td>
+        </tr>
+        </tbody>
+  </table>
+
+<!-- Remove since shutting down portal
+New, Project PPG USA 
+<br/>
+ <apex:outputPanel rendered="{!OR(Contains($Profile.Name, 'PPG USA'), OR(Contains($Profile.Name, 'Akzo'), AND(Contains($Profile.Name, 'EN'))))}">
+              
+     <img src="https://mindfield--c.na37.content.force.com/servlet/servlet.ImageServer?id=0150P0000077Bg4&oid=00DU0000000YNAR&lastMod=1516822838000" height="619" width="1100" ></img>
+            </apex:outputPanel>
+            
+-->
+<!--<table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Knowledge Center</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+            <ul>
+             <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P0000063fvG'>The Complete Mindfield Process</a></li>
+                <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P0000063fvE'>The Mindfield Process ‘Quick Guide’</a></li>
+                <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P0000063fvF'>Requested Candidates</a></li>
+                <li><a target='_blank' href='/servlet/servlet.FileDownload?file=0150P0000063fvD'>Interview Scheduling</a></li>
+           
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table> -->
+
+
+
+</apex:page>

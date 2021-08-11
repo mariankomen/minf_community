@@ -1,0 +1,305 @@
+<apex:page >
+
+<a name="TOP" id="#TOP"></a>
+<p align="left"><FONT FACE="Geneva, Verdana" Size="4"><strong>Documents, Frequently Asked Questions and Help</strong></font></p>
+<p align="left"><FONT FACE="Geneva, Verdana" Size="3"><STRONG>Documents</STRONG></font></p>
+<p align="left"><FONT FACE="Geneva, Verdana" Size="2">Commonly requested documents you may need include:</font></p>
+
+    <!-- Shows All Documents for OFG specifically -->
+    <apex:outputPanel rendered="{!Contains($Profile.Name, 'OFG')}">
+        <FONT FACE="Geneva, Verdana" Size="2">
+        <STRONG>&nbsp;&nbsp;&nbsp;Recruitment Materials:</STRONG><UL>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il3i" target="_blank" >Save On Foods Alberta Best Practices Guide</a> - An guide on recruitment best practices in Save On Foods Alberta.</LI>     
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0o" target="_blank" >One Page Faxed Application</a> - Electronic copy of the One Page Application that can be given to candidates. Please fax the completed form to 1-888-827-9170.</LI>        
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0e" target="_blank" >In Store Recruitment Materials Order Form</a> - The order form, from Bond Repo, that allows you to order Join Our Tear Pads, Posters, and Employment Phamphlets and more.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0j" target="_blank" >Interview Schedule</a> - Electronic version of the Interview Schedule that can be used to schedule candidates coming in for an Interview.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il1N" target="_blank" >Team Member Status Report</a> - A worksheet that can be used to help guide your in-store team through the processes of interviewing and hiring candidates.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikzh" target="_blank" >Background Check ID Requirements</a> - A document that outlines all of the Background Check ID Requirements as required by First Advantage</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0B" target="_blank" >First Advantage/Background Check Request Form</a> - Electronic copy of the First Advantage Background Check Form. Please fax the completed form to 1-866-482-0450</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il3G" target="_blank" >PeopleSoft Make Hire Guide</a> - The guide detailing the steps of how to make a hire using the PeopleSoft system.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikz3" target="_blank" >PeopleSoft Make Hire Guide for Payroll Administrators</a> - An abbreviated version of the PeopleSoft Make Hire Guide specifically designed for Payroll Administrators.</LI>            </UL>
+        <BR /><STRONG>&nbsp;&nbsp;&nbsp;Recruitment Documents Candidates Receive:</STRONG><BR /><UL>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il3K" target="_blank" >Interview Preparation Guide (for Candidates)</a> - A sample of the Interview Tips that are sent to all candidates on how to prepare for their interview.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il3F" target="_blank" >Interview Preparation Guide for SOFAB</a> - A sample of the Interview Tips that are sent to all candidates (whom we have scheduled interviews for your store) on how to prepare for their interview.</LI>                
+        </UL>
+        <BR /><STRONG>&nbsp;&nbsp;&nbsp;In Store Recruitment Bulletins:</STRONG><BR /><UL>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikuh" target="_blank" >Coopers Foods In Store Bulletin</a> - An in-store advertisement for us in Cooper's Foods stores.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0t" target="_blank" >Overwaitea Foods In Store Bulletin</a> - An in-store advertisement for us in Overwaitea Foods stores.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0y" target="_blank" >PriceSmart Foods In Store Bulletin</a> - An in-store advertisement for us in PriceSmart Foods stores.</LI>                        
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il13" target="_blank" >Save-On-Foods AB In Store Bulletin</a> - An in-store advertisement for us in Save On Foods Alberta stores.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il1D" target="_blank" >Save-On-Foods BC In Store Bulletin</a> - An in-store advertisement for us in Save On Foods BC stores.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il1S" target="_blank" >Urban Fare In Store Bulletin</a> - An in-store advertisement for us in Urban Fare stores.</LI>                
+        </UL>        
+        </FONT>
+    </apex:outputPanel>
+
+    <!-- Shows All Documents for FGL specifically -->
+    <apex:outputPanel rendered="{!Contains($Profile.Name, 'FGL')}">
+        <FONT FACE="Geneva, Verdana" Size="2">
+        <STRONG>&nbsp;&nbsp;&nbsp;Recruitment Materials:</STRONG><UL>       
+        
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000j6Qb" target="_blank" >Opening The Selection Conversation</a></LI>  
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000j6QW" target="_blank" >Final Selection Questions Hourly Staff</a></LI>
+        <LI><a href="https://vimeo.com/68776645/" target="_blank" >Hourly Jobs Portal Demo Video</a></LI>  
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001aV9S" target="_blank">FGL Sports HOURLY Jobs Portal Quick Guide</a> - A guide on how to use the HOURLY Jobs Portal</LI>            
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000kG47" target="_blank">Final Selection Training Presentation</a> - An internal presentation on the Final Selection Interview and the next steps after making a hiring decision.</LI>            
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0F" target="_blank" >FGL Employee Value Proposition Overview</a> - An overview of the purpose of the Employee Value Proposition.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0A" target="_blank" >FGL Employee Value Proposition Ideal Candidate</a> - A one-pager that outlines the characteristics of the ideal candidate in alignment to our new Employee Value Proposition.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000il0K" target="_blank" >FGL Employee Value Proposition Presentation</a> - An internal presentation on the Employee Value Proposition of working with FGL</LI>      
+
+        </UL>
+        </FONT>
+    </apex:outputPanel>
+
+    <!-- Shows All Documents for Mark specifically -->
+    <apex:outputPanel rendered="{!Contains($Profile.Name, 'Mark')}">
+        <FONT FACE="Geneva, Verdana" Size="2">
+        <STRONG>&nbsp;&nbsp;&nbsp;Recruitment Materials:</STRONG><UL>       
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001D52s" target="_blank" >Mark's Hourly Job Portal Quick Guide</a></LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001D52x" target="_blank" >Mark's Training Presentation</a></LI>        
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001D05m" target="_blank" >Final Selection Interview Questions</a></LI> 
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001DT6A" target="_blank" >Mark's Wage Ranges</a></LI> 
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001a8sE" target="_blank" >Seasonal Hire Offer Letter Template</a></LI> 
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001DT6F" target="_blank" >Part Time Offer Letter Template</a></LI> 
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001DT6P" target="_blank" >Full Time Offer Letter Template</a></LI> 
+        
+        </UL>
+        </FONT>
+    </apex:outputPanel>
+
+    <!-- Shows All Documents for Akzo Nobel/PPG specifically -->
+    <apex:outputPanel rendered="{!Contains($Profile.Name, 'Akzo')}">
+        <FONT FACE="Geneva, Verdana" Size="2">
+        <STRONG>&nbsp;&nbsp;&nbsp;Recruitment Materials:</STRONG><UL>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001CLIh" target="_blank" >PPG - Reference Check Training - Conducted in early July 2013</a></LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikug" target="_blank" >PPG - BackCheck - Press Release</a></LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikv0" target="_blank" >PPG Background Check Acceptable ID</a> - Shows a complete list of all forms of ID acceptable to use when submitting a Background Check.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001C8Ex" target="_blank" >Akzo Nobel Background Check Form FR</a> - Please use the form to request a Background Check. Once the form is completed, please have the store fax it to 1-866-323-3097.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikv5" target="_blank" >Akzo Nobel Background Check Form EN</a> - Please use the form to request a Background Check. Once the form is completed, please have the store fax it to 1-866-323-3097.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikvU" target="_blank" >PPG Supplemental Information Sheet Regarding Name Based Criminal Record Checks</a> - Supporting information regarding how Background Checks are handled.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikvZ" target="_blank" >PPG - BackCheck - Photocopier and Fax Tips</a> - Tips for completing the Background Check process by Fax and Photocopier.</LI>        
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikve" target="_blank" >PPG - BackCheck - Regional Managers Process</a> - Outlines the process Regional Managers follow.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikvj" target="_blank" >PPG - BackCheck - Store Managers Process</a> - Outlines the process Store Managers follow.</LI>
+
+        </UL>
+        </FONT>
+    </apex:outputPanel>
+
+    <!-- Shows All Documents for FountainTIre specifically -->
+    <apex:outputPanel rendered="{!Contains($Profile.Name, 'Fountain Tire')}">
+        <FONT FACE="Geneva, Verdana" Size="2">
+        <STRONG>&nbsp;&nbsp;&nbsp;Recruitment Materials:</STRONG><UL>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000iucg" target="_blank" >Fountain Tire Job Posting Service Brochure</a> - Gives you all the details on how the Job Posting Service works for Fountain Tire</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000iucv" target="_blank" >Fountain Tire OnDemand Job Services</a> - Gives all details on the OnDemand Services Available from MindField Group</LI>
+       
+        </UL>
+        </FONT>
+    </apex:outputPanel>
+
+<!--NEW FGL CONTENT-->
+<apex:outputPanel rendered="{!Contains($Profile.Name, 'FGL')}">
+<p align="left"><FONT FACE="Geneva, Verdana" Size="3"><STRONG>Frequently Asked Questions</STRONG></font></p>
+<p align="left"><FONT FACE="Geneva, Verdana" Size="2">Below we have comprised a list of our Frequently Asked Questions, both about MindField Group but also about the HOURLY Jobs Portal. If the FAQ below does not answer your questions, remember you can always Chat Live with us using the Chat Live button on the left side. </font></p>
+<p align="left"><FONT FACE="Geneva, Verdana" Size="2">We have also created a series of Training Videos.  To view our Training Videos please visit <a href="http://www.screencast.com/users/MindField/playlists/Hiring%20Manager%20Training%20Videos%20Playlist" target="_blank">our Training Video Page</a>. </font></p>
+<p align="left" id="bodyfont">
+<a href="#FAQSEC1"><STRONG><I><FONT FACE="Geneva, Verdana" Size="2">Using the HOURLY Jobs Portal</FONT></I></STRONG></a><BR />
+<a href="#FAQ7"><FONT FACE="Geneva, Verdana" Size="2">What is the HOURLY Jobs Portal?</font></a><BR />
+<a href="#FAQ8"><FONT FACE="Geneva, Verdana" Size="2">How do I create a new job vacancy using the HOURLY Jobs Portal?</font></a><br />
+<a href="#FAQ15"><FONT FACE="Geneva, Verdana" Size="2">How do I post multiple job vacancies as quickly as possible?</font></a><br />
+<a href="#FAQ16"><FONT FACE="Geneva, Verdana" Size="2">How do I post an identical job vacancy multiple times?</font></a><br />
+<a href="#FAQ9"><FONT FACE="Geneva, Verdana" Size="2">How will I know when MindField Group has submitted qualified candidates for my job vacancy?</font></a><br />
+<a href="#FAQ10"><FONT FACE="Geneva, Verdana" Size="2">I have a walk-in candidate that I feel would be  a great fit for a role at my store.  How  do I ask MindField Group to follow up with this candidate?</font></a><br />
+<a href="#FAQ11"><FONT FACE="Geneva, Verdana" Size="2">How do I update MindField Group on the status of a candidate sent to my store?</font></a><br />
+<a href="#FAQ12"><FONT FACE="Geneva, Verdana" Size="2">I have rejected all candidates MindField Group has  sent for my vacancy.  How do I request  additional candidates?</font></a><br />
+<p></p>
+<a href="#FAQSEC2"><STRONG><I><FONT FACE="Geneva, Verdana" Size="3">About MindField Group</FONT></I></STRONG></a><br />
+<a href="#FAQ1"><FONT FACE="Geneva, Verdana" Size="2">What is MindField Group?</FONT></a><br />
+<a href="#FAQ2"><FONT FACE="Geneva, Verdana" Size="2">How does MindField Group find Candidates?</FONT></a><br />
+<a href="#FAQ3"><FONT FACE="Geneva, Verdana" Size="2">How does MindField Group manage the candidates who apply online?</FONT></a><br />
+<a href="#FAQ1"><FONT FACE="Geneva, Verdana" Size="2">What is the most efficient method of contacting MindField Group?</FONT></a><br />
+<a href="#FAQ1"><FONT FACE="Geneva, Verdana" Size="2">When should I contact MindField Group?</FONT></a><br />
+<a href="#FAQ1"><FONT FACE="Geneva, Verdana" Size="2">When MindField Group sends a candidate to my store, what expectations does the candidate have with respect to the next steps in the process?</FONT></a>
+<a href="#FAQ14"><FONT FACE="Geneva, Verdana" Size="3">Other Help</FONT></a><br />
+<p id="bodybold">
+<br /><p id="bodybold"><a name="FAQ2" id="#FAQ1"></a><FONT FACE="Geneva, Verdana" Size="3"><STRONG>Using the HirePortal</STRONG></FONT><br />
+</p>
+<ol>
+  <li><a name="FAQ7" id="#FAQ7"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>What is the HOURLY Jobs Portal?</STRONG><br />The HOURLY Jobs Portal is a fully-branded, online website that allows Hiring Managers from within your company to communicate their recruitment needs directly with MindField Group.  Using the HOURLY Jobs Portal, you can create new job vacancies, view candidates screened by MindField Group for your job vacancies, hire or reject candidates that MindField Group has presented, access “Live Chat”, and find all training materials related to recruitment.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ8" id="#FAQ8"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How do I create a new job vacancy using the HOURLY Jobs Portal?</STRONG><br /> We invite you to watch our “How to Create a Job” training video.  Alternatively, from any page of the HirePortal, click the <em>Create a Job</em>button on the left-hand side of your screen.  This will take you to a page where you can  edit the job vacancy details. Provide details of the job vacancy you are  looking to fill.  All boxes marked with a  red line are required.  There are a  number of additional boxes and fields that can be filled in as appropriate for  your job vacancy.  Click the <em>Save</em> button to have MindField Group  notified of your new job vacancy.<br /><br />You can also watch our training video on <strong><a href="http://www.screencast.com/users/MindField/folders/Hiring%20Manager%20Portal%20Training%20Videos/media/cfd32569-41d9-400c-b69a-842baad3211b" target="_BLANK">how to create a job opening</a></strong></FONT><br /><br />
+  </li>
+   <li><a name="FAQ15" id="#FAQ15"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How do I post multiple job vacancies as quickly as possible?</STRONG><br /> To quickly create one job vacancy after another, enter all the details for the first job and then click <STRONG><I>Save and New</I></STRONG>.  This will save your current job and bring you right to the screen where you can create a new one.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ16" id="#FAQ16"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How do I post an identical job vacancy multiple times?</STRONG><br />If you need to post the exact same job vacancy more than once, enter all the details for the first job and then click <STRONG><I>Save</I></STRONG>. This will save your current vacancy and bring you right to the screen where you can see the details about the job.  On that screen, click the <STRONG><I>Duplicate</I></STRONG> button and an exact duplicate of that job will be created. Click <STRONG><I>Save</I></STRONG> and repeat if necessary.  </FONT><br /><br />
+  </li>
+  <li><a name="FAQ9" id="#FAQ9"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How will I know when MindField Group has submitted qualified candidates for my job vacancy?</STRONG> <BR />There are two ways you will know MindField Group has sent candidates:</FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">The candidate application package will be sent to the designated Hiring Manager email inbox.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">From any page of the HOURLY Jobs Portal, click <em>View Open Jobs </em>on the left-hand side  of your screen.  All open jobs for your  store will be displayed.  Click on the “Job  ID #” associated with the vacancy you want to view candidates for and you will  be brought to a page that displays all of the candidates submitted for that  vacancy.  Select the candidate record by clicking on their name. </FONT></li>
+    <br />
+  </ol>
+  <li><a name="FAQ10" id="#FAQ10"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>I have a walk-in candidate that I feel would be  a great fit for a role at my store.  How  do I ask MindField Group to follow up with this candidate?</STRONG><br />Please create a new job using the HOURLY Jobs Portal (see FAQ #2 above).  When creating your job posting, there is a question that asks “Do You Already Have a  Candidate in Mind”.  From the drop down  menu, select “Yes, - Phone Screen”.  Include the candidate’s name and phone number  in the space provided.  </FONT><br /><br />
+  </li>
+  <li><a name="FAQ11" id="#FAQ11"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How do I update MindField Group on the status of a candidate sent to my store?</STRONG><BR />We invite you to view the “How to  Update Candidate Status” training video to learn more about this topic.</FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">In the HOURLY Jobs Portal, use the “Search Candidates”box in the upper left-hand corner of your screen to quickly view  or change the status of a candidate.  Type  the candidate’s first and last name into the search bar and click <em>Search Now</em>.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">The candidate’s record appears on the next screen - click on the candidate’s  highlighted name.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">On the next screen, click <em>Update Candidate  Status</em> to change the candidate’s status to either “Background Check”, “Hired” or “Rejected”.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">If you are rejecting a candidate, you will be asked to provide a reason why the  candidate is being rejected and whether or not they would be suitable for any  other role within your organization. Please include rejection comments in the  open text box if necessary.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Please  note - if there is more than one candidate attached to your vacancy, you will  be required to update the status of all candidates in order to continue.</FONT></li>
+  </ol><br />You can also watch our training video on <strong><a href="http://www.screencast.com/users/MindField/folders/Hiring%20Manager%20Portal%20Training%20Videos/media/6db20980-97c4-49ec-8414-1cb0bc1cde48" target="_BLANK">how to update MindField Group</a>.</strong><br /><br />
+  <br />
+  <li><a name="FAQ12" id="#FAQ12"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>I have rejected all candidates MindField Group has  sent for my vacancy.  How do I request  additional candidates?</STRONG></FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Change status of all candidates submitted for the vacancy to “Rejected” (see FAQ #5  above).  Fill-in the rejection reasons  for all candidates.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">You will be asked if you would like to request additional candidates for your  vacancy.  Simply click the empty box next  to “Request More” and this will automatically create a duplicate posting.  MindField Group will then start the search  for two additional candidates for the role, taking into account the rejection  reasons you provided for the previously rejected candidates.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">If there is specific feedback you would like to provide MindField Group related to  the rejected candidates, please reach out to the Customer Success Team via “Live  Chat”.  Follow the link to watch our training video on <strong><a href="http://www.screencast.com/users/MindField/folders/Hiring%20Manager%20Portal%20Training%20Videos/media/cd4a37c5-d174-40c9-a2ee-308a5b17a3f0" target="_BLANK">how to use “Live Chat”</a>.</strong></FONT><br /></LI>
+        <br />
+  </ol>
+</ol>
+<p id="bodyfont"><a href="#TOP">Back to Top</a></p>
+
+<a name="FAQ1SEC2" id="#FAQSEC1"></a><FONT FACE="Geneva, Verdana" Size="3"><STRONG>About MindField Group</STRONG></FONT></p>
+<ol>
+  <li><a name="FAQ1" id="#FAQ1"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>What is MindField Group?</STRONG><br />
+        MindField Group is Canada's experts in hourly recruiting.  Our corporate Head Office is located near the historic Gastown district of Vancouver, BC.  Visit our website at <a href="http://www.mindfieldgroup.com" target="_blank">www.mindfieldgroup.com</a>.  We see ourselves as your partner in  recruitment.  We act as your  company-branded, fully operational recruitment team that helps you to make  better hires.</font><br /><br />
+  </li>
+  <li><a name="FAQ2" id="#FAQ2"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How does MindField Group find candidates?</STRONG><br />
+        We use various online sources to find job seekers including major national,  provincial, and local job boards, as well as social media networks such as  Facebook.  These online job advertisements are linked to your branded landing page on the web  where applicants then enter to complete the application process.  <BR /><BR />Applicants are pre-screened by MindField Group’s team of Talent Acquisition Specialists against  the job requirements described by your Hiring Manager.  This ensures only the highest-quality and  best-suited candidates are submitted to you for in-person interview.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ3" id="#FAQ3"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How does MindField Group manage the candidates who apply online?</STRONG></FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Candidates who apply online are asked to submit their contact details, complete an in-depth  online assessment, and to upload an electronic copy of their resume.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">MindField Group’s team of Talent Acquisition Specialists review these materials and contacts  by telephone only those candidates who are best qualified to meet the  requirements provided in the job description.   A phone screen is completed at this time.  </FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Qualified  candidates are delivered directly to your email inbox.  This email will include the candidate’s  resume, online assessment, and phone screen notes.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">All applications and resumes are kept on file electronically with MindField Group  and can be used to fill vacancies with your company as they arise.</FONT><br />
+    </li>
+  </ol>
+  <li><a name="FAQ4" id="#FAQ4"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>What is the most efficient method of contacting MindField Group?</STRONG></FONT><BR /><FONT FACE="Geneva, Verdana" Size="2">Within  the HirePortal, use the “Live Chat” feature to speak directly to  MindField Group’s Customer Success Team. “Live Chat” is similar to sending instant messages or telephone text messages in that  communication happens in real time.  Watch a short training video on <strong><a href="http://www.screencast.com/users/MindField/folders/Hiring%20Manager%20Portal%20Training%20Videos/media/cd4a37c5-d174-40c9-a2ee-308a5b17a3f0" target="_BLANK">how to use “Live Chat”</a>.</strong></font><br /><br />
+  </li>
+  <li><a name="FAQ5" id="#FAQ5"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>When should I contact MindField Group?</STRONG><BR />Please contact our Customer Success Team any time you have a recruitment process  question for which you cannot find an answer to within this FAQ document, or  cannot find within the <em>Help</em> section  of the HOURLY Jobs Portal.  Any candidate  quality issues specific to your store location can be addressed via “Live Chat”.</FONT><br /><br />
+  </li>
+
+</ol>
+<p id="bodyfont"><a href="#TOP">Back to Top</a></p>
+<a name="FAQ14" id="#FAQ14"></a>
+<FONT FACE="Geneva, Verdana" Size="3"><STRONG>Other Help</STRONG><br /></FONT>
+<FONT FACE="Geneva, Verdana" Size="2">If there are other things we can help you with, please reach out to us by:</FONT>
+<ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Live Chat (click the Live Chat button to the left) to chat live with our Customer Success Team</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Call Us at 866-511-9554 and dial extension 4</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Contact Your Corporate Head Office Representative</FONT></LI>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Follow Us on <a href="http://www.twitter.com/mindfieldgroup" target="_blank">Twitter</a></FONT></LI>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Follow Us on <a href="http://www.facebook.com/pages/Vancouver-BC/MindField-Group/7720906372" target="_blank">Facebook</a></FONT></LI>
+  </ol>
+
+</p>
+    </apex:outputPanel>
+
+<!--END NEW FGL CONTENT-->
+
+<!--START ALL OTHER CLIENT CONTENT-->
+
+<apex:outputPanel rendered="{!!Contains($Profile.Name, 'FGL')}">
+
+<p align="left"><FONT FACE="Geneva, Verdana" Size="3"><STRONG>Frequently Asked Questions</STRONG></font></p>
+<p align="left"><FONT FACE="Geneva, Verdana" Size="2">Below we have comprised a list of our Frequently Asked Questions, both about MindField Group but also about our HirePortal. If the FAQ below does not answer your questions, remember you can always Chat Live with us using the Chat Live button on the left side. </font></p>
+<p align="left"><FONT FACE="Geneva, Verdana" Size="2">We have also created a series of Training Videos.  To view our Training Videos please visit <a href="http://www.screencast.com/users/MindField/playlists/Hiring%20Manager%20Training%20Videos%20Playlist" target="_blank">our Training Video Page</a>. </font></p>
+<p align="left" id="bodyfont">
+<a href="#FAQSEC1"><STRONG><I><FONT FACE="Geneva, Verdana" Size="2">Using the HirePortal</FONT></I></STRONG></a><BR />
+<a href="#FAQ7"><FONT FACE="Geneva, Verdana" Size="2">What is the HirePortal?</font></a><BR />
+<a href="#FAQ8"><FONT FACE="Geneva, Verdana" Size="2">How do I create a new job vacancy using the HirePortal?</font></a><br />
+<a href="#FAQ15"><FONT FACE="Geneva, Verdana" Size="2">How do I post multiple job vacancies a0s quickly as possible?</font></a><br />
+<a href="#FAQ16"><FONT FACE="Geneva, Verdana" Size="2">How do I post an identical job vacancy multiple times?</font></a><br />
+<a href="#FAQ9"><FONT FACE="Geneva, Verdana" Size="2">How will I know when MindField Group has submitted qualified candidates for my job vacancy?</font></a><br />
+<a href="#FAQ10"><FONT FACE="Geneva, Verdana" Size="2">I have a walk-in candidate that I feel would be  a great fit for a role at my store.  How  do I ask MindField Group to follow up with this candidate?</font></a><br />
+<a href="#FAQ11"><FONT FACE="Geneva, Verdana" Size="2">How do I update MindField Group on the status of a candidate sent to my store?</font></a><br />
+<a href="#FAQ12"><FONT FACE="Geneva, Verdana" Size="2">I have rejected all candidates MindField Group has  sent for my vacancy.  How do I request  additional candidates?</font></a><br />
+<a href="#FAQ13"><FONT FACE="Geneva, Verdana" Size="2">Where can I find training materials and additional  instructions related to the Recruitment Solution provided by MindField Group?</font></a>
+<p></p>
+<a href="#FAQSEC2"><STRONG><I><FONT FACE="Geneva, Verdana" Size="3">About MindField Group</FONT></I></STRONG></a><br />
+<a href="#FAQ1"><FONT FACE="Geneva, Verdana" Size="2">What is MindField Group?</FONT></a><br />
+<a href="#FAQ2"><FONT FACE="Geneva, Verdana" Size="2">How does MindField Group find Candidates?</FONT></a><br />
+<a href="#FAQ3"><FONT FACE="Geneva, Verdana" Size="2">How does MindField Group manage the candidates who apply online?</FONT></a><br />
+<a href="#FAQ1"><FONT FACE="Geneva, Verdana" Size="2">What is the most efficient method of contacting MindField Group?</FONT></a><br />
+<a href="#FAQ1"><FONT FACE="Geneva, Verdana" Size="2">When should I contact MindField Group?</FONT></a><br />
+<a href="#FAQ14"><FONT FACE="Geneva, Verdana" Size="3">Other Help</FONT></a><br />
+<p id="bodybold">
+<br /><p id="bodybold"><a name="FAQ2" id="#FAQ1"></a><FONT FACE="Geneva, Verdana" Size="3"><STRONG>Using the HirePortal</STRONG></FONT><br />
+</p>
+<ol>
+  <li><a name="FAQ7" id="#FAQ7"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>What is the HirePortal?</STRONG><br />The HirePortal is a fully-branded, online website that allows Hiring Managers from within your company to communicate their recruitment needs directly with MindField Group.  Using the Portal, you can create new job vacancies, view candidates screened by MindField Group for your job vacancies, hire or reject candidates that MindField Group has presented, access “Live Chat”, and find all training materials related to recruitment.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ8" id="#FAQ8"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How do I create a new job vacancy using the HirePortal?</STRONG><br /> We invite you to watch out “How to Create a Job” training video.  Alternatively, from any page of the HirePortal, click the <em>Create a Job </em>button on the left-hand side of your screen.  This will take you to a page where you can  edit the job vacancy details. Provide details of the job vacancy you are  looking to fill.  All boxes marked with a  red line are required.  There are a  number of additional boxes and fields that can be filled in as appropriate for  your job vacancy.  Click the <em>Save</em> button to have MindField Group  notified of your new job vacancy.<br /><br />You can also watch our training video on <strong><a href="http://www.screencast.com/users/MindField/folders/Hiring%20Manager%20Portal%20Training%20Videos/media/cfd32569-41d9-400c-b69a-842baad3211b" target="_BLANK">how to create a job opening</a>.</strong></FONT><br /><br />
+  </li>
+   <li><a name="FAQ15" id="#FAQ15"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How do I post multiple job vacancies as quickly as possible?</STRONG><br /> To quickly create one job vacancy after another, enter all the details for the first job and then click <STRONG><I>Save and New</I></STRONG>.  This will save your current job and bring you right to the screen where you can create a new one.  Alternatively, if you are posting the exact same job vacancy, you can simply duplicate the job.  To learn to do this, see the help topic How do I post an identical job vacancy multiple times using the HirePortal.  </FONT><br /><br />
+  </li>
+  <li><a name="FAQ16" id="#FAQ16"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How do I post an identical job vacancy multiple times?</STRONG><br />If you need to post the exact same job vacancy more than once, enter all the details for the first job and then click <STRONG><I>Save</I></STRONG>. This will save your current vacancy and bring you right to the screen where you can see the details about the job.  On that screen, click the <STRONG><I>Duplicate</I></STRONG> button and an exact duplicate of that job will be created. Click <STRONG><I>Save</I></STRONG> and repeat if necessary.  </FONT><br /><br />
+  </li>
+  <li><a name="FAQ9" id="#FAQ9"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How will I know when MindField Group has submitted qualified candidates for my job vacancy?</STRONG> <BR />There are two ways you will know MindField Group has sent candidates:</FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">A Talent Acquisition Specialist will always send  the candidate application package via email to the designated Hiring Manager email inbox.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">From any page of the HirePortal, click <em>View Open Jobs </em>on the left-hand side  of your screen.  All open jobs for your  store will be displayed.  Click on the “Job  ID #” associated with the vacancy you want to view candidates for and you will  be brought to a page that displays all of the candidates submitted for that  vacancy.  Select the candidate record by  clicking on their name. </FONT></li>
+    <br />
+  </ol>
+  <li><a name="FAQ10" id="#FAQ10"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>I have a walk-in candidate that I feel would be  a great fit for a role at my store.  How  do I ask MindField Group to follow up with this candidate?</STRONG><br />Please create a new job using the HirePortal (see FAQ #2 above).  When creating your job posting, there is a question that asks “Do You Already Have a  Candidate in Mind”.  From the drop down  menu, select “Yes, please phone screen them for us and send if appropriate”.  Include the candidate’s name and phone number  in the space provided.  </FONT><br /><br />
+  </li>
+  <li><a name="FAQ11" id="#FAQ11"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How do I update MindField Group on the status of a candidate sent to my store?</STRONG><BR />We invite you to view the “How to  Update Candidate Status” training video to learn more about this topic.</FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">In the HirePortal, use the “Search Candidates”box in the upper left-hand corner of your screen to quickly view  or change the status of a candidate.  Type  the candidate’s first and last name into the search bar and click <em>Search Now</em>.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">The candidate’s record appears on the next screen - click on the candidate’s  highlighted name.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">On the next screen, click <em>Update Candidate  Status</em> to change the candidate’s status to either “Interviewing/Background  Check”, “Hired” or “Rejected”.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">If you are rejecting a candidate, you will be asked to provide a reason why the  candidate is being rejected and whether or not they would be suitable for any  other role within your organization. Please include rejection comments in the  open text box if necessary.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Please  note - if there is more than one candidate attached to your vacancy, you will  be required to update the status of all candidates in order to continue.</FONT></li>
+  </ol><br />You can also watch our training video on <strong><a href="http://www.screencast.com/users/MindField/folders/Hiring%20Manager%20Portal%20Training%20Videos/media/6db20980-97c4-49ec-8414-1cb0bc1cde48" target="_BLANK">how to update MindField Group</a>.</strong><br /><br />
+  <br />
+  <li><a name="FAQ12" id="#FAQ12"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>I have rejected all candidates MindField Group has  sent for my vacancy.  How do I request  additional candidates?</STRONG></FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Change status of all candidates submitted for the vacancy to “Rejected” (see FAQ #5  above).  Fill-in the rejection reasons  for all candidates.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">You will be asked if you would like to request additional candidates for your  vacancy.  Simply click the empty box next  to “Request More” and this will automatically create a duplicate posting.  MindField Group will then start the search  for two additional candidates for the role, taking into account the rejection  reasons you provided for the previously rejected candidates.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">If there is specific feedback you would like to provide MindField Group related to  the rejected candidates, please reach out to the Customer Success Team via “Live  Chat”.  Follow the link to watch our training video on <strong><a href="http://www.screencast.com/users/MindField/folders/Hiring%20Manager%20Portal%20Training%20Videos/media/cd4a37c5-d174-40c9-a2ee-308a5b17a3f0" target="_BLANK">how to use “Live Chat”</a>.</strong></FONT><br /></LI>
+        <br />
+  </ol>
+  <li><a name="FAQ13" id="#FAQ13"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>Where can I find training materials and additional  instructions related to the Recruitment Solution provided by MindField Group?</STRONG><BR />In the HirePortal, click the <em>Help</em> tab from the navigation bar along the top of your screen.  Here, you will find all training documents and  important information related to the program, as well as links to all training  videos.</FONT></li>
+</ol>
+<p id="bodyfont"><a href="#TOP">Back to Top</a></p>
+
+<a name="FAQ1SEC2" id="#FAQSEC1"></a><FONT FACE="Geneva, Verdana" Size="3"><STRONG>About MindField Group</STRONG></FONT></p>
+<ol>
+  <li><a name="FAQ1" id="#FAQ1"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>What is MindField Group?</STRONG><br />
+        MindField Group is Canada's expert in hourly recruiting.  Our Head Office is located near the historic Gastown district of Vancouver, BC.  Visit our website at <a href="http://www.mindfieldgroup.com" target="_blank">www.mindfieldgroup.com</a>.  We see ourselves as your partner in  recruitment.  We act as your  company-branded, fully operational recruitment team that helps you to make  better hires.</font><br /><br />
+  </li>
+  <li><a name="FAQ2" id="#FAQ2"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How does MindField Group find candidates?</STRONG><br />
+        We use various online sources to find job seekers including major national,  provincial, and local job boards, as well as social media networks such as  Facebook.  These online job advertisements are linked to your branded landing page on the web  where applicants then enter to complete the application process.  <BR /><BR />Applicants are pre-screened by MindField Group’s team of Talent Acquisition Specialists against the job requirements described in your postings.  This ensures only the highest-quality and  best-suited candidates are submitted to you for in-person interview.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ3" id="#FAQ3"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>How does MindField Group manage the candidates who apply online?</STRONG></FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Candidates who apply online are asked to submit their contact details, complete an in-depth  online assessment, and to upload an electronic copy of their resume.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">MindField Group’s team of Talent Acquisition Specialists review these materials to identify the candidates who are best qualified to meet the  requirements provided in the job description.   A phone screen is completed at this time.  </FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Qualified  candidates are delivered directly to your email inbox.  This email will include the candidate’s  resume, recruiter summary, and phone screen notes.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">All applications and resumes are kept on file electronically with MindField Group  and can be used to fill vacancies with your company as they arise.</FONT><br />
+    </li>
+  </ol>
+  <li><a name="FAQ4" id="#FAQ4"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>What is the most efficient method of contacting MindField Group?</STRONG></FONT><BR /><FONT FACE="Geneva, Verdana" Size="2">Within  the HirePortal, use the “Live Chat” feature to speak directly to  MindField Group’s Customer Success Team. “Live Chat” is similar to sending instant messages or telephone text messages in that  communication happens in real time.  Watch a short training video on <strong><a href="http://www.screencast.com/users/MindField/folders/Hiring%20Manager%20Portal%20Training%20Videos/media/cd4a37c5-d174-40c9-a2ee-308a5b17a3f0" target="_BLANK">how to use “Live Chat”</a>.</strong></font><br /><br />
+  </li>
+  <li><a name="FAQ5" id="#FAQ5"></a><FONT FACE="Geneva, Verdana" Size="2"><STRONG>When should I contact MindField Group?</STRONG><BR />Please contact our Customer Success Team any time you have a recruitment process question for which you cannot find the answer within this FAQ document.  Any candidate  quality issues specific to your store location can be addressed via “Live Chat”.</FONT><br /><br />
+  </li>
+</ol>
+<p id="bodyfont"><a href="#TOP">Back to Top</a></p>
+<a name="FAQ14" id="#FAQ14"></a>
+<FONT FACE="Geneva, Verdana" Size="3"><STRONG>Other Help</STRONG><br /></FONT>
+<FONT FACE="Geneva, Verdana" Size="2">If there are other things we can help you with, please reach out to us by:</FONT>
+<ol>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Live Chat (click the Live Chat button to the left) to chat live with our Customer Success Team</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Call Us at 866-511-9554 and dial extension 4</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Contact Your Corporate Head Office Representative</FONT></LI>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Follow Us on <a href="http://www.twitter.com/mindfieldgroup" target="_blank">Twitter</a></FONT></LI>
+    <li><FONT FACE="Geneva, Verdana" Size="2">Follow Us on <a href="http://www.facebook.com/pages/Vancouver-BC/MindField-Group/7720906372" target="_blank">Facebook</a></FONT></LI>
+  </ol>
+
+</p>
+
+    </apex:outputPanel>
+
+<!--END ALL OTHER CLIENT CONTENT-->
+</apex:page>

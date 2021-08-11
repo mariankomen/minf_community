@@ -1,0 +1,52 @@
+<aura:component >
+    
+    <aura:attribute name="attachmentMap" type="Map" />
+    <aura:attribute name="key" type="String" />
+    <aura:attribute name="collapsed" type="Boolean" default="true"/>
+    
+    <div  class="{! if(v.collapsed,'','Mui-expanded jss112 ')+
+                 'MuiPaper-root MuiPaper-elevation1 MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-rounded'}">
+        <div class="MuiButtonBase-root MuiExpansionPanelSummary-root" tabindex="0" role="button"
+             aria-disabled="false" aria-expanded="false" aria-controls="panel1c-content" id="panel1c-header" onclick="{!c.expand}">
+            
+            <div class="MuiExpansionPanelSummary-content">
+                <div class="jss366">
+                    <p class="MuiTypography-root jss367 MuiTypography-body1">
+                        {!v.attachmentMap.key}
+                    </p>
+                    <div class="jss369"></div>
+                </div>
+            </div>
+                                  
+            <div class="MuiButtonBase-root MuiIconButton-root MuiExpansionPanelSummary-expandIcon MuiIconButton-edgeEnd"
+                 tabindex="-1" role="button" aria-disabled="false" aria-hidden="true">
+                <span class="MuiIconButton-label">
+                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/Collapsehidden.svg#Collapsehidden'}" size="small" />                    
+                </span>
+                <span class="MuiTouchRipple-root"></span>
+            </div>
+        </div>
+        <div class="{! if(v.collapsed,'MuiCollapse-container MuiCollapse-hidden','MuiCollapse-container MuiCollapse-entered')}" style="min-height: 0px;">
+            <div class="MuiCollapse-wrapper">
+                <div class="MuiCollapse-wrapperInner">
+                    <div aria-labelledby="panel1c-header" id="panel1c-content" role="region">
+                        <div>
+                            <div class="slds-post__content slds-m-left_x-large">
+                                <ul class="slds-has-inline-block-links_space">
+                                    <aura:iteration items="{!v.attachmentMap.value}" var="qcp">   
+                                          <li>
+                                              <a target='_blank' href="{! '/mindfield/servlet/servlet.FileDownload?file=' + qcp.Id}">
+                                                  {!qcp.Name}
+                                              </a>
+                                          </li>
+                                    </aura:iteration>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

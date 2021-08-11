@@ -1,0 +1,36 @@
+<apex:page controller="ReminderComponent" showHeader="false" sidebar="false">
+    <table cellpadding="5"><tbody><tr><td>
+
+    <!-- Section displaying the No Reminders text -->
+        <apex:outputPanel rendered="{!OpenReminders==0}" >
+            <span style="font-family: Geneva,Verdana,Helvetica,Sans-Serif;">
+            There are currently no open reminders for you.  This is because you have either updated 
+            us on all candidates or you do not have any jobs open presently.  Thank you for keeping us up to date!</span>
+        </apex:outputPanel>
+
+    <!-- Section displaying the Reminders table -->
+        <apex:form >
+        <apex:pageBlock rendered="{!OpenReminders!=0}">
+            <apex:commandButton action="{!CloseReminders}" value="Close Reminders"/>
+            
+            <apex:pageBlockTable value="{!OpenList}" var="item">
+            <apex:column headerValue="Select">
+                    <!-- This is our selected Boolean property in our wrapper class -->
+                    <apex:inputCheckbox value="{!item.selected}"/>
+                </apex:column>
+                <apex:column headervalue="Subject" > 
+                    <apex:outputLink value="/{!item.rem.id}" target="_top">{!item.rem.name}</apex:outputLink>
+                </apex:column>
+                <apex:column headervalue="Job" > 
+                    <apex:outputLink value="/{!item.rem.SFDC_Job__c}" target="_top">{!item.rem.sfdc_job__r.name}</apex:outputLink>
+                </apex:column>
+                <apex:column headervalue="Candidate" > 
+                    <apex:outputLink value="/{!item.rem.Candidate__c}" target="_top">{!item.rem.candidate__r.name}</apex:outputLink>
+                </apex:column>                
+                <apex:column headervalue="Status" value="{!item.rem.Status__c}"/> 
+                <apex:column headervalue="Due Date" value="{!item.rem.Due_Date__c}"/> 
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        </apex:form>
+    </td></tr></tbody></table>
+</apex:page>

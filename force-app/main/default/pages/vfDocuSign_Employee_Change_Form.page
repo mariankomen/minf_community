@@ -1,0 +1,68 @@
+<apex:page standardController="SFDC_Employee__c">
+<apex:includeScript value="/soap/ajax/34.0/connection.js" />
+<apex:includeScript value="/apex/dsfs__DocuSign_JavaScript" />
+ <script>
+ 
+ var RC = '';
+var RSL='';
+var RSRO='';
+var RROS='';
+var CCNM='';
+var CRCL='';
+var OCO='';
+var CRL='Email~{!SFDC_Employee__c.Manager_Email__c};' +
+        'FirstName~{!SFDC_Employee__c.Manager_Name__c};' +
+        'LastName~;' +
+        'Role~Signer 1;' +
+        'RoutingOrder~1,' +
+
+        'Email~heather.pysklywec@mindfieldgroup.com;' +
+        'FirstName~Heather;' +
+        'LastName~Pysklywec;' +
+        'Role~Signer 2;' +
+        'RoutingOrder~2,' +
+
+        'Email~dean.medwid@mindfieldgroup.com;' +
+        'FirstName~Dean;' +
+        'LastName~Medwid;' +
+        'Role~Signer 3;' +
+        'RoutingOrder~3,' +
+
+        'Email~wanda.parsons@mindfieldgroup.com;' +
+        'FirstName~Wanda;' +
+        'LastName~Parsons;' +
+        'Role~Signer 4;' +
+        'RoutingOrder~4,' +
+
+ 'Email~wanda.parsons@mindfieldgroup.com;' +
+        'FirstName~Wanda;' +
+        'LastName~Parsons;' +
+        'Role~Signer 5;' +
+        'RoutingOrder~5,' +
+
+ 
+
+        'LoadDefaultContacts~0';
+
+var CCRM='Signer 1~Direct Manager;Signer 2~Department VP;' +
+         'Signer 3~President/COO;Signer 4~People and Culture;Signer 5~Finance';
+
+var CCTM='Signer 1~Signer,Signer 2~Signer,' + 
+         'Signer 3~Signer,Signer 4~Signer, Signer 5~Signer';
+
+var DST='a85d301f-c64d-4f23-b954-6d318f4ad6a1';
+var LA='';
+var CEM='Please fill out and sign the employee change form for {!SFDC_Employee__c.Name}';
+var CES='Employee Change Form - {!SFDC_Employee__c.Name}';  
+var STB='0';
+var SSB='1';
+var SES='0';
+var SEM='0';
+var SRS='';
+var SCS='0';
+var RES='';
+
+window.location.href = 
+"/apex/dsfs__DocuSign_CreateEnvelope?DSEID=0&SourceID={!SFDC_Employee__c.Id}&RC="+RC+"&RSL="+RSL+"&RSRO="+RSRO+"&RROS="+RROS+"&CCRM="+CCRM+"&CCTM="+CCTM+"&CRCL="+CRCL+"&CRL="+CRL+"&OCO="+OCO+"&DST="+DST+"&CCNM="+CCNM+"&LA="+LA+"&CEM="+CEM+"&CES="+CES+"&SRS="+SRS+"&STB="+STB+"&SSB="+SSB+"&SES="+SES+"&SEM="+SEM+"&SRS="+SRS+"&SCS="+SCS+"&RES="+RES;
+ </script>
+</apex:page>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="mindfieldbg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 99.9 133.3" style="enable-background:new 0 0 99.9 133.3;" xml:space="preserve">
+<style type="text/css">
+	.mdbg_st0{opacity:0.1;}
+	.mdbg_st1{fill:#4D9EFF;}
+	.mdbg_st2{fill:#002B6B;}
+	.mdbg_st3{fill:#2970FF;}
+	.mdbg_st4{fill:none;}
+	.mdbg_st5{fill:#1466C7;}
+	.mdbg_st6{fill:#005CE3;}
+	.mdbg_st7{fill:#478FFF;}
+	.mdbg_st8{fill:#0047AD;}
+</style>
+<g class="mdbg_st0" id="mosaic2-10">
+	<polygon class="mdbg_st1" points="99.9,133.3 99.9,133.3 99.8,133.3 	"/>
+	<polygon class="mdbg_st2" points="99.9,133.3 99.9,133.3 99.9,133.3 	"/>
+	<polygon class="mdbg_st2" points="0.1,133.3 0,133.3 0,133.3 	"/>
+	<polygon class="mdbg_st3" points="0.1,133.3 0,133.3 0.1,133.3 	"/>
+	<polygon class="mdbg_st4" points="58.3,61.1 75.1,50.1 91.7,39 75.1,50 	"/>
+	<polygon class="mdbg_st4" points="75.1,116.8 91.7,127.8 75.1,116.6 58.3,105.6 	"/>
+	<polygon class="mdbg_st4" points="25.1,50 8.4,39 25.1,50.1 41.7,61.1 	"/>
+	<polygon class="mdbg_st3" points="8.4,39 0,33.5 0,66.6 25.1,50.1 	"/>
+	<polygon class="mdbg_st5" points="25.1,50.1 0,66.6 25.1,83.4 	"/>
+	<polygon class="mdbg_st6" points="25.1,83.4 0,100.1 25.1,116.6 	"/>
+	<polygon class="mdbg_st2" points="0,66.6 0,100.1 25.1,83.4 	"/>
+	<polygon class="mdbg_st1" points="41.7,61.1 25.1,50.1 25.1,83.4 49.9,66.7 	"/>
+	<polygon class="mdbg_st3" points="25.1,83.4 25.1,116.6 49.9,100.1 	"/>
+	<polygon class="mdbg_st7" points="0,100.1 0,133.3 25.1,116.6 	"/>
+	<polygon class="mdbg_st3" points="91.7,127.8 99.9,133.3 99.9,100.1 75.1,116.6 	"/>
+	<polygon class="mdbg_st5" points="75.1,116.6 99.9,100.1 75.1,83.4 	"/>
+	<polygon class="mdbg_st6" points="75.1,83.4 99.9,66.6 75.1,50 	"/>
+	<polygon class="mdbg_st2" points="50,66.7 49.9,66.7 25.1,83.4 49.9,100.1 50,100 50,100.1 75.1,83.4 50,66.7 	"/>
+	<polygon class="mdbg_st8" points="99.9,100.1 99.9,66.6 75.1,83.4 	"/>
+	<polygon class="mdbg_st1" points="58.3,105.6 75.1,116.6 75.1,83.4 50,100.1 	"/>
+	<polygon class="mdbg_st3" points="50,66.7 75.1,83.4 75.1,50 58.3,61.1 	"/>
+	<polygon class="mdbg_st7" points="75.1,50 99.9,66.6 99.9,33.5 91.7,39 	"/>
+	<polygon class="mdbg_st5" points="75.1,0 50,0 75.1,16.7 	"/>
+	<polygon class="mdbg_st6" points="75.1,50 75.1,16.7 50,33.5 	"/>
+	<polygon class="mdbg_st8" points="75.1,16.7 50,0 50,33.5 	"/>
+	<polygon class="mdbg_st1" points="75.1,16.7 99.9,0 75.1,0 	"/>
+	<polygon class="mdbg_st3" points="75.1,50 91.7,39 99.9,33.4 75.1,16.7 	"/>
+	<polygon class="mdbg_st3" points="91.7,39 99.9,33.5 99.9,33.4 	"/>
+	<polygon class="mdbg_st7" points="50,66.6 58.3,61.1 75.1,50 50,33.5 	"/>
+	<polygon class="mdbg_st7" points="50,66.7 50,66.7 50,66.6 	"/>
+	<polygon class="mdbg_st7" points="50,66.7 58.3,61.1 50,66.6 	"/>
+	<polygon class="mdbg_st2" points="99.9,33.4 99.9,33.4 99.9,0 75.1,16.7 	"/>
+	<polygon class="mdbg_st2" points="99.9,33.4 99.9,33.5 99.9,33.4 	"/>
+	<polygon class="mdbg_st3" points="50,33.5 25.1,50 41.7,61.1 50,66.6 	"/>
+	<polygon class="mdbg_st3" points="41.7,61.1 49.9,66.7 50,66.6 	"/>
+	<polygon class="mdbg_st3" points="49.9,66.7 50,66.7 50,66.6 	"/>
+	<polygon class="mdbg_st5" points="50,33.5 25.1,16.7 25.1,50 	"/>
+	<polygon class="mdbg_st6" points="25.1,0 25.1,16.7 50,0 	"/>
+	<polygon class="mdbg_st8" points="0.1,33.4 25.1,16.7 0,0 0,33.4 	"/>
+	<polygon class="mdbg_st2" points="0,33.4 0,33.5 0.1,33.4 	"/>
+	<polygon class="mdbg_st2" points="50,0 25.1,16.7 50,33.5 	"/>
+	<polygon class="mdbg_st1" points="25.1,16.7 0.1,33.4 8.4,39 25.1,50 	"/>
+	<polygon class="mdbg_st1" points="0.1,33.4 0,33.5 8.4,39 	"/>
+	<polygon class="mdbg_st3" points="25.1,0 0,0 25.1,16.7 	"/>
+	<polygon class="mdbg_st3" points="50,133.3 75.1,116.8 58.3,105.6 50,100.1 	"/>
+	<polygon class="mdbg_st3" points="50,100.1 50,100 50,100.1 	"/>
+	<polygon class="mdbg_st3" points="58.3,105.6 50,100.1 50,100.1 	"/>
+	<polygon class="mdbg_st5" points="75.1,133.3 75.1,116.8 50,133.3 	"/>
+	<polygon class="mdbg_st1" points="75.1,133.3 99.8,133.3 91.7,127.8 75.1,116.8 	"/>
+	<polygon class="mdbg_st1" points="99.8,133.3 99.9,133.3 91.7,127.8 	"/>
+	<polygon class="mdbg_st6" points="50,133.3 25.1,116.6 25.1,133.3 	"/>
+	<polygon class="mdbg_st3" points="25.1,116.6 0.1,133.3 25.1,133.3 	"/>
+	<polygon class="mdbg_st3" points="25.1,116.6 0,133.3 0.1,133.3 	"/>
+	<polygon class="mdbg_st7" points="50,100.1 25.1,116.6 50,133.3 	"/>
+	<polygon class="mdbg_st7" points="49.9,100.1 25.1,116.6 50,100.1 	"/>
+	<polygon class="mdbg_st7" points="50,100 49.9,100.1 50,100.1 	"/>
+	<polygon class="mdbg_st8" points="25,83.4 50.1,100.1 50.1,66.7 33.3,77.8 	"/>
+</g>
+</svg>

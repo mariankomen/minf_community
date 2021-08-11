@@ -1,0 +1,641 @@
+<apex:page standardcontroller="SFDC_Job__c" extensions="CandidateUpdate" tabStyle="SFDC_Job__c" id="thePage" action="{!CheckCancel}">
+<script>
+
+function resettoJob() {
+    window.top.location = "/{!Job.Id}";
+} 
+</script>
+
+<apex:outputPanel id="bkcheck">
+<!-- used for certain clients if a candidate is set to Background Check, it will open a popup and then redirect to the Job 
+       this script will run each time we hit the page and only when the BPop boolean is true will it open the popup window -->
+<script>
+  if ({!BackgroundCheckPop}) {
+  window.open('https://webclient.backcheck.net/login.aspx');
+  resettoJob();
+}
+</script>
+</apex:outputPanel>
+
+
+<!-- All $Label values can be updated under Create - Custom Labels along with language translations -->
+
+  <!-- if we have a VF error in constructor, show error message but hide all other code -->
+  <apex:outputPanel rendered="{!error}" id="mgs">
+      <apex:sectionHeader title="{!$Label.CanUpd_Pg_Header}" />
+      <apex:pageMessage detail="{!$Label.CanUpd_Pg_Error}" severity="error" strength="3" /> 
+  </apex:outputPanel>  
+  
+  <apex:outputPanel rendered="{!!error}">    
+    <apex:sectionHeader title="{!$Label.CanUpd_Pg_Header} {!job.Name}" />
+    <apex:pageMessages showDetail="false"/>
+    <apex:form id="theForm">
+        <apex:pageBlock id="thePageBlock" mode="edit">
+
+        <!-- Buttons block -->
+        <apex:pageBlockButtons location="bottom">
+        <apex:outputPanel id="btns"> 
+            <!-- If no Candidates are set to Hired or Hired Job is not an OWF Type, use the Save button that has no further actions -->
+            <apex:commandButton value="{!$Label.Save}" action="{!OnSave}" rendered="{!NumCandidates >= 1 && ValidStatus && (
+                numHired == 0 || ( Job.RecordType.name != 'Overwaitea Food Group' && numHired > 0 ) )}"  />
+
+            <!-- PULL OFG CODE
+            If at least one Candidate is set to Hired for an OWF Type Job only and we haven't confirmed yet, use the Save button that opens new PSFT window 
+            <apex:commandButton value="{!$Label.Save}" action="{!Onsave}" rerender="btns, panelowf" status="save_hire" rendered="{!NumCandidates >= 1 && ValidStatus &&
+             numHired >0 && !ConfirmOWFHire && Job.RecordType.name == 'Overwaitea Food Group'}"/> 
+                <apex:actionStatus startText="" stopText="" onStop="window.open('https://p8prd1w2.owfg.com:8840/psc/p8prod_1/EMPLOYEE/HRMS/s/WEBLIB_PTPP_SC.HOMEPAGE.FieldFormula.IScript_AppHP?scname=PT_PTPP_PORTAL_ROOT&pt_fname=PT_PTPP_PORTAL_ROOT&PortalCacheContent=true&PSCache-Control=role%2cmax-age%3d60');" ID="save_hire"/>
+             If at least one Candidate is set to Hired for an OWF Type Job only and we need to confirm, use the Confirm Save button that has no further action 
+            <apex:commandButton value="{!$Label.Confirm_OWF_Save}" action="{!Onsave}" rendered="{!NumCandidates >= 1 && ValidStatus && 
+                numHired >0 && ConfirmOWFHire && Job.RecordType.name == 'Overwaitea Food Group'}" />
+           -->
+
+            <!-- If there are candidates to display and the Job is in the right status, show the Cancel button -->
+            <apex:commandButton value="{!$Label.Cancel}" action="{!cancel}" rendered="{!NumCandidates >= 1 && ValidStatus }" immediate="true"/>   
+ 
+            <!-- If there are no candidates to display or the Job is in the wrong status, show the Return button -->
+            <apex:commandButton value="{!$Label.Return_to_Job}" action="{!cancel}" rendered="{!NumCandidates == 0 || !ValidStatus }" immediate="true"/> 
+        </apex:outputPanel>
+        </apex:pageBlockButtons>
+
+        <!-- No Candidates block -->
+        <apex:outputPanel id="panel0" rendered="{!NumCandidates == 0 && ValidStatus}">
+            <br/>
+            <apex:outputText value="{!$Label.CanUpd_NoCand_30Days}" rendered="{!job.SLA_Level__c == 'Other (3 in 30d)' || job.SLA_Level__c == 'Management'}" />
+            <apex:outputText value="{!$Label.CanUpd_NoCand}" rendered="{!job.SLA_Level__c != 'Other (3 in 30d)' && job.SLA_Level__c != 'Management'}" />
+            <br/><br/>
+        </apex:outputPanel>
+
+        <!-- Wrong Job Status block -->
+        <apex:outputPanel id="panelS" rendered="{!!ValidStatus}">
+            <br/>
+            <!-- build wrong job status text using combination of labels and field values  -->
+            {!$Label.Job} {!job.Name} {!$Label.is_in} <strong>{!job.Job_Status__c}</strong> {!$Label.CanUpd_wrong_status}<br></br>
+            <br/>
+        </apex:outputPanel>
+                
+        <!-- Candidate block start -->
+        <apex:outputPanel id="panel_outer" rendered="{!NumCandidates >= 1 && ValidStatus }" >
+
+        <apex:repeat value="{!Candidates}" var="c" id="cans">
+
+            <apex:pageBlockSection columns="1" title="{!$ObjectType.SFDC_Job_Candidate__c.label} {!c.can.Candidate_Name__c} {!$Label.Status_Update}" collapsible="false" id="detail">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputText >{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Name__c.label}</apex:outputText>
+                        <apex:outputLink value="/{!c.can.Candidate__c}" target="_blank">{!c.can.Candidate_Name__c}</apex:outputLink>
+                    </apex:pageBlockSectionItem>
+                    
+                    
+                  <apex:outputField value="{!c.can.Status__c}" label="{!$Label.Current_Status}"/>
+                  
+                    
+                  <!-- New Status change will rerender the page -->
+                    <!-- Update for NSM, hide if 'Awaiting Replacement Adjudication'-->
+                    <apex:pageBlockSectionItem id="status" rendered="{!c.can.Status__c!='Awaiting Replacement Adjudication'}">
+                         <apex:outputLabel value="{!$Label.New_Status}" />
+                         <apex:outputPanel styleClass="requiredInput" layout="block">
+                            <apex:outputPanel styleClass="requiredBlock" layout="block" rendered="{!job.SLA_Level__c != 'Job Posting Only'}"/>
+                               <apex:selectList value="{!c.selectedstatus}" size="1" id="new_status">
+                                    <apex:selectOptions value="{!c.status}"/>
+                                    <apex:actionSupport event="onchange" focus="new_status"
+                                        rerender="panel_outer, panelR, panelH, btns, panel_inner, debug" status="upd1" />
+                                </apex:selectList>
+                                <apex:actionStatus startText=" Updating..." id="upd1" />
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+
+           </apex:pageBlockSection>
+
+<!-- debugging -->
+<apex:outputPanel rendered="false" id="debug">
+                                           
+<apex:outputText value="job.recordtype.name: {!Job.RecordType.name}"/><br/>
+<apex:outputText value="rejected: comments: {!c.can.Rejection_Comments__c}"/><br/>
+<apex:outputText value="rejected: suitable? {!c.can.Rejection_Is_Candidate_Suitable__c}"/><br/>
+
+<apex:outputText value="newServiceModelIsReferredCandidate: {!newServiceModelIsReferredCandidate }"/><br/>
+
+<apex:outputText value="saved status: {!c.can.Status__c}"/><br/>
+<apex:outputText value="selected status: {!c.selectedStatus}"/><br/>
+
+<apex:outputText value="numRejectedWithReplacement : {!numTotalReplacementsGranted}"/><br/>
+<apex:outputText value="numRejectedWithoutReplacement: {!numRejectedWithoutReplacement }"/><br/>
+<apex:outputText value="numTotalRejected : {!numTotalRejected }"/><br/>
+<apex:outputText value="numCandidatesForSLA: {!numCandidatesForSLA}"/><br/>
+<apex:outputText value="rejected reason:  {!c.can.Rejection_Reason_for__c}"/><br/>
+
+<apex:outputText value="interview date {!c.can.Interview_Date__c}"/><br/>
+<apex:outputText value="scheduled interview date {!c.can.Scheduled_Interview_Date_Time__c}"/><br/>
+<apex:outputText value="No Show {!c.noshow}"/><br/>
+<apex:outputText value="Candidate Sent/Interviewd less than 7 days ago: {!c.CandSentorInterviewLessThan7Days}"/><br/>
+<apex:outputText value="Selected Status = Hired: {!c.selectedStatus == 'Hired'}"/><br/>
+<apex:outputText value="ValidStatus: {!ValidStatus}"/><br/> 
+<apex:outputText value="selected Rejection reason: {!c.selectedRejReason}"/><br/>
+<apex:outputText value="candidates rejection reason field value: {!c.can.Rejection_Reason_for__c}"/><br/>
+<apex:outputText value="Num Hired: {!numHired}"/><br/>
+<apex:outputText value="Num Rejected: {!numRejected}"/><br/>
+<apex:outputText value="Num Candidates: {!numCandidates}"/><br/>
+<apex:outputText value="Num Previously Hired: {!numPreviouslyHired}"/><br/>
+<apex:outputText value="Total Hired: {!numTotalHired}"/><br/>
+
+</apex:outputPanel>
+
+    <!-- Functionality for New Service Model ---------------------------------------------------------------------------------------------------->
+    <apex:outputPanel rendered="{!newServiceModel}"> 
+        <!-- Show Rejection fields if New Status = Rejected (Dynamic) with some fields hidden if SLA not Job Posting Only -->
+            <apex:pageBlockSection id="rejNSM" showHeader="false" columns="1" rendered="{!c.selectedStatus == 'Rejected' && c.can.Status_Text__c != 'Rejected'}"> 
+            <!-- we can't set required=true on these items as they will be evaluated after rerender.  Instead format it ourselves and use controller to check requiredness -->
+                   <!-- Reason for Rejection will determine which other rejection related fields should be rendered -->
+                   <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Reason_for__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Reason_for__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:selectList value="{!c.selectedRejReason}" size="1">
+                                <apex:selectOptions value="{!RejectionReasons}"/>
+                                <apex:actionSupport event="onchange" action="{!updateRejectionReason}"
+                                        rerender="rejNSM, panelR, debug" status="upd_rej" />
+                                    
+                            </apex:selectList>
+                           <apex:actionStatus startText=" Updating..." id="upd_rej" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+                   
+                   <!-- July, 2018 .... add rejection comments back in-->
+                   <!-- Feb 6, 2018 .... removing this rejection reason-->
+                   <!-- If anything other than post audit reason just show without being required-->                    
+                   <apex:pageBlockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Comments__c.inlineHelpText}" 
+                                              rendered="{!
+                                                          (
+                                                            c.can.Rejection_Reason_for__c != 'Candidate does not have the appropriate language or communication skills for the role' &&
+                                                            c.can.Rejection_Reason_for__c != 'Candidate does not have the appropriate skills and experience for the role' &&
+                                                            c.can.Rejection_Reason_for__c != 'Candidate is unwilling or unavailable to work required shifts' &&
+                                                            c.can.Rejection_Reason_for__c != 'Candidate’s wage expectation is too high' &&
+                                                            c.can.Rejection_Reason_for__c != 'Candidate is unwilling or unable to commute to place of work'
+                                                          )  
+                                                        }">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Comments__c.label}"/>
+                        <apex:inputTextarea value="{!c.can.Rejection_Comments__c}"  rows="2" cols="40"/>  
+                   </apex:pageBlockSectionItem>  
+                   
+                   <!-- If post audit reason then required-->                  
+                   <apex:pageBlockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Comments__c.inlineHelpText}" 
+                                    rendered="{!
+                                                          (
+                                                            c.can.Rejection_Reason_for__c == 'Candidate does not have the appropriate language or communication skills for the role' ||
+                                                            c.can.Rejection_Reason_for__c == 'Candidate does not have the appropriate skills and experience for the role' ||
+                                                            c.can.Rejection_Reason_for__c == 'Candidate is unwilling or unavailable to work required shifts' ||
+                                                            c.can.Rejection_Reason_for__c == 'Candidate’s wage expectation is too high' ||
+                                                            c.can.Rejection_Reason_for__c == 'Candidate is unwilling or unable to commute to place of work'
+                                                          )  
+                                                        }">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Comments__c.label}"/>
+                        <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputTextarea value="{!c.can.Rejection_Comments__c}"  rows="2" cols="40"/> 
+                       </apex:outputpanel>
+                   </apex:pageBlockSectionItem> 
+                                  
+                      
+                   <!-- With new rule, 'Up to 2 Candidates', we dont need this anymore 
+                   Request Another text shows if valid reason below AND one already hired                   
+                   <apex:pageBlockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Do_you_want_a_replacement_candidate__c.inlineHelpText}"
+                                              rendered="{!
+                                                          numTotalHired >= 1 &&
+                                                          c.can.Is_NOW_Within_Time_to_Disposition_Period__c &&
+                                                          (
+                                                           (
+                                                            (
+                                                             c.can.Rejection_Reason_for__c == 'Candidate did not show for interview' ||
+                                                             c.can.Rejection_Reason_for__c == 'Candidate withdrew prior to interview – unknown or undisclosed reason' ||
+                                                             c.can.Rejection_Reason_for__c == 'Candidate withdrew prior to interview – accepted other employment' ||
+                                                             c.can.Rejection_Reason_for__c == 'Candidate withdrew prior to interview – circumstances changed' ||
+                                                             c.can.Rejection_Reason_for__c == 'Candidate withdrew prior to interview – reconsidered the opportunity'
+                                                            ) && c.can.Using_Interview_Scheduling__c
+                                                           ) 
+                                                           ||
+                                                           (                                                           
+                                                             c.can.Rejection_Reason_for__c == 'Candidate does not have the appropriate language or communication skills for the role' ||
+                                                             c.can.Rejection_Reason_for__c == 'Candidate does not have the appropriate skills and experience for the role' ||
+                                                             c.can.Rejection_Reason_for__c == 'Candidate is unwilling or unavailable to work required shifts' ||
+                                                             c.can.Rejection_Reason_for__c == 'Candidate’s wage expectation is too high' ||
+                                                             c.can.Rejection_Reason_for__c == 'Candidate is unwilling or unable to commute to place of work'
+                                                           ) 
+                                                          )
+                                                        }">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Do_you_want_a_replacement_candidate__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Do_you_want_a_replacement_candidate__c}" /> 
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+                   -->
+                                     
+             </apex:pageBlockSection>
+
+             <!-- Show appropriate Interview Date if New Status contains Interviewing (Dynamic) 
+             We want this read only because we schedule internally-->  
+             <apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Interviewing')}"> 
+                    <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Scheduled_Interview_Date_Time__c.inlineHelpText}">
+                    
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Scheduled_Interview_Date_Time_PST__c.label}"/>
+                       <apex:outputField value="{!c.can.Scheduled_Interview_Date_Time_PST__c}"/>
+                    
+                       <!--<apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Scheduled_Interview_Date_Time_PST__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredInput" layout="block"/>
+                           <apex:inputField value="{!c.can.Scheduled_Interview_Date_Time_PST__c}" />
+                       </apex:outputpanel>-->
+                   </apex:pageblockSectionItem>
+             </apex:pageBlockSection>
+             
+                    
+    </apex:outputPanel>
+    <!-- END Functionality for New Service Model ---------------------------------------------------------------------------------------------------->
+    
+    <!-- Functionality for OLD Service Model ---------------------------------------------------------------------------------------------------->
+    <apex:outputPanel rendered="{!NOT(newServiceModel)}"> 
+
+           <!-- Show Rejection fields if New Status = Rejected (Dynamic) with some fields hidden if SLA not Job Posting Only -->
+            <apex:pageBlockSection id="rej" showHeader="false" columns="1" rendered="{!c.selectedStatus == 'Rejected' && c.can.Status_Text__c != 'Rejected'}"> 
+            <!-- we can't set required=true on these items as they will be evaluated after rerender.  Instead format it ourselves and use controller to check requiredness -->
+                   <!-- Reason for Rejection will determine which other rejection related fields should be rendered -->
+                   <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Reason_for__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Reason_for__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:selectList value="{!c.selectedRejReason}" size="1">
+                                <apex:selectOptions value="{!RejectionReasons}"/>
+                                <apex:actionSupport event="onchange" action="{!updateRejectionReason}"
+                                        rerender="rej, panelR, debug" status="upd_rej" />
+                                    
+                            </apex:selectList>
+                           <apex:actionStatus startText=" Updating..." id="upd_rej" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+
+                   <!-- Was Candidate contacted and Is Suitable fields show if No Contact was NOT selected as a Reason or always if we skip No Show/No Contact But not if SLA is Job Posting Only-->
+                   <!-- added Is Suitable back in for  Sports Jan 1/2012 -->
+                   <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Was_Candidate_Contacted_for_Interview__c.inlineHelpText}"
+                                              rendered="{!(c.can.Rejection_Reason_for__c != 'Could not Contact Candidate' || SkipNoShowNoContactCandidates) && job.SLA_Level__c != 'Job Posting Only' && Job.recordtype.name != ' Sports' && Job.recordtype.name != 'Marks'}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Was_Candidate_Contacted_for_Interview__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Was_Candidate_Contacted_for_Interview__c}" /> 
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+                   <!-- Is Suitable field also shows if Rejection reason in a certain list of values -->
+                   <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Is_Candidate_Suitable__c.inlineHelpText}"
+                                              rendered="{!(c.can.Rejection_Reason_for__c != 'Could not Contact Candidate' || SkipNoShowNoContactCandidates) && job.SLA_Level__c != 'Job Posting Only' 
+                                                        && (Job.recordtype.name == 'FGL Sports' || Job.recordtype.name == 'Marks' || Job.recordtype.name == 'Hubbub' || Job.recordtype.name == 'Country Grocer' || Job.recordtype.name == 'Direct Tap' || c.DisplayIsCandidateSuitable) }">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Is_Candidate_Suitable__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Rejection_Is_Candidate_Suitable__c}" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+
+                   <!-- Rejection comments show as optional for Rejected Candidate except for FGL with certain reasons -->                   
+                   <apex:pageBlockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Comments__c.inlineHelpText}" rendered="{! !( (Job.recordtype.name == 'FGL Sports' ||  Job.recordtype.name == 'Marks') 
+                       && c.FGLRejectionCommentsReqd)}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Comments__c.label}"/>
+                        <apex:inputTextarea value="{!c.can.Rejection_Comments__c}"  rows="2" cols="40"/>  
+                   </apex:pageBlockSectionItem>                   
+
+                   <!-- Rejection comments show as required with explanation text in red for FGL/Marks jobs with certain Rejection reasons -->     
+                   <apex:outputText rendered="{!(Job.recordtype.name == 'FGL Sports' || Job.recordtype.name == 'Marks') && c.FGLRejectionCommentsReqd}}" >
+                       <br/><font color="red">{!$Label.CanUpd_Rejection_Comments_Reqd}</font>
+                   </apex:outputText>                                  
+                   <apex:pageBlockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Comments__c.inlineHelpText}" rendered="{! (Job.recordtype.name == 'FGL Sports' || Job.recordtype.name == 'Marks')
+                       && c.FGLRejectionCommentsReqd}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rejection_Comments__c.label}"/>
+                        <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputTextarea value="{!c.can.Rejection_Comments__c}"  rows="2" cols="40"/> 
+                       </apex:outputpanel>
+                         
+                   </apex:pageBlockSectionItem>
+                                      
+                   <!-- Contact detail fields if No Contact was selected but not for clients that should skip No Contact processing -->
+                   <apex:outputText rendered="{!c.can.Rejection_Reason_for__c == 'Could not Contact Candidate' && !SkipNoShowNoContactCandidates}" >
+                       <br/><b>{!$Label.CanUpd_No_Contact_Desc}</b>
+                   </apex:outputText>                    
+                   <apex:pageblockSectionItem rendered="{!c.can.Rejection_Reason_for__c == 'Could not Contact Candidate' && !SkipNoShowNoContactCandidates}" helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Contact_Name__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Contact_Name__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>                   
+                              <apex:inputField value="{!c.can.Contact_Name__c}" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+                   <apex:pageblockSectionItem rendered="{!c.can.Rejection_Reason_for__c == 'Could not Contact Candidate' && !SkipNoShowNoContactCandidates}" helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Contact_Phone__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Contact_Phone__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>                    
+                               <apex:inputField value="{!c.can.Contact_Phone__c}" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+                   <apex:pageblockSectionItem rendered="{!c.can.Rejection_Reason_for__c == 'Could not Contact Candidate' && !SkipNoShowNoContactCandidates}" helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Best_Time_for_Candidate_to_Contact_You__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Best_Time_for_Candidate_to_Contact_You__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                              <apex:inputTextarea value="{!c.can.Best_Time_for_Candidate_to_Contact_You__c}"  rows="2" cols="40"/>                           
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+                                      
+                   <!-- Descriptive text shows if No Contact was selected and this Candidate was sent less than 7 days ago but not for clients that skip No Contact processing-->
+                   <apex:outputText rendered="{!c.can.Rejection_Reason_for__c == 'Could not Contact Candidate' && c.CandSentorInterviewLessThan7Days && !SkipNoShowNoContactCandidates}"> 
+                       <br/><b>{!$Label.CanUpd_No_Contact_Desc_7_days}</b>
+                   </apex:outputText>    
+
+                   <!-- Descriptive text shows if Withdrew, No Show or Accepted Other was selected and this Candidate was sent less than 7 days ago -->
+                   <apex:outputText rendered="{! c.NoShow && c.CandSentorInterviewLessThan7Days}"> 
+                       <br/><b>{!$Label.CanUpd_Withdrew_No_Show_Desc}</b>
+                   </apex:outputText> 
+                   
+                   <!-- Request Another text shows if No Contact, Withdrew, No Show or Accepted Other was selected and this Candidate was sent less than 7 days ago but not for clients that skip No Contact processing-->                   
+                   <apex:pageBlockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Request_Another_Candidate__c.inlineHelpText}"
+                                              rendered="{!(c.can.Rejection_Reason_for__c == 'Could not Contact Candidate' || c.NoShow ) && c.CandSentorInterviewLessThan7Days && !SkipNoShowNoContactCandidates}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Request_Another_Candidate__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Request_Another_Candidate__c}" /> 
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+
+             </apex:pageBlockSection>
+
+             <!-- Show appropriate Interview Date if New Status contains Interviewing (Dynamic) -->  
+             <!-- FGL/Marks/PL shows Scheduled Interivew Date/Time field -->
+             <!-- Update for Canadian Tire implementation, switch to interview scheduling -->
+             <!--<apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Interviewing') && (Job.recordtype.name == 'FGL Sports' || Job.recordtype.name == 'Marks' || Job.recordtype.name == 'Prairie Lube' || Job.recordtype.name == 'PPG USA')}"> -->
+             
+             <!--<apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Interviewing') && (Job.recordtype.name == 'FGL Sports' || Job.recordtype.name == 'Marks' || Job.recordtype.name == 'Prairie Lube' || Job.recordtype.name == 'PPG USA' || Job.recordtype.name == 'Canadian Tire')}">-->
+             <!-- Update for PPG interview scheduling, ref removal-->
+             <apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Interviewing') && (Job.recordtype.name == 'FGL Sports' || Job.recordtype.name == 'Marks' || Job.recordtype.name == 'Prairie Lube' || Job.recordtype.name == 'PPG USA'
+                            || Job.recordtype.name == 'Canadian Tire' || Job.recordtype.name == 'Country Grocer' || Job.recordtype.name == 'Direct Tap' || Job.recordtype.name == 'AkzoNobel')}"> 
+                     <!-- Allow AkzoNobel interview scheduling for ALL
+                       || Job.recordtype.name == 'Canadian Tire' || Job.recordtype.name == 'Country Grocer' || Job.recordtype.name == 'Direct Tap' || (Job.recordtype.name == 'AkzoNobel' && Job.Role_type__c=='Frontline'))}"> -->
+                    <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Scheduled_Interview_Date_Time__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Scheduled_Interview_Date_Time_PST__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Scheduled_Interview_Date_Time_PST__c}" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+             </apex:pageBlockSection>
+             <!-- non-FGL/Marks shows Interivew Date field -->
+             <!-- Update for Canadian Tire implementation, switch to interview scheduling -->
+             <!--<apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Interviewing') && Job.recordtype.name != 'FGL Sports' && Job.recordtype.name != 'Marks' && Job.recordtype.name != 'Prairie Lube' && Job.recordtype.name != 'PPG USA'}"> -->
+             <!--<apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Interviewing') && Job.recordtype.name != 'FGL Sports' && Job.recordtype.name != 'Marks' && Job.recordtype.name != 'Prairie Lube' && Job.recordtype.name != 'PPG USA' && Job.recordtype.name != 'Canadian Tire'}">--> 
+             <!-- Update for PPG interview scheduling, ref removal-->
+             <apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Interviewing') && Job.recordtype.name != 'FGL Sports' && Job.recordtype.name != 'Marks' && Job.recordtype.name != 'Prairie Lube' && Job.recordtype.name != 'PPG USA' && 
+             Job.recordtype.name != 'Canadian Tire' && Job.recordtype.name != 'Country Grocer' && Job.recordtype.name != 'Direct Tap' && Job.recordtype.name != 'AkzoNobel'}"> 
+                   <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Interview_Date__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Interview_Date__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Interview_Date__c}" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+             </apex:pageBlockSection>
+             
+             <!-- Show Candidate Message Date if New Status contains Left Message (Dynamic) --> 
+             <!-- Added in area below, it is applicatble for either NSM or not. --> 
+             <!--<apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Left Message')}"> 
+                   <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Message_Date__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Message_Date__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Candidate_Message_Date__c}" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+             </apex:pageBlockSection>
+             -->
+
+             <!-- Show Reason for Hire if New Status is Hired for appropriate Clients (Dynamic)   
+             <apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Hired') && DisplayCanStatus}"> 
+                   <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Reason_for_Hire__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Reason_for_Hire__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Reason_for_Hire__c}" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+             </apex:pageBlockSection>
+            
+           **** COMMENTED OUT UNTIL Ready for deploy
+            -->
+            
+            
+         </apex:outputPanel> 
+         <!-- END Functionality for OLD Service Model ---------------------------------------------------------------------------------------------------->
+     
+          <!-- Show Candidate Message Date if New Status contains Left Message (Dynamic) -->  
+          <apex:pageBlockSection showHeader="false" columns="1" rendered="{!contains(c.selectedStatus, 'Left Message')}"> 
+                   <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Message_Date__c.inlineHelpText}">
+                       <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Message_Date__c.label}"/>
+                       <apex:outputPanel styleClass="requiredInput" layout="block">
+                           <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                           <apex:inputField value="{!c.can.Candidate_Message_Date__c}" />
+                       </apex:outputpanel>
+                   </apex:pageblockSectionItem>
+          </apex:pageBlockSection>
+     
+          <!-- Show Status Notes field for any New Status other than Rejected if appropriate Job RecType (Dynamic) -->
+          <apex:pageBlockSection showHeader="false" columns="1" rendered="{!c.selectedStatus != 'none' && c.selectedStatus != 'Rejected' && DisplayCanStatus}"> 
+              <apex:pageblockSectionItem helptext="{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Status_Notes_if_applicable__c.inlineHelpText}">
+                  <apex:outputLabel value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Status_Notes_if_applicable__c.label}"/>
+                  <apex:inputTextarea value="{!c.can.Candidate_Status_Notes_if_applicable__c}"  rows="2" cols="40"/>
+              </apex:pageblockSectionItem>
+          </apex:pageBlockSection>
+     
+        </apex:repeat>
+        <!-- Candidate block end -->
+        </apex:outputPanel>       
+
+
+        
+        <!-- Already finalized Candidate block shows Hired/Rejected Candidates in read only -->
+        <apex:outputPanel rendered="{!NumFinalCandidates >= 1 && ValidStatus }"> 
+        <apex:repeat value="{!FinalizedCandidates}" var="c" >
+
+            <apex:pageBlockSection columns="1" title="{!$ObjectType.SFDC_Job_Candidate__c.label} {!c.can.Candidate_Name__c} {!$Label.CanUpd_Finalized_Section_Header}" collapsible="false">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputText >{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Name__c.label}</apex:outputText>
+                        <apex:outputLink value="/{!c.can.Candidate__c}" target="_blank">{!c.can.Candidate_Name__c}</apex:outputLink>
+                    </apex:pageBlockSectionItem>
+                    <apex:outputField value="{!c.can.Status__c}" label="{!$Label.Current_Status}"/>
+            </apex:pageBlockSection>
+            <!-- Rejection block shown if was set to Rejected except certain fields are hidden if SLA is Job Posting Only -->                  
+            <apex:pageBlockSection showHeader="false" columns="1" rendered="{!c.can.Status_Text__c == 'Rejected'}"> 
+                   <apex:outputField value="{!c.can.Rejection_Reason_for__c}"  />
+                   
+                   <!-- We dont need to show for new service model-->
+                   <apex:outputField value="{!c.can.Was_Candidate_Contacted_for_Interview__c}" rendered="{!AND(job.SLA_Level__c != 'Job Posting Only', NOT(newServiceModel))}"/> 
+                   <!-- We dont need to show for new service model-->
+                   <apex:outputField value="{!c.can.Rejection_Is_Candidate_Suitable__c}" rendered="{!AND(job.SLA_Level__c != 'Job Posting Only', NOT(newServiceModel))}"/>
+                   
+                   <apex:outputField value="{!c.can.Rejection_Comments__c}" rendered="{!job.SLA_Level__c != 'Job Posting Only'}"/>
+             </apex:pageBlockSection>            
+        </apex:repeat>  
+        </apex:outputPanel>        
+              
+        
+        <!-- NSM, 'Transfer Hire into 2nd Job'
+        Section where 2 hires are made, HM is asked to transfer into another job or clone off of existing -->
+        <apex:outputPanel id="panelH">
+        
+            <script>
+            window.scrollTo(0,document.body.scrollHeight);
+            </script>
+        
+            <!-- NSM, render when total hired >= 2 -->
+            <apex:pageBlockSection columns="1" title="{!$Label.CanUpd_AllHired_Title}" collapsible="false" 
+                    rendered="{!newServiceModel && numPreviouslyHired + numHired >= 2}">
+                    <!-- english and french text is hardcoded here to cut down on extraneous labels for bolding/line feeds -->
+                    
+                    
+                    <!-- ENGLISH ------------------------------------------------------------------------------------------------------------------------->
+                    <apex:outputText rendered="{!userLanguage != 'fr'}">
+                        More than 1 candidate has been updated to Hired in this job.  
+                        In order to avoid unnecessary fees, please select one of the following two options prior to saving the candidate updates:
+                        <br/><br/>
+                        <p>
+                           1) <strong>Transfer the Hire into a Pre-existing Job:</strong> 
+                           Select a job from the below list of open jobs at your location and press Save for the second Hire to be transferred in. 
+                           If the selected job does not have any Qualified Candidates presented yet, this transferred Hire will close the job.   
+                        </p> 
+                        <br/>
+                     </apex:outputText> 
+                     <!-- END ENGLISH ------------------------------------------------------------------------------------------------------------------------->  
+                     
+                     <!-- FRENCH ------------------------------------------------------------------------------------------------------------------------->
+                     <apex:outputText rendered="{!userLanguage == 'fr'}">
+                          Plus d’un candidat a été  marqué comme embauché dans cette réquisition. Afin de ne pas engendré des coûts non nécessaires s’il vous plait sélectionner une des deux options plus bas avant de sauvegarder vos dernières mise à jour :
+                          <br/><br/>
+                          <p>
+                            1) <strong>Transférer votre embauche dans une réquisition préexistante:</strong> 
+                            Sélectionner une réquisition déjà ouverte pour votre magasin et appuyer sur sauvegarder afin que votre deuxième embauche y transfère. 
+                            Si la réquisition sélectionnée ne contient pas déjà de candidats qualifiés présentés, ce dernier embauche fermera cette réquisition.  
+                          </p> 
+                       <br/>
+                     </apex:outputText>   
+                     <!-- END FRENCH ------------------------------------------------------------------------------------------------------------------------->
+                     
+                     <!-- Show messgae if no jobs available for selection-->
+                     <apex:outputText rendered="{!numJobsToPlaceHire==0}" value="{!$Label.CanUpd_NoJobs_Title}"></apex:outputText>  
+                         
+                     <!-- Show jobs that can be selected for transfer -->                                    
+                     <apex:pageblocktable value="{!lJobToPlaceCandidate}" var="j" id="jobs">
+                       <apex:column headervalue="{!IF(userLanguage != 'fr', 'Select Job', 'Choisir un Emploi')}">
+                         <apex:actionsupport action="{!checkSelectedValue}" event="onclick" rerender=" ">
+                           <input type="radio" name="<strong>selectRadio</strong>"/>
+                           <apex:param name="jobid" value="{!j.Id}" assignTo="{!jobHirePlaced}" />
+                         </apex:actionsupport>
+                       </apex:column>
+                 
+                       <apex:column headerValue="{!IF(userLanguage != 'fr', 'Job Id', 'Emploi Id')}">
+                        <apex:outputText value="{!j.Name}"/>
+                       </apex:column>  
+                 
+                       <apex:column headerValue="{!IF(userLanguage != 'fr', 'Banner', 'Bannière')}">
+                         <apex:outputText value="{!IF(j.recordtype.name != 'Overwaitea Food Group', j.Banner_of_Store__c, j.OWF_Banner_of_Store__c)}"/>
+                       </apex:column>
+                        
+                       <apex:column headerValue="{!IF(userLanguage != 'fr', 'Title', 'Titre')}">
+                        <apex:outputText value="{!IF(j.recordtype.name != 'Overwaitea Food Group', j.New_Job_Title__c, j.OWF_Job_Title__c)}"/>
+                       </apex:column>
+                       
+                       <apex:column headerValue="{!IF(userLanguage != 'fr', 'Status', 'Statut')}">
+                        <apex:outputText value="{!j.Job_Status__c}"/>
+                       </apex:column>
+                        
+                     </apex:pageBlockTable> 
+                     
+                     <!-- ENGLISH ------------------------------------------------------------------------------------------------------------------------->
+                    <apex:outputText rendered="{!userLanguage != 'fr'}">
+                        <br/>
+                         <p>
+                           2) <strong>Transfer the Hire into a New Job:</strong> 
+                           If a similar job is not currently open, or you wish to leave all open jobs unaffected, select Copy Job below and press Save.  
+                           This will close the existing job and take you to the newly copied job which inturn will be closed with the transfered hire. 
+                         </p>
+                         <br/>
+                     </apex:outputText>
+                     <!-- END ENGLISH ------------------------------------------------------------------------------------------------------------------------->
+                     
+                     <!-- FRENCH------------------------------------------------------------------------------------------------------------------------->
+                     <apex:outputText rendered="{!userLanguage == 'fr'}">
+                        <br/>
+                         <p>
+                          2) <strong>Transférer votre embauche dans une nouvelle réquisition :</strong> 
+                           Si une réquisition similaire n’est pas ouverte pour votre magasin ou vous désirez laisser vos réquisitions non affectées s’il vous plait sélectionner copier réquisition et sauvegarder. 
+                           Ceci fermera la réquisition existante et vous mènera à la nouvelle copie, qui fermera à son tour avec une embauche.
+                         </p>
+                         <br/>
+                     </apex:outputText>
+                     <!-- END FRENCH ------------------------------------------------------------------------------------------------------------------------->
+                     
+                     <!-- Select radio copy job ------------------------------------------------------------------------------------------------------------------------->
+                     <apex:actionsupport action="{!checkSelectedValue}" event="onclick" rerender=" ">
+                      <input type="radio" checked="checked" name="<strong>selectRadio</strong>" value="Copy"/><apex:outputText escape="false" value="{!IF(userLanguage != 'fr', '<strong>Copy Job</strong>', '<strong>Travail de Copie</strong>')}"></apex:outputText>  
+                          <apex:param name="jobid" value="" assignTo="{!jobHirePlaced}" />
+                     </apex:actionsupport>
+                    
+                         
+            </apex:pageBlockSection>
+        </apex:outputPanel>
+
+
+
+        <!-- All Rejected Candidates question block -->
+        <!-- Dec, 2017....dont want OFG Sourcing to see this area any more -->
+         <!-- March, 2018....dont want Ondemand to see this area any more -->
+        <apex:outputPanel id="panelR" rendered="{!AND(Job.Record_Type_Developer_Name__c!='OFG_Sourcing', Job.Record_Type_Developer_Name__c!='OFG', Job.Record_Type_Developer_Name__c!='MindField_OnDemand')}">
+            <!-- If all are rejected AND Job Status is Candidates Sent/Awaiting Hire and RequestMore is allowed and no No Shows, give option to request more -->
+            <!-- NSM, when number of non replacement rejection candidates is equal to SLA, then ask if they want to open a new job -->
+            <apex:pageBlockSection columns="1" title="{!$Label.CanUpd_AllRejected_Title}" collapsible="false" 
+                                    rendered="{!contains(Job.job_status__c, 'Candidates Sent/Awaiting Hire') && NumCandidates > 0 && RequestMoreCandidates &&
+                                    
+                                    (!newServiceModel && NumNoShow == 0 && numRejected == NumCandidates && numPreviouslyHired == 0) ||
+                                    (newServiceModel && numRejectedWithoutReplacement>=numCandidatesForSLA && numTotalHired == 0 && !newServiceModelIsReferredCandidate)
+                                    
+                                    }">
+                    <!-- english and french text is hardcoded here to cut down on extraneous labels for bolding/line feeds -->
+                    <apex:outputText rendered="{!userLanguage == 'fr'}">Tous les candidats ont été Rejetés. Veuillez sélectionner la case ci-dessous si vous 
+                        souhaitez ouvrir une nouvelle position pour recevoir d’autres candidats.   <br/>
+                        Remarque : Vous pourrez modifier les détails du poste à l&#39;écran suivant au besoin avant de soumettre de nouveau le poste.
+                    </apex:outputText>
+                    <apex:outputText rendered="{!userLanguage != 'fr'}">All Candidates have been marked as Rejected.  Please select below if you would like to have another 
+                        job opened so you can receive more candidates.  <br/>
+                        Note: You will be able to edit the Job Details on the next screen if necessary.
+                    </apex:outputText>                    
+                    <apex:pageBlockSectionItem >
+                        <apex:outputText >{!$Label.CanUpd_Request_More}:</apex:outputText>
+                        <apex:outputPanel styleClass="requiredInput" layout="block">
+                            <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                            <apex:selectList value="{!selectedrejAction}" size="1"> 
+                                <apex:selectOptions value="{!rejAction}"/>
+                            </apex:selectList>
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <!-- If all are rejected AND Job Status is NOT Candidates Sent/Awaiting Hire and NOT cancelling job, show message that more Candidates are coming -->
+            <apex:pageBlockSection columns="1" title="{!$Label.CanUpd_Rejected_Section_Header}" collapsible="false" rendered="{!NumCandidates >0 && ValidStatus  &&
+                 numRejected == NumCandidates && numPreviouslyHired == 0 && !contains(Job.job_status__c, 'Candidates Sent/Awaiting Hire') && $CurrentPage.parameters.cancel != '1'}">
+                    <apex:outputText value="{!$Label.CanUpd_More_Candidates}"/>
+            </apex:pageBlockSection>
+        </apex:outputPanel>
+
+        <!-- OWF Hire Confirmation block -->
+        <apex:outputPanel id="panelowf" >
+            <apex:pageBlockSection columns="1" title="{!$Label.CanUpd_ConfirmSaveTitle}" collapsible="false" rendered="{!ConfirmOWFHire}">
+            <!-- show message that an OWF hire requires PSFT hiring and then a confirmation Save  -->
+             <span style="color:red;font-weight:bold">{!$Label.CanUpd_ConfirmSaveText}</span><br></br>
+            </apex:pageBlockSection>
+        </apex:outputPanel>
+        
+        
+        
+       </apex:pageBlock>                    
+    </apex:form>
+  </apex:outputPanel>      
+</apex:page>

@@ -1,0 +1,39 @@
+<!-- Job Tab Override:
+    The action case statement will redirect users to a specific List View based on their Profile Name
+    NOTES: 
+        1. Profile Name is case sensitive and doesn't read copy/pasted hyphens well so be sure to test each new profile default
+        2. Ensure the users in the profile have access to the default list view you specify
+        3. To find the specific list view ID, edit the list view and take the id from the URL ...FilterEditPage?id=00B30000006fp7R&... 
+        4. If the user's profile is not listed you will remain on this page
+-->
+<apex:page tabStyle="SFDC_Job__c" title="{!$Label.Job}" 
+ action="{!if(Contains($Profile.Name, 'OWG') && Contains($Profile.Name, 'LPO Specific'), '/a0P?fcf=00BU0000002HiFW',
+ if(Contains($Profile.Name, 'OFG') && Contains($Profile.Name, 'Store User'), '/a0P?fcf=00BU0000002HiFD',
+          if(Contains($Profile.Name, 'OFG') && Contains($Profile.Name, 'HR User'), '/a0P?fcf=00BU0000002HiFv',
+            if(Contains($Profile.Name, 'MindField OnDemand HirePortal HR User EN'), '/a0P?fcf=00BU0000002HiIL',
+              if(Contains($Profile.Name, 'MindFIeld OnDemand HirePortal Store User EN'), '/a0P?fcf=00BU0000002HiIL',                      
+                if(Contains($Profile.Name, 'HirePortal Regional Mgr FR'), '/a0P?fcf=00BU0000002HiIf',
+                  if(Contains($Profile.Name, 'HirePortal HR User FR'), '/a0P?fcf=00BU0000002HiIf',            
+                    if(Contains($Profile.Name, 'HirePortal Store User FR'), '/a0P?fcf=00BU0000002HiIf',
+                      if(Contains($Profile.Name, 'HirePortal Regional Mgr EN'), '/a0P?fcf=00BU0000002HiIL',
+                        if(Contains($Profile.Name, 'HirePortal HR User EN'), '/a0P?fcf=00BU0000002HiIL',
+                          if(Contains($Profile.Name, 'HirePortal Store User EN'), '/a0P?fcf=00BU0000002HiIL',
+                            if(Contains($Profile.Name, 'HirePortal Store User'), '/a0P?fcf=00BU0000002HiIL',
+         null))))))))))))}">
+
+
+    <!-- if you want to redirect the user to the standard Job tab rather than stay here, replace "null" with:    
+        URLFor($Action.SFDC_Job__c.Tab, $ObjectType.SFDC_Job__c, null, true)   -->
+
+
+    <!-- Custom Content for Jobs Tab -->
+
+    <!-- Add the standard list views component back in -->          
+        <apex:sectionHeader title="{!$Label.Job}" subtitle="{!$Label.Home}"/>
+        <apex:enhancedList type="SFDC_Job__c" height="600" rowsPerPage="25"/>
+        
+    <!-- custom help link -->
+        <DIV ALIGN="RIGHT"><A HREF="/apex/Jobs_List_Help"><!--<IMG SRC="https://na1.salesforce.com/servlet/servlet.ImageServer?id=01530000000w2Dj&oid=00D300000006e0w&lastMod=1263946579000" BORDER="0">-->
+        <span style="font-family: Verdana,Helvetica,Sans-Serif;">{!$Label.Get_Help}</SPAN></a></DIV><BR /><BR />
+
+</apex:page>

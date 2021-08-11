@@ -1,0 +1,5 @@
+<design:component >
+	
+     <design:attribute name="allowedFieldOptions" label="Allowed Status Options" description="comma separated list of filed option api names"/>
+
+</design:component>

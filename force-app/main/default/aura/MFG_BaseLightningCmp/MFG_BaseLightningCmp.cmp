@@ -1,0 +1,33 @@
+<aura:component extensible="true" abstract="true">
+    <aura:attribute name="isLoading" type="Boolean" default="false" />
+
+
+    <aura:method name="showSpinner" action="{!c.handleShowSpinner}" access="global"/>
+    <aura:method name="hideSpinner" action="{!c.handleHideSpinner}" access="global"/>
+    
+    <aura:method name="navigateTo" action="{!c.handleNavigateTo}" access="global">
+        <aura:attribute name="url" type="String"/>
+        <aura:attribute name="newTab" type="Boolean"/>
+    </aura:method>
+    
+    <aura:method name="showToast" action="{!c.handleShowToast}" access="global">
+        <aura:attribute name="config" type="Object"/>
+        <aura:attribute name="context" type="String"/>
+        <aura:attribute name="cmp" type="Aura.Component[]"/>
+    </aura:method>
+    
+    <div class="slds-is-relative">
+        
+        <lightning:overlayLibrary aura:id="overlayLib"/>
+        
+         <c:MFG_MuiDialog aura:id="myNotification"></c:MFG_MuiDialog>
+        <!--c:HCP_ScopedNotification aura:id="myNotification"/-->
+        
+        {!v.body}
+        
+        <aura:if isTrue="{!v.isLoading}">
+            <lightning:spinner size="small" alternativeText="Loading" aura:id="mySpinner"/>
+        </aura:if>
+        
+    </div>
+</aura:component>

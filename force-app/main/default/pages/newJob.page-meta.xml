@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>22.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>Overrides the New link - displays a custom error message if user is part of role that is not allowed to create new Jobs; otherwise opens standard Job page</description>
+    <label>newJob</label>
+</ApexPage>

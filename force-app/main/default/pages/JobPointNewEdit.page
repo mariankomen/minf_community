@@ -1,0 +1,44 @@
+<apex:page standardController="Job_Point__c" extensions="JobPointNewEditController" title="Job Point Edit">
+  <apex:outputPanel rendered="false">{!Job_Point__c.Point_Allocation__c} {!Job_Point__c.Job_Title__c }{!Job_Point__c.name}
+          {!Job_Point__c.Client__c}{!Job_Point__c.Record_Type_Id__c}{!Job_Point__c.id}{!Job_Point__c.Banner_of_Store__c}{!Job_Point__c.Job_Owner_Alias__c}{!Job_Point__c.Custom_Job_Title__c}</apex:outputPanel>
+  
+  <apex:form id="frm">
+      <apex:sectionHeader title="Job Point Edit {!Job_Point__c.name}" />
+      
+      <apex:pageMessages />
+      <apex:pageMessage severity="info" strength="2" summary="Use this page to set a default Job Point allocation if a standard Job Title is selected for a client." />
+      
+      <apex:pageBlock id="pgblk">
+          <apex:pageBlockButtons >
+              <apex:commandButton action="{!save}" value="Save" />
+              <apex:commandButton action="{!saveNew}" value="Save & New" />
+              <apex:commandButton action="{!cancel}" value="Cancel" />
+          </apex:pageBlockButtons>
+          <apex:pageBlockSection columns="1" id="top">
+              <apex:pageBlockSectionItem >
+                  <apex:outputLabel value="Client" />
+                  <apex:actionRegion >
+                      <apex:inputField value="{!job.recordtypeid}" required="true" >
+                          <apex:actionSupport event="onchange" action="{!updateClient}"
+                                                rerender="top" status="upd_rej" />
+                      </apex:inputField>
+                  </apex:actionRegion>
+              </apex:pageBlockSectionItem>
+              <!-- show Job Banner and related Title for certain record types  rendered="{!displayJobBanner }"   rendered="{!displayJobTitle}" -->
+              <apex:inputField value="{!job.Banner_of_Store__c}" rendered="{!!displayJobTitleOFG}" required="true"/>
+              <apex:inputField value="{!job.Job_Title_for_Banner__c}" rendered="{!!displayJobTitleOFG}" required="true"/>
+              <!-- show OFG Job Banner and related Title for OFG -->
+              <apex:inputField value="{!job.OWF_Banner_of_Store__c}" rendered="{!displayJobTitleOFG}" required="true"/>
+              <apex:inputField value="{!job.OWF_Job_Title__c}" rendered="{!displayJobTitleOFG}" required="true"/>
+              <!-- show Job Title (Please Select) for any other record types -->
+              <apex:inputField value="{!job.Job_Title_for_Role__c}"  required="true" />
+          </apex:pageBlockSection>
+          <apex:pageBlockSection columns="1" >
+              <apex:inputField value="{!JobPt.Job_Owner_Alias__c}" />
+              <apex:inputField value="{!JobPt.Custom_Job_Title__c}" />
+              <apex:inputField value="{!JobPt.Point_Allocation__c}" required="true"/>
+          </apex:pageBlockSection>
+      </apex:pageBlock>
+
+  </apex:form>
+</apex:page>

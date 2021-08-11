@@ -1,0 +1,42 @@
+<apex:page standardController="SFDC_Candidate__c" showHeader="false" sidebar="false" extensions="CandidateRecordRating">
+<!-- called from Candidate Rating formula field from Candidates list view or JobView VF page to update rating -->
+<script language="JavaScript" type="text/javascript">
+function CloseAndRefresh()
+{
+    window.parent.opener.CloseWindow()  <!-- reloads parent window -->
+    window.close()
+      
+}
+</script>
+<apex:outputPanel rendered="false">{!SFDC_Candidate__c.StarRating__c}{!SFDC_Candidate__c.Rating_Notes__c}</apex:outputPanel>
+<apex:form >
+    <apex:pageMessages />
+    <apex:sectionHeader title="{!$Label.Update_Candidate_Rating} {!SFDC_Candidate__c.name}"/> 
+    <apex:pageBlock mode="maindetail" >
+        <apex:pageBlockButtons location="bottom">
+            <apex:commandButton action="{!saverating}" title="{!$Label.Save}" value="{!$Label.Save}" oncomplete="CloseAndRefresh()"/>
+            <apex:commandButton onclick="CloseAndRefresh()" title="{!$Label.Cancel}" value="{!$Label.Cancel}"/>
+        </apex:pageBlockButtons>
+        
+        <apex:pageBlockSection columns="1" collapsible="false">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel style="display:block;width:85px;">{!$Label.Rating}</apex:outputLabel>
+                <apex:outputPanel id="Rating"> <!-- this panel holds selection until user clicks save -->
+                    <apex:repeat value="{!stars}" var="s" id="RatingRepeat">            
+                        <apex:commandLink rerender="Rating, Rating2" title="{!s.imagetext}" > 
+                            <apex:param name="selectedRating" assignTo="{!selectedRating}" value="{!s.rating}" />
+                            <apex:image url="{!urlfor($Resource.RatingStars, s.imagelink)}" />
+                        </apex:commandLink> 
+                    </apex:repeat>
+                </apex:outputPanel> 
+            </apex:pageBlockSectionItem>                
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel style="display:block;width:85px;">{!$Objecttype.SFDC_Candidate__c.Fields.Rating_Notes__c.Label}</apex:outputLabel>
+                <apex:inputtextarea value="{!RatingNotes}" cols="45" rows="3"/>
+            </apex:pageBlockSectionItem> 
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+</apex:form>
+
+</apex:page>

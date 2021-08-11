@@ -1,0 +1,30 @@
+<apex:page controller="LMPWrapperController" action="{!getLMP}" showHeader="false" sidebar="falase">
+
+    <apex:form >
+
+        <apex:actionFunction name="redirectToLMP" action="{!redirectToLMP}" />
+        
+        <!-- If we have LMP, redirct to report -->
+        <apex:outputPanel rendered="{!haveLMP}">
+            <script>window.setTimeout(redirectToLMP,1)</script>
+        </apex:outputPanel>
+ 
+        <!-- If HRNX cannot find LMP, some exception -->
+        <apex:outputPanel rendered="{!cannotFindLMP}">
+            <apex:outputText value="This candidate’s Like-minds Predictor report is currently unavailable. The report will be available within 24 hours, or, for immediate assistance, please follow up with our Customer Experience Team via email at "/>
+            <apex:outputLink value="mailto:support@mindfieldgroup.com" id="theLink">support@mindfieldgroup.com</apex:outputLink>
+            <apex:outputText value=" or phone at 1-866-631-1566 x4 if access to the report is required earlier."/>
+        </apex:outputPanel>
+ 
+        <!-- If never tried for LMP... try to get -->
+        <apex:outputPanel rendered="{!tryToGetLMP}">
+            <apex:outputText value="Attempting to retrieve Like-minds Predictor report for the first time. Please wait..."/>
+            <apex:image id="theImage" value="/img/loading32.gif"/>
+
+            <!-- Give a bit of time since webservice is future call. -->
+            <script>window.setTimeout(redirectToLMP,7000)</script> 
+        </apex:outputPanel>
+        
+    </apex:form>
+             
+</apex:page>

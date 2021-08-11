@@ -1,0 +1,2 @@
+<apex:page standardController="SFDC_Job__c" 
+action="{!URLFOR($Action.SFDC_Job__c.New, null, [retURL='/home/home.jsp'])}" />

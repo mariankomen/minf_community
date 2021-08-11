@@ -1,0 +1,85 @@
+<apex:page standardController="Recruiter_Comment__c" extensions="RecruiterCommentNew" >
+    <apex:form >
+    <apex:sectionHeader title="Recruiter Comment Edit" subtitle="New Recruiter Comment"/>
+    <apex:pageBlock title="Recruiter Comment" mode="edit">
+        <apex:pageMessages />
+        <apex:pageBlockButtons location="bottom">
+            <apex:commandButton value=" Save " action="{!save}"/>
+            <apex:commandButton value=" Cancel " action="{!cancel}"/>
+        </apex:pageBlockButtons>
+        
+        <apex:pageBlockSection columns="1">
+            <apex:inputField value="{!comment.Recruiter__c}" />
+            <apex:pageBlockSectionItem >
+                  <apex:outputLabel >{!$ObjectType.Recruiter_Comment__c.fields.Shortlisted_Candidates__c.label}</apex:outputLabel>
+                  <apex:outputPanel styleClass="requiredInput" layout="block">
+                    <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                    <apex:inputField value="{!comment.Shortlisted_Candidates__c}" />
+                </apex:outputPanel>                                
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                  <apex:outputLabel >{!$ObjectType.Recruiter_Comment__c.fields.Calls__c.label}</apex:outputLabel>
+                  <apex:outputPanel styleClass="requiredInput" layout="block">
+                    <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                    <apex:inputField value="{!comment.Calls__c}" />
+                </apex:outputPanel>                                
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                  <apex:outputLabel >{!$ObjectType.Recruiter_Comment__c.fields.Voicemails__c.label}</apex:outputLabel>
+                  <apex:outputPanel styleClass="requiredInput" layout="block">
+                    <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                    <apex:inputField value="{!comment.Voicemails__c}" />
+                </apex:outputPanel>                                
+            </apex:pageBlockSectionItem>            
+            <apex:inputField value="{!comment.Bulk_Emails__c}" />                       
+            <apex:inputField value="{!comment.Monster_Emails__c}" />
+            <apex:inputField value="{!comment.Workopolis_Emails__c}" />                        
+            <apex:inputField value="{!comment.Kijiji_Emails__c}" />   
+            <apex:pageBlockSectionItem >
+                  <apex:outputLabel >{!$ObjectType.Recruiter_Comment__c.fields.Number_of_Candidates_Rejected__c.label}</apex:outputLabel>
+                  <apex:outputPanel styleClass="requiredInput" layout="block">
+                    <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                    <apex:inputField value="{!comment.Number_of_Candidates_Rejected__c}" />
+                </apex:outputPanel>                                
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                  <apex:outputLabel >{!$ObjectType.Recruiter_Comment__c.fields.Most_Common_Rejection_Reasons__c.label}</apex:outputLabel>
+                  <apex:outputPanel styleClass="requiredInput" layout="block">
+                    <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                    <apex:inputField value="{!comment.Most_Common_Rejection_Reasons__c}" />
+                </apex:outputPanel>                                
+            </apex:pageBlockSectionItem>   
+            <apex:pageBlockSectionItem >
+                  <apex:outputLabel >{!$ObjectType.Recruiter_Comment__c.fields.Additional_Comments__c.label}</apex:outputLabel>                                         
+                  <apex:inputTextarea value="{!comment.Additional_Comments__c}" style="width:50%;"/> 
+            </apex:pageBlockSectionItem> 
+        </apex:pageBlockSection>
+
+    
+        <apex:pageBlockSection title="Related Jobs" collapsible="false" columns="1">
+
+            <apex:pageBlockSectionItem >
+               <apex:outputLabel for="rows">Num rows:</apex:outputLabel>
+               <apex:panelGroup id="RowUpd">
+                  <apex:inputText id="rows" value="{!rownum}" />
+                  <apex:commandButton value=" Add Rows " action="{!add}" />
+                  <apex:commandButton value=" Remove Row " action="{!del}" immediate="true"/>
+               </apex:panelGroup>
+            </apex:pageBlockSectionItem>
+
+            <apex:outputText >Please enter the Job(s) that this comment is related to</apex:outputText>
+            
+            <apex:pageBlockTable value="{!jobs}" var="rec" rendered="{!numrows >0}">
+              <apex:column headerValue="Job ID">
+                  <apex:outputPanel styleClass="requiredInput" layout="block">
+                    <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+                    <apex:inputField value="{!rec.Job__c}"/>
+                </apex:outputPanel>
+              </apex:column>
+
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    </apex:form>
+</apex:page>

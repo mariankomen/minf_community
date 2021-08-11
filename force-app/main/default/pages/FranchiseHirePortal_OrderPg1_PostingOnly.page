@@ -1,0 +1,121 @@
+<apex:page controller="FranchiseHirePortal_PostingOnlyJob" title="Franchise HirePortal Posting Only" action="{!openJob}" standardStylesheets="false" applyBodyTag="false" >
+ <html>
+ <head>
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/bootstrap.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+
+ </head>
+ 
+<apex:form > 
+  
+    <body>
+        <div id="tacn_packages-container" class="bootstrap-override">
+            <div class="tacn_full-width">
+
+                <div class="tacn_headline">
+                <br />
+                    <h1 class="tacn_no-icon">Job Details</h1> 
+                </div>
+
+            <div class="tacn_forms-area">
+                
+                <p>
+                Notice - Starting March 13th, Mindfield will no longer host the 1-800-GOT-JUNK? jobs site and jobs posted through the portal will no longer be active.
+                Susanna Dawson, your People &amp; Culture Manager, is available to field questions and mentioned that details about the transition are available in the Junk Bulletin and on your HUB intranet.
+                </p>
+                <!-- March 13, 2018
+                     Got junk will no longer allowed to order jobs through MF.
+                     April 13, full product will be shut down
+                <apex:pageMessages ></apex:pageMessages>               
+                
+                <div class="tacn_form-left">
+                    
+                    <div class="tacn_form">
+                        <div class="tacn_form-group">
+                            <label for="">Brand <span class="tacn_required">*</span></label>
+                            <apex:inputField value="{!job.Banner_of_Store__c}"  />
+                            
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Job Title <span class="tacn_required">*</span></label>
+                            <apex:inputField value="{!job.Job_Title_for_Banner__c}"  /> 
+                        </div>
+                        
+                        <div class="tacn_form-group">
+                            <label for="">Job is for Location</label>
+
+                          <apex:outputPanel rendered="{!$ObjectType.SFDC_Job__c.fields.Job_is_for_Store_if_applicable__c.accessible}">
+                              <apex:inputField value="{!job.Job_is_for_Store_if_applicable__c}" styleclass="tacn_form-control" />      
+                          </apex:outputPanel>
+                           show store location name if they don't have Job is for Store Num field visible (could also use updateable to filter on whether user can edit)
+                          <apex:outputPanel rendered="{! !$ObjectType.SFDC_Job__c.fields.Job_is_for_Store_if_applicable__c.accessible}">
+                              <label class="tacn_light" for="">{!currUser.contact.account.name}</label>
+                          </apex:outputPanel> 
+
+                        </div>
+                        
+                        <div class="tacn_form-group">
+                            <label for="">Supervisors Name <span class="tacn_required">*</span></label>
+                            <apex:inputField value="{!job.Name_of_Person_Submitting_Request__c}" styleclass="tacn_form-control" />
+                        </div>
+                      
+                      <apex:outputPanel style="display:none;">
+                          <div class="tacn_form-group">
+                            <label for="">Hours Per Week <span class="tacn_required">*</span></label>
+                            <apex:inputField value="{!job.Number_Of_Hours_Per_Week__c}" />
+                          </div>
+                      </apex:outputPanel>    
+                      <div class="tacn_form-group">
+                        <label for="">Full Time /  Part Time <span class="tacn_required">*</span></label>
+                        <apex:inputField value="{!job.FT_or_PT__c}" />
+                      </div>
+                      
+                </div>
+
+                <div class="tacn_form">
+                
+                    <div class="tacn_form-group">
+                        <label for="">Wage Details <span class="tacn_required">*</span></label>
+                        <apex:inputField value="{!job.Wage_Details__c}" styleclass="tacn_form-control" />
+                    </div>
+                </div>
+
+                <apex:commandButton action="{!saveJob}" value="Order" styleClass="tacn_btn tacn_btn-reg"/>
+                <apex:commandButton action="{!utility.cancel}" value="Cancel" immediate="true" styleClass="tacn_btn tacn_btn-reg"/>
+                <a class="tacn_btn tacn_btn-gray" href="/apex/Support_Page">HELP?</a> 
+
+            </div>
+
+                <div class="tacn_form-right">
+                    
+                    <div class="tacn_form">
+
+                       <div class="tacn_form-group">
+                            <label for="">Job Status</label>
+                            <label class="tacn_light" for="">Pending Order</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Mindfield Service</label>
+                            <label class="tacn_light" for="">{!job.Mindfield_Service__c}</label>
+                        </div>
+                     
+                    </div>
+
+                
+
+                </div>
+                -->
+
+            </div>
+
+            </div>
+
+             
+
+        </div>
+                      
+</body>
+  </apex:form>
+  </html>
+</apex:page>

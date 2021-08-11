@@ -1,0 +1,123 @@
+<template>
+    <div class="slds-card">
+        <template if:false={state.loaded} >
+            <div class="slds-is-relative">
+                <lightning-spinner variant="brand" alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>        
+
+       
+
+
+        <div class="slds-page-header forceRelatedListCardHeader">       
+            <lightning-layout >
+                <lightning-layout-item  size="10">
+                    <lightning-icon icon-name="standard:email" size="medium"></lightning-icon>
+                    <span class="slds-text-heading_small slds-var-p-around_xxx-small"> {JobLabel}</span>       
+                </lightning-layout-item>
+                
+                    <template  if:false={state.showToast}>                                                
+                        <lightning-layout-item  size="2">
+                            <lightning-layout class= "slds-float_right" >
+                                <lightning-layout-item  >
+                                    <div class= "slds-var-p-right_xx-small">
+                                        <a class="slds-button slds-button_neutral" href={url}>Cancel</a>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item  >
+                                    <lightning-button variant="brand" label="Send"  onclick={handleSendEmail} ></lightning-button>       
+                                </lightning-layout-item>
+                            </lightning-layout>                            
+                        </lightning-layout-item>
+                    </template>
+                
+            </lightning-layout>                
+        </div>
+        <template if:true={state.showToast}>
+
+            <div class={state.toastClass} role="status">
+                <div class="slds-media__figure">
+                  <span class={toastIconClass} title={state.toastTitle}>
+                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                      <use xlink:href={state.toastIcon}></use>
+                    </svg>
+                    <span class="slds-assistive-text">{state.toastTitle}</span>
+                  </span>
+                </div>
+                <div class="slds-media__body">
+                    <p> {state.toastMessage} &nbsp;&nbsp;
+                        <a href={url}>Back to Job</a>
+                        <template if:true={state.showTryAgaing}>
+                            &nbsp;&nbsp; <a href="#" onclick={handleTryAgain}>Try Again</a>      
+                        </template >
+    
+                    </p>
+                </div>
+              </div>
+
+        </template>
+        <template  if:false={state.showToast}>
+            <lightning-accordion allow-multiple-sections-open
+                         onsectiontoggle={handleSectionToggle}
+                         active-section-name={state.activeSections}>
+                         <lightning-accordion-section name="A" label="Email message details">                         
+                            <lightning-layout multiple-rows="true">
+                            <lightning-layout-item class = "slds-var-p-left_small slds-var-p-bottom_xxx-small" size="12">
+                                <template if:true={state.templates} >
+                                    <lightning-combobox
+                                        name="template"
+                                        label="Template"                    
+                                        placeholder="Select email template"
+                                        options={state.templates}
+                                        onchange={handleTemplate}
+                                        field-level-help="Listing the templates of 'Mass Applicant Email Templates' Folder"
+                                        >
+                                    </lightning-combobox>
+                                </template>
+                            </lightning-layout-item>    
+                    
+                            <lightning-layout-item  class = "slds-var-p-left_small slds-var-p-bottom_xxx-small" size="12">
+                                <template if:true={state.from} >
+                                    <lightning-combobox name="selectedFrom" label="From" options={state.from} value={state.selectedFrom} onchange={handleChange} ></lightning-combobox>
+                                </template>
+                            </lightning-layout-item>    
+                                        
+                            <lightning-layout-item class = "slds-var-p-left_small slds-var-p-bottom_xxx-small" size="12">
+                                <template if:true={state.applicants} >
+                                    <label class="slds-form-element__label">To</label> <lightning-pill-container
+                                        items={state.applicants}    title = "selected Applicants"                
+                                    >
+                                        
+                                    </lightning-pill-container>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item class = "slds-var-p-left_small slds-var-p-bottom_xxx-small" size="12">
+                                <lightning-input required type="text" value={state.subject} name ="subject" class="subject" onchange={handleChange} label="Subject"></lightning-input>
+                            </lightning-layout-item>   
+                            </lightning-layout>
+                        </lightning-accordion-section>                
+            </lightning-accordion>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item  class = "slds-var-p-around_small" size="12">                         
+                    <iframe class= "slds-box" height={state.height} onload={handleTextAreaLoad} width="100%" src="/apex/tinymce"></iframe>
+                </lightning-layout-item>    
+                
+                
+                <lightning-layout-item class="slds-var-p-bottom_small" size="12">
+                            <lightning-layout class= "slds-var-p-bottom_small  slds-var-m-right_small slds-float_right" >
+                                <lightning-layout-item  >
+                                    <div class= "slds-var-p-right_xx-small">
+                                        <a class="slds-button slds-button_neutral" href={url}>Cancel</a>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item  >
+                                    <lightning-button variant="brand" label="Send"  onclick={handleSendEmail} ></lightning-button>       
+                                </lightning-layout-item>
+                            </lightning-layout>                            
+                </lightning-layout-item>                                    
+                
+                </lightning-layout>
+   
+    </template>
+    </div>
+</template>

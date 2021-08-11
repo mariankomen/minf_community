@@ -1,0 +1,30 @@
+<apex:page standardController="SFDC_Candidate__c" showHeader="false" sidebar="false" extensions="CandidateRecordRating">
+<!-- used in VF inline component in Candidate Record layout to open popup for rating -->
+<apex:outputPanel rendered="false">{!SFDC_Candidate__c.StarRating__c}{!SFDC_Candidate__c.Rating_Notes__c}</apex:outputPanel>
+<apex:form >
+<script>
+    <!-- called by popup to refresh page -->
+    function CloseWindow()
+    {
+        window.parent.location.href='/{!sfdc_candidate__c.id}';
+    }
+</script>
+    <apex:outputPanel id="Rating0" rendered="true"> <!-- this panel shows stars and opens popup for editing -->
+        <apex:repeat value="{!stars}" var="s" id="RatingRepeat0">            
+            <apex:commandLink onclick="window.open('/apex/candidaterecordratingpopup?id={!SFDC_Candidate__c.id}&rating={!s.rating}','lookupWindow','status=0,width=470,height=230,center=1')" title="{!s.imagetext}" >
+                <apex:image url="{!urlfor($Resource.RatingStars, s.imagelink)}" />
+            </apex:commandLink>
+        </apex:repeat>
+    </apex:outputPanel>
+
+    <apex:outputPanel id="Rating2" rendered="false">  <!-- use this one for one-click save in detail page view if desired -->
+        <apex:repeat value="{!stars}" var="s" id="RatingRepeat2">            
+            <apex:commandLink action="{!saveRatingRefresh}" rerender="Rating, Rating2" title="{!s.imagetext}" > 
+                <apex:param name="selectedRating" assignTo="{!selectedRating}" value="{!s.rating}" />
+                <apex:image url="{!urlfor($Resource.RatingStars, s.imagelink)}" />
+            </apex:commandLink> 
+        </apex:repeat>
+    </apex:outputPanel>    
+</apex:form>
+
+</apex:page>

@@ -1,0 +1,57 @@
+<apex:page title="Franchise HirePortal - Create Jobs" sidebar="false" standardStylesheets="false" showHeader="false"  >
+
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+ 
+        <div id="tacn_home-container">
+            <div class="tacn_half-width">
+
+                <div class="tacn_headline tacn_border-head">
+                    <img class="tacn_icon" src="{!URLFOR($Resource.HirePortal_Resources, '/images/mf_homeicon_x2_1.png')}" alt="candidate sourcing" />
+                    <span class="tacn_flex-h1 tacn_no-pad"><h1>Candidate Sourcing</h1></span>
+
+
+
+                </div>
+
+                <div class="tacn_banner tacn_img1 tacn_border-banner">
+                    <span class="h2-title"><h2>Need help getting applicants to apply for your open roles?</h2></span>
+                </div>
+                
+                <div class="tacn_paragraph tacn_border-graph">
+
+                    <p>Candidate Sourcing allows you to open a pre-populated role and receive a stream of eligible candidates. Once you open a role, Mindfield will market the job using a unique sourcing strategy and each candidate will be asked to complete an online assessment to measure for fit. As soon as qualified candidates have applied, you will receive notifications alerting you they are ready to be reviewed. </p>
+                    <a class="tacn_btn tacn_btn-reg" href="/apex/FranchiseHirePortal_OrderPg1_CanSource" target="_top">ORDER</a> <a class="tacn_btn tacn_btn-gray" href="">HELP?</a>
+
+                </div>
+
+            </div>
+
+            <div class="tacn_half-width">
+
+                <div class="tacn_headline">
+                    <img class="tacn_icon" src="{!URLFOR($Resource.HirePortal_Resources, '/images/mf_homeicon_x2_2.png')}" alt="candidate sourcing" />
+                     <span class="tacn_flex-h1 no-pad"><h1>Full-Cycle Recruitment</h1></span>
+                </div>
+
+                <div class="tacn_banner tacn_img2">
+                    <span class="h2-title"><h2>Full-Cycle recruitment allows you to open a job and receive two fully screened qualified candidates ready to be interviewed.</h2></span>
+                </div>
+                
+                <div class="tacn_paragraph">
+
+                    <p>Mindfield uses a combination of people, process and technology to help improve the quality of hires you are making. All you have to do is select a pre-populated role and two qualified candidates will be presented back to you. Mindfield attracts, screens and measures candidates to ensure you are only spending your time interviewing the best fit for the role.  </p>
+
+                    <a class="tacn_btn tacn_btn-reg" href="/apex/FranchiseHirePortal_OrderPg1_FullRecruit" target="_top">ORDER</a> 
+                    <a class="tacn_btn tacn_btn-gray" href="/apex/Support_Page" target="_blank">HELP?</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    
+</apex:page>

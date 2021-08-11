@@ -1,0 +1,14 @@
+<apex:page standardController="SFDC_Job__c" extensions="JobStatusUpdate" action="{!setJobStatus}" >
+
+    <apex:sectionHeader title="Job Update" />
+    <apex:pageMessages />
+    <apex:form >
+        <apex:pageBlock >
+        <!-- Buttons block -->
+        <apex:pageBlockButtons location="bottom">   
+            <apex:commandButton value="Return to Job" action="{!cancel}" />
+        </apex:pageBlockButtons>
+        <Apex:outputPanel >Please see error message above to determine why Job was not updated.</Apex:outputPanel> 
+        </apex:pageblock>
+    </apex:form>       
+</apex:page>

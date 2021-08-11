@@ -1,0 +1,45 @@
+<apex:page standardController="SFDC_Job__c" extensions="newJob"
+    action="{!newJobLink}">  
+
+
+    <!-- This page checks the users role to ensure they are able to create new Jobs.  If they are in the list of "banned" roles, -->
+    <!--  they remain here with a custom message showing based on their role.  Otherwise they are taken to the standard new Job page  -->
+
+    <!-- To add new profiles to the logic that will stop New Job creation, do the following:
+            1. Under Develop - Custom Settings, click Manage next to 'Job Banned Profile List'
+            2. Add a new entry for each profile that should not have access to creating Jobs
+                NOTE: 'Name' should be some unique value, like a number or perhaps Client name.
+                NOTE: 'Profile Name' must match the profile name in Salesforce exactly.
+                NOTE: 'Error message' should be the exact error text you want the user to see.  You can add french text if the profile is used
+                        with french users.
+            
+            NO UPDATES to this page are required as of June 2013.
+    -->
+    
+  <apex:sectionHeader title="New Job Creation" />
+    <apex:form >
+        <apex:pageBlock >
+        <apex:pageMessages />
+        <!-- Buttons block -->
+        <apex:pageBlockButtons location="bottom">   
+            <apex:commandButton value="Cancel" action="{!cancel}" />
+        </apex:pageBlockButtons>
+
+        <!-- error message as specified in the Banned Profile setting for this user -->
+        <apex:outputPanel rendered="{!errorMsg != ''}">
+            <br></br>
+            <apex:outputText value="{!errorMsg}" /><br></br>
+            <br></br>
+        </apex:outputPanel>  
+              
+        <!-- Generic error block in case we didn't find an errorMsg in the code -->
+        <apex:outputPanel rendered="{!errorMsg == ''}">
+            <br></br>
+            <apex:outputText value="Attention: Unfortunately, you are not able to create new Jobs with MindField.  Please contact your Hiring Manager to open a new job with MindField Group." /><br></br>
+            <br></br>
+        </apex:outputPanel>
+        
+        
+    </apex:pageblock>
+    </apex:form>
+</apex:page>

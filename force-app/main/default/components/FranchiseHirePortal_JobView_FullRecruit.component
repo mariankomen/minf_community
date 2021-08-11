@@ -1,0 +1,124 @@
+<apex:component >
+    <apex:attribute name="job" type="SFDC_Job__c" required="true" description="Pass in the job record to be displayed"/>
+    <apex:attribute name="currUser" type="User" required="true" description="Pass in the running User"/>
+    <apex:attribute name="orderComplete" type="boolean" required="false" default="false" description="If the order is complete, pass in true.  Defaults to false."/>
+    
+                <div class="tacn_form-full">
+                    <div class="tacn_summary-title">
+                        <h3>{!job.Job_Title_for_Banner__c}</h3>
+                    </div>
+                </div>
+
+                <div class="tacn_form-left">
+                    
+                    <div class="tacn_form">
+                        <div class="tacn_form-group">
+                            <label for="">Job is for Location</label>
+                            <label class="tacn_light" for="">
+                                  <apex:outputField value="{!job.Job_is_for_Store_if_applicable__c}" rendered="{!$ObjectType.SFDC_Job__c.fields.Job_is_for_Store_if_applicable__c.accessible}" />      
+                                  <!-- show store location name if they don't have Job is for Store Num field visible (could also use updateable to filter on whether user can edit) -->
+                                  <apex:outputPanel rendered="{! !$ObjectType.SFDC_Job__c.fields.Job_is_for_Store_if_applicable__c.accessible}">
+                                      {!currUser.contact.account.name}
+                                  </apex:outputPanel> 
+                            </label>
+                        </div>
+
+                        <div class="tacn_form-group">
+                            <label for=""># of Hours Per Week</label>
+                            <label class="tacn_light" for="">{!job.Number_Of_Hours_Per_Week__c}</label>
+                        </div>
+
+                        <div class="tacn_form-group">
+                            <label for="">Full Time / Part Time</label>
+                            <label class="tacn_light" for="">{!job.FT_or_PT__c}</label>
+                        </div>
+                        
+                        <div class="tacn_form-group">
+                            <label for="">Hours / Days Needed</label>
+                            <label class="tacn_light" for="">{!job.Hours_of_Availability__c}</label>
+                        </div>
+                                                
+                        <div class="tacn_form-group">
+                            <label for="">Comments / Details of Required Shifts</label>
+                            <label class="tacn_light" for="">{!job.Hours_of_Availability_Comments__c}</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Other Comments</label>
+                            <label class="tacn_light" for="">{!job.Job_Comments__c}</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Interview Scheduling</label>
+                            <label class="tacn_light" for="">{!job.Interview_Scheduling__c}</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Interview Availability</label>
+                            <label class="tacn_light" for="">{!job.Interview_Availability__c}</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Interview Location</label>
+                            <label class="tacn_light" for="">{!job.Interview_Location__c}</label>
+                        </div>                        
+
+
+                    </div>  
+
+                </div>
+
+                <div class="tacn_form-right">
+                    <div class="tacn_form">
+                        <!-- only show Job ID if order is complete -->
+                        <apex:outputPanel rendered="{!orderComplete}">
+                            <div class="tacn_form-group">
+                                <label for="">Job ID</label>
+                                <label class="tacn_light" for=""><a href="/{!job.id}">{!job.name}</a></label>
+                            </div>
+                        </apex:outputPanel>
+                        
+                        <div class="tacn_form-group">
+                            <label for="">Job Cost</label>
+                            <label class="tacn_light" for=""><apex:outputText value="${0, number,###,##0}">
+                                                                <apex:param value="{!job.Job_Cost__c}"/>
+                                                             </apex:outputText></label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Mindfield Service</label>
+                            <label class="tacn_light" for="">{!job.Mindfield_Service__c}</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Supervisors Name</label>
+                            <label class="tacn_light" for="">{!job.Name_of_Person_Submitting_Request__c}</label>
+                        </div>                        
+                    </div>
+                    <div class="tacn_form">
+                        <div class="tacn_form-group">
+                            <label for="">Wage Details</label>
+                            <label class="tacn_light" for="">{!job.Wage_Details__c}</label>
+                        </div>
+
+                    
+                        <div class="tacn_form-group">
+                            <label for="">Profit Sharing</label>
+                            <label class="tacn_light" for="">{!job.Profit_Sharing__c}</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Benefits</label>
+                            <label class="tacn_light" for="">{!job.Benefits__c}</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Additional Information</label>
+                            <label class="tacn_light" for="">{!job.Additional_Information__c}</label>
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Reason for Opening</label>
+                            <label class="tacn_light" for="">{!job.Reason_for_Opening__c}</label>
+    
+                        </div>
+                        <div class="tacn_form-group">
+                            <label for="">Reason for Opening Details</label>
+                            <label class="tacn_light" for="">{!job.Reason_for_Position__c}</label>
+                        </div>
+                    </div>                   
+                </div>
+
+     
+</apex:component>

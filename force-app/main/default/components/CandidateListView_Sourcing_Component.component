@@ -1,0 +1,618 @@
+<apex:component >
+  
+  <apex:includeScript value="{!URLFOR($Resource.dataTable, 'js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.dataTable, 'js/jquery.dataTables.min.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.dataTable, 'css/jquery.dataTables.css')}"/>
+    <apex:includeScript value="/soap/ajax/34.0/connection.js" />
+              
+    <script>
+       
+    var dataTable;   
+       
+    $(document).ready(function() {
+    
+       
+    
+        var candidateIdInURL = '{!$CurrentPage.parameters.cid}'.length > 0;
+        
+        loadsCacheData();
+                    
+        $(".objSelectStatus").change(function () { //onchange events for bulk status update
+           
+                     
+            //show/hide rejection area
+            if($('#selectObjectSUpdate').val() == 'Rejected') {
+                $( ".rejReas" ).css( "display", "block" );
+            } else {
+                $( ".rejReas" ).css( "display", "none" );
+            }
+            
+            //enable/disable update button
+            if($('#selectObjectSUpdate').val() == 'Select' ||
+               $('#selectObjectS').val() == 'Rejected' ||
+               $('#selectObjectS').val() == 'Hired') {
+                $( ".btn" ).attr("disabled", "disabled");
+            } else {
+                $( ".btn" ).removeAttr("disabled");
+            }
+            
+        }).change();   
+            
+        $(".objSelect").change(function () { //onchange events for filters
+                       
+            saveCacheData();      
+                       
+            //enable/disable update button
+            if($('#selectObjectSUpdate').val() == 'Select' ||
+               $('#selectObjectS').val() == 'Rejected' ||
+               $('#selectObjectS').val() == 'Hired') {
+               $( ".btn" ).attr("disabled", "disabled");
+            } else {
+                $( ".btn" ).removeAttr("disabled");
+            }     
+                    
+            $.ajax({ //query SF 
+                //url : "/services/data/v41.0/query?q=SELECT+id,+SFDC_Job__c,+Candidate__r.Name,+Candidate__r.Id,+My_Stores_Job__c,+Phone_Number__c,+Candidate_Email__c,+Date_Candidate_Sent__c,+Eligible_to_work_in_Canada__c,+Criminal_background_check__c,+Previously_Worked_for_Save_On_Foods__c,+Star_Rating__c,+Status__c,+Rejection_Reason_for__c+from+SFDC_Job_Candidate__c+WHERE+Job_Status__c+!=+'Filled+Closed+Job'+AND+Star_Rating__c+=+" + $('#selectObjectSR').val() + "+AND+Eligible_to_work_in_Canada__c+=+'" + $('#selectObjectWIC').val() + "'+AND+Criminal_background_check__c+=+'" + $('#selectObjectCBC').val() + "'+AND+Previously_Worked_for_Save_On_Foods__c+=+'" + $('#selectObjectPW').val() + "'+AND+Status__c+=+'" + $('#selectObjectS').val() + sQuery, 
+                url : BuildQuery(),
+                headers : { 'Authorization' : 'Bearer {!$Api.Session_ID}' },
+                datatype : 'json', 
+                beforeSend: function( xhr ) {
+                    //show loading spinner
+                    $( "#dvSpinner" ).css( "display", "block" ); 
+                }, 
+                cache: false,      
+                success : function(data, textStatus, jqXHR) {                   
+                    
+                    // Clear current List View info
+                    $('#listview').empty();
+
+                    // Create the table and add columns
+                    var table = $("<table></table>");
+                    var thead = $('<thead></thead>');
+                    var theadtr = $("<tr style='font-size: 10px;'></tr>");                   
+                    table.appendTo('#listview');                    
+                    table.append(thead);
+                    thead.append(theadtr);
+                     
+                    theadtr.append($('<th>Action</th>'));            
+                    theadtr.append($("<th style='text-align:center'>Candidate Name</th>"));
+                    theadtr.append($("<th style='text-align:center'>Phone Number</th>"));
+                    //theadtr.append($('<th>Email Address</th>'));
+                    theadtr.append($("<th style='text-align:center'>Application <br /> Submitted</th>"));
+                    theadtr.append($("<th style='text-align:center'>Work in <br /> Canada</th>"));
+                    theadtr.append($("<th style='text-align:center'>Criminal Background <br /> Check</th>"));
+                    theadtr.append($("<th style='text-align:center'>Previously Worked <br /> for SOF</th>"));
+                    
+                    //theadtr.append($("<th style='text-align:center'>Older than <br /> 15</th>"));
+                    theadtr.append($("<th style='text-align:center'>15 or<br />Older</th>"));
+                    theadtr.append($("<th style='text-align:center'>Hours per <br /> Week</th>"));
+                    
+                    theadtr.append($("<th style='text-align:center'>Star <br /> Rating</th>"));
+                    theadtr.append($("<th style='text-align:center'>Status</th>"));
+                         
+                    //theadtr.append($('<th>Rejection Reason</th>'));
+                    
+                    // Add the rows
+                    var tbody = $('<tbody></tbody');
+                    table.append(tbody);
+                    $.each(data.records, function(rowIndex, record) {
+                       
+                        var tbodytr = $("<tr style='font-size: 10px;'></tr>");                   
+                        tbody.append(tbodytr);
+                        
+                        tbodytr.append($("<td><input class='cbClass' type='checkbox' id='" + record.Id + "'></input></td>"));
+                        //tbodytr.append($("<td><a href='/" + (record.Job_Record_Type_Developer_Name__c.indexOf('OFG_Sourcing') >= 0 ? record.Id : record.Candidate__r.Id) + "' target='_blank'>" + record.Candidate__r.Name + "</a></td>"));
+                        tbodytr.append($("<td style='text-align:center'><a href='/" + (record.Job_Record_Type_Developer_Name__c.indexOf('OFG_Sourcing') >= 0 ? record.Id : record.Candidate__r.Id) + "' target='_parent'>" + record.Candidate__r.Name + "</a></td>"));
+                        
+                        
+                        tbodytr.append($("<td style='text-align:center'>" + (record.Phone_Number__c!=null ? record.Phone_Number__c : '') + '</td>'));
+                        //tbodytr.append($('<td>' + (record.Candidate_Email__c!=null ? record.Candidate_Email__c : '') + '</td>'));
+                        tbodytr.append($("<td style='text-align:center'>" + (record.Date_Candidate_Sent__c!=null ? record.Date_Candidate_Sent__c : '') + '</td>'));
+                        tbodytr.append($("<td style='text-align:center'>" + (record.Eligible_to_work_in_Canada__c!=null ? record.Eligible_to_work_in_Canada__c : '') + '</td>'));
+                        tbodytr.append($("<td style='text-align:center'>" + (record.Criminal_background_check__c!=null ? record.Criminal_background_check__c : '') + '</td>'));
+                        tbodytr.append($("<td style='text-align:center'>" + (record.Previously_Worked_for_Save_On_Foods__c!=null ? record.Previously_Worked_for_Save_On_Foods__c : '') + '</td>'));
+                       
+                       
+                        tbodytr.append($("<td style='text-align:center'>" + (record.Older_than_15__c!=null ? record.Older_than_15__c: 'No Answer') + '</td>'));
+                        tbodytr.append($("<td style='text-align:center'>" + (record.of_hours_per_week__c!=null ? record.of_hours_per_week__c  : 'No Answer') + '</td>'));
+                       
+                       
+                        
+                        tbodytr.append($("<td style='text-align:center'>" + (record.Star_Rating__c!=null ? record.Star_Rating__c : '0') + '</td>'));
+                        tbodytr.append($("<td style='text-align:center'>" + (record.Status__c!=null ? record.Status__c: 'New') + '</td>'));
+                        
+                        //tbodytr.append($('<td>' + (record.Rejection_Reason_for__c!=null ? record.Rejection_Reason_for__c : '') + '</td>'));
+                        
+                        if(candidateIdInURL) { //if got candidate in URL, so just one, we want to match select choices with the candidate
+                            $('#selectObjectWIC').val((record.Eligible_to_work_in_Canada__c!=null ? record.Eligible_to_work_in_Canada__c: 'All')).change();
+                            $('#selectObjectCBC').val((record.Criminal_background_check__c!=null ? record.Criminal_background_check__c: 'All')).change();
+                            $('#selectObjectPW').val((record.Previously_Worked_for_Save_On_Foods__c!=null ? record.Previously_Worked_for_Save_On_Foods__c: 'All')).change();
+                            
+                            $('#selectObjectS').val((record.Status__c!=null ? record.Status__c: 'All')).change();
+                            $('#selectObjectSR').val((record.Star_Rating__c!=null ? record.Star_Rating__c: '0')).change();
+                            
+                            $('#selectObjectOlder').val((record.Older_than_15__c!=null ? record.Older_than_15__c: 'All')).change();
+                            $('#selectObjectHours').val((record.of_hours_per_week__c!=null ? record.of_hours_per_week__c: 'All')).change();
+                            
+                          
+                        }
+                        
+                    });
+
+                    // Enhance this boring old HTML table with JQuery DataTable!
+                    dataTable = table.DataTable( 
+                        { 
+                            "deferRender": true,
+                            initComplete: function(settings, json) {
+                                //alert( 'DataTables has finished its initialisation.' );
+                            }, 
+                            stateSave: true,
+                            stateDuration: 1200,
+                           
+                            stateLoadParams: function (settings, data) {
+                            
+                            },
+                            
+                            stateSaveParams: function (settings, data) {
+                            
+                            },
+                            destroy : true,
+                        }
+                    );
+                    
+                    //hide loading spinner
+                    $( "#dvSpinner" ).css( "display", "none" ); 
+                }
+            }); 
+                          
+       });
+       
+       //trigger drop down change which will make the first database call
+       $("#selectObjectWIC").change();
+       
+    });
+    
+    function BuildQuery() {
+        var sQuery;
+        var sQueryEnd = "";
+        var sQueryJobStatus = "";
+                
+        //if HR user, and/or, coming from job page we add additonal query parameters
+        var isHRUser = '{!$Profile.Name}'.indexOf('OFG HirePortal HR') >= 0;
+        var isFromJob = '{!$CurrentPage.parameters.id}'.length > 0;
+        
+        var candidateIdInURL = '{!$CurrentPage.parameters.cid}'.length > 0; //candidate id was passed in the URL, EG '/apex/CandidateListView_Sourcing?cid=a0Q3D000000bZ6V'
+        
+        if(candidateIdInURL) { //pass candidate id directly
+            sQuery = "/services/data/v41.0/query?q=SELECT+id,+Job_Record_Type_Developer_Name__c,+SFDC_Job__c,+Candidate__r.Name,+Candidate__r.Id,+My_Stores_Job__c,+Phone_Number__c,+Candidate_Email__c,+Date_Candidate_Sent__c,+Eligible_to_work_in_Canada__c,+Criminal_background_check__c,+Previously_Worked_for_Save_On_Foods__c,+Star_Rating__c,+Status__c,+older_than_15__c,+of_hours_per_week__c,+Rejection_Reason_for__c+from+SFDC_Job_Candidate__c+WHERE+Id+=+'" + '{!$CurrentPage.parameters.cid}' + "'";
+        }
+        else { //build from below
+            // came from job and/or HR user
+            if(isHRUser && isFromJob) {
+                sQueryEnd = "+AND+My_Stores_Job__c+=+'Yes'+AND+SFDC_Job__c+=+'" + '{!$CurrentPage.parameters.id}' + "'";
+            } 
+            else if(isHRUser) {
+                sQueryEnd = "+AND+My_Stores_Job__c+=+'Yes'";
+            }
+            else if(isFromJob) {
+                sQueryEnd = "+AND+SFDC_Job__c+=+'" + '{!$CurrentPage.parameters.id}' + "'";
+            }
+            
+            if(!isFromJob) {
+                sQueryJobStatus = "+Job_Status__c+!=+'Filled+Closed+Job'+AND+Job_Status__c+!=+'Filled+Internally+Closed+Job'+AND+Job_Status__c+!=+'Not+Filled/Closed+by+Mgr'+AND+Job_Status__c+!=+'Not+Filled/Job+Re-Opened'+AND";
+            }
+            
+            //filters
+            var sQueryWIC = $('#selectObjectWIC').val()!='All' ? ("+AND+Eligible_to_Work_in_Canada_Formula__c+=+'" + $('#selectObjectWIC').val() + "'") : "";
+            var sQueryCBC = $('#selectObjectCBC').val()!='All' ? ("+AND+Criminal_Background_Check_Formula__c+=+'" + $('#selectObjectCBC').val() + "'") : "";
+            var sQueryPWSOF = $('#selectObjectPW').val()!='All' ? ("+AND+Previously_Worked_for_SOF_Formula__c+=+'" + $('#selectObjectPW').val() + "'") : "";
+            var sQueryStatus = $('#selectObjectS').val()!='All' ? ("+AND+Status__c+=+'" + $('#selectObjectS').val() + "'") : "";
+            var sQueryOlder = $('#selectObjectOlder').val()!='All' ? ("+AND+older_than_15_Formula__c+=+'" + $('#selectObjectOlder').val() + "'") : "";
+            var sQueryHours = $('#selectObjectHours').val()!='All' ? ("+AND+of_hours_per_week_formula__c+=+'" + $('#selectObjectHours').val() + "'") : "";
+                        
+            sQuery = "/services/data/v41.0/query?q=SELECT+id,+Job_Record_Type_Developer_Name__c,+SFDC_Job__c,+Candidate__r.Name,+Candidate__r.Id,+My_Stores_Job__c,+Phone_Number__c,+Candidate_Email__c,+Date_Candidate_Sent__c,+Eligible_to_work_in_Canada__c,+Criminal_background_check__c,+Previously_Worked_for_Save_On_Foods__c,+Star_Rating__c,+Status__c,+Rejection_Reason_for__c,+older_than_15__c,+of_hours_per_week__c+from+SFDC_Job_Candidate__c+WHERE" + sQueryJobStatus + "+Star_Rating__c+>=+" + $('#selectObjectSR').val() + sQueryWIC + sQueryCBC + sQueryPWSOF + sQueryStatus + sQueryOlder + sQueryHours + sQueryEnd; 
+        }    
+    
+        return sQuery;       
+    }
+   
+    //save functions ----------------------------------------------------------------------------------
+    function doSave() {
+       $( "#dvUpdating" ).css({ display: "block" });
+       var arrIds = []; //store ids
+             
+       //loop through checkboxes and get ids
+       $('input:checkbox.cbClass').each(function () {
+           if(this.checked) {
+               arrIds.push(this.id);
+           }
+       });
+       
+      //make sure user selected at least one candidate to update 
+      if(arrIds.length==0) {
+          alert('You must choose at least one candidate to update.');
+      }
+      else {
+        $( ".btn" ).attr("disabled", "disabled"); //disable button so cannot hit mulitple times
+        $(".btn").html('Updating...please wait');
+       
+        setTimeout(doSaveSF, 10, arrIds); //call on timeout so button can display message
+      }
+    }
+    
+    //call SF to do actual save
+    function doSaveSF(arrIds) {
+        sforce.connection.sessionId = "{!GETSESSIONID()}";
+        
+        //get selections
+        var sStatus = $('#selectObjectSUpdate').val();
+        var sRejectionReasion = $('#selectObjectSUpdateRejectionReason').val();
+        var sSendEmail = $("#selectCB").is(':checked');
+        
+        //loop through selected candidates and do updates
+        for (var i = 0; i < arrIds.length; i++) {
+            var oppToUpdate = new sforce.SObject("SFDC_Job_Candidate__c");
+            oppToUpdate.Id = arrIds[i];
+            oppToUpdate.Status__c = sStatus;
+            
+            if(sStatus=='Rejected') {
+                oppToUpdate.Rejection_Reason_for__c = sRejectionReasion;
+                oppToUpdate.Send_Rejection_Email__c = sSendEmail;
+            }
+
+            result = sforce.connection.update([oppToUpdate]);
+            if(result[0].success === "false") {
+                break;
+                alert('An error occured during the update process. Please try again later.');
+            }
+        }
+        doSaveComplete();
+    }
+    
+    //after save is complete
+    function doSaveComplete() {
+        //reset feilds
+        $('#selectObjectSUpdate').val('Select').change();
+        //$('#selectObjectSUpdateRejectionReason').val('Other').change();
+        $('#selectObjectSUpdateRejectionReason').val('No Show').change();
+        $('#selectCB').prop('checked', false); 
+        $(".btn").html('Update Status');
+                            
+        //change to trigger grid refresh
+        $('#selectObjectWIC').change();    
+    }
+    
+    
+    
+    //data cache functions -----------------------------------------------------------------------------------------------------------------------------
+       
+    function loadsCacheData() {
+        var isFromJob = '{!$CurrentPage.parameters.id}'.length > 0;
+        if(isFromJob) {
+            if (localStorage.getItem('WorkinCanada_Job') === null) {
+                $('#selectObjectWIC').val('All');
+            }
+            else {
+                $('#selectObjectWIC').val(localStorage.getItem('WorkinCanada_Job'));
+            }
+        
+            if (localStorage.getItem('CriminalBackGround_Job') === null) {
+                $('#selectObjectCBC').val('All');
+            }
+            else {
+                $('#selectObjectCBC').val(localStorage.getItem('CriminalBackGround_Job'));
+            }
+            
+            if (localStorage.getItem('PreviouslyWorkedSOF_Job') === null) {
+                $('#selectObjectPW').val('All');
+            }
+            else {
+                $('#selectObjectPW').val(localStorage.getItem('PreviouslyWorkedSOF_Job'));
+            }
+            
+            if (localStorage.getItem('Status_Job') === null) {
+                $('#selectObjectS').val('All');
+            }
+            else {
+                $('#selectObjectS').val(localStorage.getItem('Status_Job'));
+            }
+            
+            if (localStorage.getItem('StarRating_Job') === null) {
+                $('#selectObjectSR').val('0');
+            }
+            else {
+                $('#selectObjectSR').val(localStorage.getItem('StarRating_Job'));
+            }
+            
+            if (localStorage.getItem('OlderThan15_Job') === null) {
+                $('#selectObjectOlder').val('All');
+            }
+            else {
+                $('#selectObjectOlder').val(localStorage.getItem('OlderThan15_Job'));
+            }
+            
+            if (localStorage.getItem('Hours_Job') === null) {
+                $('#selectObjectHours').val('All');
+            }
+            else {
+                $('#selectObjectHours').val(localStorage.getItem('Hours_Job'));
+            }
+            
+        }
+        else {
+            if (localStorage.getItem('WorkinCanada') === null) {
+                $('#selectObjectWIC').val('All');
+            }
+            else {
+                $('#selectObjectWIC').val(localStorage.getItem('WorkinCanada'));
+            }
+        
+            if (localStorage.getItem('CriminalBackGround') === null) {
+                $('#selectObjectCBC').val('All');
+            }
+            else {
+                $('#selectObjectCBC').val(localStorage.getItem('CriminalBackGround'));
+            }
+            
+            if (localStorage.getItem('PreviouslyWorkedSOF') === null) {
+                $('#selectObjectPW').val('All');
+            }
+            else {
+                $('#selectObjectPW').val(localStorage.getItem('PreviouslyWorkedSOF'));
+            }
+            
+            if (localStorage.getItem('Status') === null) {
+                $('#selectObjectS').val('All');
+            }
+            else {
+                $('#selectObjectS').val(localStorage.getItem('Status'));
+            }
+            
+            if (localStorage.getItem('StarRating') === null) {
+                $('#selectObjectSR').val('0');
+            }
+            else {
+                $('#selectObjectSR').val(localStorage.getItem('StarRating'));
+            }
+            
+            if (localStorage.getItem('OlderThan15') === null) {
+                $('#selectObjectOlder').val('All');
+            }
+            else {
+                $('#selectObjectOlder').val(localStorage.getItem('OlderThan15'));
+            }
+            
+            if (localStorage.getItem('Hours') === null) {
+                $('#selectObjectHours').val('All');
+            }
+            else {
+                $('#selectObjectHours').val(localStorage.getItem('Hours'));
+            }
+        }
+    }
+    
+    function saveCacheData() {
+        var isFromJob = '{!$CurrentPage.parameters.id}'.length > 0;
+        if(isFromJob) {
+            localStorage.setItem('WorkinCanada_Job', $('#selectObjectWIC').val());
+            localStorage.setItem('CriminalBackGround_Job', $('#selectObjectCBC').val());
+            localStorage.setItem('PreviouslyWorkedSOF_Job', $('#selectObjectPW').val());
+            localStorage.setItem('Status_Job', $('#selectObjectS').val());
+            localStorage.setItem('StarRating_Job', $('#selectObjectSR').val());
+            localStorage.setItem('OlderThan15_Job', $('#selectObjectOlder').val());
+            localStorage.setItem('Hours_Job', $('#selectObjectHours').val());
+        }
+        else {
+            localStorage.setItem('WorkinCanada', $('#selectObjectWIC').val());
+            localStorage.setItem('CriminalBackGround', $('#selectObjectCBC').val());
+            localStorage.setItem('PreviouslyWorkedSOF', $('#selectObjectPW').val());
+            localStorage.setItem('Status', $('#selectObjectS').val());
+            localStorage.setItem('StarRating', $('#selectObjectSR').val());
+            localStorage.setItem('OlderThan15', $('#selectObjectOlder').val());
+            localStorage.setItem('Hours', $('#selectObjectHours').val());
+        }
+        return true;
+    }
+    
+    
+    function clearCacheDataAndRefresh() {
+        var isFromJob = '{!$CurrentPage.parameters.id}'.length > 0;
+        dataTable.state.clear();
+        dataTable.destroy();
+        
+        if(isFromJob) {
+            localStorage.removeItem('WorkinCanada_Job');
+            localStorage.removeItem('CriminalBackGround_Job');
+            localStorage.removeItem('PreviouslyWorkedSOF_Job');
+            localStorage.removeItem('Status_Job');
+            localStorage.removeItem('StarRating_Job');
+            localStorage.removeItem('OlderThan15_Job');
+            localStorage.removeItem('Hours_Job');
+        }
+        else {
+            localStorage.removeItem('WorkinCanada');
+            localStorage.removeItem('CriminalBackGround');
+            localStorage.removeItem('PreviouslyWorkedSOF');
+            localStorage.removeItem('Status');
+            localStorage.removeItem('StarRating');
+            localStorage.removeItem('OlderThan15');
+            localStorage.removeItem('Hours');
+        }
+        
+        $('#selectObjectWIC').val('All');
+        $('#selectObjectCBC').val('All');
+        $('#selectObjectPW').val('All');
+        $('#selectObjectS').val('All');
+        $('#selectObjectSR').val('0');
+        $('#selectObjectOlder').val('All');
+        $('#selectObjectHours').val('All');
+        
+        $("#selectObjectWIC").change();
+    }
+    
+    
+    //data cache functions -----------------------------------------------------------------------------------------------------------------------------
+   
+    
+    
+    
+    //-------------------------------------------------------------------------------------------------------------------------------
+    </script>
+    
+    <apex:sectionHeader title=""/>
+    
+    <apex:form id="theForm"> 
+     <apex:pageMessages showDetail="false"/>
+      <apex:pageBlock >
+               
+        <apex:pageBlockSection columns="1">
+                
+            <!-- Bulk Status Updates ------------------------------------------------------------------------------------------>
+            <apex:pageBlockSectionItem >
+             <apex:outputPanel >
+                 <!-- Bulk status -->
+                 <table>
+                
+                 <tr>
+                   <td title='Select from candidates below, then pick a status to update to.'>Status Update</td>
+                   <td>
+                       <select id='selectObjectSUpdate' class='objSelectStatus'>
+                          <option value='Select' selected='true'>Select</option>
+                          <option value='Interviewing'>Interviewing</option>
+                          <option value='Background Check'>Background Check</option>
+                          <option value='Hired'>Hired</option>
+                          <option value='Rejected'>Rejected</option>
+                        </select>
+                    </td>
+                    <td>                        
+                        <button onclick="doSave();" class="btn">Update Status</button>
+                    </td>
+                 </tr></table> 
+                 
+                 <!-- Bulk status, rejection reason, email -->
+                 <table class='rejReas'><tr> 
+                     <td>Rejection Reason</td>
+                     <td>
+                         <select id='selectObjectSUpdateRejectionReason'>
+                             <!--<option value='Other' selected='true'>Other</option>-->
+                             <option value='No Show' selected='true'>No Show</option>
+                             <option value='Withdrew'>Withdrew</option>
+                             <option value='Communication'>Communication</option>
+                             <option value='Skills'>Skills</option>
+                             <option value='Availability'>Availability</option>
+                             <option value='Wage Expectation'>Wage Expectation</option>
+                             <option value='Commute'>Commute</option>
+                             <option value='Declined Offer'>Declined Offer</option>
+                             <option value='Failed Background Check'>Failed Background Check</option>
+                          </select>
+                      </td>
+                      <td><input type="checkbox" id="selectCB" class="cbRejReas">Send Rejection Email</input></td>
+                  </tr></table>       
+                 </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+        
+            <!-- Filters ------------------------------------------------------------------------------------------>
+            <apex:pageBlockSectionItem >
+            
+            <table>
+               <tr>
+                   <td colspan='8'>
+                    <strong>Select from the filters below to narrow down your candidates.</strong> <span style="text-decoration: underline;cursor: pointer;" title='Click to reset filters.' onclick='javascript:clearCacheDataAndRefresh();'>Reset</span>
+                   </td>
+               </tr>
+               <tr>
+                   <td rowspan="8"><img src="{!URLFOR($Resource.dataTable, 'img/Filter-2-icon.png')}" alt="Candidate Filter" style="width:50px;height:50px;"/></td>
+                   <td title='Are you eligible to work in Canada?'>Work in Canada</td>
+                   <td>
+                       <select id='selectObjectWIC' class='objSelect'>
+                          <option value='All' selected='true'>All</option>
+                          <option value='Yes'>Yes</option>
+                          <option value='No'>No</option>
+                        </select>
+                    </td>
+                    <td title='For candidates 18 years of age and older, we required a pre-employment criminal background check. Are you wiling to complete a background check?'>Criminal Background Check</td>
+                    <td>
+                       <select id='selectObjectCBC' class='objSelect'>
+                          <option value='All' selected='true'>All</option>
+                          <option value='Yes'>Yes</option>
+                          <option value='No'>No</option>
+                          <option value='n/a (under 18)'>n/a (under 18)</option>
+                        </select>
+                    </td>
+                    <!--<td title='Is the candidate older the 15.'>Older Than 15</td>-->
+                    <td title='Is the candidate older the 15.'>15 or Older</td>
+                    <td>
+                        <select id='selectObjectOlder' class='objSelect'>
+                          <option value='All' selected='true'>All</option>
+                          <option value='Yes'>Yes</option>
+                          <option value='No'>No</option>
+                        </select>
+                    </td>
+                    <td title='Have you previously worked for Save-On-Foods or one of its related banner (UrbanFare, PriceSmart Foods, Overwaitea Foods)?'>Previously Worked for SOF</td>
+                    <td>
+                        <select id='selectObjectPW' class='objSelect'>
+                          <option value='All' selected='true'>All</option>
+                          <option value='Yes'>Yes</option>
+                          <option value='No'>No</option>
+                        </select>
+                    </td>
+               </tr> 
+               <tr>
+                   <td>Status</td>
+                   <td>
+                       <select id='selectObjectS' class='objSelect'>
+                          <option value='All' selected='true'>All</option>
+                          <option value='New'>New</option>
+                          <option value='Interviewing'>Interviewing</option>
+                          <option value='Background Check'>Background Check</option>
+                          <option value='Hired'>Hired</option>
+                          <option value='Rejected'>Rejected</option>
+                        </select>
+                    </td>
+                    <td>Star Rating</td>
+                    <td>
+                       <select id='selectObjectSR' class='objSelect'>
+                          <option value='0' selected='true'>0+ Stars</option>
+                          <option value='1'>1+ Star</option>
+                          <option value='2'>2+ Stars</option>
+                          <option value='3'>3+ Stars</option>
+                          <option value='4'>4 Stars</option>
+                        </select>
+                    </td>
+                    <td>Hours Per Week</td>
+                    <td>
+                       <select id='selectObjectHours' class='objSelect'>
+                          <option value='All' selected='true'>All</option>
+                          <option value='0 to 8 hours'>0 to 8 hours</option>
+                          <option value='9 to 16 hours'>9 to 16 hours</option>
+                          <option value='17 to 24 hours'>17 to 24 hours</option>
+                          <option value='25 to 32 hours'>25 to 32 hours</option>
+                          <option value='33 to 39 hours'>33 to 39 hours</option>
+                          <option value='33 to 37.5 hours'>33 to 37.5 hours</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+               </tr> 
+            </table>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+    </apex:pageBlock> 
+    
+    <!-- Candidate List --> 
+    <apex:pageBlock id="pbCandidates">
+        <apex:pageBlockSection columns="1">
+        
+            <div id='dvSpinner' style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 25% 50%">
+                Loading....
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/ed/Cursor_Windows_Vista.gif" />
+            </div>
+        
+            <apex:pageBlockSectionItem ><div id="listview"/></apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+    </apex:pageBlock>   
+    
+    </apex:form>
+
+    
+</apex:component>

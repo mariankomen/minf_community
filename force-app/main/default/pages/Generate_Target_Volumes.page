@@ -1,0 +1,12 @@
+<!--NSM - This page will be called by button, Create_Target_Volumes, on contract page to auto generate target volumes -->
+<apex:page standardcontroller="Contract" extensions="TargetVolumeController" action="{!ProcessTargetVolmes}">
+  
+  <!-- Display any error messages. -->
+  <apex:pageMessages ></apex:pageMessages>
+  
+  <apex:form id="theForm">
+   <!-- Return link. (This is only if error, if success controller redirects back to contract) -->
+   <apex:commandLink value="Return To Contract" action="{!ReturnToContract}"/>﻿
+  </apex:form> 
+   
+</apex:page>

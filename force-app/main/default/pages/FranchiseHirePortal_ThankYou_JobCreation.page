@@ -1,0 +1,50 @@
+<apex:page standardController="SFDC_Job__c" title="Franchise HirePortal - Thank you" standardStylesheets="false" applyBodyTag="false"  >
+<html>
+ <head>
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/bootstrap.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+
+ </head>
+
+    <body>
+
+        <div id="tacn_packages-container" class="bootstrap-override">
+        
+            <div class="tacn_full-width">
+                <div class="tacn_headline">
+                    <br/>
+                    <span class="tacn_flex-h1"><h1 class="tacn_no-icon">Job Creation</h1> <h1 class="tacn_price">#{!sfdc_job__c.name}</h1></span>
+                </div>
+            </div>
+            
+            <div class="tacn_forms-area">
+                        
+                <div class="tacn_form-full">
+                    <br />
+                    <h3>Thank you for opening a job with Mindfield!</h3>
+                    <br/><br/>
+                    <p>Your <strong>{!sfdc_job__c.Career_Site_Alternate_Job_Title__c }</strong> job has been successfully received and is being processed.</p>
+                    <br />
+                    Job ID: {!sfdc_job__c.name} <br/>
+                    Job Title: {!sfdc_job__c.Career_Site_Alternate_Job_Title__c}<br />
+                    <Br/>
+                    <p><strong>Need Help or Have Questions?</strong><br/>Contact our friendly Customer Experience Team at 1-877-834-1751. <br/><br/>
+                    Thanks,<br />
+                    The Mindfield Customer Experience Team</p>
+    
+                    
+                    <a class="tacn_btn tacn_btn-reg" href="/a0P/o">VIEW JOBS</a> 
+                    <!-- tacn_btn tacn_btn-reg tacn_btn-reg-stretch -->
+                    <a class="tacn_btn tacn_btn-reg" href="/home/home.jsp">ORDER NEW JOB</a> 
+                    <a class="tacn_btn tacn_btn-gray" href="/apex/Support_Page" target="_blank">HELP?</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>    
+
+</html>    
+</apex:page>

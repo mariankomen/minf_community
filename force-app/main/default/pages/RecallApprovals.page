@@ -1,0 +1,16 @@
+<apex:page standardController="SFDC_Job__c"
+ extensions="RecallApprovals"
+ action="{!autoRun}"
+>
+  <apex:sectionHeader title="Auto-Running Apex Code"/>
+  <apex:messages />
+  <apex:outputPanel >
+      You tried calling RecallApprovals code from a button.  If you see this page, something went wrong, please contact your 
+      System Administrator.
+  </apex:outputPanel>
+
+<!-- this hidden panel is required to pull the owner's language for the Approval recall comments -->
+  <apex:outputPanel rendered="false">
+   {!SFDC_Job__c.job_owner_link__r.languagelocalekey}
+  </apex:outputPanel> 
+</apex:page>

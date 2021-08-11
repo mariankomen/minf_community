@@ -1,0 +1,20 @@
+<aura:component>
+    <aura:attribute name="svgPath" default="" type="String"  />
+    <aura:attribute name="class" type="String" default="currentColor"/>
+    <aura:attribute name="focusable" type="String" default=""/>
+    <aura:attribute name="ariahidden" type="String" default=""/>
+    <aura:attribute name="viewBox" type="String" default=""/>
+    <aura:attribute name="role" type="String" default=""/>
+    <aura:attribute name="style" type="String" default=""/>
+    <aura:attribute name="assistiveText"  default="" type="String"/>
+  
+    
+    
+    <aura:attribute name="testIcon"   type="String">
+
+    </aura:attribute>
+    
+    
+    
+    <span aura:id="container"></span>
+</aura:component>

@@ -1,0 +1,6 @@
+<apex:page controller="ResetPortalPwd" action="{!resetPwd}">
+
+  <h1>Reset Password</h1>
+  If you are seeing this page there has been an error resetting your password.
+  
+</apex:page>

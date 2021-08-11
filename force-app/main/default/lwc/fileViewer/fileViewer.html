@@ -1,0 +1,19 @@
+<template>
+    {loadValues}
+    <template if:true={fileId}>
+        <template if:true={isDocxPdf}>
+        <iframe height={heightInRem} src={url}></iframe> 
+    </template>  
+    </template>
+    <template if:true={isHTML}>
+    <div class="slds-scrollable" style="height:25rem;">
+    <div class="htmlcontainer" lwc:dom="manual"></div>
+    </div>
+    </template>
+    <template if:true={isDoc}>
+        <div class="slds-text-heading_small"><b>Previews  for Word DOC files are not available. </b>  <a href={docDownload}>Please download the resume to review it.</a></div>
+    </template>
+    <template if:false={fileId}>
+        Please enter a valid PDF File ID.
+    </template>
+</template>

@@ -1,0 +1,42 @@
+<apex:page standardController="MFG_Reminder__c" recordSetvar="reminderList" extensions="ReminderList"
+    showHeader="false" sidebar="false">
+    <!-- start with the header table so we can translate into French -->
+    <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+        <tbody width="100%"><tr height="25" valign="middle">
+        <td align="center" bgcolor="#cccccc" valign="middle" width="100%"><span style="font-weight: bold; font-family: Verdana,Helvetica,Sans-Serif;">
+        {!$Label.Reminder_Title}</span></td></tr></tbody>
+    </table>
+    
+    <!-- Section displaying the No Reminders text -->
+        <apex:outputPanel rendered="{!OpenReminders==0}" style="font-family: Verdana,Helvetica,Sans-Serif; font-size:85%;">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif; font-size:85%;">
+            {!$Label.Reminder_None}</span>
+        </apex:outputPanel>
+      
+    <apex:form >
+      <apex:pageBlock rendered="{!OpenReminders!=0}" >
+          <apex:pageblockSection columns="1">
+          <apex:outputText ><span style="font-family: Verdana,Helvetica,Sans-Serif font-size:85%;">{!$Label.Reminder_Instructions}</SPAN><BR /><BR />
+          </apex:outputText>
+          </apex:pageblockSection>
+          <DIV ALIGN="CENTER"><apex:commandButton style="text-align:center" action="{!CloseReminders}" value="{!$Label.Reminders_button}"/></DIV>
+          <apex:pageBlockTable var="item" value="{!RemindersList}" id="list">
+                <apex:column headervalue="" >
+                    <apex:inputField value="{!item.Close_Reminder__c}"/> 
+                </apex:column>
+                <apex:column headervalue="{!$ObjectType.MFG_Reminder__c.fields.name.label}" > 
+                    <apex:outputLink value="/{!item.id}" target="_top">{!item.name}</apex:outputLink>
+                </apex:column>
+                <apex:column headervalue="{!$ObjectType.MFG_Reminder__c.fields.SFDC_Job__c.label}" > 
+                    <apex:outputLink value="/{!item.SFDC_Job__c}" target="_top" style="font-family: Verdana,Helvetica,Sans-Serif; font-weight:regular">{!item.sfdc_job__r.name}</apex:outputLink>
+                </apex:column>
+                <apex:column headervalue="{!$ObjectType.SFDC_Job__c.fields.Job_Title__c.label}" value="{!item.sfdc_job__r.Job_Title__c}" style="font-family: Verdana,Helvetica,Sans-Serif; font-weight:regular"/>
+                <apex:column headervalue="{!$Label.Candidate}" > 
+                    <apex:outputLink value="/{!item.Candidate__c}" target="_top" style="font-family: Verdana,Helvetica,Sans-Serif; font-weight:regular">{!item.candidate__r.name}</apex:outputLink>
+                </apex:column>                
+                <apex:column headervalue="{!$ObjectType.MFG_Reminder__c.fields.Due_Date__c.label}" value="{!item.Due_Date__c}" style="font-family: Verdana,Helvetica,Sans-Serif; font-weight:regular"/> 
+          </SPAN></apex:pageBlockTable>
+      <BR /><DIV ALIGN="CENTER"><apex:commandButton style="text-align:center" action="{!CloseReminders}" style="font-family: Verdana,Helvetica,Sans-Serif; font-weight:regular" value="{!$Label.Reminders_button}"/></DIV>
+      </apex:pageBlock>
+    </apex:form>
+</apex:page>

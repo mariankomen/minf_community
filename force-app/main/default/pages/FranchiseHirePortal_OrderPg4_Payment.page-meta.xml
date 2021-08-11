@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>32.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>order for payment</description>
+    <label>FranchiseHirePortal_OrderPg4_Payment</label>
+    <packageVersions>
+        <majorNumber>2</majorNumber>
+        <minorNumber>72</minorNumber>
+        <namespace>ChargentBase</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>2</majorNumber>
+        <minorNumber>72</minorNumber>
+        <namespace>ChargentOrders</namespace>
+    </packageVersions>
+</ApexPage>

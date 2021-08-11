@@ -1,0 +1,5 @@
+<apex:page standardController="SFDC_Job__c" showHeader="true" sidebar="true">
+
+    <c:CandidateListView_Sourcing_Component id="myComponent" />
+
+</apex:page>

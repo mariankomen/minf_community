@@ -1,0 +1,34 @@
+/* This style definition applies to VF chart components used in a dashboard
+	page for MindField Group  */
+   
+	.clicker { cursor: pointer; }
+	.center {
+			margin-left:auto;
+			margin-right:auto;
+			width:90%;
+			text-align:center;
+			}  
+        .vfHelpText a            {position:relative;}
+        .vfHelpText a span       {display: none;}
+        .vfHelpText a:hover span {display: block;
+                                  position:absolute;
+                                  top:2.25em;
+                                  padding:2px 5px;
+                                  left:-8em; width:16em;
+                                  z-index:100;
+                                  border:2px solid #00274C;
+                                  background-color:white;
+                                  color:black;
+                                  text-align:left;
+                                 }    
+	/* no longer needed as description is in HelpText class */	
+	.chartDesc { border-width: 1px;
+				 border-style: solid;
+				 padding: 5px;
+				 background-color: white;
+				 width:350px;
+				 margin:0 auto;
+				 font-style:italic;
+				 text-align:center;
+				 
+			   }             

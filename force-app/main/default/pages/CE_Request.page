@@ -1,0 +1,149 @@
+<apex:page sidebar="false" showHeader="false">
+<body onload="moveTo(0,0); resizeTo(1100,500);">
+
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8" />
+<!--Script below looks for a star in the field label, and if exists, forces that field to be filled in-->
+
+<script>
+function fcn_verify_required_fields()
+{
+   var inputErrors = 0;
+   var errorFields = "";
+   var formlabels = document.getElementsByTagName('LABEL');
+   for (var i = 0; i < formlabels.length; i++)
+   {
+    if ((formlabels[i].innerText.lastIndexOf("*")>-1 ) && (formlabels[i].htmlFor != ''))
+    {
+         var elem = document.getElementById(formlabels[i].htmlFor);
+         if (elem)
+         {
+            if ((elem.value == null) | ( elem.value == "") | (elem.value == "--None--"))
+            {
+             inputErrors = inputErrors  + 1;
+             errorFields = errorFields + formlabels[i].innerText.replace("*","") + '\n';
+            }
+            else
+            {
+               if (elem.name == "email") 
+               {
+                   var emailval = elem.value;
+                   if ((emailval.lastIndexOf("@")<0) | (emailval.lastIndexOf(".")<0) | (emailval.length < 6))
+                   {
+                      inputErrors = inputErrors  + 1;
+                      errorFields = errorFields + formlabels[i].innerText.replace("*","") + '\n';
+                   }
+                  else
+                  {
+                   emailsuffix = emailval.substr(emailval.lastIndexOf(".") + 1);
+                   var validemailsuffixes = ["com", "org", "edu", "net", "gov", "us", "ca"];
+                   if (validemailsuffixes.indexOf(emailsuffix) < 0)
+                   {
+                      inputErrors = inputErrors  + 1;
+                      errorFields = errorFields + formlabels[i].innerText.replace("*","") + '\n';
+                   }
+                }
+               }
+            }
+        }
+    }
+   }
+   if (inputErrors > 0)
+   {
+     alert('The following required fields have not yet been filled in completely:' + '\n' + errorFields);
+     return false;
+   }
+   alert("Case successfully submitted!");
+   window.close();
+}
+</script>
+
+<form action="https://cs41.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST"  onsubmit="return fcn_verify_required_fields();">
+<input type = "hidden" name="orgid" value="00D550000004qXI" />
+<input type = "hidden" name="origin" value="Recruiter Entered in Portal" />
+<input type = "hidden" name="recordType" value="012550000008U5b" />
+<input type = "hidden" name="00NU0000003CKZy" value="{!$User.id}" />  <!-- pass user's ID into hidden field on Case to set Recruiter/MFG Employee lookup -->
+<input type = "hidden" name="00NU0000003C7Az" value="{!$CurrentPage.parameters.jobID}" />
+<input type = "hidden" name="00N55000000K0Q9" value="{!$CurrentPage.parameters.acctID}" />
+
+<h1><STRONG>Submit a Case!</STRONG></H1><BR /><BR />
+Submit a Case for the Recruitment Team
+
+<table border="0">
+
+<TR>
+<TD WIDTH="110">
+<label for="name">Your Name*</label>
+</TD>
+<TD WIDTH="300">
+<input  id="name" maxlength="80" name="name" size="20" type="text" value="{!$user.firstname} {!$user.lastname}" disabled="true" />
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="name">Job #</label>
+</TD>
+<TD WIDTH="300">
+<input  id="jobNum" maxlength="80" name="jobnum" size="20" type="text" value="{!$CurrentPage.parameters.jobNum}" disabled="true" />
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="acctName">Account/Location</label>
+</TD>
+<TD WIDTH="300">
+<input  id="acctName" maxlength="80" name="acctname" size="20" type="text" value="{!$CurrentPage.parameters.acctName}" disabled="true" />
+</TD>
+</TR>
+<TR>
+<TD WIDTH="110">
+<label for="type">Case Type*</label>
+</TD>
+<TD WIDTH="300">
+<select  id="type" name="type"><option value="">--None--</option>
+<option value="Change on Sent Candidate">Change on Sent Candidate</option>
+<option value="Front Run">Front Run</option>
+<option value="HR Check">HR Check</option>
+<option value="Interview Availability">Interview Availability</option>
+<option value="Job Discovery">Job Discovery</option>
+<option value="Rejection Clarification">Rejection Clarification</option>
+<option value="Requested Candidate">Requested Candidate</option>
+<option value="QCP Deviation">QCP Deviation</option>
+<option value="Candidate Status Update">Candidate Status Update</option>
+<option value="Other">Other</option>
+</select>
+</TD>
+</TR>
+
+<TR>
+<TD WIDTH="110">
+<label for="subject">Subject*</label>
+</TD>
+<TD WIDTH="300">
+<input  id="subject" maxlength="80" name="subject" size="70" type="text" />
+</TD>
+</TR>
+
+<TR>
+<TD WIDTH="110">
+<label for="description">Description*</label>
+</TD>
+<TD WIDTH="300">
+<textarea id="description" name="description" rows="8" cols="150"></textarea>
+</TD>
+</TR>
+
+<TR>
+<TD WIDTH="110">
+<input type="hidden"  id="external" name="external" value="1" />
+</TD>
+<TD WIDTH="300">
+<input type="submit" name="submit" />
+</TD>
+</TR>
+
+</table>
+
+</form>
+
+</body>
+</apex:page>

@@ -1,0 +1,342 @@
+<apex:page controller="PortalSearch" action="{!initialSearch}" id="pg" title="{!$Label.Search_Results}">
+<body onload="setFocus()" >
+
+<apex:form id="form">
+
+<script>
+function setFocus()
+{
+    document.getElementById("pg:form:pgbk:pgbksc:btn").focus();
+}
+</script>
+
+
+    <apex:sectionHeader title="{!$Label.Search_Job_Candidate}"/>
+    <apex:pageMessages id="msg"/>
+
+        <!-- action function and script so we can call the controller method from javascript -->
+          <apex:actionFunction name="searchRecords" action="{!Search}" rerender="results, msg" />
+          <script type="text/javascript">
+              function doSearch() {
+                searchRecords();
+              }
+          </script> 
+          
+    <!-- search block -->
+    <apex:pageBlock id="pgbk">
+        <apex:outputPanel id="instr">
+            <apex:outputText >{!$Label.Search_JC_Instructions}<br/><br/></apex:outputText>
+        </apex:outputPanel>  
+        <apex:pageBlockSection columns="1" id="pgbksc">
+             
+          <apex:inputText value="{!searchterms}" id="sterm" onkeypress="doSearch();"/>
+          <apex:outputPanel >
+              <apex:commandButton value="{!$Label.Search}" action="{!Search}" status="srch" 
+                             rerender="results, msg" id="btn"/> &nbsp;&nbsp;
+              <apex:actionStatus startText="{!$Label.Searching}" id="srch" /> 
+          </apex:outputPanel>
+
+        </apex:pageBlockSection>  
+    </apex:pageBlock>
+
+   <!-- show resulting records -->
+    <apex:outputPanel id="results">
+    
+    <!-- Jobs list -->
+    <apex:pageBlock title="{!numJobRecs} {!$Label.Jobs_Found}">
+        <apex:pageBlockTable value="{!Jobrecs}" var="j" rendered="{!numJobRecs > 0}">
+            <apex:column headerValue="{!$Label.Action}" styleClass="actionColumn" rendered="{!Jobeditable}">
+                <apex:outputLink value="/{!j.id}/e?&retURL=/apex/portalsearch?searchTerms={!searchterms}" >{!$Label.Edit}</apex:outputlink>
+            </apex:column>
+
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortJobList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.name.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Name'&&JobSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Name'&&JobSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Name" name="column" assignTo="{!JobsortBy}" />
+                    <apex:param value="{!IF(JobSortDir=='ASC'&&JobsortBy=='Name', 'DESC', 'ASC')}" name="direction" assignTo="{!JobSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>            
+                <apex:outputLink value="/{!j.id}" >{!j.name}</apex:outputLink>
+            </apex:column>
+            
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortJobList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.New_Job_Title__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='New_Job_Title__c'&&JobSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='New_Job_Title__c'&&JobSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="New_Job_Title__c" name="column" assignTo="{!JobsortBy}" />
+                    <apex:param value="{!IF(JobSortDir=='ASC'&&JobsortBy=='New_Job_Title__c', 'DESC', 'ASC')}" name="direction" assignTo="{!JobSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>            
+                <apex:outputField value="{!j.New_Job_Title__c}"/>
+            </apex:column>    
+            
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortJobList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.Job_Status__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Job_Status__c'&&JobSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Job_Status__c'&&JobSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Job_Status__c" name="column" assignTo="{!JobsortBy}" />
+                    <apex:param value="{!IF(JobSortDir=='ASC'&&JobsortBy=='Job_Status__c', 'DESC', 'ASC')}" name="direction" assignTo="{!JobSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>
+                <apex:outputField value="{!j.Job_Status__c}"/>
+            </apex:column>
+            
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortJobList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.Days_Job_Open__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Days_Job_Open__c'&&JobSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Days_Job_Open__c'&&JobSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Days_Job_Open__c" name="column" assignTo="{!JobsortBy}" />
+                    <apex:param value="{!IF(JobSortDir=='ASC'&&JobsortBy=='Days_Job_Open__c', 'DESC', 'ASC')}" name="direction" assignTo="{!JobSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>
+                <apex:outputField value="{!j.Days_Job_Open__c}"/>
+            </apex:column>
+            
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortJobList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.Hiring_Manager_Name__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Hiring_Manager_Name__c'&&JobSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Hiring_Manager_Name__c'&&JobSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Hiring_Manager_Name__c" name="column" assignTo="{!JobsortBy}" />
+                    <apex:param value="{!IF(JobSortDir=='ASC'&&JobsortBy=='Hiring_Manager_Name__c', 'DESC', 'ASC')}" name="direction" assignTo="{!JobSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>
+                <apex:outputField value="{!j.Hiring_Manager_Name__c}"/>
+            </apex:column>
+            
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortJobList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.Store_Name_Number__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Store_Name_Number__c'&&JobSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!JobsortBy=='Store_Name_Number__c'&&JobSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Store_Name_Number__c" name="column" assignTo="{!JobsortBy}" />
+                    <apex:param value="{!IF(JobSortDir=='ASC'&&JobsortBy=='Store_Name_Number__c', 'DESC', 'ASC')}" name="direction" assignTo="{!JobSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>
+                <apex:outputField value="{!j.Store_Name_Number__c}"/>
+            </apex:column>                    
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+
+    <!-- Candidates list -->
+    <apex:pageBlock title="{!numCanRecs} {!$Label.Candidates_Found} ">
+        <apex:pageBlockTable value="{!Canrecs}" var="c" rendered="{!numCanRecs > 0}">
+            <apex:column headerValue="{!$Label.Action}" styleClass="actionColumn" rendered="{!CanEditable}">
+                <apex:outputLink value="/{!c.id}/e?&retURL=/apex/portalsearch?searchTerms={!searchterms}" rendered="{!c.Job_Record_Type_Developer_Name__c!='OFG_Sourcing'}">{!$Label.Edit}</apex:outputlink>
+            
+                <apex:outputLink value="apex/CandidateListView_Sourcing?cid={!c.id}" rendered="{!c.Job_Record_Type_Developer_Name__c=='OFG_Sourcing'}">Edit</apex:outputlink>
+            </apex:column>
+            
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortCanList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Candidate__c.Fields.name.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Candidate_Name_Last_First__c'&&CanSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Candidate_Name_Last_First__c'&&CanSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Candidate_Name_Last_First__c" name="column" assignTo="{!CansortBy}" />
+                    <apex:param value="{!IF(CanSortDir=='ASC'&&CansortBy=='Candidate_Name_Last_First__c', 'DESC', 'ASC')}" name="direction" assignTo="{!CanSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>
+                <apex:outputLink value="/{!c.id}" >{!c.Candidate_Name__c}</apex:outputLink>
+            </apex:column>   
+
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortCanList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.name.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='job_id__c'&&CanSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='job_id__c'&&CanSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="job_id__c" name="column" assignTo="{!CansortBy}" />
+                    <apex:param value="{!IF(CanSortDir=='ASC'&&CansortBy=='job_id__c', 'DESC', 'ASC')}" name="direction" assignTo="{!CanSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>                     
+                <apex:outputLink value="/{!c.SFDC_Job__c}" >{!c.Job_ID__c}</apex:outputLink>
+            </apex:column>
+
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortCanList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.New_Job_Title__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Job_Title__c'&&CanSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Job_Title__c'&&CanSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Job_Title__c" name="column" assignTo="{!CansortBy}" />
+                    <apex:param value="{!IF(CanSortDir=='ASC'&&CansortBy=='Job_Title__c', 'DESC', 'ASC')}" name="direction" assignTo="{!CanSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>            
+                <apex:outputField value="{!c.Job_Title__c}"/>
+            </apex:column>   
+
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortCanList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job_Candidate__c.Fields.Date_Candidate_Sent_Applied__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='date_candidate_sent_applied__c'&&CanSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='date_candidate_sent_applied__c'&&CanSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="date_candidate_sent_applied__c" name="column" assignTo="{!CansortBy}" />
+                    <apex:param value="{!IF(CanSortDir=='ASC'&&CansortBy=='date_candidate_sent_applied__c', 'DESC', 'ASC')}" name="direction" assignTo="{!CanSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>              
+                <apex:outputField value="{!c.Date_Candidate_Sent_Applied__c}"/>
+            </apex:column>   
+
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortCanList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.Store_Name_Number__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Location__c'&&CanSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Location__c'&&CanSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Location__c" name="column" assignTo="{!CansortBy}" />
+                    <apex:param value="{!IF(CanSortDir=='ASC'&&CansortBy=='Location__c', 'DESC', 'ASC')}" name="direction" assignTo="{!CanSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>                      
+                <apex:outputField value="{!c.Location__c}"/>
+            </apex:column>
+
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortCanList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job__c.Fields.Job_Status__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Job_Status__c'&&CanSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Job_Status__c'&&CanSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Job_Status__c" name="column" assignTo="{!CansortBy}" />
+                    <apex:param value="{!IF(CanSortDir=='ASC'&&CansortBy=='Job_Status__c', 'DESC', 'ASC')}" name="direction" assignTo="{!CanSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>                      
+                <apex:outputField value="{!c.Job_Status__c}"/>
+            </apex:column>
+
+            <apex:column >
+                <apex:facet name="header" >
+                  <apex:commandLink action="{!sortCanList}" >
+                    <!-- show the label of the columns field -->
+                    <apex:outputText value="{!$ObjectType.SFDC_Job_Candidate__c.fields.Status_Details__c.Label}" />
+                    <!-- if we sort by this column in ascending direction show this image -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Status_Details__c'&&CanSortDir=='ASC'}">
+                      <img src="/s.gif" alt="Sorted Ascending" class="sortAsc" title="Sorted Ascending" />
+                    </apex:outputText>
+                    <!-- and of course the other way around -->
+                    <apex:outputText escape="false" rendered="{!CansortBy=='Status_Details__c'&&CanSortDir=='DESC'}">
+                      <img src="/s.gif" alt="Sorted Descending" class="sortDesc" title="Sorted Descending" />
+                    </apex:outputText>
+                    <!-- define the two parameters with the value for the link -->
+                    <apex:param value="Status_Details__c" name="column" assignTo="{!CansortBy}" />
+                    <apex:param value="{!IF(CanSortDir=='ASC'&&CansortBy=='Status_Details__c', 'DESC', 'ASC')}" name="direction" assignTo="{!CanSortDir}" />
+                  </apex:commandLink>
+                </apex:facet>  
+                <apex:outputField value="{!c.Status_Details__c }"/>
+            </apex:column>
+                    
+        </apex:pageBlockTable>
+    </apex:pageBlock>    
+    </apex:outputPanel>
+
+</apex:form>    
+   </body>   
+</apex:page>

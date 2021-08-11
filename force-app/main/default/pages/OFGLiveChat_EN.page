@@ -1,0 +1,23 @@
+<apex:page showHeader="false" sidebar="false" >
+<div style="margin-left:20px">
+<a id="liveagent_button_online_573U0000000CchP" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('573U0000000CchP')">
+<!-- image from Documents -->
+<apex:image id="theImage" value="/servlet/servlet.ImageServer?id=015U0000000ikwr&oid=00DU0000000YNAR" alt="Live Chat"/>
+</a>
+
+<div id="liveagent_button_offline_573U0000000CchP" style="display: none;">Live Chat is not available at this time</div>
+
+</div>
+
+
+<script type="text/javascript">
+if (!window._laq) { window._laq = []; }
+window._laq.push(function(){liveagent.showWhenOnline('573U0000000CchP', document.getElementById('liveagent_button_online_573U0000000CchP'));
+liveagent.showWhenOffline('573U0000000CchP', document.getElementById('liveagent_button_offline_573U0000000CchP'));
+});</script>
+
+<script type='text/javascript' src='https://c.la1w1.salesforceliveagent.com/content/g/js/34.0/deployment.js'></script>
+<script type='text/javascript'>
+    liveagent.init('https://d.la1w1.salesforceliveagent.com/chat', '572U0000000Ccuq', '00DU0000000YNAR');
+</script>
+</apex:page>

@@ -1,0 +1,41 @@
+<aura:component implements="forceCommunity:themeLayout" access="global">
+    
+    <aura:html tag="style">
+        @font-face {
+        font-family: glober;
+        src: url( {!$Resource.MindfieldHirePortal + '/LogIn/fonts/glober/2BE8D0_1_0.woff'} ) format('woff');
+        font-weight: 300;
+        font-style: normal
+        }
+        @font-face {
+        font-family: din;
+        src: url( {!$Resource.MindfieldHirePortal + '/LogIn/fonts/DINWeb-Light.woff'} ) format('woff');
+        font-weight: 300;
+        font-style: normal
+        }
+        
+        @font-face {
+        font-family: din;
+        src: url( {!$Resource.MindfieldHirePortal + '/LogIn/fonts/DINWeb-Bold.woff'} ) format('woff');
+        font-weight: 700;
+        font-style: normal
+        }
+        
+        
+        
+        .fullscreen-background {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-image: url( {!$Resource.MindfieldHirePortal + '/LogIn/hireportal_image.jpg'} );
+        background-size: cover
+        }
+    </aura:html> 
+    
+    <div class="fullscreen-background" > </div>
+    
+    
+    <div class="slds-align_absolute-center"> {!v.body}</div>
+</aura:component>

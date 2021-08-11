@@ -1,0 +1,101 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,force:lightningQuickActionWithoutHeader" access="global" controller="MoveApplicantJobCtrl">
+    
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="hideSelectColumn" type="Boolean" default="false"/>
+    <aura:attribute name="jobAppList" type="Applicant_Job_Apps__c[]"/>
+    <aura:attribute name="jobAppColumns" type="List"/>
+    <aura:attribute name="selectedJobAppId"  type="String" default="" description="selected app job app id"/>
+    <aura:attribute name="getApplicantJobApps" type="Object"/>
+    
+    
+    <aura:attribute name="currentJobAppJobId"  type="String" default="" description="selected app job app job id"/>
+    <aura:attribute name="currentJobAppJobTitle"  type="String" default="" description="selected app job app job title"/>
+    <aura:attribute name="currentJobAppJobStore"  type="String" default="" description="selected app job app job store"/>
+    
+    <aura:attribute name="jobName"  type="string" default="" description="job name to search"/>
+    <!--aura:attribute name="jobTitle" type="string" default="" description="job title to search"/-->
+    <aura:attribute name="jobList" type="Object[]"/>
+    <aura:attribute name="jobColumns" type="List"/>
+    <aura:attribute name="selectedJobId"  type="String" default="" description="selected job app id"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    
+    <!--Custom Styles for Modal Header and Footer height:unset !important;-->  
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }       
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height: unset !important;
+        max-height: unset !important;
+        }
+        .slds-modal__container{
+        width: 70% !important;
+        max-width: 70% !important;
+        }
+    </aura:html>
+    
+    <aura:renderIf isTrue="{!v.isLoading}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:renderIf><br/><br/>
+    
+    <!--Modal Header-->   
+    <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h4 class="title slds-text-heading--medium">Move Applicant to another Job</h4>
+    </div>
+    <!--End Modal Header-->   
+    
+    <!--Modal Body-->   
+    <div class="slds-modal__content slds-p-around--x-small slds-align_absolute-center slds-size_1-of-1 slds-is-relative">
+        <form class="slds-form--stacked">
+            <!--End of Modal Body--> 
+            <aura:if isTrue="{!!v.hideSelectColumn}">
+                <lightning:datatable
+                                     columns="{! v.jobAppColumns }"
+                                     data="{! v.jobAppList }"
+                                     keyField="id"
+                                     hideCheckboxColumn = "{!v.hideSelectColumn}"
+                                     maxRowSelection="1"
+                                     onrowselection="{! c.onJobAppselected }"/>
+            </aura:if>
+            <br/>
+            
+            <aura:if isTrue="{!v.selectedJobAppId}">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <lightning:input label="Job ID" aura:id="jName" value="{!v.jobName}" />
+                    </div>
+                    <div class="slds-col" style="align-self: flex-end;">
+                    	<lightning:button variant="Brand" class="slds-button" label="Search" onclick="{!c.searchRecords}"/>
+                    </div>
+                </div>
+                <br/>
+                
+                <lightning:datatable
+                                     columns="{! v.jobColumns }"
+                                     data="{! v.jobList }"
+                                     keyField="id"
+                                     maxRowSelection="1"
+                                     onrowselection="{! c.onJobselected }"/>
+                <br/>
+            </aura:if>            
+        </form> 
+    </div>
+    
+    <!--Modal Footer -->
+    <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+        <lightning:button variant="Neutral" class="slds-button" label="Cancel" onclick="{!c.handleClose}"/>
+        <aura:if isTrue="{!!empty(v.selectedJobId)}">
+         
+            <lightning:button variant="Brand" class="slds-button" label="Save" onclick="{!c.saveRecord}"/>
+            
+        </aura:if>
+    </div>
+    <!--End of Modal Footer-->
+</aura:component>

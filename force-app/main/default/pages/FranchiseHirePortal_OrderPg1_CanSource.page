@@ -1,0 +1,71 @@
+<apex:page controller="FranchiseHirePortal_OrderWizard" title="Franchise HirePortal Candidate Sourcing Step 1" standardstylesheets="false" showheader="true" sidebar="true" applyBodyTag="false" >
+ <html>
+ <head>
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+
+  </head>
+ 
+<apex:form > 
+  <body>
+
+         <div id="tacn_packages-container">
+            <div class="tacn_full-width">
+
+                <div class="tacn_headline">
+                    <img class="tacn_icon" src="{!URLFOR($Resource.HirePortal_Resources, '/images/mf_homeicon_x2_1.png')}" alt="candidate sourcing" /><br />
+                    <span class="tacn_flex-h1"><h1>Candidate Sourcing</h1> <h1 class="tacn_price"><strong>
+                        <apex:outputText value="${0, number,###,##0}">
+                           <apex:param value="{!utility.ClientJobCost_CSS}"/>
+                         </apex:outputText>
+                         {!utility.clientOrderCurrencyDisplay} </strong></h1></span>
+                </div>
+
+                <div class="tacn_banner tacn_b-1">
+                    <h2>Candidate Sourcing makes it easy for you to choose from a pool of qualified applicants.</h2>
+                </div>
+                
+                <div class="tacn_details">
+
+                    <div class="tacn_description">
+                        <br />
+                        <h3 class="tacn_h3">We make it simple, open a role from the pre-loaded jobs provided and let us do the work.</h3>
+                        <p><br />Once a role is opened, we source candidates through a combination of job boards, email marketing, resume database searches and social media to attract candidates to apply. Once in the application process, the candidate completes a behavioural assessment called the Like-minds Predictor to measure for fit and their result is available in the HirePortal. You will receive email notifications when new applicants apply to easily review their application details.  <br/><Br/>
+This solution is best for Franchise Partners that are having a challenge finding applicants in their area; however, have the time to complete all of the screening activities themselves including pre-screen, resume review, scheduling interviews, etc. 
+<br/><Br/>
+This service is available for both the Truck Team Member and Operations Manager roles.
+</p>
+                        
+                        <apex:commandButton action="{!gotoOrderPg2_CanSourcing}" value="BUY NOW" styleClass="tacn_btn tacn_btn-reg"/>
+                        <a class="tacn_btn tacn_btn-gray" href="/apex/Support_Page" target="_blank">HELP?</a> 
+
+                    </div>
+                    <div class="tacn_divider"></div>
+                    <div class="tacn_features">
+                        <br />
+                        <h3>Features:</h3>
+                        <br />
+                        <ul>
+                            <li>Job Broadcasting</li>
+                            <li>Job Hosting on SEO Optimized Careers Site</li>
+                            <li>Direct Target Email Campaigns</li>
+                            <li>Like-minds Predictor Assessment</li>
+                            <li>Candidate Collection and Ranking</li>
+                            <li>HirePortal Access &amp; Support</li>
+                        </ul>
+
+                    </div>   
+
+                </div>
+
+            </div>
+
+             
+
+        </div>
+
+    </body>
+</apex:form>     
+    
+    </html>
+</apex:page>

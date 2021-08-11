@@ -1,0 +1,65 @@
+<aura:component >
+    
+    <aura:attribute name="objId" type="Object"/>
+    <aura:attribute name="notification" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="collapsed" type="Boolean" />
+    
+    
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.objId}"
+                      fields="Body__c,Display_End_Date__c,Displays__c,Display_Start_Date__c,Show_as_Pop_Up_Alert__c,Title__c,CreatedDate,Body_FR__c,Title_FR__c "
+                      targetFields="{!v.notification}"
+                      targetError="{!v.recordLoadError}"
+                      />
+    
+    <div  class="{! if(v.collapsed,'','Mui-expanded jss112 ')+
+                 'MuiPaper-root MuiPaper-elevation1 MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-rounded'}">
+        <div class="MuiButtonBase-root MuiExpansionPanelSummary-root" tabindex="0" role="button"
+             aria-disabled="false" aria-expanded="false" aria-controls="panel1c-content" id="panel1c-header" onclick="{!c.expand}">
+            <div class="MuiExpansionPanelSummary-content">
+                <div class="jss1082">
+                    <p class="MuiTypography-root jss1083 MuiTypography-body1">
+                        <span>  
+                            <lightning:formattedDateTime value="{!v.notification.CreatedDate}"
+                                                         year="numeric"
+                                                         month="short" 
+                                                         day="2-digit"/>
+                        </span>
+                        <aura:if isTrue="{!$Locale.language == 'en'}">{!v.notification.Title__c}</aura:if>
+                        <aura:if isTrue="{!$Locale.language == 'fr'}">{!v.notification.Title_FR__c}</aura:if>
+                    </p>
+                    <div class="jss1085">{!$Label.c.MFG_More}</div>
+                </div>
+            </div>
+            <div class="MuiButtonBase-root MuiIconButton-root MuiExpansionPanelSummary-expandIcon MuiIconButton-edgeEnd"
+                 tabindex="-1" role="button" aria-disabled="false" aria-hidden="true">
+                <span  class="MuiIconButton-label">
+                    <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/Collapsehidden.svg#Collapsehidden'}" size="small" />
+                </span>
+                <span class="MuiTouchRipple-root"></span>
+            </div>
+        </div>
+        <div class="{! if(v.collapsed,'MuiCollapse-container MuiCollapse-hidden','MuiCollapse-container MuiCollapse-entered')}" style="min-height: 0px;">
+            <div class="MuiCollapse-wrapper">
+                <div class="MuiCollapse-wrapperInner">
+                    <div aria-labelledby="panel1c-header" id="panel1c-content" role="region">
+                        <div class="">
+                            <div class="slds-post__content slds-text-longform slds-m-left_x-large">
+                                <div class="slds-grow slds-cell-wrap">
+                                    <aura:if isTrue="{!$Locale.language == 'en'}">
+                                    <lightning:formattedRichText value="{!v.notification.Body__c}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!$Locale.language == 'fr'}">
+                                    <lightning:formattedRichText value="{!v.notification.Body_FR__c}"/>
+                                    </aura:if>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

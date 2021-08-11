@@ -1,0 +1,75 @@
+<apex:page standardController="SFDC_Job__c" extensions="JobView"  
+  action="{!case($Profile.UserType, 
+        'CustomerSuccess', null,
+        'PowerCustomerSuccess', null,
+        'CSPLitePortal', null,
+        If(SFDC_Job__c.id != null, URLFor($Action.SFDC_Job__c.View, SFDC_Job__c.id, null, true), null))}">
+    <script >
+        <!-- called by Candidate Rating popup to refresh page after updating stars -->
+        function CloseWindow() {
+            window.parent.location.href = '{!URLFor($Action.SFDC_Job__c.View, SFDC_Job__c.id, null, false)}'
+        }
+    </script> 
+
+    
+    
+    <!-- show standard page layout for Job without any related lists, we will add them manually -->        
+    <apex:detail relatedList="false" inlineEdit="true"/>
+
+    <!-- show Candidate related list using custom code so we can sort by Rating instead of standard sort order -->
+    <!-- OFG sourcing, we dont want to see this for OFG sourcing....using CandidateListView_Sourcing  -->
+    <apex:pageBlock title="{!$Label.Candidate_Related_list_on_Job}" rendered="{!IF(SFDC_Job__c.Record_Type_Developer_Name__c!='OFG_Sourcing', True, False)}">
+        <apex:pageBlockTable value="{!cands}" var="cans">
+            <apex:column >
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Candidate_Name__c.label}</apex:facet>
+                <apex:outputLink value="{!URLfor($Action.SFDC_Candidate__c.View, cans.Candidate__c)}">{!cans.Candidate_Name__c}</apex:outputLink>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Phone_Number__c.label}</apex:facet>
+                <apex:outputField value="{!cans.Phone_Number__c}"/>
+            </apex:column>
+            <apex:column rendered="{!$ObjectType.SFDC_Job_Candidate__c.fields.Eligibility__c.accessible && showEligibility}">
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Eligibility__c.label}</apex:facet>
+                <apex:outputField value="{!cans.Eligibility__c}"/>
+            </apex:column>
+            <apex:column rendered="{!$ObjectType.SFDC_Job_Candidate__c.fields.Drivers_License__c.accessible && showEligibility}">
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Drivers_License__c.label}</apex:facet>
+                <apex:outputField value="{!cans.Drivers_License__c}"/>
+            </apex:column>
+            <apex:column rendered="{!$ObjectType.SFDC_Job_Candidate__c.fields.Predictor__c.accessible && showEligibility}">
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Predictor__c.label}</apex:facet>
+                <apex:outputField value="{!cans.Predictor__c}"/>
+            </apex:column>
+            <apex:column rendered="{!$ObjectType.SFDC_Job_Candidate__c.fields.Rating__c.accessible}">
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Rating__c.label}</apex:facet>
+                <apex:outputField value="{!cans.Rating__c}"/>
+            </apex:column>
+           
+            <!-- show location column to Job Posting Only clients only -->
+            <apex:column rendered="{!SFDC_Job__c.SLA_Level__c == 'Job Posting Only'}">
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Location_Column__c.label}</apex:facet>
+                <apex:outputField value="{!cans.Location_Column__c}"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Status__c.label}</apex:facet>
+                <apex:outputField value="{!cans.Status__c}"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">{!$ObjectType.SFDC_Job_Candidate__c.fields.Date_Candidate_Sent__c.label}</apex:facet>
+                <apex:outputField value="{!cans.Date_Candidate_Sent__c}"/>
+            </apex:column>
+        </apex:pageBlockTable>
+   </apex:pageBlock>
+  
+    <!-- show approvals details for AkzoNobel users only -->
+    <apex:pageBlock title="{!$Label.Approval_Comments}" rendered="{!IF(contains($Profile.Name, 'AkzoNobel') || contains($Profile.Name, 'PPG USA' ), True, False)}">
+        <apex:pageBlockTable value="{!approvalSteps}" var="step">
+            <apex:column value="{!step.j.Date_Job_Submitted_for_Approval__c}" headerValue="Date"/>
+            <apex:column value="{!step.Status}" headerValue="{!$Label.Status}"/>
+            <apex:column value="{!step.AssignedTo}" headerValue="{!$Label.Assigned_To}"/>
+            <apex:column value="{!step.ActualApprover}" headerValue="{!$Label.Actual_Approver}"/>
+            <apex:column value="{!step.Comments}" headerValue="{!$Label.Comments}"/>
+        </apex:pageBlockTable>
+   </apex:pageBlock>
+  
+</apex:page>

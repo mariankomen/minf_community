@@ -1,0 +1,84 @@
+<apex:page >
+<h1>Benefit Summary</h1><BR />
+  As of June 11th, 2013<BR /><BR /><BR />
+  
+<style type="text/css">
+<!--
+.All {
+    font-family: Verdana, Geneva, sans-serif;
+}
+table {
+    font-family: Verdana, Geneva, sans-serif;
+}
+-->
+</style>
+
+
+<body>
+<table width="100%" border="2">
+  <tr>
+    <td><div align="center"><strong><span class="All">Benefit</span></strong></div></td>
+    <td><div align="center"><strong><span class="All">Coverage</span></strong></div></td>
+    <td><div align="center"><strong><span class="All">Important Items</span></strong></div></td>
+  </tr>
+  <tr>
+    <td><span class="All"><strong>Life Insurance</strong>- Employee</span></td>
+    <td><p class="All">$50,000                                                    NEM  $50,000<br />
+    - Your beneficiary is entitled to this sum </p></td>
+    <td><span class="All">-Ensure the beneficiary is current</span></td>
+  </tr>
+  <tr>
+    <td><span class="All"><strong>Accidental Death &amp; Dismemberment (AD&amp;D)</strong>- Employee </span></td>
+    <td><span class="All">$50,000                                                    NEM  $50,000 <br />
+    -Your beneficiary is entitled to this benefit if death is due to an accident. If you have suffered a loss, as in hearing, you will receive a stipulated amount. </span></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><span class="All"><strong>Short Term Disability- Employee</strong></span></td>
+    <td><span class="All"><strong>66.7% of weekly earnings up to EI max,  $500/week</strong> <br />
+    Injury and Hospital: 0 Day         <br />
+    Illness:8th Day               <br />
+    Maximum benefit Period: 26  weeks </span></td>
+    <td><span class="All">-There will be no reimbursement for days that elapse between the waiting period and 1st doctor visit. <br />
+    -Submit claim to Booth Scott </span></td>
+  </tr>
+  <tr>
+    <td><span class="All"><strong>Dental</strong>- Employee and Eligible Dependants</span></td>
+    <td><span class="All"><strong>Basic:</strong> 80%    (cleanings, extractions, root canal) <br />
+      <strong>Major:</strong> 50%   (dentures, crown) $1500 per year combined maximum <br />
+      <strong>Recall Exam:</strong> twice per calendar year   **Pre-authorizations** </span></td>
+    <td><span class="All">-Cosmetic dental and athletic mouth guards are not covered <br />
+    - Does your dentist charge according to the Dental Fee Guide? </span></td>
+  </tr>
+  <tr>
+    <td><span class="All"><strong>Extended Health</strong>- Employee and Eligible                                          Dependants </span></td>
+    <td><p class="All"><strong>Drugs:</strong> 80% of total cost of prescriptions <br />
+      <strong>      Hospital Stays:</strong> 100% semi private room<br />
+      <strong>      Medical Supplies:</strong> 100% <strong><br />
+      Vision:</strong> 100% - $200/person/ 2 calendar yrs for glasses or contacts. Exams: 1 per 2 calendar years <strong><br />
+      Paramedicals:</strong> 100% <br />
+      $500/practitioner/person/year which includes; Chiropractor, Osteopath, Podiatrist/Chiropodist, Massage Therapist, Naturopath, Physiotherapist, Psychologist, Acupuncturist, Speech Therapist. </p>
+    <p class="All"><strong>Health Services Navigator:</strong> Access to world class doctors for a second opinion on diagnosis and treatment protocol </p></td>
+    <td><span class="All">-Do you know how much your dispensing fee is? <br />
+    -www.clearlycontacts.ca   <br />
+    -www.contactsexpress.ca <br />
+    <br />
+    -Does your massage therapist charge a reasonable and customary amount? <br />
+    -Online claim submission will get your $$ back to you within 72hours. </span></td>
+  </tr>
+  <tr>
+    <td><span class="All"><strong>Travel Insurance</strong>- Employee and Eligible                                          Dependants </span></td>
+    <td><p class="All"><strong>Emergency Out-Of-Province:</strong> 100% of eligible expenses up to $5M lifetime max for trips up to 60 days. </p>
+    <p class="All">-Do your dependants have a travel card? </p></td>
+    <td><span class="All">-If injured on a trip, Contact Allianz Global Assistance before obtaining treatment.</span></td>
+  </tr>
+  <tr>
+    <td><span class="All"><strong>Employee Assistance Program (EAP)</strong>- Employee and Eligible Dependants</span></td>
+    <td><span class="All">Workplace Advisor offers a wide variety of confidential counseling services.</span></td>
+    <td><span class="All">Call <strong>1-866-644-0326</strong> to reach a representative any time, 24 hours a day</span></td>
+  </tr>
+</table>
+</body>
+  If you have any questions about the Manulife Benefits Program, please contact the MindField HR Team or Dawne Pongracz (Employee Care Representative) at (778) 578-1060 or 1 (855) 578-1060.
+
+</apex:page>

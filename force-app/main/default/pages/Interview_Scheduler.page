@@ -1,0 +1,1730 @@
+<apex:page showHeader="false" sidebar="false">
+ 
+  <apex:includeScript value="{!URLFOR($Resource.fullcalendar, 'lib/jquery.min.js')}"/>
+  <apex:includeScript value="{!URLFOR($Resource.fullcalendar, 'lib/jquery-ui.min.js')}"/>
+  <apex:includeScript value="{!URLFOR($Resource.fullcalendar, 'lib/moment.min.js')}"/>
+  <apex:includeScript value="{!URLFOR($Resource.fullcalendar, 'fullcalendar.js')}"/>
+  <apex:stylesheet value="{!URLFOR($Resource.fullcalendar, 'fullcalendar.css')}"/>
+  <apex:stylesheet value="{!URLFOR($Resource.fullcalendar, 'jquery-ui.css')}"/>
+  <apex:includeScript value="/soap/ajax/34.0/connection.js" />
+  <script src="/soap/ajax/43.0/apex.js" type="text/javascript"></script>
+ 
+  <style>
+      #maincontainer {
+        width: 100%;
+        height: 100%;
+      }
+      
+      #header{
+        width: 100%;
+        height: 100px;
+      }
+            
+      #legend{
+        width: 100%;
+        height: 50px;
+      }
+  </style>
+ 
+  <script>
+  
+  var autoRefresh=300000; //5 minutes
+  var calendar_events=[];
+  var jobRecords; //store for referrence
+  
+  var dialogHiringManagerCreate;
+  var dialogHiringManagerUpdate;
+  var dialogCandidateDelete;
+  var dialogCandidateCreate;
+  
+  var CurrentDate = new Date(); //todays date, default min date for date picker
+  var CurrentDatePlusTwoMonths = new Date(); //default date for event occurance until
+      CurrentDatePlusTwoMonths.setMonth(CurrentDate.getMonth() + 2);
+  var MaxDate = new Date(); //max date for event occurance until
+      //MaxDate.setMonth(CurrentDate.getMonth() + 6);
+      MaxDate.setMonth(CurrentDate.getMonth() + 12); //July 6, 2018. Update to 1 year
+  
+  //earliest date we get HM and Cad data, not need to load entire history    
+  var CalendarRangeStart= new Date();
+      CalendarRangeStart.setMonth(CurrentDate.getMonth() - 2);
+      
+  var CalendarRangeEnd= new Date();
+      CalendarRangeEnd.setMonth(CurrentDate.getMonth() + 60);    
+         
+  var hasHiringManagerAccess = '{!$ObjectType.Hiring_Manager_Availability__c.Deletable}'; //only admins and/or users with Scheduler_Admin permission set can do this
+  var hasRecruiterAccess = '{!$ObjectType.Candidate_Interview__c.Deletable}';
+  var isRecruiterMode = true; //boolean on which mode we are in, candidate or HM
+  var hasAccess = false;
+  
+  var storeId; //account scheduler called from if in HM mode, else account job associated with
+  var jobId;   //job scheduler called from if in candidate mode
+  var jobIdOriginal;   //store oringal value job scheduler called from for reference if changed
+  var jobName;
+  var jobStatus;
+  
+  var cHMModeHMColorTrans='rgba(244, 243, 242, 0.7)'; //event color for hiring manager in HM mode 
+  var cHMModeHMColor='#808080'; //'#F4F3F2'; //event color for hiring manager in recruiter mode, this color is actually inverse background so shows aviliblity in white
+  var cHMColor= '#FFFFFF'; //event color for hiring manager in recruiter mode, this is for legend 
+  var cCColor='rgba(0, 148, 255, 0.5)';  //event color for candiate interview
+  var cCCJColor='rgba(0, 148, 255, 1.0)';//event color for candiate interview ON CURRENT JOB
+  var cSCColor='rgba(0, 255, 33, 0.5)'; //event color for candiate interview synced with SF
+  var cSCCJColor='rgba(0, 255, 33, 1.0)'; //event color for candiate interview synced with SF ON CURRENT JOB
+  var cText='#000000';   
+    
+   //ready function ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   $(document).ready(function() {
+     
+     //get URL params
+     storeId = getUrlParameter('storeId');
+     jobId = getUrlParameter('jobId');
+     jobIdOriginal = jobId; 
+     //if coming from account mode=HiringManager, if coming from job mode=Recruiter
+     isRecruiterMode = getUrlParameter('mode') == 'Recruiter';
+     
+     //either full access or recruiter access in recruiter mode
+     hasAccess = (hasHiringManagerAccess==='true' || (hasRecruiterAccess==='true' && isRecruiterMode));
+ 
+     if(hasAccess) {
+ 
+         //set legend BK colors
+         $('#tdHM').css("background-color", isRecruiterMode ? cHMColor : cHMModeHMColorTrans);
+         $('#tdC').css("background-color", cCColor);
+         $('#tdCS').css("background-color", cSCColor);
+         $('#tdC2').css("background-color", cCCJColor);
+         $('#tdCS2').css("background-color", cSCCJColor);
+         
+         //hide job details if in HM mode
+         if(!isRecruiterMode) {
+             $('#tdJobIdLabel').css( "display", "none" );
+             $('#tdJobId').css( "display", "none" );
+             $('#tdJobStatusLabel').css( "display", "none" );
+             $('#tdJobStatus').css( "display", "none" );
+         } else {
+             $('#dvBulkDelete').css( "display", "none" ); //show bulk delete option
+         }
+         
+         getStoreInformation(); 
+         getJobs();
+     
+         //job picklist change event
+         $("#sJobs").change(function () {
+             resetCalendarEvents($("#sJobs").val());
+         });
+     
+         //inti calendar function
+         intiCalendar(); 
+              
+         //dialog box for creating hiring manager schedule ---------------------------------------------------------
+         dialogHiringManagerCreate = $('#dialog-form-hmCreate').dialog({
+             autoOpen: false,
+              height: 250,
+              width: 400,
+              modal: true,
+              buttons: {
+                 "Create Availability(s)": createEventHiringManagerMode,
+                Cancel: function() {
+                  dialogHiringManagerCreate.dialog( "close" );
+                }
+              },
+              close: function() { },
+        });
+        $("#dpRepeatUntil").datepicker( { minDate: CurrentDate, maxDate: MaxDate }); //init date picker for repeat until
+        $("#trRepeatUntil").hide(); //hide repeat until date
+        $('#intRepeat').click(function() { //toggle date picker on and off
+            if(this.checked) {
+                $("#trRepeatUntil").show();
+                $('#dpRepeatUntil').datepicker("setDate", CurrentDatePlusTwoMonths );
+            }
+            else {
+                $("#trRepeatUntil").hide();
+            } 
+        });
+        //END dialog box for creating hiring manager schedule ---------------------------------------------------------
+        
+        //dialog box for deleting hiring manager schedule ---------------------------------------------------------
+        dialogHiringManagerUpdate = $('#dialog-form-hmDelete').dialog({
+             autoOpen: false,
+              height: 215,
+              width: 450,
+              modal: true,
+              buttons: [
+                {
+                   text: "Delete Availability(s)",
+                   "id": "btDelEv",
+                   click: function () {
+                     deleteEventHiringManagerMode();
+                   },
+                },
+                { 
+                   text: "Lock Availability",
+                   "id": "btLockEv",
+                   click: function () {
+                     lockEventHiringManagerMode();
+                   },
+                },
+                { 
+                   text: "Cancel",
+                   "id": "btCancel",
+                   click: function () {
+                     dialogHiringManagerUpdate.dialog( "close" );
+                   },
+                } 
+              ],
+              close: function() { },
+        });
+        //dialog box for deleting hiring manager schedule ---------------------------------------------------------
+        
+        
+        //dialog box for BULK deleting hiring manager schedule ---------------------------------------------------------
+        dialogHiringManagerBulkDelete = $('#dialog-form-hmBulkDelete').dialog({
+             autoOpen: false,
+              height: 230,
+              width: 350,
+              modal: true,
+              buttons: {
+                 "Delete All Events": bulkDeleteEventHiringManagerMode,
+                Cancel: function() {
+                  dialogHiringManagerBulkDelete.dialog( "close" );
+                }
+              },
+              close: function() { },
+        });
+        //dialog box for deleting hiring manager schedule ---------------------------------------------------------
+        $("#dpDeleteFrom").datepicker( { }); //init date picker for bulk delete
+        $('#dpDeleteFrom').datepicker("setDate", CurrentDate );
+        
+        //dialog box for deleting candidate schedule ---------------------------------------------------------
+        dialogCandidateDelete = $('#dialog-form-cdDelete').dialog({
+             autoOpen: false,
+              height: 180,
+              width: 350,
+              modal: true,
+              buttons: {
+                 "Delete Interview": deleteEventRecruiterMode,
+                Cancel: function() {
+                  dialogCandidateDelete.dialog( "close" );
+                }
+              },
+              close: function() { },
+        });
+        //dialog box for deleting candidate  schedule ---------------------------------------------------------
+        
+        //dialog box for create candidate schedule ---------------------------------------------------------
+        dialogCandidateCreate = $('#dialog-form-cdCreate').dialog({
+             autoOpen: false,
+              height: 250,
+              width: 400,
+              modal: true,
+              buttons: {
+                 "Create Interview": createEventRecruiterMode,
+                Cancel: function() {
+                  dialogCandidateCreate.dialog( "close" );
+                }
+              },
+              close: function() { },
+        });
+        $("#cCreateErr").hide();
+        //dialog box for create candidate  schedule ---------------------------------------------------------
+ 
+        //toggle to either get entire data history OR just 1 months back from current date
+        $('#cbHistory').click(function() { //toggle date picker on and off
+            var cal = $("#calendar"); //put the ID of your calendar element here
+        
+            if(this.checked) {
+                CalendarRangeStart = new Date();
+                CalendarRangeStart.setMonth(CurrentDate.getMonth() - 60); //go back 5 year
+            }
+            else {
+                CalendarRangeStart = new Date();
+                CalendarRangeStart.setMonth(CurrentDate.getMonth() - 2); //come back to original date
+            } 
+            
+            cal.fullCalendar('option', 'validRange', {
+                    start: CalendarRangeStart,
+                    end: CalendarRangeEnd 
+                });
+            
+            dataRefresh();
+        });
+        //display show all history for HM access users
+        if(hasHiringManagerAccess==='true') {
+            $("#tdShowHistory").show();
+        }
+        else {
+            $("#tdShowHistory").hide();
+        }
+ 
+        idleLogout(); //event for auto refresh data
+        $("#sLastRefreshed").text('Last Data Refresh: ' + new Date().toLocaleString() );
+ 
+     } //end hasAccess
+     else {
+        alert('You do not have access to this scheduling mode.');
+        window.close();
+     }
+ 
+ });
+ //END ready function ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+//calendar initialization------------------------------------------------------------------------------------------------------------------------------
+ function intiCalendar () {
+        
+        buildHiringManagerSchedule();
+        buildCandidateData(); 
+               
+        // Full Calendar Init ---------------------------------------------------------------------------------------
+        $('#calendar').fullCalendar({
+            defaultView: 'agendaWeek',
+            validRange: {
+                start: CalendarRangeStart,
+                end: CalendarRangeEnd
+            },
+            
+            height: $(window).height()*0.75,
+            timezone: 'local',
+            selectable: true,
+            editable: true,
+            eventDurationEditable: isRecruiterMode ? false : true, 
+            header : {
+              left : 'prev,next today',
+              center : 'title',
+              right : 'agendaWeek,agendaTwoWeeks,agendaOneMonth,agendaTwoMonths',
+            },
+            
+            views: {
+                agendaWeek: {
+                    type: 'agenda',
+                    duration: { days: 14 },
+                    buttonText: 'week',
+                    columnHeaderFormat : 'ddd, DD',
+                },
+                agendaTwoWeeks: {
+                    type: 'agenda',
+                    duration: { days: 14 },
+                    buttonText: '2 weeks',
+                    columnHeaderFormat : 'ddd, DD',
+                },
+                agendaOneMonth: {
+                    type: 'agenda',
+                    duration: { months: 1 },
+                    buttonText: 'month',
+                    columnHeaderFormat : 'DD',
+                },
+                agendaTwoMonths: {
+                    type: 'agenda',
+                    duration: { months: 2 },
+                    buttonText: '2 months',
+                    columnHeaderFormat : 'DD',
+                }
+            },
+            
+            viewRender: function( view, element ) {
+                
+            },
+                                    
+            eventOverlap: true, //isRecruiterMode ? true : false, //have to turn this off now for HM availability to allow for adjustments to schedules with candidate interviews in the
+            nowIndicator: true, //shows current time
+            
+            //if recruiter mode on no events, set all business hours else wont show with inverse background
+            businessHours: isRecruiterMode && calendar_events.length==0  ?  {
+                dow: [ 0, 1, 2, 3, 4, 5, 6 ],
+                start: '18:00', 
+                end: '18:00', 
+            } :
+            {
+                dow: [ 0, 1, 2, 3, 4, 5, 6 ],
+                start: '06:00', 
+                end: '22:00', 
+            },
+            
+            eventRender: function(event, element){
+               
+                if(!isRecruiterMode && event.rendering !== 'inverse-background') { //display various titles depending on view
+                    var cal = $("#calendar");
+                    if(cal.fullCalendar('getView').name==='agendaWeek') {
+                        element.append(event.cusTitleWeek);
+                    }
+                    else if(cal.fullCalendar('getView').name==='agendaTwoWeeks') {
+                        element.append(event.cusTitle2Week);
+                    }
+                    else if(cal.fullCalendar('getView').name==='agendaOneMonth' ||
+                            cal.fullCalendar('getView').name==='agendaTwoMonths') {
+                        element.append(event.cusTitleMonth);
+                    }
+                }
+            },
+            
+            eventAfterRender: function(event, element, view) {
+            
+            
+                //when in recruiter mode, we shrink the width so it is easier to pick the same time in the case of mulitple slots allowed
+                if (isRecruiterMode && event.rendering !== 'inverse-background') {
+                    $(element).css('width', ($(element).width() * 0.85));
+                }
+                
+                //when in recruiter mode, display text in HM background
+                if (isRecruiterMode && event.rendering === 'inverse-background') {
+                   /* because its inverse, element is placed inverse of the event
+                      this mades the text display in the incorrect place
+                      to try to overcome this, we find 'bottom', which is negative and get the abs of it
+                      below only appends to first event....so not correct
+                      looking at the dom it seems at element hold mulitple children....tried looping through these and appending an element
+                      but the number of inverse is more then the elements so messes up!!! 
+                    var myEl;
+                    if(view.name==='agendaWeek') {
+                        myEl = "<table style='top: " + Math.abs(parseInt(element.css('bottom'))) + "px; position:relative;'><tr><td>" + event.cusTitleWeek + "</td></tr></table>"; 
+                    }
+                    else if(view.name==='agendaTwoWeeks') {
+                        myEl = "<table style='top: " + Math.abs(parseInt(element.css('bottom'))) + "px; position:relative;'><tr><td>" + event.cusTitle2Week + "</td></tr></table>"; 
+                    }
+                    else if(view.name==='agendaOneMonth' || view.name==='agendaTwoMonths') {
+                        myEl = "<table style='top: " + Math.abs(parseInt(element.css('bottom'))) + "px; position:relative;'><tr><td>" + event.cusTitleMonth + "</td></tr></table>"; 
+                    }
+                
+                    element.prepend(myEl);
+                   */
+                  
+                }
+            },
+            
+            eventMouseover: function(calEvent, jsEvent) {
+                if(isRecruiterMode) { //tooltip for recruiter mode
+                    var tooltip = '<div class="tooltipevent" style="position:absolute;z-index:10001;font-size: 12px; border-radius: 10px;border: 2px solid #73AD21;background: #C0C0C0;padding: 5px;width: 250px;height: 120px; ">' + calEvent.description + '</div>';
+                    $("body").append(tooltip);
+                    $(this).mouseover(function(e) {
+                        $(this).css('z-index', 10000);
+                        $('.tooltipevent').fadeIn('500');
+                        $('.tooltipevent').fadeTo('10', 1.9);
+                    }).mousemove(function(e) {
+                        $('.tooltipevent').css('top', e.pageY + 10);
+                        $('.tooltipevent').css('left', e.pageX + 20);
+                  });
+                }      
+            },
+
+            eventMouseout: function(calEvent, jsEvent) {
+              $(this).css('z-index', 8);
+              $('.tooltipevent').remove();
+            },
+            
+            //load events... 
+            events:calendar_events,
+            
+            selectConstraint: isRecruiterMode ? 'hiring_manager_available_hours' : 'businessHours',    
+          
+            //new event-------------------------------------------------------------------------------------------------------         
+            select: function (start, end, jsEvent, view) {
+              if(isRecruiterMode) {
+                  //createEventRecruiterMode(start, end, jsEvent, view);
+                  openCandidateCreateDialog(start, end, jsEvent, view);
+              }
+              else {
+                  //createEventHiringManagerMode(start, end, jsEvent, view);
+                  openHiringManagerCreateDialog(start, end, jsEvent, view);
+              }    
+            },
+            //END save event-------------------------------------------------------------------------------------------------------
+          
+            //update event, move-------------------------------------------------------------------------------------------------------
+            eventDrop: function(event, delta, revertFunc) {
+              if(isRecruiterMode) {
+                  editEventRecruiterMode(event, delta, revertFunc);
+              }
+              else {
+                  editEventHiringManagerMode(event, delta, revertFunc);
+              }    
+            },
+            //END update event, move------------------------------------------------------------------------------------------------------- 
+            
+            //update event, resize-------------------------------------------------------------------------------------------------------
+            eventResize: function(event, delta, revertFunc) {
+              if(isRecruiterMode) {
+                  //can't resize candidate interview events
+              }
+              else {
+                  editEventHiringManagerMode(event, delta, revertFunc)
+              }    
+            },
+            //END update event, resize------------------------------------------------------------------------------------------------------- 
+           
+            //delete event-------------------------------------------------------------------------------------------------------       
+            eventClick: function (calEvent, jsEvent, view) {
+              if(isRecruiterMode) {
+                  //deleteEventRecruiterMode(calEvent, jsEvent, view);
+                   openCandidateDeleteDialog(calEvent, jsEvent, view);
+              }
+              else {
+                  //deleteEventHiringManagerMode(calEvent, jsEvent, view);
+                  openHiringManagerDeleteDialog(calEvent, jsEvent, view);
+              }  
+            },
+            //END delete event------------------------------------------------------------------------------------------------------- 
+          
+    })
+    
+    //hide loading spinner
+    $( "#dvSpinner" ).css( "display", "none" ); 
+  
+ }
+ //END calendar initialization------------------------------------------------------------------------------------------------------------------------------
+
+
+//Data initializations ---------------------------------------------------------------------------------------------------------------------------------------
+function getStoreInformation() {
+    var records = doRetrieveSF("SELECT id, Name FROM Account WHERE Id='" + storeId + "' LIMIT 1");
+    
+    $.each(records, function(rowIndex, record) {
+        $("#sStore").text(record.Name);
+    });
+}  
+function getJobs() {
+    if(isRecruiterMode) { //if came from a job, get other job values
+
+        jobRecords = doRetrieveSF("SELECT id, Name, New_Job_Title__c, Job_Status__c FROM SFDC_Job__c WHERE Store__c='" + storeId + "'");
+
+        $.each(jobRecords, function(rowIndex, record) {
+            
+            if(record.Id.indexOf(jobId) !== -1) { //job matched against job came from...set defaults
+                jobStatus = record.Job_Status__c; //used to determine if event on current job
+                jobName = record.Name; //displays in NEW event tooltip
+                $("#sJobStatus").text(record.Job_Status__c); //sets title job status
+                $("#sJobs").append($("<option />").val(record.Id).text(record.Name + ' - ' + record.New_Job_Title__c)); //add to picklist
+                $("#sJobs").val(record.Id); //sets picklist value
+            }
+            else {
+                if(record.Job_Status__c.indexOf('Closed') == -1) { //if not closed and not job came from, add to list, we dont want closed jobs
+                $("#sJobs").append($("<option />").val(record.Id).text(record.Name + ' - ' + record.New_Job_Title__c)); //add to picklist
+                }
+            } 
+        });
+    }        
+}             
+function buildHiringManagerSchedule () {
+        
+    //var records = doRetrieveSF("SELECT id, Name, Start_Date__c, End_Date__c, Interview_Duration__c, Occurrence_Reference__c, Is_Occurrence__c, Interviewer_s_Available__c, Candidate_Interviews__c FROM Hiring_Manager_Availability__c WHERE Hiring_Managers_Store__c='" + storeId + "'");
+    var records = doRetrieveSF("SELECT id, Name, Start_Date__c, End_Date__c, Interview_Duration__c, Occurrence_Reference__c, Is_Occurrence__c, Interviewer_s_Available__c, Candidate_Interviews__c, Earliest_Candidate_Interview_Rollup__c, Latest_Candidate_Interview_Formula__c, Lock_Availability__c FROM Hiring_Manager_Availability__c WHERE Hiring_Managers_Store__c='" + storeId + "' AND Start_Date__c>=" + moment(CalendarRangeStart).format());
+       
+                
+    //loop through data results and build event objects
+    $.each(records, function(rowIndex, record) {
+        var newEvent = new Object();
+        
+        //newEvent.title = 'Interview Duration: ' + record.Interview_Duration__c + 'mins' +  (isRecruiterMode ? '</br>' : '\n') + 'Interview Availability: ' + parseInt(record.Interviewer_s_Available__c) + (isRecruiterMode ? '</br>' : '\n') + 'Repeat Occurance: ' + record.Is_Occurrence__c + (isRecruiterMode ? '</br>' : '\n') + 'Interviews Scheduled: ' + parseInt(record.Candidate_Interviews__c);
+        newEvent.start = record.Start_Date__c;
+        newEvent.end = record.End_Date__c;
+        newEvent.color = isRecruiterMode ? cHMModeHMColor : cHMModeHMColorTrans; //in recruiter mode...because we have BG color as business, the color white gives us cHMColor
+       
+        newEvent.cusTitleWeek = 'Interview Duration: ' + record.Interview_Duration__c + 'mins' +  '</br>' + 'Interview Availability: ' + parseInt(record.Interviewer_s_Available__c) + '</br>' + 'Repeat Occurance: ' + record.Is_Occurrence__c + '</br>' + 'Interviews Scheduled: ' + parseInt(record.Candidate_Interviews__c) + '</br>' + 'Locked: ' + record.Lock_Availability__c;
+        newEvent.cusTitle2Week = 'Duration: ' + record.Interview_Duration__c + 'mins' + '</br>' + 'Availability: ' + parseInt(record.Interviewer_s_Available__c) + '</br>' + 'Interviews: ' + parseInt(record.Candidate_Interviews__c);
+        newEvent.cusTitleMonth = 'Dur: ' + record.Interview_Duration__c + 'm' + '</br>' + 'Avail: ' + parseInt(record.Interviewer_s_Available__c);
+        
+        newEvent.cusHasAnyCandidates = record.Candidate_Interviews__c>0;
+        newEvent.cusCanDelete = !newEvent.cusHasAnyCandidates;
+        newEvent.cusEarliestCandidateInterview = record.Earliest_Candidate_Interview_Rollup__c;
+        newEvent.cusLatestCandidateInterview = record.Latest_Candidate_Interview_Formula__c;
+        newEvent.cusLockAvailability = record.Lock_Availability__c;
+        
+        if(isRecruiterMode) { //background if in recuiter mode
+            newEvent.id = 'hiring_manager_available_hours'; //record.Lock_Availability__c==='false' ? 'hiring_manager_available_hours' : 'hiring_manager_available_hours_locked';
+            newEvent.data = record.Id + '~' + record.Interview_Duration__c + '~' + record.Interviewer_s_Available__c;
+            newEvent.rendering='inverse-background';
+            newEvent.editable=false;
+        }
+        else { //if HM mode
+            newEvent.id=record.Id;
+            newEvent.data = record.Is_Occurrence__c  + '~' + record.Occurrence_Reference__c + '~' + record.Candidate_Interviews__c;
+            newEvent.textColor=cText;
+            //newEvent.editable=record.Candidate_Interviews__c>0 ? false : true;
+            newEvent.editable=true;
+        }
+        calendar_events.push(newEvent);
+    });
+}
+
+function buildCandidateData () {
+     //var records = doRetrieveSF("SELECT Id, Name, Start_Date__c, End_Date__c, Hiring_Manager_Availability__r.Id, Hiring_Manager_Availability__r.Interview_Duration__c, Hiring_Manager_Availability__r.Interviewer_s_Available__c, Job__c, Job__r.Id, Job__r.Job_Status__c, Job__r.Name, Job_Candidate__c, Job_Candidate__r.Status__c, Job_Candidate__r.Candidate_Name__c FROM Candidate_Interview__c WHERE Hiring_Manager_Availability__r.Hiring_Managers_Store__c='" + storeId + "'");
+     var records = doRetrieveSF("SELECT Id, Name, Start_Date__c, End_Date__c, Hiring_Manager_Availability__r.Id, Hiring_Manager_Availability__r.Interview_Duration__c, Hiring_Manager_Availability__r.Interviewer_s_Available__c, Job__c, Job__r.Id, Job__r.Job_Status__c, Job__r.Name, Job_Candidate__c, Job_Candidate__r.Status__c, Job_Candidate__r.Candidate_Name__c, CreatedBy.Name FROM Candidate_Interview__c WHERE Hiring_Manager_Availability__r.Hiring_Managers_Store__c='" + storeId + "' AND Start_Date__c>=" + moment(CalendarRangeStart).format());
+       
+      
+     //loop through data results and build event objects
+     $.each(records, function(rowIndex, record) {
+         var newEvent = new Object();
+         newEvent.id=record.Id;
+         newEvent.start = record.Start_Date__c;
+         newEvent.end = record.End_Date__c;
+         newEvent.title=record.Name;
+         newEvent.className = record.Job__r.Id; //store id in class name
+         newEvent.data= record.Hiring_Manager_Availability__r.Id; //HM id
+         newEvent.color=cCColor; //default color, not synced, not on current job
+         newEvent.editable=true; //default,not synced, not on current job
+                 
+         var isCurrentJob = (record.Job__r.Id.indexOf(jobId) !== -1);
+         var isCandidateSynced = (record.Job_Candidate__c != null);
+         
+         var candidateName = isCandidateSynced ? ('</br>Name: ' + record.Job_Candidate__r.Candidate_Name__c) : '';
+         newEvent.description='Start Time: ' + moment(newEvent.start).format('h:mm:ss a') + '</br>' + 'End Time: ' + moment(newEvent.end).format('h:mm:ss a')+ '</br>' + 'Email: ' + record.Name + candidateName +  '</br>' + 'Status: ' + (record.Job_Candidate__c != null ? record.Job_Candidate__r.Status__c : 'Not Synced') + '</br>' + 'Job Id: ' + record.Job__r.Name  + '</br>' + 'Interview Duration: ' + record.Hiring_Manager_Availability__r.Interview_Duration__c + 'mins' + '</br>' + 'Interview Availability: ' + parseInt(record.Hiring_Manager_Availability__r.Interviewer_s_Available__c)  + '</br>' + 'Recruiter: ' + record.CreatedBy.Name;
+         
+         if(isRecruiterMode) { //if recruiter mode, set colors, editability, ect
+         
+             //are we on current job
+             if(isCurrentJob) { 
+                newEvent.color=cCCJColor;
+             
+                 if(record.Job__r.Job_Status__c.indexOf('Closed') == -1) { //can only edit jobs not closed
+                     newEvent.editable=true;
+                 }    
+                 else {
+                     newEvent.editable=false;
+                 }
+             }
+                      
+             //has the candidate been synced from HD
+             if(isCandidateSynced) {
+                 newEvent.color = isCurrentJob ? cSCCJColor : cSCColor; //color if we synced with SF and either on current job or not
+                 newEvent.title=record.Job_Candidate__r.Candidate_Name__c;
+                 if(
+                     (record.Job_Candidate__r.Status__c.indexOf('Qualified Candidates') == -1) && //if synced with SF, can only edit candidate in qualified OR
+                     (record.Job_Candidate__r.Status__c.indexOf('Interviewing') == -1)            //if synced with SF, can only edit candidate in interviewing
+                 )
+                 {
+                     newEvent.editable=false;
+                 }
+                 else {
+                     newEvent.editable=true;
+                 }    
+             }  
+                      
+             constraint='hiring_manager_available_hours';
+         }
+         else { //if HM mode, set to background
+             newEvent.rendering='background';
+             if(record.Job_Candidate__c != null) {
+                 newEvent.color = cSCColor; //color if we synced with SF
+             }
+             else {
+                 newEvent.color = cCColor; //else default color
+             } 
+         }    
+             
+         calendar_events.push(newEvent);
+    });
+}  
+//END Data initializations ---------------------------------------------------------------------------------------------------------------------------------------
+
+//Salesforce data calls for retrieve, create, update------------------------------------------------------------------------------
+function doRetrieveSF(myQuery) {
+     try{
+         //show loading spinner
+         $( "#dvSpinner" ).css( "display", "block" );   
+          
+         sforce.connection.sessionId = '{!$Api.Session_ID}';
+         var qr = sforce.connection.query(myQuery);
+         return qr.getArray("records");
+      }      
+      catch(err){
+          alert(err.message);
+          sforce.apex.execute("Interview_Scheduler_Util", "SendErrorEmail", {err: result[0].errors.message});
+          //hide loading spinner
+          $( "#dvSpinner" ).css( "display", "none" );
+      }
+ }
+
+function doSaveSF_CandidateEvent(event) {
+    sforce.connection.sessionId = "{!GETSESSIONID()}";
+    
+    var cadInterview = new sforce.SObject("Candidate_Interview__c");
+    cadInterview.name = event.title;
+    cadInterview.Start_Date__c= event.start;
+    //cadInterview.Hiring_Manager_Availability__c=event.className;
+    cadInterview.Hiring_Manager_Availability__c=event.data;
+    cadInterview.Job__c=jobId;
+            
+    result = sforce.connection.create([cadInterview]);
+    if(result[0].success === "false") {
+        sforce.apex.execute("Interview_Scheduler_Util", "SendErrorEmail", {err: result[0].errors.message});
+        return null;
+    }
+    
+    return result[0].id;
+} 
+function doSaveSF_HiringManagerEvent(event, dur, slots, occurUntil) {
+    sforce.connection.sessionId = "{!GETSESSIONID()}";
+    
+    var hmInterview = new sforce.SObject("Hiring_Manager_Availability__c");
+    hmInterview.Hiring_Managers_Store__c=storeId;
+    hmInterview.Start_Date__c= event.start;
+    hmInterview.End_Date__c= event.end;
+    hmInterview.Interview_Duration__c=dur;
+    hmInterview.Interviewer_s_Available__c=slots;
+    //doing a event re-occurnace
+    if(occurUntil != null) {
+        hmInterview.Is_Parent_Occurrence__c=true; //set parent occurnace
+        hmInterview.Re_Occur_Until__c=occurUntil; //set occurnace date        
+    }
+            
+    result = sforce.connection.create([hmInterview]);
+    if(result[0].success === "false") {
+        sforce.apex.execute("Interview_Scheduler_Util", "SendErrorEmail", {err: result[0].errors.message});
+        return null;
+    }
+    
+    return result[0].id;
+} 
+function doSaveSFBulk_HiringManagerEvent(events, parentId, dur, slots, occurUntil) {
+    var hmSFEvents = [];
+    sforce.connection.sessionId = "{!GETSESSIONID()}";
+    
+    //loop through and build SF events
+    for (i in events) {
+    
+      var hmInterview = new sforce.SObject("Hiring_Manager_Availability__c");
+      hmInterview.Hiring_Managers_Store__c=storeId;
+      hmInterview.Start_Date__c= events[i].start;
+      hmInterview.End_Date__c= events[i].end;
+      hmInterview.Interview_Duration__c=dur;
+      hmInterview.Interviewer_s_Available__c=slots;
+      hmInterview.Re_Occur_Until__c=occurUntil; //set occurnace date   
+      hmInterview.Occurrence_Reference__c=parentId; //set parent        
+    
+      hmSFEvents.push(hmInterview);
+    }
+
+    return sforce.connection.create(hmSFEvents);
+} 
+
+function doUpdateSF_CandidateEvent(event, hmSchedId) {
+    sforce.connection.sessionId = "{!GETSESSIONID()}";
+    
+    var cadInterview = new sforce.SObject("Candidate_Interview__c");
+    cadInterview.Id = event.id;
+    cadInterview.Start_Date__c= moment(event.start).format();
+    cadInterview.Hiring_Manager_Availability__c=hmSchedId;
+   
+    result = sforce.connection.update([cadInterview]);
+    
+    if(result[0].success === "false") {
+        sforce.apex.execute("Interview_Scheduler_Util", "SendErrorEmail", {err: result[0].errors.message});
+        return false;
+    }
+        
+    return true;
+}  
+function doUpdateSF_HiringManagerEvent(event) {
+    sforce.connection.sessionId = "{!GETSESSIONID()}";
+       
+    var hmInterview = new sforce.SObject("Hiring_Manager_Availability__c");
+    hmInterview.Id = event.id;
+    hmInterview.Start_Date__c= moment(event.start).format();
+    hmInterview.End_Date__c= moment(event.end).format();
+    hmInterview.Lock_Availability__c=event.cusLockAvailability==='true' ? false : true;
+    //hmInterview.Interview_Duration__c=dur;
+    //hmInterview.Interviewer_s_Available__c=slots;
+   
+    result = sforce.connection.update([hmInterview]);
+    
+    if(result[0].success === "false") {
+        sforce.apex.execute("Interview_Scheduler_Util", "SendErrorEmail", {err: result[0].errors.message});
+        return false;
+    }
+        
+    return true;
+}  
+
+function doBulkDeleteSF_Event(ids) {
+    sforce.connection.sessionId = "{!GETSESSIONID()}";
+    
+    result = sforce.connection.deleteIds([ids]);
+    if(result[0].success === "false") {
+        sforce.apex.execute("Interview_Scheduler_Util", "SendErrorEmail", {err: result[0].errors.message});
+        return false;
+    }
+        
+    return true;
+}  
+function doDeleteSF_Event(event) {
+    sforce.connection.sessionId = "{!GETSESSIONID()}";
+    
+    var e_ids = new Array(1);
+    e_ids[0] = event.id;  
+    
+    result = sforce.connection.deleteIds([e_ids]);
+    
+    if(result[0].success === "false") {
+        sforce.apex.execute("Interview_Scheduler_Util", "SendErrorEmail", {err: result[0].errors.message});
+        return false;
+    }
+        
+    return true;
+}  
+//END Salesforce data calls for retrieve, create, update------------------------------------------------------------------------------
+ 
+//get URL parameters
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+}; 
+
+//find related HM occurance events  
+function findRelatedRecruiterEvents(eventsArr, hmEvent) {
+    var hmIsOccurChild;
+    var hmOccurRefChild;
+    var hmNumChild;
+    
+    var hmIsOccurParent;
+    var hmOccurRefParent;
+    
+    var delIds = [];
+    
+    var resP = hmEvent.data.toString().split('~');
+    hmIsOccurParent = resP[0];
+    hmOccurRefParent = resP[1];
+   
+    for (i in eventsArr) {
+        var res = eventsArr[i].data.toString().split('~');
+        hmIsOccurChild = res[0];
+        hmOccurRefChild = res[1];
+        hmNumChild = res[2];
+    
+        if (typeof eventsArr[i].rendering === 'undefined' &&                          //wasn't set to background
+            moment(eventsArr[i].start).format() > moment(hmEvent.start).format() &&  //only events in the future
+            (
+             (          
+              hmIsOccurParent=='Yes - Parent Record' &&     //delete started from parent occurance
+              hmIsOccurChild=='Yes - Child Record' &&         //is child of occurance (not changed)
+              hmOccurRefChild === hmEvent.id                  //occurance ref matches parent id
+             )
+             ||
+             (
+              hmIsOccurParent=='Yes - Child Record' &&     //delete started from one of the child occurances
+              hmIsOccurChild=='Yes - Child Record' &&        //is child of occurance (not changed)
+              hmOccurRefChild === hmOccurRefParent           //occurance ref matches parent occurance ref
+             )
+            )
+           ) 
+        {
+            var d = eventsArr[i].id;
+                       
+            if(parseInt(hmNumChild) == 0) {
+                delIds.push(d);
+            }
+            else {
+                return null; //can't delete if found candidates booked
+            }
+            
+        }
+    }
+    return delIds;
+}
+
+//check how many candidate interviews are in a particular HM slot
+function checkEventOverlap(eventsArr, startDateOfEvent,  endDateOfEvent, hmSlots, isNew) {
+    var numSlots = isNew ? 1 : 0;
+
+    //loop through all events and find any overlapping candidate events
+    for (i in eventsArr) {
+      if (eventsArr[i].rendering !== 'background' && eventsArr[i].rendering !== 'backgroundEvent' && eventsArr[i].rendering !== 'inverse-background' &&
+            ( 
+              startDateOfEvent >= moment(eventsArr[i].start).format() && startDateOfEvent < moment(eventsArr[i].end).format()
+              ||
+              endDateOfEvent > moment(eventsArr[i].start).format() && endDateOfEvent <= moment(eventsArr[i].end).format()
+            )
+       )   
+       {
+           numSlots++;
+       }
+    }
+    
+    return numSlots <= hmSlots;
+}
+
+var hmSchedIdCreate;
+function openCandidateCreateDialog(start, end, jsEvent, view) {
+    
+    var cal = $("#calendar"); //put the ID of your calendar element here
+    var evts = cal.fullCalendar('clientEvents'); //get all in-memory events
+    var hmEvent = null;
+              
+    var res;
+    
+    var hmDuration;
+    var hmSlots;
+    var endDate;
+              
+    if(jobStatus.indexOf('Closed') == -1) //Candidates cannot be scheduled on a closed job.
+    {
+        //loop through and find background HM record
+        for (i in evts) {
+                 // console.log(evts[i]);
+            //can only check start times becasue we dont know HM duration yet
+            if (evts[i].rendering === "inverse-background" &&
+            //if ((evts[i].rendering === 'background' || evts[i].rendering === 'backgroundEvent') &&
+                start.isBefore(evts[i].end) && moment(start).format() >= moment(evts[i].start).format()
+            ) 
+            {
+                hmEvent = evts[i];
+                          
+                //res = hmEvent.className.toString().split('~');
+                res = hmEvent.data.toString().split('~');
+                                
+                hmSchedIdCreate = res[0];
+                hmDuration = res[1];
+                hmSlots = res[2];
+                          
+                endDate = moment(start).add(hmDuration,'m').format();
+                        
+                //now check based on our end date
+                if(endDate > moment(hmEvent.end).format())
+                {
+                    hmEvent = null; //null out if doesn't work
+                } 
+                break;
+             }
+        }
+          
+        //if found related HM scheduled event
+        if(hmEvent != null) {
+        
+            if(hmEvent.cusLockAvailability==='false') {
+                      
+                if(checkEventOverlap(evts, moment(start).format(), endDate, hmSlots, true)) {
+                    
+                     dialogCandidateCreate.dialog("open"); //call dialog
+         
+                     $("#cdCreateStart").text(moment(start).format('MM/DD/YYYY h:mm:ss a')); //sets start date in dialog
+                     $("#cdCreateEnd").text(moment(start).add(hmDuration,'m').format('MM/DD/YYYY h:mm:ss a')); //sets start date in dialog
+                     $("#cdDuration").text(hmDuration + 'mins'); //sets duration
+                     $("#cdSlots").text(parseInt(hmSlots)); //sets duration
+                     $("#cdEmail").val('');
+                     $("#cCreateErr").hide();
+                } 
+                else {
+                  <!--  alert('The maximum number of slots, ' + parseInt(hmSlots) + ', for this period have already been filled.'); -->
+dialogCandidateCreate.dialog("open"); //call dialog
+         
+                     $("#cdCreateStart").text(moment(start).format('MM/DD/YYYY h:mm:ss a')); //sets start date in dialog
+                     $("#cdCreateEnd").text(moment(start).add(hmDuration,'m').format('MM/DD/YYYY h:mm:ss a')); //sets start date in dialog
+                     $("#cdDuration").text(hmDuration + 'mins'); //sets duration
+                     $("#cdSlots").text(parseInt(hmSlots)); //sets duration
+                     $("#cdEmail").val('');
+                     $("#cCreateErr").hide();
+                } 
+            } else {
+                <!-- alert('This hiring manager schedule has been locked. No further candidate interviews can be booked.'); -->
+                dialogCandidateCreate.dialog("open"); //call dialog
+         
+                     $("#cdCreateStart").text(moment(start).format('MM/DD/YYYY h:mm:ss a')); //sets start date in dialog
+                     $("#cdCreateEnd").text(moment(start).add(hmDuration,'m').format('MM/DD/YYYY h:mm:ss a')); //sets start date in dialog
+                     $("#cdDuration").text(hmDuration + 'mins'); //sets duration
+                     $("#cdSlots").text(parseInt(hmSlots)); //sets duration
+                     $("#cdEmail").val('');
+                     $("#cCreateErr").hide();
+            }                 
+        }
+        else {
+            alert('No matching hiring manager schedule found.'); 
+        
+        } 
+    }
+    else {
+        alert('Candidates cannot be scheduled on a closed job.');
+    }
+}
+function createEventRecruiterMode() {
+
+    var start = new Date($("#cdCreateStart").text()); 
+    var end = new Date($("#cdCreateEnd").text());
+    var hmDuration = $("#cdDuration").text();
+    var hmSlots = $("#cdSlots").text();
+    var cEmail = $("#cdEmail").val();
+    
+    cEmail = cEmail.trim(); //remove trailing whitespace
+          
+    if(validateEmail(cEmail)) {
+        var newEvent = new Object();
+        newEvent.title = cEmail;
+        newEvent.start = moment(start).format();
+        newEvent.end = moment(end).format(); 
+        newEvent.allDay = false;
+        newEvent.className=jobId; //get the background HM id
+        newEvent.data=hmSchedIdCreate; //get the background HM id
+        newEvent.editable = true;
+        newEvent.color = jobId == jobIdOriginal ? cCCJColor : cCColor; //non synced with SF color, current job OR job drop changed and not on current job
+        //newEvent.description='Start Time: ' + moment(newEvent.start).format('h:mm:ss a') + '</br>' + 'End Time: ' + moment(newEvent.end).format('h:mm:ss a')+ '</br>' + 'Email: ' + newEvent.title + '</br>' + 'Status: Not Synced' + '</br>' + 'Job Id: ' + jobName  + '</br>' + 'Interview Duration: ' + hmDuration + 'mins' + '</br>' + 'Interview Availability: ' + parseInt(hmSlots); // + '</br>' + 'Recruiter: ' + {!$User.FirstName} + ' ' + {!$User.LastName};
+              
+        var returnId = doSaveSF_CandidateEvent(newEvent);                       
+        if(returnId != null) {
+            //newEvent.id = returnId;
+            //calendar_events.push(newEvent); //add to array
+            //$('#calendar').fullCalendar('renderEvent', newEvent, true); //add to memory
+            
+            dataRefresh();
+        }
+        else {
+            alert('An error occured during saving. Please try again later.');
+        } 
+                        
+        hmSchedIdCreate=null;
+        dialogCandidateCreate.dialog( "close" );
+    }    
+    else {
+        $("#cCreateErr").show();
+    }  
+}
+
+var cadEventToDelete;
+function openCandidateDeleteDialog(calEvent, jsEvent, view) {
+   if(calEvent.editable && (calEvent.color != cSCColor && calEvent.color != cSCCJColor)) {
+      cadEventToDelete = calEvent;
+      dialogCandidateDelete.dialog("open"); //call dialog
+    }  
+}
+
+var hmEventToDeleteOrLock;
+function openHiringManagerDeleteDialog(calEvent, jsEvent, view) {
+   //if(calEvent.editable) {
+   //if(calEvent.cusCanDelete) {
+      
+      $("#btDelEv").attr("disabled", "disabled");
+      $("#trDeleteOccurances").hide(); //default hide
+      $('#delRepeat').prop('checked', false); //reset repeat checkbox
+      
+      var res = calEvent.data.toString().split('~');
+      hmIsOccur = res[0];
+    
+      if(calEvent.cusCanDelete) { //if can delete enable delete button
+          $("#btDelEv").removeAttr("disabled", "disabled");
+      
+          if(hmIsOccur != 'No') { //if occurance, show delete occurence checkbox
+              $("#trDeleteOccurances").show(); //hide repeat until date
+          }
+      }    
+      
+      if(calEvent.cusLockAvailability==='true') {
+          $("#btLockEv").html("<span class='ui-button-text'>Unlock Availability</span>");
+      }
+      else {
+          $("#btLockEv").html("<span class='ui-button-text'>Lock Availability</span>");
+      }      
+      
+      hmEventToDeleteOrLock = calEvent;
+      dialogHiringManagerUpdate.dialog("open"); //call dialog
+    //}  
+}
+function openHiringManagerCreateDialog(start, end, jsEvent, view) {
+      dialogHiringManagerCreate.dialog("open"); //call dialog
+      $("#trRepeatUntil").hide(); //hide repeat until section
+      $('#intRepeat').prop('checked', false); //reset repeat checkbox
+      $("#hmCreateStart").text(moment(start).format('MM/DD/YYYY h:mm:ss a')); //sets start date in dialog
+      $("#hmCreateEnd").text(moment(end).format('MM/DD/YYYY h:mm:ss a')); //sets start date in dialog
+      $("#hmRepeatUntil").text('Every ' + moment(start).format('dddd') + ' until?');
+      var duration = $('#intDur').val('30');
+      var slots = $('#intAval').val('1');
+}
+
+
+function createEventHiringManagerMode() {
+      
+      var cal = $("#calendar"); //put the ID of your calendar element here
+      var evts = cal.fullCalendar('clientEvents'); //get all in-memory events
+      
+      //pull input from dialog
+      var start = new Date($("#hmCreateStart").text()); 
+      var end = new Date($("#hmCreateEnd").text());
+      
+      var repeat = ($("#intRepeat").prop('checked') == true);
+      var repeatUntil = $("#dpRepeatUntil").datepicker( "getDate" );
+      
+      var duration = $('#intDur').val();
+      var slots = $('#intAval').val();
+      
+      //check if any overlapping HM events 
+      if(checkEventOverlap(evts, moment(start).format(), moment(end).format(), 1, true)) {
+          var parentEvent = new Object();
+          //parentEvent.title = 'Interview Duration: ' + parseInt(duration) + 'mins' +  (isRecruiterMode ? '</br>' : '\n') + 'Interview Availability: ' + parseInt(slots) + (isRecruiterMode ? '</br>' : '\n') + 'Repeat Occurance: ' + (repeat ? 'Yes - Parent Record' : 'No') + (isRecruiterMode ? '</br>' : '\n') + 'Interviews Scheduled: 0';
+          
+          parentEvent.cusTitleWeek = 'Interview Duration: ' + parseInt(duration) + 'mins' +  '</br>' + 'Interview Availability: ' + parseInt(slots) + '</br>' + 'Repeat Occurance: ' + (repeat ? 'Yes - Parent Record' : 'No') + '</br>' + 'Interviews Scheduled: 0';
+          parentEvent.cusTitle2Week = 'Duration: ' + parseInt(duration) + 'mins' + '</br>' + 'Availability: ' + parseInt(slots) + '</br>' + 'Interviews: 0';
+          parentEvent.cusTitleMonth = 'Dur: ' + parseInt(duration) + 'm' + '</br>' + 'Avail: ' + parseInt(slots);
+          
+          parentEvent.start = moment(start).format();
+          parentEvent.end = moment(end).format();
+          parentEvent.allDay = false;
+          parentEvent.editable = true;
+          parentEvent.color = cHMModeHMColorTrans;
+          parentEvent.textColor=cText;
+          parentEvent.data = (repeat ? 'Yes - Parent Record' : 'No') + '~' + '';
+          
+          var repeatEvents = [];
+          if(repeat) { //build and confirm no conflicts on repeat events
+              repeatEvents = BuildAndValidateRepeatEvents(evts, repeatUntil, parentEvent.start, parentEvent.end, duration, slots);
+          }
+           
+          if(repeatEvents != null) { //if repeat event are all good, or not repeating proceed
+             
+              //save parent event
+              var returnId = doSaveSF_HiringManagerEvent(parentEvent, parseInt(duration), parseInt(slots), (repeat ? repeatUntil : null));    
+                                 
+              if(returnId != null) { //get back id
+                  parentEvent.id = returnId;
+                  calendar_events.push(parentEvent); //add to array
+                  $('#calendar').fullCalendar('renderEvent', parentEvent, true); //add to memory
+                  
+                  if(repeat) { //add all repeat event into SF
+                      var results = doSaveSFBulk_HiringManagerEvent(repeatEvents, returnId, parseInt(duration), parseInt(slots), moment(repeatUntil).format());
+                     
+                      var e_ids = []; //error ids
+                      var err = false;
+                     
+                      for (i in results) { //loop through results and get back id
+                          e_ids.push(results[i].id); //capture in error id array if have to delete
+                          if(results[i].success === "false") { //see if any errors came back
+                              err=true;
+                          }
+                      }
+                      
+                      if(!err) { //if no errors 
+                          dataRefresh(); //if doing bulk
+                      }
+                      else {
+                          e_ids.push(returnId); //add in original id
+                          doBulkDeleteSF_Event(e_ids); //do bulk delete of records that did save
+                          alert('An error occured during saving the event occurances. Please try again later.');
+                      } 
+                  }
+                  $("#sLastRefreshed").text('Last Data Refresh: ' + new Date().toLocaleString() );
+              }
+              else {
+                  alert('An error occured during saving. Please try again later.');
+              } 
+          }
+          else {
+              alert('This reoccuring event cannot be saved because it overlaps with one or more existing events.');
+          }
+     }
+     else {
+        alert('This event cannot be saved because it overlaps with an existing event.');
+     }
+      
+     dialogHiringManagerCreate.dialog("close"); //close dialog
+}                                   
+function BuildAndValidateRepeatEvents(eventsArr, repeatUntil, parentStartDate, parentEndDate, duration, slots) {
+   var repeatEvents = [];
+        
+    repeatUntil = moment(repeatUntil).add(1, 'days').format(); //add one more date because date is technically midnight
+    
+    var startDate = moment(parentStartDate).add(7, 'days').format();
+    var endDate = moment(parentEndDate).add(7, 'days').format();
+    
+    //loop through and build repeat events   
+    while(startDate < repeatUntil) {
+    
+        var newEvent = new Object();
+        //newEvent.title = 'Interview Duration: ' + parseInt(duration) + 'mins' +  (isRecruiterMode ? '</br>' : '\n') + 'Interview Availability: ' + parseInt(slots) + (isRecruiterMode ? '</br>' : '\n') + 'Repeat Occurance: Yes - Child Record';
+        
+        newEvent.cusTitleWeek = 'Interview Duration: ' + parseInt(duration) + 'mins' +  '</br>' + 'Interview Availability: ' + parseInt(slots) + '</br>' + 'Repeat Occurance: Yes - Child Record' + '</br>' + 'Interviews Scheduled: 0';
+        newEvent.cusTitle2Week = 'Duration: ' + parseInt(duration) + 'mins' + '</br>' + 'Availability: ' + parseInt(slots) + '</br>' + 'Interviews: 0';
+        newEvent.cusTitleMonth = 'Dur: ' + parseInt(duration) + 'm' + '</br>' + 'Avail: ' + parseInt(slots);
+        
+        newEvent.start = startDate
+        newEvent.end = endDate;
+        newEvent.allDay = false;
+        newEvent.editable = true;
+        newEvent.color = cHMModeHMColorTrans;
+        newEvent.textColor=cText;
+        
+        if(checkEventOverlap(eventsArr, startDate,  endDate, 1, true)) {
+            startDate = moment(startDate).add(7, 'days').format();
+            endDate =  moment(endDate).add(7, 'days').format();
+            repeatEvents.push(newEvent);
+        }
+        else {
+            return null;
+        }
+    }
+    return repeatEvents;
+}
+ 
+ 
+function editEventRecruiterMode(event, delta, revertFunc) { 
+    var cal = $("#calendar"); //put the ID of your calendar element here
+    var evts = cal.fullCalendar('clientEvents'); //get all in-memory events
+    var hmEvent = null;
+            
+    var res;
+    var hmSchedId;
+    var hmDuration;
+    var hmSlots;
+            
+    //loop through and find background HM record
+    for (i in evts) {
+        //check if event date with HM start/end times
+        //if (evts[i].rendering == "inverse-background" && 
+        //alert(evts[i].rendering);
+        
+        if ((evts[i].rendering === 'background' || evts[i].rendering === 'backgroundEvent' || evts[i].rendering === 'inverse-background') && 
+            event.start.isBefore(evts[i].end) && moment(event.start).format() >= moment(evts[i].start).format() &&
+            moment(event.end).format() <= moment(evts[i].end).format() && event.end.isAfter(evts[i].start)
+        )
+        {
+            hmEvent = evts[i];
+                    
+            //res = hmEvent.className.toString().split('~');
+            res = hmEvent.data.toString().split('~');
+            hmSchedId = res[0];
+            hmDuration = res[1];
+            hmSlots = res[2];
+                    
+            //check if duration of event same as HM slot duration
+            if((event.end - event.start) != hmDuration * 60000) {
+                hmEvent = null; //null out if doesn't work
+            }
+            break;
+        }
+     }
+            
+     if(hmEvent != null) { //found match, ok to let them move
+                
+         if(checkEventOverlap(evts, moment(event.start).format(), moment(event.end).format(), hmSlots, false)) { //check if have slots 
+             if(event.color == cSCColor || event.color == cSCCJColor) { //event has already synced to SF, prompt to confirm
+                 if (!confirm("This candidate has been synced to Salesforce and moving wll trigger an interview update to email out to the hiring manager. Are you sure you wish to proceed?")) {
+                     revertFunc();
+                 }
+                 else { //save back to SF, rescheduling interview
+                     if(!doUpdateSF_CandidateEvent(event, hmSchedId)) {
+                         revertFunc();
+                         alert('An error occured during saving. Please try again later.');
+                     }
+                     else {
+                         dataRefresh();
+                     }
+                 }
+              }
+              else { //save back to SF, candidate not synced yet so can proceed with notification
+                  if(!doUpdateSF_CandidateEvent(event, hmSchedId)) {
+                      revertFunc();
+                      alert('An error occured during saving. Please try again later.');
+                  }
+                  else {
+                      dataRefresh();
+                  }
+              }
+          }
+          else {
+             if(!doUpdateSF_CandidateEvent(event, hmSchedId)) {
+                         revertFunc();
+                         alert('An error occured during saving. Please try again later.');
+                     }
+                     else {
+                         dataRefresh();
+                     }
+          }        
+       }
+       else {
+           revertFunc();
+           alert('The candidate interview cannot be moved to this location.');
+       }
+}
+
+function editEventHiringManagerMode(event, delta, revertFunc) {
+    //if(event.editable) {
+    //if we have any candidate interviews then we need make sure ealiest and latest still falls within date adjustment
+    if(!event.cusHasAnyCandidates ||
+        (
+          moment(event.start).format() <= moment(event.cusEarliestCandidateInterview).format()
+          &&
+          moment(event.end).format() >= moment(event.cusLatestCandidateInterview).format()
+        )
+    )
+    {
+            
+        var hmIsOccur;
+        var hmOccurRef;
+        var modifyRecord=true;
+    
+        var res = event.data.toString().split('~');
+        hmIsOccur = res[0];
+        hmOccurRef = res[1];
+    
+        /* not required any more, set event editability based on candidate interview rollup 
+        if(checkHMEventContainsRecruiterEvent(calendar_events, event.id)) { //dont allow edit if candidates booked for interview (maybe adjust later)
+            modifyRecord = false;
+            alert('You cannot modify a hiring manager event with candidate interviews already booked.');
+        }
+        else 
+        */
+        
+        if(hmIsOccur=='Yes - Parent Record') { //can't edit parent record
+            modifyRecord = false;
+            alert('You cannot modify a repeat occurance parent record. Please delete and recreate instead.');
+        }
+        else if(hmIsOccur!='No') { //confirm they want to modify child record
+            modifyRecord = confirm('This event is part of a repeating occurance. If modified, it will no longer be part of the repeating occurance. Do you wish to proceed?')
+        }
+                
+        if(modifyRecord) {
+            if(!doUpdateSF_HiringManagerEvent(event)) {
+                revertFunc();
+                alert('An error occured during saving. Please try again later.');
+            }
+            else {
+                dataRefresh();
+            }
+        }
+        else {
+            revertFunc();
+        }
+    }
+    else
+    {
+        alert('You cannot modify an occurance outside of any scheduled interviews.');
+        revertFunc();
+    }
+}
+ 
+function deleteEventRecruiterMode() { 
+    if(!doDeleteSF_Event(cadEventToDelete)) { //call delete in SF
+        alert('An error occured during deletion. Please try again later.');
+    }
+    else {
+        dataRefresh();
+        
+        /*
+        $('#calendar').fullCalendar('removeEvents',cadEventToDelete.id); //remove from memory
+                
+        //find and remove from array
+        $.each(calendar_events, function(rowIndex, event) {
+            if (event.id==cadEventToDelete.id) {
+                calendar_events.splice(rowIndex, 1);
+            }
+        });
+        */
+    }  
+    
+    dialogCandidateDelete.dialog( "close" ); //close dialog 
+    cadEventToDelete=null;   
+} 
+ 
+function lockEventHiringManagerMode() { 
+    if(!doUpdateSF_HiringManagerEvent(hmEventToDeleteOrLock)) {
+        revertFunc();
+        alert('An error occured during saving. Please try again later.');
+    }
+    else {
+        dataRefresh();
+    }
+    
+    hmEventToDeleteOrLock=null;   
+    dialogHiringManagerUpdate.dialog("close"); //close dialog
+} 
+ 
+function bulkDeleteEventHiringManagerMode() { 
+
+    var deleteFrom = $("#dpDeleteFrom").datepicker( "getDate" )
+
+    if(deleteFrom != null) { //check date entered
+    
+        //get records to delete
+        var recordsToDelete = doRetrieveSF("SELECT id, Name, Start_Date__c, Candidate_Interviews__c FROM Hiring_Manager_Availability__c WHERE Hiring_Managers_Store__c='" + storeId + "' AND Start_Date__c>=" + moment(deleteFrom).format());
+        var delIds = []; //ids of HM sched to delete
+        var numWithInterviews = 0; //HM sched with interviews
+        
+        //loop through and build array of ids
+        $.each(recordsToDelete, function(rowIndex, record) {
+            if(record.Candidate_Interviews__c > 0) {
+                numWithInterviews++; //count HM that have cad interviews, dont want to delete them
+            }    
+            else {
+                delIds.push(record.Id);
+            }
+       });    
+        
+        if(delIds.length > 0) {
+            var str = (numWithInterviews > 0) ? (" In addition " + numWithInterviews + " with interview schedules were found, these will not be deletd.")   : '';
+        
+            if(confirm("There were " + delIds.length + " hiring manager records found, confirm deletion." + str)) {
+        
+                //pass to bulk delete function
+                if(!doBulkDeleteSF_Event(delIds)) {
+                    alert('An error occured during deletion. Please try again later.');
+                }
+                else {
+                     dataRefresh();
+                } 
+            }         
+        }  
+        else {
+            alert('There are no hiring manager availabilities found.');
+        }  
+        $( "#dvSpinner" ).css( "display", "none" );
+        dialogHiringManagerBulkDelete.dialog( "close" ); //close dialog 
+    } else {
+        alert('Date value required!');
+    }
+}
+ 
+function deleteEventHiringManagerMode() {
+    
+    if(hmEventToDeleteOrLock.cusCanDelete) {
+    
+        var delIds = [];      
+        var deleteRecords=true;      
+        var delOccurance = ($("#delRepeat").prop('checked') == true); 
+        
+        if(delOccurance) {
+            delIds = findRelatedRecruiterEvents(calendar_events, hmEventToDeleteOrLock);
+                
+            if(delIds == null) {
+                deleteRecords = false;
+                alert('This reoccurring event already has candidate interviews booked therefore cannot be deleted.');
+            }
+        }    
+        
+        if(deleteRecords) {
+            delIds.push(hmEventToDeleteOrLock.id); //add in current record
+            
+            if(!doBulkDeleteSF_Event(delIds)) {
+                alert('An error occured during deletion. Please try again later.');
+            }
+            else {
+                 dataRefresh();
+            }  
+        }
+    }
+    else {
+        alert('This record cannot be deleted because it already has candidate interviews scheduled.');
+    }    
+    
+    hmEventToDeleteOrLock=null;   
+    dialogHiringManagerUpdate.dialog("close"); //close dialog
+} 
+ 
+function dataRefresh() {
+    $("#calendar").fullCalendar('removeEvents');
+    calendar_events.length = 0;
+             
+    buildHiringManagerSchedule();
+    buildCandidateData(); 
+             
+    $("#calendar").fullCalendar('addEventSource', calendar_events);
+    $("#calendar").fullCalendar('rerenderEvents');
+        
+    $( "#dvSpinner" ).css( "display", "none" );
+    
+    $("#sLastRefreshed").text('Last Data Refresh: ' + new Date().toLocaleString() );
+}
+function resetCalendarEvents(jobPicklistId) {
+ 
+     jobId = jobPicklistId; //reset from previous value retrieved in URL
+ 
+     //loop through stored jobs and find id that matches picklist selection
+     $.each(jobRecords, function(rowIndex, record) {
+     
+        if(record.Id.indexOf(jobPicklistId) !== -1) { //job matched against job came from...set defaults
+             jobStatus = record.Job_Status__c; //used to determine if event on current job
+             jobName = record.Name; //displays in NEW event tooltip
+             $("#sJobStatus").text(record.Job_Status__c); //sets title job status
+             return false; //break out of loop
+         }
+     });
+     
+     //loop through candidate events and adjust colors according to new job selected
+     $.each(calendar_events, function(rowIndex, event) {
+        //if (event.rendering != "background") {
+        if (event.rendering != "inverse-background") {
+            
+            var isCurrentJob = (event.className.indexOf(jobPicklistId) !== -1); //job id stored in className, find if matched to new picklist selection
+            var isCandidateSynced = (event.color==cSCCJColor || event.color==cSCColor); //we know these colors are for synced events
+            
+            event.color = (isCandidateSynced ? (isCurrentJob ? cSCCJColor : cSCColor) : (isCurrentJob ? cCCJColor : cCColor));
+        }
+    });
+    
+    //refresh events
+    $("#calendar").fullCalendar('removeEvents');
+    $("#calendar").fullCalendar('addEventSource', calendar_events);
+    $("#calendar").fullCalendar('rerenderEvents');
+ }
+ 
+function idleLogout() { 
+    var t; 
+    window.onload = resetTimer; 
+    window.onmousemove = resetTimer; 
+    window.onmousedown = resetTimer; // catches touchscreen presses as well 
+    window.ontouchstart = resetTimer; // catches touchscreen swipes as well 
+    window.onclick = resetTimer; // catches touchpad clicks as well 
+    window.onkeypress = resetTimer; 
+    window.addEventListener('scroll', resetTimer, true); 
+    function refreshFunction() { 
+        dataRefresh();
+    } 
+    
+    function resetTimer() { 
+        clearTimeout(t); 
+        t = setTimeout(refreshFunction, autoRefresh); // time is in milliseconds 
+    } 
+}  
+ 
+//validate email 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+} 
+//END Help Methods-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      
+</script>
+  
+  <div id='maincontainer'>
+      <!--Header,  Contains SF header controls and displays ----------------------------------------------------->
+      <div id='header'><br/>
+          <fieldset>
+              <legend>Scheduler Details</legend>
+              <table style="white-space:nowrap; width:100%"><tr>
+                <td style="width:5%"><strong>Store:</strong></td>
+                <td style="width:10%">
+                  <span id='sStore'></span> 
+                </td>
+                <td id='tdJobIdLabel' style="width:5%"><strong>Job Id:</strong></td>
+                <td id='tdJobId' style="width:10%">
+                  <!--<span id='sJobId'></span>-->
+                  <select id="sJobs">
+                  </select>
+                </td>
+                <td style="width:80%" align='right'><span id='sLastRefreshed'></span>&nbsp;&nbsp;</td>
+                <td rowspan="2" align='right'>
+                    <apex:image value="{!URLFOR($Resource.fullcalendar,'MF_Logo.png')}"/>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><a id='dvBulkDelete' style="cursor: pointer;" href='' onclick="dialogHiringManagerBulkDelete.dialog('open')">Open Bulk Delete Dialog</a></td>
+                <td id='tdJobStatusLabel'><strong>Job Status:</strong></td>
+                <td id='tdJobStatus'>
+                   <span id='sJobStatus'></span> 
+                </td>
+                <td id='tdShowHistory' style="width:80%" align='right'>
+                    <label for="cbHistory">Show Entire History</label>
+                    <input type="checkbox" name="cbHistory" id="cbHistory" value="false" title="Default shows two months prior from current data onward. Click to retrieve entire scheduling history."/>
+                </td>
+              </tr>
+              </table> 
+           </fieldset>         
+      </div>
+      <!--END Header,  Contains SF header controls and displays ----------------------------------------------------->
+  
+      <!-- Calendar Body ---------------------------------------------------------------------------------------------------------->
+      <!-- Full Calendar div tag -->
+      <div id='calendar'></div> 
+ 
+      <!-- loading spinner -->
+      <div id='dvSpinner' style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 25% 50%">
+          Loading....
+          <img src="http://upload.wikimedia.org/wikipedia/commons/e/ed/Cursor_Windows_Vista.gif" />
+      </div>
+      <!-- END Calendar Body ---------------------------------------------------------------------------------------------------------->
+      
+      <!-- Legend ---------------------------------------------------------------------------------------------------------->
+      <div id='legend'><br/>
+          <fieldset>
+              <legend>Legend</legend>
+               <table id='tblLegend' style="white-space:nowrap; width:100%;font-size:11px;" cellpadding="4"><tr>
+                 <td id='tdHM' style='border: 1px solid #000000;'><font color='#000000'>Hiring Managers Availability</font></td>
+                 <td id='tdC' style='border: 1px solid #000000;'><font color='#FFFFFF'>Candiate Scheduled Interviews</font></td>
+                 <td id='tdCS' style='border: 1px solid #000000;'><font color='#FFFFFF'>Candiate Scheduled Interviews Synced to Salesforce</font></td>
+               </tr>
+               <tr>
+                 <td></td>
+                 <td id='tdC2' style='border: 1px solid #000000;'><font color='#FFFFFF'>Candiate Scheduled Interviews on Current Job</font></td>
+                 <td id='tdCS2' style='border: 1px solid #000000;'><font color='#FFFFFF'>Candiate Scheduled Interviews on Current Job Synced to Salesforce</font></td>
+               </tr>
+               </table>  
+          </fieldset> 
+      </div>
+      <!-- END Legend ---------------------------------------------------------------------------------------------------------->
+    
+  </div>
+  
+  <!-- Create HM event dialog ---------------------------------------------------------------------------------------->
+  <div id="dialog-form-hmCreate" title="Create New Interview Availability(s) Entry" style='display:none'>
+      <form>
+        <table style="width:100%">
+        <tr>
+          <td>Start: </td>
+          <td>
+              <span id='hmCreateStart'></span>
+           </td>
+         </tr>
+         <tr>
+          <td>End: </td>
+          <td>
+              <span id='hmCreateEnd'></span>
+           </td>
+         </tr>
+         <tr>
+          <td>Interview Duration: </td>
+          <td><select id="intDur">
+               <option value="30" selected="selected">30mins</option>
+               <option value="60">60mins</option>
+              </select>
+           </td>
+         </tr>
+         <tr>
+          <td># Interviewers Available:</td>
+          <td><select id="intAval">
+               <option value="1" selected="selected">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+              </select>
+           </td>
+         </tr>
+         <tr>
+          <td>Repeat Occurance?</td>
+          <td>
+            <input type="checkbox" name="intRepeat" id="intRepeat" value="false"/>
+          </td>
+         </tr>
+         <tr id='trRepeatUntil'>
+          <td>
+           <span id='hmRepeatUntil'></span>
+          </td>
+          <td>
+            <input type="text" id="dpRepeatUntil" />
+          </td>
+         </tr>
+        </table> 
+      
+        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+         <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+      </form>
+  </div>
+  <!-- END Create HM event dialog ---------------------------------------------------------------------------------------->
+  
+  <!-- Delete HM event dialog ---------------------------------------------------------------------------------------->
+  <div id="dialog-form-hmDelete" title="Adjust Interview Availability(s)" style='display:none'>
+      <form>
+        <table style="width:100%">
+        <tr>
+          <td colspan='2'>Options:
+            <ol>
+              <li>Lock/Unlock Interview Availability</li>
+              <li>
+                  Delete Interview Availability(s)
+                  <table id='trDeleteOccurances' style="width:50%">
+                   <tr id='trDeleteOccurances'>
+                     <td>Delete Occurances?</td>
+                     <td>
+                       <input type="checkbox" name="delRepeat" id="delRepeat" value="false"/>
+                     </td>
+                   </tr>
+                  </table>
+              </li>
+            </ol>  
+          </td>
+         </tr>
+        </table> 
+      
+        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+         <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+      </form>
+  </div>
+  <!-- END Delete HM event dialog ---------------------------------------------------------------------------------------->
+  
+  
+  <!-- BULK Delete HM event dialog ---------------------------------------------------------------------------------------->
+  <div id="dialog-form-hmBulkDelete" title="Delete ALL Interview Availabilities" style='display:none'>
+      <form>
+        <table style="width:100%">
+        <tr>
+          <td colspan='2' style='color:red'>
+          All hiring manager availabilities with no candidate interviews scheduled against them will be deleted from the start date indicated below.
+          <br/><strong>Warning, this cannot be undone!</strong><br/><br/></td>
+         </tr>
+         <tr>
+          <td>Deletion Start Date</td>
+          <td>
+            <input type="text" id="dpDeleteFrom" />
+          </td>
+         </tr>
+        </table> 
+      
+        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+         <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+      </form>
+  </div>
+  <!-- END Delete HM event dialog ---------------------------------------------------------------------------------------->
+  
+  
+  
+  
+   <!-- Create candidate event dialog ---------------------------------------------------------------------------------------->
+  <div id="dialog-form-cdCreate" title="Create New Scheduled Interview" style='display:none'>
+      <form>
+       <table style="width:100%">
+        <tr id='cCreateErr' >
+          <td colspan='2' style='border: 1px solid red;font-weight: bold;'>A proper email address is required. eg: jp@gmail.com</td>
+        </tr>
+        <tr>
+          <td>Candidate Email: </td>
+          <td>
+              <input type="text" id="cdEmail"/>
+           </td>
+         </tr>
+        <tr>
+          <td>Start: </td>
+          <td>
+              <span id='cdCreateStart'></span>
+           </td>
+         </tr>
+         <tr>
+          <td>End: </td>
+          <td>
+              <span id='cdCreateEnd'></span>
+           </td>
+         </tr>
+         <tr>
+          <td>Duration: </td>
+          <td>
+              <span id='cdDuration'></span>
+           </td>
+         </tr>
+         <tr>
+          <td># Interviewers Available: </td>
+          <td>
+              <span id='cdSlots'></span>
+           </td>
+         </tr>
+         
+        </table> 
+      
+        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+         <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+      </form>
+  </div>
+  <!-- END Create candidate event dialog ---------------------------------------------------------------------------------------->
+  
+  <!-- Delete candidate event dialog ---------------------------------------------------------------------------------------->
+  <div id="dialog-form-cdDelete" title="Delete Scheduled Interview" style='display:none'>
+      <form>
+        <table style="width:100%">
+        <tr>
+          <td colspan='2'>Confirm you wish to delete this scheduled candidate interview?</td>
+         </tr>
+        </table> 
+        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+      </form>
+  </div>
+  <!-- END Delete candidate event dialog ---------------------------------------------------------------------------------------->
+    
+</apex:page>

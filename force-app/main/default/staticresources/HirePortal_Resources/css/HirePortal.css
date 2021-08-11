@@ -1,0 +1,368 @@
+/* -- UNIVERSAL -- */
+h1 {
+  font-size: 21px !important;
+  font-weight: 400 !important;
+  color: white !important;
+  display: inline !important;
+  padding-left: 16px !important;
+  line-height: 52px !important; }
+
+h2 {
+  padding: 0px 32px 0px 32px !important;
+  font-size: 21px !important;
+  font-weight: 400 !important;
+  color: white !important;
+  display: -webkit-flexbox !important;
+  display: -ms-flexbox !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  -webkit-flex-align: center !important;
+  -ms-flex-align: center !important;
+  -webkit-align-items: center !important;
+  align-items: center !important;
+  text-align: left !important;
+  line-height: 29px !important; }
+
+h3, .tacn_h3 {
+  font-size: 21px !important;
+  line-height: 29px !important;
+  font-weight: 400 !important;
+  color: #4f5c67 !important; }
+
+p {
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-right: 10% !important;
+  color: #4f5c67 !important;
+  font-weight: 400 !important;
+  font-size: 13px !important;
+  line-height: 21px !important; }
+
+small {
+  font-size: 9px !important;
+  line-height: 17px !important;
+  color: #4f5c67 !important;
+  display: block !important;
+  padding-top: 16px !important; }
+
+.tacn_headline {
+  height: 80px !important;
+  background-color: #2868ea !important;
+  position: relative !important;
+  padding-right: 32px !important; }
+  .tacn_headline .tacn_flex-h1 {
+    display: -webkit-flexbox !important;
+    display: -ms-flexbox !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    justify-content: space-between !important; }
+  .tacn_headline .tacn_no-pad {
+    padding-left: 0px !important; }
+  .tacn_headline .tacn_icon {
+    width: 40px !important;
+    padding: 20px 0px 20px 32px !important;
+    float: left !important; }
+  .tacn_headline .tacn_price {
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    color: white !important;
+    display: inline !important;
+    text-align: right !important;
+    line-height: 56px !important;
+    right: 32px !important; }
+  .tacn_headline .tacn_no-icon {
+    display: inline-block !important;
+    padding-left: 32px !important; }
+
+.tacn_btn {
+  margin-top: 50px !important;
+  margin-right: 12px !important;
+  display: inline-block !important;
+  text-decoration: none !important;
+  color: white !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 12px 0px !important;
+  text-align: center !important;
+  width: 110px !important;
+  border-radius: 2px !important;
+  background-image: none !important; }
+
+.tacn_btn-reg {
+  background-color: #2868ea !important; }
+  .tacn_btn-reg:hover {
+    background-color: #1e5edf !important; }
+
+.tacn_btn-gray {
+  background-color: #4f5c67 !important; }
+  .tacn_btn-gray:hover {
+    background-color: #404d59 !important; }
+
+.bootstrap-override {
+  margin-left: 16px !important; }
+
+.tacn_required {
+  color: #d22027; }
+
+.tacn_terms {
+  height: 120px !important;
+  overflow: scroll !important; }
+
+/* -- SIDEBAR -- */
+#tacn_sidebar-container {
+  width: 200px !important;
+  height: 500px !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  /*background-color: #cccccc!important;*/
+  font-family: "Noto Sans", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important; }
+  #tacn_sidebar-container #tacn_search {
+    height: 48px !important;
+    width: 200px !important;
+    display: block !important;
+    background-color: #f1f1f1 !important; }
+    #tacn_sidebar-container #tacn_search input[type=text] {
+      width: 120px !important;
+      height: 48px !important;
+      margin-left: 16px !important;
+      background-color: #f1f1f1 !important;
+      border: none !important;
+      border-bottom: 1px solid white !important;
+      color: #4f5c67 !important;
+      font-style: italic !important;
+      outline: none !important;
+      font-size: 13px !important;
+      display: inline-block !important; }
+    #tacn_sidebar-container #tacn_search input[type=submit] {
+      display: inline-block !important;
+      border: none !important;
+      background-color: #4f5c67 !important;
+      width: 48px !important;
+      height: 48px !important;
+      color: white !important;
+      font-weight: bold !important;
+      outline: none !important;
+      float: right !important; }
+      #tacn_sidebar-container #tacn_search input[type=submit] ::-webkit-input-placeholder {
+        /* WebKit browsers */
+        color: #4f5c67 !important; }
+      #tacn_sidebar-container #tacn_search input[type=submit] :-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: #4f5c67 !important;
+        opacity: 1 !important; }
+      #tacn_sidebar-container #tacn_search input[type=submit] ::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: #4f5c67 !important;
+        opacity: 1 !important; }
+      #tacn_sidebar-container #tacn_search input[type=submit] :-ms-input-placeholder {
+        /* Internet Explorer 10+ */
+        color: #4f5c67 !important; }
+      #tacn_sidebar-container #tacn_search input[type=submit]:hover {
+        display: inline-block !important;
+        border: none !important;
+        background-color: #404d59 !important;
+        width: 48px !important;
+        height: 48px !important;
+        color: white !important;
+        font-weight: bold !important;
+        outline: none !important;
+        float: right !important; }
+  #tacn_sidebar-container h3 {
+    height: 48px !important;
+    background-color: #4991ea !important;
+    font-size: 13px !important;
+    margin: 0 0 !important;
+    line-height: 48px !important;
+    padding-left: 24px !important;
+    color: white !important;
+    position: relative !important;
+    z-index: 2 !important; }
+  #tacn_sidebar-container ul {
+    margin: 0 0 !important;
+    padding-left: 0px !important;
+    display: block !important;
+    position: relative !important;
+    z-index: 1 !important;
+    /*-webkit-box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.tacn_15)!important;
+    -moz-box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.tacn_15)!important;
+    box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.tacn_15)!important;*/ }
+    #tacn_sidebar-container ul li {
+      font-size: 13px !important;
+      font-weight: 400 !important;
+      height: 48px !important;
+      list-style-type: none !important;
+      color: white !important;
+      background-color: #2868ea !important;
+      padding-left: 24px !important;
+      border-bottom: 1px solid #0949a9 !important;
+      border-top: 1px solid #4886ff !important;
+      line-height: 48px !important;
+      display: block !important; }
+      #tacn_sidebar-container ul li:hover {
+        background-color: #1e5edf !important; }
+      #tacn_sidebar-container ul li:first-child {
+        border-top: none !important; }
+      #tacn_sidebar-container ul li:last-child {
+        border-bottom: none !important; }
+      #tacn_sidebar-container ul li a {
+        color: white !important;
+        text-decoration: none !important;
+        width: 200px !important;
+        height: 48px !important;
+        display: block !important; }
+
+/* -- HOMEPAGE -- */
+#tacn_home-container {
+  min-width: 1000px !important;
+  max-width: 1300px !important;
+  display: block !important;
+  position: relative !important;
+  margin: 0 auto !important;
+  font-family: "Noto Sans", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important; }
+  #tacn_home-container .tacn_half-width {
+    width: 50% !important;
+    float: left !important;
+    display: block !important;
+    background-color: whitesmoke !important;
+    min-width: 400px !important; }
+    #tacn_home-container .tacn_half-width .tacn_banner {
+      background-color: #555555 !important;
+      height: 175px !important; }
+      #tacn_home-container .tacn_half-width .tacn_banner h2 {
+        max-width: 420px !important; }
+    #tacn_home-container .tacn_half-width .tacn_img1 {
+      background: url(../images/mf_homebkg_x2_1.jpg) no-repeat center center !important;
+      background-size: cover !important; }
+    #tacn_home-container .tacn_half-width .tacn_img2 {
+      background: url(../images/mf_homebkg_x2_2.jpg) no-repeat center center !important;
+      background-size: cover !important; }
+    #tacn_home-container .tacn_half-width .tacn_paragraph {
+      padding: 32px !important;
+      height: 300px !important; }
+    #tacn_home-container .tacn_half-width .h2-title {
+      padding-left: 32px !important; }
+    #tacn_home-container .tacn_half-width .tacn_border-head {
+      border-right: 1px solid #4991ea !important; }
+    #tacn_home-container .tacn_half-width .tacn_border-banner {
+      border-right: 1px solid #333a40 !important; }
+    #tacn_home-container .tacn_half-width .tacn_border-graph {
+      border-right: 1px solid #e2e2e2 !important; }
+
+/* -- CANDIDATE SOURCING / FULL-CYCLE RECRUITMENT -- */
+#tacn_packages-container {
+  min-width: 1000px !important;
+  max-width: 1300px !important;
+  display: block !important;
+  position: relative !important;
+  margin: 0 auto !important;
+  font-family: "Noto Sans", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important; }
+  #tacn_packages-container .tacn_banner {
+    background-color: #555555 !important;
+    height: 260px !important;
+    display: -webkit-box !important;
+    /* OLD - iOS 6-, Safari 3.tacn_1-6 */
+    display: -moz-box !important;
+    /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox !important;
+    /* TWEENER - IE 10 */
+    display: -webkit-flex !important;
+    /* NEW - Chrome */
+    display: flex !important;
+    align-items: center !important; }
+    #tacn_packages-container .tacn_banner h2 {
+      margin: 0 !important;
+      max-width: 50% !important;
+      font-size: 28px !important;
+      line-height: 39px !important; }
+  #tacn_packages-container .tacn_b-1 {
+    background: url(../images/mf_pkgbkg_x2_1.jpg) no-repeat center center !important;
+    background-size: cover !important; }
+  #tacn_packages-container .tacn_b-2 {
+    background: url(../images/mf_pkgbkg_x2_2.jpg) no-repeat center center !important;
+    background-size: cover !important; }
+  #tacn_packages-container .tacn_details {
+    background-color: whitesmoke !important;
+    min-height: 1px !important;
+    overflow: hidden !important;
+    padding-bottom: 80px !important; }
+    #tacn_packages-container .tacn_details .tacn_description {
+      margin: 16px 32px !important;
+      float: left !important;
+      display: block !important;
+      width: 55% !important; }
+      @media screen and (max-width: 900px) {
+        #tacn_packages-container .tacn_details .tacn_description {
+          width: 50% !important; } }
+      #tacn_packages-container .tacn_details .tacn_description h3 {
+        padding-right: 10% !important; }
+    #tacn_packages-container .tacn_details .tacn_divider {
+      width: 1px !important;
+      height: 100% !important;
+      min-height: 100% !important;
+      background-color: #e2e2e2 !important;
+      float: left !important; }
+    #tacn_packages-container .tacn_details .tacn_features {
+      float: left !important;
+      display: block !important;
+      width: 30% !important;
+      margin: 16px 32px !important; }
+      #tacn_packages-container .tacn_details .tacn_features ul {
+        padding-left: 18px !important;
+        color: #4f5c67 !important; }
+        #tacn_packages-container .tacn_details .tacn_features ul li {
+          font-size: 13px !important;
+          line-height: 27px !important;
+          font-weight: 700 !important; }
+
+/* -- JOB DETAILS -- */
+.tacn_forms-area {
+  background-color: #f1f1f1 !important;
+  padding: 0px 32px !important;
+  min-height: 1px !important;
+  overflow: hidden !important;
+  padding-bottom: 80px !important; }
+  .tacn_forms-area .tacn_creditcards {
+    position: absolute !important;
+    padding: 5px 0px 0px 8px !important; }
+  .tacn_forms-area option {
+    margin: 4px !important; }
+  .tacn_forms-area optgroup {
+    margin-top: 4px !important; }
+  .tacn_forms-area .tacn_form-left {
+    width: 55% !important;
+    display: block !important;
+    float: left !important; }
+    .tacn_forms-area .tacn_form-left .tacn_form {
+      margin-top: 40px !important; }
+      .tacn_forms-area .tacn_form-left .tacn_form .tacn_checkbox label {
+        width: 100% !important; }
+  .tacn_forms-area .tacn_form-full {
+    width: 100% !important;
+    display: block !important;
+    float: left !important; }
+    .tacn_forms-area .tacn_form-full .tacn_form {
+      margin-top: 0px !important; }
+      .tacn_forms-area .tacn_form-full .tacn_form label {
+        max-width: 172px; }
+      .tacn_forms-area .tacn_form-full .tacn_form .tacn_form-group {
+        width: 90% !important;
+        display: block !important;
+        float: left !important; }
+        .tacn_forms-area .tacn_form-full .tacn_form .tacn_form-group .tacn_form-control {
+          max-width: 1200px !important; }
+    .tacn_forms-area .tacn_form-full .tacn_summary-title {
+      padding-top: 16px !important;
+      border-bottom: 1px solid #e2e2e2 !important; }
+      .tacn_forms-area .tacn_form-full .tacn_summary-title .tacn_total {
+        font-weight: 700 !important;
+        color: #2868ea !important; }
+  .tacn_forms-area .tacn_form-right {
+    width: 44% !important;
+    display: block !important;
+    float: right !important;
+    padding-left: 32px !important; }
+    .tacn_forms-area .tacn_form-right .tacn_form {
+      margin-top: 40px !important; }

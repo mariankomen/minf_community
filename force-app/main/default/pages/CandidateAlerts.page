@@ -1,0 +1,34 @@
+<apex:page standardController="SFDC_Job_Candidate__c" extensions="CandidateAlerts" id="pg">
+
+  <apex:form id="form">
+      <apex:sectionHeader title="{!$Label.Email_Candidate_Profile}"/>
+      <apex:pageMessages id="msgs"/>
+      <apex:pageMessage rendered="{!tempMissing}" severity="error" strength="2" title="Error:">{!$Label.Candidate_Missing_Email}</apex:pagemessage>
+      <apex:pageblock >
+          <apex:pageBlockButtons location="bottom">
+              <apex:commandButton value="{!$Label.Candidate_Profile_Send_Email}" action="{!sendalert}" rendered="{!!tempMissing && !emailComplete}" />
+              <apex:commandButton value="{!$Label.Return_to_Candidate}" action="{!cancel}"/>
+          </apex:pageBlockButtons>
+          <apex:pageBlockSection columns="1" rendered="{!!tempMissing}" >
+              <apex:pageblockSectionItem rendered="{!!emailComplete}"> 
+                <apex:outputLabel value="{!$Label.Email_addresses}"/> 
+                <apex:outputPanel ><div Class="requiredInput" > 
+                    <apex:outputPanel styleClass="requiredBlock" layout="block"/> 
+                    <apex:inputTextarea rows="3" style="width: 60%;" value="{!emailAddresses}"/> 
+                </div></apex:outputpanel> 
+              </apex:pageBlockSectionItem>
+              <!-- display an optional comments box to be included in the email template -->
+              <apex:pageblockSectionItem rendered="{!!emailComplete}"> 
+                <apex:outputLabel value="{!$Label.Add_Comments}"/> 
+                <apex:inputTextarea rows="3" style="width: 60%;" value="{!Comments}"/> 
+              </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+          <apex:pageBlockSection columns="1" rendered="{!emailComplete}" >
+              <apex:outputText >{!$Label.Email_Sent_Confirmation}</apex:outputText>
+          </apex:pageBlockSection>
+          
+          <apex:outputPanel rendered="false">Include SLA Level field in page so we have access to it in the controller without querying.  Do not remove.
+                                             {!SFDC_Job_Candidate__c.SLA_Level__c}</apex:outputPanel>
+      </apex:pageblock>
+  </apex:form>
+</apex:page>

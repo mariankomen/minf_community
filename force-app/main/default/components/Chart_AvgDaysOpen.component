@@ -1,0 +1,36 @@
+<apex:component controller="Chart_AvgDaysOpenController">
+
+    <apex:attribute type="string" name="ReportId" required="true" description="The Report Id used for drilldown on the chart"/>
+
+    <apex:outputPanel layout="block" styleClass="center">
+        <apex:outputText ><b>Average Days Open by Title (Last Month)</b>
+            <span class="vfHelpText">
+                <apex:outputLink value="javascript:return false;">
+                    <img src="/img/msg_icons/info16.png" alt="" />
+                    <span style="left:-15em; width:20em;">Average Days Open by Title shows the average time between a job opening and closing for each job title broken down by 
+                         1) job open to required candidates sent and 2) required candidates sent to job closing.</span>
+                </apex:outputLink>
+            </span>
+        </apex:outputText>      
+    </apex:outputPanel>
+    
+    <!-- make chart a clickable area to open report in new window   -->
+    <apex:outputPanel onclick="window.open('','_new').location.href='/{!ReportId}';" styleClass="clicker">
+       <apex:chart width="550" height="350" data="{!AvgDaysData}" rendered="{!AvgDaysData_Size > 0}" resizable="true">
+            <apex:axis type="Numeric" position="bottom" fields="TimetoSend,SendtoClose"  minimum="0"
+                title="Average Days Open" grid="true"><apex:chartLabel display="middle"/> </apex:axis>
+            <apex:axis type="Category" position="left" fields="JobTitle"
+                title="">
+            </apex:axis>
+            <apex:barSeries title="Job Open to Send, Send to Job Close" orientation="horizontal" stacked="true" showInLegend="true"
+                axis="left" xField="TimetoSend,SendtoClose" yField="JobTitle" colorSet="#00274C,#00AEEF,#CCCFCE" >  
+                <apex:chartLabel display="insideEnd" minMargin="0" color="#ffffff"/>
+           </apex:barSeries>
+           <apex:legend position="right" />
+        </apex:chart>  
+    </apex:outputPanel>
+                  
+    <apex:outputText rendered="{!AvgDaysData_Size == 0}"><br/><br/>No data found</apex:outputText> 
+    <br/><br/>
+                
+</apex:component>

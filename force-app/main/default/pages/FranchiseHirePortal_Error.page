@@ -1,0 +1,39 @@
+<apex:page title="Franchise HirePortal - Error" controller="FranchiseHirePortal_OrderWizard" standardStylesheets="false" applyBodyTag="false"  >
+<html>
+ <head>
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+ </head>
+
+    <body>
+        
+        <div id="tacn_packages-container">
+        <apex:pagemessages ></apex:pagemessages>
+        
+            <div class="tacn_full-width">
+                <div class="tacn_headline">
+                <br />
+                    <span class="tacn_flex-h1"><h1 class="tacn_no-icon">Error</h1></span>
+                </div>
+            </div>
+            
+            <div class="tacn_forms-area">
+                        
+                <div class="tacn_form-full">
+                                          
+                    <p><br />The system has had an error; please try again shortly and this should be resolved. If the issue persists please contact Mindfield’s Customer 
+                    Experience Team at <a href="mailto:support@mindfieldgroup.com">support@mindfieldgroup.com</a>.</p>
+                    
+                    <a class="tacn_btn tacn_btn-reg" href="/a0P/o">VIEW JOBS</a> 
+                    <a class="tacn_btn tacn_btn-reg" href="/home/home.jsp">ORDER NEW JOB</a> 
+                    <a class="tacn_btn tacn_btn-gray" href="/apex/Support_Page" target="_blank">HELP?</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>    
+
+</html>   
+</apex:page>

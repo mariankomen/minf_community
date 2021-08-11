@@ -1,0 +1,112 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+
+<a name="TOP" id="#TOP"></a>
+<p align="center"><FONT FACE="Geneva, Verdana" Size="4"><strong>Aide et réponses aux questions fréquemment posées</strong></font></p>
+<p align="left"><FONT FACE="Geneva, Verdana" Size="3"><STRONG>Documents</STRONG></font></p>
+    <!-- Shows All Documents for Akzo Nobel specifically -->
+    <apex:outputPanel rendered="{!Contains($Profile.Name, 'Akzo')}">
+        <FONT FACE="Geneva, Verdana" Size="2">
+        <STRONG>&nbsp;&nbsp;&nbsp;Matériel de recrutement:</STRONG><UL>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001CLIh" target="_blank" >PPG - Reference Check Training</a></LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikug" target="_blank" >PPG - BackCheck - Press Release</a></LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikv0" target="_blank" >PPG  Background Check Acceptable ID</a> - Shows a complete list of all forms of ID acceptable to use when submitting a Background Check.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001C8Ex" target="_blank" >PPG  Background Check Form FR</a> - Please use the form to request a Background Check. Once the form is completed, please have the store fax it to 1-866-323-3097.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikv5" target="_blank" >PPG  Background Check Form EN</a> - Please use the form to request a Background Check. Once the form is completed, please have the store fax it to 1-866-323-3097.</LI>                
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001C8En" target="_blank" >PPG Supplemental Information Sheet Regarding Name Based Criminal Record Checks FR</a> - Supporting information regarding how Background Checks are handled.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000001C8Es" target="_blank" >PPG - BackCheck - Photocopier and Fax Tips</a> - Tips for completing the Background Check process by Fax and Photocopier.</LI>        
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikve" target="_blank" >PPG - BackCheck - Regional Managers Process</a> - Outlines the process Regional Managers follow.</LI>
+        <LI><a href="/servlet/servlet.FileDownload?file=015U0000000ikvj" target="_blank" >PPG - BackCheck - Store Managers Process</a> - Outlines the process Store Managers follow.</LI>
+
+        </UL>
+        </FONT>
+    </apex:outputPanel>
+
+<p align="center"><FONT FACE="Geneva, Verdana" Size="1">Nous avons regroupé ci-dessous les questions les plus fréquemment posées sur MindField Group et sur notre portail Hiring Manager. Si la FAQ qui suit ne répond pas à vos questions, n’oubliez pas que vous pouvez toujours discuter en direct avec nous en cliquant sur le bouton Discussion en direct à gauche de l’écran.  </font></p>
+<p align="left" id="bodyfont"><a href="#FAQSEC1"><STRONG><I>À propos de MindField Group</I></STRONG></a><BR />
+<a href="#FAQ1">Qu’est-ce que MindField Group?</a><BR />
+<a href="#FAQ2">Comment la société MindField Group trouve-t-elle des candidats?</a><BR />
+<a href="#FAQ3">Comment la société MindField Group gère-t-elle les candidatures en ligne?</a><BR />
+<a href="#FAQ1">Quel est le moyen le plus efficace de communiquer avec MindField Group?</a><BR />
+<a href="#FAQ1">Quand dois-je communiquer avec MindField Group?</a><BR />
+<a href="#FAQ1">Lorsque MindField Group envoie un candidat dans mon magasin, quelles sont les attentes du candidat concernant la prochaine étape du processus? </a>
+<BR /><BR />
+<a href="#FAQSEC2"><STRONG><I>Utilisation du portail Hiring Manager</I></STRONG></a><BR />
+<a href="#FAQ7">Qu’est-ce que le portail Hiring Manager?</a><BR />
+<a href="#FAQ8">Comment créer un nouveau poste à l’aide du portail Hiring Manager?</a><BR />
+<a href="#FAQ9">Comment savoir quand MindField Group a proposé des candidats qualifiés pour mon poste?</a><BR />
+<a href="#FAQ10">Un candidat se présente spontanément et il me semble qu’il conviendrait parfaitement pour le poste ouvert dans mon magasin. Comment demander à MindField Group de suivre ce candidat?</a><BR />
+<a href="#FAQ11">Comment tenir MindField Group au courant de l’état d’un candidat envoyé à mon magasin?</a><BR />
+<a href="#FAQ12">J’ai refusé tous les candidats que MindField Group a envoyés pour mon poste. Comment demander de nouveaux candidats?</a><BR />
+<a href="#FAQ13">Où puis-je trouver des instructions supplémentaires et des documents de formation liés à la solution de recrutement de MindField Group?</a><BR />
+<a href="#FAQ14">Aide sur d’autres sujets</a><BR />
+<p>&nbsp;</p>
+<p id="bodybold"><a name="FAQ1SEC1" id="#FAQSEC1"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>À propos du Mindfield Group</STRONG></FONT></p>
+<ol>
+  <li><a name="FAQ1" id="#FAQ1"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Qu’est-ce que MindField Group?</STRONG><BR />        MindField Group est le chef de file de la sous-traitance des processus de recrutement pour le secteur de la vente au détail au Canada.  Notre siège social se trouve dans le quartier historique de Gastown à Vancouver, C.-B.  Visitez notre site Web à l’adresse www.mindfieldgroup.com. Nous nous considérons comme votre partenaire en matière de recrutement. Nous opérons en tant qu’équipe de recrutement entièrement opérationnelle à l’image de votre entreprise, et nous vous aidons à embaucher de meilleurs candidats.</font><BR /><BR /></li>
+  <li><a name="FAQ2" id="#FAQ2"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Comment la société MindField Group trouve-t-elle des candidats?</STRONG><BR />
+        4.  Nous avons recours à plusieurs ressources en ligne pour trouver des chercheurs d’emploi, notamment de grands sites d’emploi nationaux, provinciaux et locaux, ainsi que des réseaux sociaux tels que Facebook. Ces annonces de postes en ligne sont liées à votre page de destination à l’image de votre entreprise. Les candidats peuvent y accéder pour lancer le processus de candidature. <br /><br />Les candidats sont présélectionnés par l’équipe de spécialistes d’acquisition de talents de MindField Group par rapport aux exigences du poste indiquées par votre gérant responsable de l’embauche.  Ceci nous permet de nous assurer que nous vous proposons en entrevue des candidats de haute qualité et adaptés au poste.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ3" id="#FAQ3"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Comment la société MindField Group gère-t-elle les candidatures en ligne?</STRONG></FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Les candidats qui posent leur candidature en ligne doivent envoyer leurs coordonnées, effectuer une évaluation en ligne approfondie et exhaustive et télécharger un exemplaire électronique de leur CV.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">L’équipe de spécialistes d’acquisition de talents de MindField Group examine les candidatures et communique par téléphone avec les candidats les plus qualifiés par rapport aux exigences de la description de poste.  À ce stade, nous procédons à une présélection téléphonique.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Les noms des candidats qualifiés vous sont directement transmis par courriel.  Le courriel inclut le CV du candidat, le résultat de son évaluation en ligne et les notes relatives à la présélection téléphonique.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">MindField Group conserve des copies électroniques de toutes les candidatures et de tous les CV. Nous pouvons ainsi les réutiliser pour pourvoir des postes au sein de votre entreprise, selon les besoins.</FONT><br />
+      <br />
+    </li>
+  </ol>
+  <li><a name="FAQ4" id="#FAQ4"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Quel est le moyen le plus efficace de communiquer avec MindField Group?</STRONG></FONT><BR /><FONT FACE="Geneva, Verdana" Size="1">Dans le portail Hiring Manager, utilisez la fonction Discussion en direct pour dialoguer avec l’équipe Customer Success dédiée à la réussite des clients de MindField Group. La fonction Discussion en direct permet de communiquer en temps réel, comme dans le cas de la messagerie instantanée ou des messages texte téléphoniques.  </font><br /><br />
+  </li>
+  <li><a name="FAQ5" id="#FAQ5"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Quand dois-je communiquer avec MindField Group?</STRONG><BR />11. Veuillez communiquer avec l’équipe Customer Success dédiée à la réussite des clients si vous avez une question relative au processus de recrutement et que vous ne trouvez pas de réponse dans la présente FAQ ni dans la section Aide du portail Hiring Manager.  Pour résoudre tout problème précis de qualité relative à un candidat, veuillez passer par la discussion en direct.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ6" id="#FAQ6"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Lorsque MindField Group envoie un candidat dans mon magasin, quelles sont les attentes du candidat concernant la prochaine étape du processus?</STRONG><br />
+    Si l’entretien téléphonique avec un spécialiste en acquisition de talent de MindField Group a été concluant, le candidat s’attend à ce que votre gérant responsable de l’embauche communique avec lui dans un délai de quatre jours afin de fixer la date d’une entrevue.</FONT></li>
+</ol>
+<p id="bodyfont"><a href="#TOP">Haut de la page</a></p>
+<p id="bodybold"><a name="FAQ2" id="#FAQ2"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Utilisation du portail Hiring Manager</STRONG></FONT><br />
+</p>
+<ol>
+  <li><a name="FAQ7" id="#FAQ7"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Qu’est-ce que le portail Hiring Manager?</STRONG><br />2. Le portail Hiring Manager est un site Web entièrement à l’image de votre marque qui permet aux gérants responsables de l’embauche dans votre entreprise de communiquer leurs besoins en recrutement directement à MindField Group. Le portail permet de créer des postes, de consulter les candidats présélectionnés par MindField Group pour vos postes, d’embaucher ou de refuser des candidats présentés par MindField Group, d’accéder à la fonction de discussion en direct et de consulter tous les supports de formation liés au recrutement.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ8" id="#FAQ8"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Comment créer un nouveau poste à l’aide du portail Hiring Manager?</STRONG><br /> 4.  Nous vous invitons à regarder la vidéo de formation intitulée « How to Create a Job » (Comment créer un poste). Vous pouvez également cliquer sur le bouton Créer un poste situé à gauche de toutes les pages du portail Hiring Manager.  Vous accéderez à une page permettant de modifier les renseignements sur le poste. Donnez des détails sur le poste à pourvoir.  Tous les champs en rouge doivent être remplis.  Vous pouvez également remplir un certain nombre d’autres champs s’ils sont pertinents pour votre poste.  Cliquez sur le bouton Enregistrer pour aviser MindField Group du nouveau poste.</FONT><br /><br />
+  </li>
+  <li><a name="FAQ9" id="#FAQ9"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Comment savoir quand MindField Group a proposé des candidats qualifiés pour mon poste? </STRONG> <BR />MindField Group vous informera de l’envoi de candidats de deux façons :</FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Un spécialiste en acquisition de talent enverra tous les documents de candidature par courriel à l’adresse du gérant responsable de l’embauche désigné.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Cliquez sur Voir les emplois ouverts sur le côté gauche de n’importe quelle page du portail Hiring Manager.  Tous les postes ouverts dans votre magasin s’affichent.  Cliquez sur la référence associée au poste pour lequel vous voulez voir les candidats disponibles. Vous accéderez à une page contenant tous les candidats proposés pour le poste.  Sélectionnez le dossier d’un candidat en cliquant sur son nom. </FONT></li>
+    <br />
+  </ol>
+  <li><a name="FAQ10" id="#FAQ10"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Un candidat se présente spontanément et il me semble qu’il conviendrait parfaitement pour le poste ouvert dans mon magasin.  Comment demander à MindField Group de suivre ce candidat?</STRONG><br />Veuillez créer un nouveau poste à l’aide du portail Hiring Manager (voir question 2 ci-dessus). Vous devrez répondre à la question « Pensez-vous à un candidat en particulier? ».  Dans le menu déroulant, sélectionnez « Oui, veuillez procéder à une présélection téléphonique et nous envoyer le candidat si l’entretien est concluant ».  Indiquez le nom et le numéro de téléphone du candidat dans l’espace prévu à cet effet.  </FONT><br /><br />
+  </li>
+  <li><a name="FAQ11" id="#FAQ11"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Comment tenir MindField Group au courant de l’état d’un candidat envoyé à mon magasin?</STRONG><BR /></FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Dans le portail Hiring Manager, utilisez le champ Rechercher des candidats dans le coin supérieur droit de l’écran pour voir ou modifier rapidement l’état d’un candidat.  Entrez le prénom et le nom du candidat dans la barre de recherche et cliquez sur Rechercher maintenant.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Le dossier du candidat s’affiche sur l’écran suivant. Cliquez sur le nom du candidat en surbrillance.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">À l’écran suivant, cliquez sur Mettre à jour l’état du candidat et choisissez Entrevue/vérification de casier judiciaire, Embauché ou Refusé.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Si vous refusez un candidat, le système vous demandera de préciser le motif de votre décision et d’indiquer s’il pourrait pourvoir un autre poste dans votre entreprise. Veuillez ajouter des commentaires sur le refus dans le champ de texte libre si nécessaire.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Remarque : si plusieurs candidats sont liés à votre poste, vous devrez mettre à jour l’état de chacun d’eux pour pouvoir continuer.</FONT></li>
+  </ol><BR /><BR />
+  <br />
+  <li><a name="FAQ12" id="#FAQ12"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>J’ai refusé tous les candidats que MindField Group a envoyés pour mon poste.  Comment demander de nouveaux candidats?</STRONG></FONT></li>
+  <ol>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Faites passer l’état de tous les candidats proposés pour le poste à Refusé. Voir la question 5 ci-dessus.  Indiquez les motifs de refus pour tous les candidats.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Le système vous demandera si vous souhaitez demander d’autres candidats pour votre poste.  Cliquez tout simplement sur le champ vide à côté de Demander plus pour dupliquer automatiquement le poste.  MindField Group entamera alors la recherche de candidats supplémentaires pour le poste, en tenant compte des motifs indiqués pour les candidats précédemment refusés.</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Si vous souhaitez transmettre des commentaires particuliers à MindField Group concernant les candidats refusés, communiquez avec l’équipe Customer Success dédiée à la réussite des clients au moyen de la fonction de discussion en direct.</FONT><br /></LI>
+        <br />
+  </ol>
+  <li><a name="FAQ13" id="#FAQ13"></a><FONT FACE="Geneva, Verdana" Size="1"><STRONG>Où puis-je trouver des instructions supplémentaires et des documents de formation liés à la solution de recrutement de MindField Group?</STRONG><BR />Dans le portail Hiring Manager, cliquez sur l’onglet Aide dans la barre de navigation en haut de l’écran.  Vous aurez accès à tous les documents de formation et à des renseignements importants sur le programme, ainsi qu’à des liens vers toutes les vidéos de formation.</FONT></li>
+</ol>
+<p id="bodyfont"><a href="#TOP">Haut de la page</a></p>
+
+<a name="FAQ14" id="#FAQ14"></a>
+<FONT FACE="Geneva, Verdana" Size="2"><STRONG>Aide sur d’autres sujets</STRONG><BR /></FONT>
+<FONT FACE="Geneva, Verdana" Size="1">Si nous pouvons vous aider sur d’autres sujets, n’hésitez pas à communiquer avec nous : </FONT>
+<ol>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Dialoguez (cliquez sur le bouton Discussion en direct à gauche) avec notre équipe de soutien à la clientèle</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Composez le 604 899-4473, poste 4</FONT></li>
+    <li><FONT FACE="Geneva, Verdana" Size="1">Communiquez avec votre représentant au siège social</FONT></LI>
+  </ol>
+  <!-- End Default Content REMOVE THIS -->
+  </p>
+</apex:page>

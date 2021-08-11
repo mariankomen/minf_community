@@ -1,0 +1,35 @@
+<apex:component controller="Chart_JobAgeByTitleController">
+
+    <apex:attribute type="string" name="ReportId" required="true" description="The Report Id used for drilldown on the chart"/>
+    <apex:attribute type="string" name="JobTitlesList" required="true" assignTo="{!jobTitlesFromPage}" description="List of Job Titles to be included in the chart, currently limited to 10"/>
+    
+    <apex:outputPanel layout="block" styleClass="center">
+        <apex:outputText ><b>Total Jobs by Age</b>
+            <span class="vfHelpText">
+                <apex:outputLink value="javascript:return false;">
+                    <img src="/img/msg_icons/info16.png" alt="" />
+                    <span>Total Jobs by Age shows the number of jobs currently open in each job age group categorized by Job Title.</span>
+                </apex:outputLink>
+            </span>
+        </apex:outputText>
+    </apex:outputPanel>
+    
+    <!-- make chart a clickable area to open report in new window   -->
+    <apex:outputPanel onclick="window.open('','_new').location.href='/{!ReportId}';" styleClass="clicker">
+        <apex:chart width="450" height="350" data="{!JobAgeByTitleData}" colorSet="#00274C,#00AEEF,#CCCFCE,#006EB8,#A4B118,#4C4D4F" rendered="{!JobAgeByTitleData_Size > 0}" resizable="true">
+            <apex:axis type="Numeric" position="left" fields="{!JobTitleFields}"  minimum="0"
+                title="Job Count" grid="true"> </apex:axis>
+            <apex:axis type="Category" position="bottom" fields="BracketName" title="Job Age (days)">
+            </apex:axis>
+            <apex:barSeries title="{!JobTitleLegend}" orientation="vertical" stacked="true" showInLegend="true"
+                axis="left" yField="{!JobTitleFields}" xField="BracketName">
+                <apex:chartLabel display="over" color="#ffffff"/> 
+           </apex:barSeries>
+           <apex:legend position="right" font="11px Helvetica"/>
+        </apex:chart>
+    </apex:outputPanel>
+    
+    <apex:outputText rendered="{!JobAgeByTitleData_Size == 0}"><br/><br/>No data found</apex:outputText> 
+    <br/><br/>
+                
+</apex:component>

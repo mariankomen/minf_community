@@ -1,0 +1,60 @@
+<apex:page standardController="SFDC_Employee__c">
+<apex:includeScript value="/soap/ajax/34.0/connection.js" />
+<apex:includeScript value="/apex/dsfs__DocuSign_JavaScript" />
+
+  <script>
+var RC = '';
+var RSL='';
+var RSRO='';
+var RROS='';
+var CCNM='';
+var CRCL='';
+var OCO='';
+var CRL='Email~{!SFDC_Employee__c.Work_Email_Address__c};' +
+        'FirstName~{!SFDC_Employee__c.Name};' +
+        'LastName~;' +
+        'Role~Signer 1;' +
+        'RoutingOrder~1,' +
+
+        'Email~{!SFDC_Employee__c.Manager_Email__c};' +
+        'FirstName~{!SFDC_Employee__c.Manager_Name__c};' +
+        'LastName~;' +
+        'Role~Signer 2;' +
+        'RoutingOrder~2,' +
+
+        'Email~heather.pysklywec@mindfieldgroup.com;' +
+        'FirstName~Heather;' +
+        'LastName~Pysklywec;' +
+        'Role~Signer 3;' +
+        'RoutingOrder~3,' +
+        
+        'Email~wanda.parsons@mindfieldgroup.com;' +
+        'FirstName~Wanda;' +
+        'LastName~Parsons;' +
+        'Role~Signer 4;' +
+        'RoutingOrder~4,' +
+
+        'LoadDefaultContacts~0';
+
+var CCRM='Signer 1~Change Requester;Signer 2~Direct Manager;' +
+         'Signer 3~Department VP;Signer 4~People and Culture';
+
+var CCTM='Signer 1~Signer,Signer 2~Signer,Signer 3~Signer,Signer 4~Signer';
+
+var DST='52bd4f17-373c-43bc-bc59-9d479fdcd992';
+var LA='';
+var CEM='Please fill out and sign the team title change form requested by, {!SFDC_Employee__c.Name}';
+var CES='Team Title Change Form - Requester {!SFDC_Employee__c.Name}';  
+var STB='0';
+var SSB='1';
+var SES='0';
+var SEM='0';
+var SRS='';
+var SCS='0';
+var RES='';
+
+window.location.href = 
+"/apex/dsfs__DocuSign_CreateEnvelope?DSEID=0&SourceID={!SFDC_Employee__c.Id}&RC="+RC+"&RSL="+RSL+"&RSRO="+RSRO+"&RROS="+RROS+"&CCRM="+CCRM+"&CCTM="+CCTM+"&CRCL="+CRCL+"&CRL="+CRL+"&OCO="+OCO+"&DST="+DST+"&CCNM="+CCNM+"&LA="+LA+"&CEM="+CEM+"&CES="+CES+"&SRS="+SRS+"&STB="+STB+"&SSB="+SSB+"&SES="+SES+"&SEM="+SEM+"&SRS="+SRS+"&SCS="+SCS+"&RES="+RES;
+
+</script>
+</apex:page>

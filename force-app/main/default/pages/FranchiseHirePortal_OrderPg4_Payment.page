@@ -1,0 +1,82 @@
+<apex:page controller="FranchiseHirePortal_OrderWizard" title="Franchise HirePortal Order Payment" action="{!validateSummaryPage}" standardStylesheets="false" applyBodyTag="false"  >
+<html>
+ <head>
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+<style>
+.btns {
+float: none !important;
+margin-right: 0px !important; 
+}
+
+.btn {
+  
+  display: inline-block !important;
+  text-decoration: none !important;
+  color: white !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 12px 0px !important;
+  text-align: center !important;
+  width: 110px !important;
+  border-radius: 2px !important;
+  background-image: none !important;
+  background-color: #2868ea !important; 
+  text-transform: uppercase;
+}
+
+.btn:hover {
+background-color: #1e5edf !important; }
+
+</style>
+ </head>
+
+    <body>
+
+        <div id="tacn_packages-container">
+        
+            <div class="tacn_full-width">
+                <div class="tacn_headline">
+                    <br/><span class="tacn_flex-h1"><h1 class="tacn_no-icon">Order Payment</h1> <h1 class="tacn_price">Order  #{!order.name}</h1></span>
+                </div>
+            </div>
+            
+            <div class="tacn_forms-area">
+                
+                <div class="tacn_form-left">
+                    <div class="tacn_summary-title">
+                        <br/>
+                        <h3>{!order.job_title__c} </h3>
+
+                    </div>
+                    
+                    <div class="tacn_form">
+                        <!-- add styling using id for  or style class to output panel -->
+                        <apex:outputPanel >
+                            <!-- You may use some parameters with SitePaymentComponent: -->
+                            <!-- 1. showAddress - Boolean value to render the billing address section -->
+                            <!-- 2. cancel - Cancel page URL -->
+                            <!-- 3. success - Success page URL -->
+                            <!-- 4. fail - Fail page URL fail="{!URLFOR($Page.FranchiseHirePortal_Error)}" 
+                                leaving this blank shows the error inside the component which makes more sense than generic error page -->
+                    
+                            <!-- Component use example: -->
+                            <ChargentOrders:SitePaymentComponent showAddress="false" cancel="{!URLFOR($Page.FranchiseHirePortal_OrderPg3_Summary)}?id={!order.id}" 
+                                                                 success="{!URLFOR($Page.FranchiseHirePortal_ThankYou)}?id={!order.id}" 
+                                                                 />
+    
+                        </apex:outputPanel>
+                    </div>
+                <a class="tacn_btn tacn_btn-reg" href="/apex/franchisehireportal_orderpg3_summary?id={!order.id}" >VIEW ORDER</a>
+                <a class="tacn_btn tacn_btn-gray" href="/apex/Support_Page" target="_blank">HELP?</a>                    
+                        
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+</html>    
+</apex:page>

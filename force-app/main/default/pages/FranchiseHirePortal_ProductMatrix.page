@@ -1,0 +1,399 @@
+<apex:page controller="FranchiseHirePortal_OrderWizard" title="Franchise HirePortal - Create Jobs" standardStylesheets="false" >
+
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+    <style>
+        /* -- UNIVERSAL -- */
+        h1 {
+          font-size: 21px !important;
+          font-weight: 400 !important;
+          color: white !important;
+          display: inline !important;
+          padding-left: 16px !important;
+          line-height: 32px !important; }
+
+
+        h2 {
+          display: block !important;
+          padding: 0px 32px 0px 32px !important;
+          font-size: 15px !important;
+          font-weight: 400 !important;
+          color: #4f5c67 !important;
+          text-align: center !important;
+          line-height: 21px !important; }
+
+        h2 a {display: inline !important; text-decoration: none !important; }
+
+
+        /* -- PRODUCT MATRIX -- */
+
+        #tacn_productmatrix-container {
+          border-collapse: collapse; 
+          border-spacing: 0; 
+          width: 100%; 
+          max-width: 100%;
+          position: relative !important;
+          margin: 0 auto !important;
+          font-family: "Noto Sans", sans-serif !important;
+          -webkit-font-smoothing: antialiased !important; 
+        }
+
+          #tacn_productmatrix-container td,
+          #tacn_productmatrix-container th {
+            width: 24% !important; 
+            background-color: #e7e7e7 !important;
+          }
+            #tacn_productmatrix-container th {
+              padding: 24px;
+              background-color: #0862bf !important;
+            }
+            #tacn_productmatrix-container th h1 {
+              color: #eeefef !important;
+            }
+            #tacn_productmatrix-container td {
+              padding: 32px;
+            }
+            #tacn_productmatrix-container tr:nth-child(odd) td {
+              background-color: #dfe0e2 !important;
+            }
+            #tacn_productmatrix-container p {
+              text-align: center !important; 
+              font-size: 15px !important;}
+            
+            #tacn_productmatrix-container th.tacn_border {
+              border-right: 1px solid #0752a0 !important; }
+            #tacn_productmatrix-container td.tacn_border {
+              border-right: 1px solid #d2d2d2 !important; }
+            #tacn_productmatrix-container tr:nth-child(odd) td.tacn_border {
+              border-right: 1px solid #c9c9c9 !important; }
+
+            #tacn_productmatrix-container td.tacn_features {
+              vertical-align: top !important;
+            }
+              
+            #tacn_productmatrix-container .tacn_features h3 {
+              color: #0862bf !important; 
+              font-size: 16px !important; 
+              margin-top: 0 !important;}
+
+            #tacn_productmatrix-container .tacn_features ul {
+              padding-left: 1em !important;
+              }
+
+            #tacn_productmatrix-container .tacn_features li {
+              font-size: 15px !important;
+              color: #4f5c67 !important;
+              padding-bottom: 12px;
+              }
+            
+            #tacn_productmatrix-container tfoot td {
+              text-align: center !important;
+              vertical-align: top !important;
+              }
+            
+            
+            #tacn_productmatrix-container .tacn_btn {
+              margin-top: 0 !important;
+              margin-right: 0 !important;
+              border: 0 !important;
+              padding: 0 24px !important;
+              height: 42px !important;
+              line-height: 42px !important;
+              width: auto !important;
+              display: inline-block !important;
+              border-radius: 0 !important;
+              cursor: pointer !important;
+            }
+            #tacn_productmatrix-container .tacn_price {
+              padding: 0 12px !important;
+              background-color: #4f5c67 !important;
+            }
+
+            #tacn_productmatrix-container th.featured_cell {
+              background-color: #0752a0 !important;
+              }
+            #tacn_productmatrix-container td.featured_cell {  
+              background-color: #d1d1d1 !important;
+              }
+            #tacn_productmatrix-container tr:nth-child(odd) td.featured_cell {
+              background-color: #c8c9c9 !important;
+              }
+            #tacn_productmatrix-container td.featured_cell h3 {
+              color: #0862bf !important;
+            }
+            #tacn_productmatrix-container td.tacn_action.featured_cell {
+              padding-bottom: 0 !important;
+            }
+
+            #tacn_productmatrix-container small.tacn_small {
+              font-size: 11px !important; 
+              padding: 6px 0 !important;
+              color: #0862bf !important;}
+
+
+            #tacn_productmatrix-container th.tacn_services_label {
+              width: 4% !important;
+              padding: 24px 12px !important;
+              color: #fff !important;
+              font-size: 13px !important;
+              line-height: 32px;
+              font-weight: 100;
+              background-color: #2c8dfb !important;
+            }
+            #tacn_productmatrix-container td.tacn_services_label {
+              width: 4% !important;
+              max-width: 0 !important;
+              padding: 24px 0 !important;
+              text-align: center !important;
+              vertical-align: middle !important;
+              background-color: whitesmoke !important;
+            }
+            #tacn_productmatrix-container tr:nth-child(odd) td.tacn_services_label {
+              background-color: #eeefef !important;
+            }
+            #tacn_productmatrix-container td.tacn_services_min_1 {
+              height: 180px !important;
+              min-height: 180px !important;
+              text-indent: -15px;
+            }
+            #tacn_productmatrix-container td.tacn_services_min_2 {
+              height: 220px !important;
+              min-height: 220px !important;
+              text-indent: -40px;
+            }
+
+            .tacn_rotate {
+                         display: block !important;
+                         white-space: nowrap !important;
+                         text-transform: uppercase !important;
+                         font-size: 14px !important;
+                         font-weight: 600 !important;
+                         color: #0862bf !important;
+                         line-height: 100% !important;
+                         -webkit-transform: rotate(-90deg);
+                         -moz-transform: rotate(-90deg);
+                         -o-transform: rotate(-90deg);
+                         transform: rotate(-90deg);
+                       }
+
+
+            #tacn_productmatrix-container.posting th.posting,
+            #tacn_productmatrix-container.sourcing th.sourcing,
+            #tacn_productmatrix-container.fullcycle th.fullcycle,
+            #tacn_productmatrix-container.subscription th.subscription {
+              background-color: #2c8dfb !important;
+              border-right: 2px solid #2c8dfb !important;
+              border-left: 2px solid #2c8dfb !important;
+            }
+          
+            #tacn_productmatrix-container.posting th.posting h1,
+            #tacn_productmatrix-container.sourcing th.sourcing h1,
+            #tacn_productmatrix-container.fullcycle th.fullcycle h1,
+            #tacn_productmatrix-container.subscription th.subscription h1 {
+              color: #fff !important;
+            } 
+
+            #tacn_productmatrix-container.posting td.posting,
+            #tacn_productmatrix-container.sourcing td.sourcing,
+            #tacn_productmatrix-container.fullcycle td.fullcycle,
+            #tacn_productmatrix-container.subscription td.subscription {
+              background-color: whitesmoke !important;
+              border-right: 2px solid #2c8dfb !important;
+              border-left: 2px solid #2c8dfb !important;
+            }
+            #tacn_productmatrix-container.posting tr:nth-child(odd) td.posting,
+            #tacn_productmatrix-container.sourcing tr:nth-child(odd) td.sourcing,
+            #tacn_productmatrix-container.fullcycle tr:nth-child(odd) td.fullcycle,
+            #tacn_productmatrix-container.subscription tr:nth-child(odd) td.subscription {
+              background-color: #eeefef !important;
+              border-right: 2px solid #2c8dfb !important;
+              border-left: 2px solid #2c8dfb !important;
+            }
+            #tacn_productmatrix-container.posting tfoot tr:last-child td.posting,
+            #tacn_productmatrix-container.sourcing tfoot tr:last-child td.sourcing,
+            #tacn_productmatrix-container.fullcycle tfoot tr:last-child td.fullcycle,
+            #tacn_productmatrix-container.subscription tfoot tr:last-child td.subscription {
+              border-bottom: 2px solid #2c8dfb !important;
+            }
+            #tacn_productmatrix-container.posting .tacn_features.posting h3,
+            #tacn_productmatrix-container.sourcing .tacn_features.sourcing h3,
+            #tacn_productmatrix-container.fullcycle .tacn_features.fullcycle h3,
+            #tacn_productmatrix-container.subscription .tacn_features.subscription h3 {
+              color: #2c8dfb !important; 
+            }
+            #tacn_productmatrix-container.posting td.posting .tacn_btn .tacn_btn_msg,
+            #tacn_productmatrix-container.sourcing td.sourcing .tacn_btn .tacn_btn_msg,
+            #tacn_productmatrix-container.fullcycle td.fullcycle .tacn_btn .tacn_btn_msg,
+            #tacn_productmatrix-container.subscription td.subscription .tacn_btn .tacn_btn_msg{
+              background-color: #2c8dfb !important;
+            }
+            #tacn_productmatrix-container.posting td.posting .tacn_btn:hover .tacn_btn_msg,
+            #tacn_productmatrix-container.sourcing td.sourcing .tacn_btn:hover .tacn_btn_msg,
+            #tacn_productmatrix-container.fullcycle td.fullcycle .tacn_btn:hover .tacn_btn_msg,
+            #tacn_productmatrix-container.subscription td.subscription .tacn_btn:hover .tacn_btn_msg {
+              background-color: #0862bf !important;
+            }
+
+    </style>
+    
+<apex:form >  
+    <table id="tacn_productmatrix-container" class="{!$currentpage.parameters.product}">
+        <thead>
+            <tr>
+                <th class="tacn_border tacn_services_label">
+                    Services
+                </th>
+                <th class="tacn_border posting">
+                    <h1>Job Posting</h1>
+                </th>
+                <th class="tacn_border sourcing">
+                    <h1>Candidate Sourcing</h1>
+                </th>
+                <th class="tacn_border fullcycle">
+                    <h1>Full-Cycle Recruitment</h1>
+                </th>
+                <th class="featured_cell subscription">
+                    <h1>Subscription Service</h1>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tacn_intro tacn_border tacn_services_label">
+                    <span class="tacn_rotate">Overview</span>
+                </td>
+                <td class="tacn_intro tacn_border posting">
+                    <p>Quickly get your job posted on the corporate career site and distributed to key job boards and manage all your applicants in one place.</p>
+                </td>
+                <td class="tacn_intro tacn_border sourcing">
+                    <p>Mindfield executes on a custom candidate sourcing program for your job to increase the quantity and quality of applicant flow. Save time and improve the quality of applicant.</p>
+                </td>
+                <td class="tacn_intro tacn_border fullcycle">
+                    <p>Our premium service where Mindfield manages the entire recruitment process and delivers you two best-fit qualified candidates for your job opening.</p>
+                </td>
+                <td class="tacn_intro featured_cell subscription">
+                    <p>Our customized enterprise subscription service offering.</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="tacn_border tacn_services_label tacn_services_min_1">
+                    <span class="tacn_rotate">Who&#039;s it for?</span>
+                </td>
+                <td class="tacn_border posting">
+                    <p>Designed for every franchise partner.</p>
+                </td>
+                <td class="tacn_border sourcing">
+                    <p>Designed for franchise partners who want to boost their applicant volume while managing the candidate screening and recruitment process on their own.</p>
+                </td>
+                <td class="tacn_border fullcycle">
+                    <p>Designed for franchise partners who want to improve the effectiveness of their recruitment efforts while saving time by outsourcing the recruitment process.</p>
+                </td>
+                <td class="featured_cell subscription">
+                    <p>Designed for franchise partners with ongoing hiring needs who want to take advantage of volume discount pricing.</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="tacn_features tacn_border tacn_services_label">
+                    <span class="tacn_rotate">Features</span>
+                </td>
+                <td class="tacn_features tacn_border posting">
+                    <h3>Standard features include:</h3>
+                    <ul>
+                        <li>Open a job in the HirePortal</li>
+                        <li>Job posted on career site</li>
+                        <li>Job is distributed to Indeed, SimplyHired and Glassdoor within 24 hours of opening the job</li>
+                        <li>Applicants apply online </li>
+                        <li>Simple system to manage applicant flow in HirePortal</li>
+                        <li>Pre-employment assessment (Like-minds Predictor)</li>
+                    </ul>
+                </td>
+                <td class="tacn_features tacn_border sourcing">
+                    <h3>Job Posting features included plus:</h3>  
+                    <ul>
+                        <li>Resume database campaigns</li>
+                        <li>Pay-per-click advertising (Indeed)</li>
+                        <li>Niche job board posting</li>
+                        <li>Pre-employment assessment (Like-minds Predictor)</li>
+                    </ul>
+                </td>
+                <td class="tacn_features tacn_border fullcycle">
+                    <h3>Job Posting and Candidate Sourcing features included plus:</h3>
+                    <ul>
+                        <li>Candidate pre-screening</li>
+                        <li>Behavioural-based telephone interviews</li>
+                        <li>Interview scheduling (Optional)</li>
+                        <li>2 qualified candidates for each opening</li>
+                        <li>Mindfield recruiter managing entire process</li>
+                    </ul>
+                </td>
+                <td class="tacn_features featured_cell subscription">
+                    <h3>Subscription customers get additional features &#038; benefits:</h3>
+                    <ul>
+                        <li>End to end workforce quality suite and reporting</li>
+                        <li>Volume pricing packages</li>
+                        <li>Weekly, monthly and quarterly reports</li>
+                        <li>Dedicated Account Manager</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td class="tacn_border tacn_services_label tacn_services_min_2">
+                    <span class="tacn_rotate">What can I expect?</span>
+                </td>
+                <td class="tacn_border posting">
+                    <p>Job is posted online within 24 hours to identified job boards.</p>
+                    <br/>
+                    <p>Job is posted for 30 days.</p>
+                </td>
+                <td class="tacn_border sourcing">
+                    <p>We source and score the applicants, you manage the hiring process.</p>
+                    <br/>
+                    <p>You can expect a boost in applicant volume and quality as we execute a broader advertising strategy 
+                    including pay-per-click advertising on Indeed, resume database mining and social media promotion.  
+                    Applicants are scored in the HirePortal based on their assessment results so you can quickly identify the top applicants.  </p>
+                    <br/>
+                    <p>Job is posted for 30 days.</p>
+
+                </td>
+                <td class="tacn_border fullcycle">
+                    <p>We source, screen, interview and manage the recruitment process; you just have to focus on making a hire. </p>
+                    <br/>
+                    <p>We deliver 2 qualified candidates for each job opening.  </p>
+                </td>
+                <td class="featured_cell subscription">
+                    <p>Custom service guarantees and program.</p>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="tacn_action tacn_border tacn_services_label">
+                    <span class="tacn_rotate">Price</span>
+                </td>
+                <td class="tacn_action tacn_border posting" nowrap="1">
+                    <a  href="/apex/FranchiseHirePortal_OrderPg1_PostingOnly" target="_top">
+                        <span class="tacn_btn tacn_btn-reg" >BUY NOW (FREE)</span>
+                    </a>
+                </td>
+                <td class="tacn_action tacn_border sourcing">
+                    <apex:commandLink action="{!gotoOrderPg2_CanSourcing}" target="_top"> 
+                        <span class="tacn_btn tacn_btn-reg">BUY NOW (<apex:outputText value="${0, number,###,##0}">
+                           <apex:param value="{!utility.ClientJobCost_CSS}"/>
+                         </apex:outputText> {!utility.clientOrderCurrencyDisplay})</span>
+                     </apex:commandLink>
+                 </td>
+                <td class="tacn_action tacn_border fullcycle">
+					<apex:commandButton action="{!utility.FCRRequest}" value="TALK TO US" styleClass="tacn_btn tacn_btn-reg"/>
+                    <small class="tacn_small">*Volume pricing discounts available</small>               
+                 </td>
+                <td class="tacn_action featured_cell subscription">
+                    <apex:commandButton action="{!utility.subscriptionRequest}" value="TALK TO US" styleClass="tacn_btn tacn_btn-reg"/>
+                    <small class="tacn_small">*Volume pricing discounts available</small>
+                 </td>
+            </tr>
+        </tfoot>
+    </table>
+</apex:form>  
+
+    
+</apex:page>

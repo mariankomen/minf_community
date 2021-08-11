@@ -1,0 +1,98 @@
+<apex:page showHeader="false">
+<body onload="window.resizeTo(500,500)"></body>
+
+<script src="https://mindfieldgroup.com/jquery-latest.js"></script>
+  <script type="text/javascript" src="https://mindfieldgroup.com/jquery.validate.js"></script>
+ <script>
+  $(document).ready(function(){
+    $("#prechatForm").validate({
+        
+    });
+  });
+  </script>
+
+<!-- This script takes the endpoint URL parameter passed from the deployment page and makes
+it the action for the form -->
+<script type="text/javascript">
+
+(function() { function handlePageLoad() {
+var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+document.getElementById('prechatForm').setAttribute('action',
+decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+} if (window.addEventListener) {
+window.addEventListener('load', handlePageLoad, false);
+} else { window.attachEvent('onload', handlePageLoad, false);
+}})();
+function saveskill() 
+{ 
+var a = document.getElementById('Skill').value; 
+if (a=="Candidate/Job Info Request") 
+{ 
+document.getElementById('selectedskill').value="0C5U0000000CclX"; 
+} 
+else if(a=="HirePortal Technical Issue") 
+{ 
+document.getElementById('selectedskill').value="0C5U0000000Cclh"; 
+} 
+else if(a=="Other") 
+{ 
+document.getElementById('selectedskill').value="0C5U0000000Cclw"; 
+} 
+} 
+</script>
+
+
+<form method='post' id='prechatForm'>
+<table width="100%" border="0" cellpadding="3"><TR><TD COLSPAN="5">
+<FONT FACE="Geneva, Verdana" Size="3"><h1>MindField Group Live Chat</h1></font><br /><br />
+<FONT FACE="Geneva, Verdana" Size="2">To help us ensure that you receive great service and talk with the right person, please provide the following information below. All fields are required.</FONT><br /><br />
+</TD>
+</TR>
+<TR>
+<TD><FONT FACE="Geneva, Verdana" Size="2">Name:</font></TD><TD><input type='text' name='liveagent.prechat:Name' size='25' id='prechat_field' class="required" /></TD>
+<TD rowspan="6" align="right"><IMG SRC="https://mindfield.my.salesforce.com/resource/1357850579000/Live_Chat_Sidebar_Image_EN" /></TD>
+</TR>
+<br />
+<TR>
+<TD><FONT FACE="Geneva, Verdana" Size="2">Email Address:</font></TD><TD><input type='text' size='25' name='liveagent.prechat:Email' class="required email"/></TD>
+</TR>
+<br />
+<TR>
+<TD><FONT FACE="Geneva, Verdana" Size="2">What company do you work for?:</FONT></TD><TD> <input type='text' size='25' name='liveagent.prechat:Company Name' class="required"/></TD>
+</TR>
+<br />
+<TR>
+<TD><FONT FACE="Geneva, Verdana" Size="2">What is the JOB ID (if applicable):</FONT></TD><TD> <input type='text' size='25' name='liveagent.prechat:JOB ID' /></TD>
+</TR>
+<br />
+<TR>
+<TD height="24"><FONT FACE="Geneva, Verdana" Size="2">What is the nature of your request?</FONT></TD><TD> <select name="liveagent.prechat:Skills" id="Skill" onchange="saveskill()">
+  <!-- Values are LiveChatButton IDs. -->
+  <option name="Candidate/Job Info Request">Candidate/Job Info Request</option>
+  <option name="HirePortal Technical Issue">HirePortal Technical Issue</option>
+  <option name="Other">Other</option>
+</select></TD>
+</TR>
+<TR>
+  <TD colspan="2" align="center"><input type='submit' value='Start Chat' id='prechat_submit'/></TD>
+</TR>
+</table>
+<!-- Creates an auto-query for a matching Contact recordï¿½s Email field based on the
+value of the liveagent.prechat:Email field -->
+<input type="hidden" name="liveagent.prechat.query:Email" value="Contact,Contact.Email" />
+<input type="hidden" name="liveagent.prechat.save:Company Name" value="company_organisation__c" />
+<input type='hidden' name='liveagent.prechat.save:JOB ID' value="Job_ID__c" /> 
+<input type='hidden' name='liveagent.prechat.save:Nature of Request' value="Skills__c" />
+<input type="hidden" name="liveagent.prechat.save:Nature request" id="selectedskill" value="nature_request__c" /> 
+<input type='hidden' name="liveagent.prechat:Skills" id="Skill" onchange="saveskill()" />
+</form>
+
+
+<style type="text/css">
+p {font-weight: bolder }
+.error {
+    color:#FF0000;  /* red */
+}
+</style>
+
+</apex:page>

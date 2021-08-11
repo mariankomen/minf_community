@@ -1,0 +1,158 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="LightningLoginFormController">
+    <ltng:require styles="{!join(',', 
+                          $Resource.MindfieldHirePortal + '/LogIn/style.css', 
+                          $Resource.MindfieldHirePortal + '/LogIn/style_002.css',
+                          $Resource.MindfieldHirePortal + '/jobsListView.css'
+                          )}"
+                 
+                  />
+
+    <aura:html tag="style">
+
+        
+    </aura:html> 
+    
+    <aura:attribute name="showError" type="Boolean" required="true" description="" default="false" access="private"/>
+    <aura:attribute name="errorMessage" type="String" required="false" description="" access="private"/>
+    <aura:attribute name="startUrl" type="String" required="false" description="The url you go to after a successful login" />
+    <aura:attribute name="usernameLabel" type="String" required="false" default="Username / Nom d'utilsateur"/>
+    <aura:attribute name="passwordLabel" type="String" required="false" default="Password / Mot de passe"/>
+    <aura:attribute name="loginButtonLabel" type="String" required="false" default="Log in / S'identifier"/>
+    <aura:attribute name="expid" type="String" required="false" description="The branding experience ID" />        
+    
+    <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="Forgot your password? / Oubliemon mot de passe"/>
+    <aura:attribute name="selfRegisterLabel" type="String" required="false" default="Not a member?"/>
+    <aura:attribute name="forgotPasswordUrl" type="String" required="false" default="/ForgotPassword"/>
+    <aura:attribute name="selfRegisterUrl" type="String" required="false" default="/SelfRegister"/>
+    
+    <aura:attribute name="isUsernamePasswordEnabled" type="Boolean" access="private"/>
+    <aura:attribute name="isSelfRegistrationEnabled" type="Boolean" access="private"/>
+    <aura:attribute name="communityForgotPasswordUrl" type="String" access="private"/>
+    <aura:attribute name="communitySelfRegisterUrl" type="String" access="private"/>
+    
+    <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/>
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}"/>
+    <aura:dependency resource="c:setStartUrl" type="EVENT"/>
+    
+    <aura:dependency resource="siteforce:registerQueryEventMap" type="EVENT"/>
+    
+    <aura:handler event="c:setStartUrl" action="{!c.setStartUrl}"/>
+    <aura:handler event="c:setExpId" action="{!c.setExpId}"/>    
+    <aura:dependency resource="c:setExpId" type="EVENT"/>  
+    
+    
+    
+    <aura:renderIf isTrue="{!v.isUsernamePasswordEnabled}">
+       
+        <article class="popupForm open" id="employerLogin" style="position: fixed !important;">
+            
+            <h3>Employer Login / Connexion de l'employeur</h3>
+            
+            <div id="login" class="gform_wrapper">
+                <span>
+                    <aura:renderIf isTrue="{!v.showError}">
+                        <div id="error">
+                            <ui:outputRichText value="{!v.errorMessage}"/>
+                        </div>
+                    </aura:renderIf>
+                </span> 
+                
+                
+                <ul>
+                    <li class="gfield">
+                        
+                        <!--input name="un" autocomplete="on" type="text" placeholder="Username / Email" tabindex="1" class="mfg_login"/-->
+                        <div id="sfdc_username_container" class="sfdc">
+                            <span id="sfdc_user" class="login-icon" data-icon="a"></span>
+                            <ui:inputText value="" 
+                                          aura:id="username" 
+                                          placeholder="{!v.usernameLabel}" 
+                                          keyup="{!c.onKeyUp}" 
+                                          class="mfg_login"
+                                          label="{!v.usernameLabel}" 
+                                          labelClass="assistiveText"/>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </li>
+                    <li class="gfield">
+                        <!--input name="pw" autocomplete="on" type="password" placeholder="Password" tabindex="2" class="mfg_login"/-->
+                        
+                        <div id="sfdc_password_container" class="sfdc">
+                            <span id="sfdc_lock" class="login-icon sfdc" data-icon="c"></span>
+                            <ui:inputSecret value="" 
+                                            aura:id="password" 
+                                            placeholder="{!v.passwordLabel}" 
+                                            keyup="{!c.onKeyUp}" 
+                                            class="mfg_login"
+                                            label="{!v.passwordLabel}" 
+                                            labelClass="assistiveText"/>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="btn-set">
+                    <table>
+                        <tr>
+                            <td>
+                    <input type="submit" 
+                           class="form submit button btn btn-primary" 
+                           value="{!v.loginButtonLabel}" 
+                           aura:id="submitButton" 
+                           onclick="{!c.handleLogin}"
+                           />
+                    </td>
+                    <!--ui:button aura:id="submitButton" 
+                                   label="{!v.loginButtonLabel}" 
+                                   press="{!c.handleLogin}" 
+                                   
+                                   class="MuiButtonBase-root 
+                                          MuiButton-root 
+                                          MuiButton-contained 
+                                          MuiButton-containedPrimary"/-->
+					<td>
+                    <a href="{!if(v.communityForgotPasswordUrl == null, v.forgotPasswordUrl, v.communityForgotPasswordUrl)}" class="button btn btn-link">
+                        {!v.forgotPasswordLabel}
+                    </a>
+                    <aura:renderIf isTrue="{!v.isSelfRegistrationEnabled}">
+                        <span style="float:right" >
+                            <a href="{!if(v.communitySelfRegisterUrl == null, v.selfRegisterUrl, v.communitySelfRegisterUrl)}" class="button btn btn-link">
+                                {!v.selfRegisterLabel}
+                            </a>
+                        </span>
+                    </aura:renderIf>
+                        </td>
+                            </tr>
+                    </table>
+                </div>
+                
+            </div>
+            
+            <h6>
+                <table>
+                    <tr>
+                        <td style="text-align:center">
+                <a id="liveagent_button_online_5730P000000CiGq" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('5730P000000CiGq')">Chat now</a>
+                <span id="liveagent_button_offline_5730P000000CiGq" style="">
+                    <a id="liveagent_offline" onclick="{!c.logacase}">Need Help? / Besoin d'aide pours?</a>
+                </span>
+                        </td>
+                        <td style="text-align:center">
+                <a href="tel:1-877-834-1751">Call us at / Appelez-nous 1.877.834.1751</a>
+                        </td>
+          			</tr>      
+				</table>
+                
+            </h6>
+            
+        </article>
+    </aura:renderIf>
+    
+    <div id="popupBg"></div>
+</aura:component>

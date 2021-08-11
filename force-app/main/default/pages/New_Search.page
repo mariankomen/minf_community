@@ -1,0 +1,12 @@
+<apex:page sidebar="false" showHeader="false" >
+
+            
+          <form action="/apex/PortalSearch" target="_parent">
+            <div style="margin-left:20px">
+                <input type="text" autocomplete="off" name="searchTerms" size="12" placeholder="{!$Label.Search_Side_Bar_Text}"/>
+                <input type="submit" value="{!$Label.Search_Side_Bar_Button}"/>   
+            </div>
+           </form>
+
+
+</apex:page>

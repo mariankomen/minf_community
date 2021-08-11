@@ -1,0 +1,993 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="InterviewsAvailabilityController">
+    
+    <aura:html tag="style">
+        .today{
+        font-weight: 700;
+        }
+        .holiday{
+        color: #ff0000;
+        }
+        .MuiIconButton-root {
+        flex: 0 0 auto;
+        color: rgba(0, 0, 0, 0.54);
+        padding: 12px;
+        overflow: visible;
+        
+        text-align: center;
+        transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 50%;
+        }
+        .MuiIconButton-root:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiIconButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        background-color: transparent;
+        }
+        @media (hover: none) {
+        .MuiIconButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-edgeStart {
+        margin-left: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeStart {
+        margin-left: -3px;
+        }
+        .MuiIconButton-edgeEnd {
+        margin-right: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeEnd {
+        margin-right: -3px;
+        }
+        .MuiIconButton-colorInherit {
+        color: inherit;
+        }
+        .MuiIconButton-colorPrimary {
+        color: #0047ad;
+        }
+        .MuiIconButton-colorPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-colorSecondary {
+        color: #002b6b;
+        }
+        .MuiIconButton-colorSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-sizeSmall {
+        padding: 3px;
+        font-size: 1.125rem;
+        }
+        .MuiIconButton-label {
+        width: 100%;
+        display: flex;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        
+        .MuiButton-root {
+        color: rgba(0, 0, 0, 0.87);
+        padding: 6px 16px;
+        font-size: 0.875rem;
+        min-width: 64px;
+        box-sizing: border-box;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        border-radius: 4px;
+        text-transform: uppercase;
+        }
+        .MuiButton-root:hover {
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-root:hover.Mui-disabled {
+        background-color: transparent;
+        }
+        .MuiButton-label {
+        width: 100%;
+        display: inherit;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        .MuiButton-text {
+        padding: 6px 8px;
+        }
+        .MuiButton-textPrimary {
+        color: #0047ad;
+        }
+        .MuiButton-textPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-textSecondary {
+        color: #002b6b;
+        }
+        .MuiButton-textSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlined {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        padding: 5px 15px;
+        }
+        .MuiButton-outlined.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButton-outlinedPrimary {
+        color: #0047ad;
+        border: 1px solid rgba(0, 71, 173, 0.5);
+        }
+        .MuiButton-outlinedPrimary:hover {
+        border: 1px solid #0047ad;
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlinedSecondary {
+        color: #002b6b;
+        border: 1px solid rgba(0, 43, 107, 0.5);
+        }
+        .MuiButton-outlinedSecondary:hover {
+        border: 1px solid #002b6b;
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        .MuiButton-outlinedSecondary.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-contained {
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        .MuiButton-contained:hover {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        background-color: #d5d5d5;
+        }
+        .MuiButton-contained.Mui-focusVisible {
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained:active {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        @media (hover: none) {
+        .MuiButton-contained:hover {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        }
+        .MuiButton-contained:hover.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-containedPrimary {
+        color: #fff;
+        background-color: #0047ad;
+        }
+        .MuiButton-containedPrimary:hover {
+        background-color: rgb(0, 49, 121);
+        }
+        @media (hover: none) {
+        .MuiButton-containedPrimary:hover {
+        background-color: #0047ad;
+        }
+        }
+        .MuiButton-containedSecondary {
+        color: #fff;
+        background-color: #002b6b;
+        }
+        .MuiButton-containedSecondary:hover {
+        background-color: rgb(0, 30, 74);
+        }
+        @media (hover: none) {
+        .MuiButton-containedSecondary:hover {
+        background-color: #002b6b;
+        }
+        }
+        .MuiButton-colorInherit {
+        color: inherit;
+        border-color: currentColor;
+        }
+        .MuiButton-textSizeSmall {
+        padding: 4px 5px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-textSizeLarge {
+        padding: 8px 11px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-outlinedSizeSmall {
+        padding: 3px 9px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-outlinedSizeLarge {
+        padding: 7px 21px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-containedSizeSmall {
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-containedSizeLarge {
+        padding: 8px 22px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-fullWidth {
+        width: 100%;
+        }
+        .MuiButton-startIcon {
+        display: inherit;
+        margin-left: -4px;
+        margin-right: 8px;
+        }
+        .MuiButton-endIcon {
+        display: inherit;
+        margin-left: 8px;
+        margin-right: -4px;
+        }
+        .MuiButton-iconSizeSmall>*:first-child {
+        font-size: 18px;
+        }
+        .MuiButton-iconSizeMedium>*:first-child {
+        font-size: 20px;
+        }
+        .MuiButton-iconSizeLarge>*:first-child {
+        font-size: 22px;
+        }
+        
+        .jss111 {
+        margin: 0 auto;
+        padding: 16px;
+        max-width: 1300px;
+        min-height: 500px;
+        padding-bottom: 200px;
+        }
+        @media (max-width:959.95px) {
+        .jss111 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss111 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        .jss112 {
+        color: #0047ae;
+        margin: 0;
+        font-size: 3em;
+        font-family: glober, helvetica, sans-serif;
+        font-weight: 300;
+        margin-bottom: 12px;
+        }
+        @media (max-width:959.95px) {
+        .jss112 {
+        font-size: 2.5em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss112 {
+        font-size: 2em;
+        }
+        }
+        .jss113 {
+        display: flex;
+        }
+        @media (max-width:599.95px) {
+        .jss113 {
+        flex-flow: column-reverse;
+        }
+        }
+        .jss114 {
+        flex: 1;
+        width: 50%;
+        text-align: right;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss114 {
+        width: 100%;
+        text-align: left;
+        }
+        }
+        .jss115 {
+        flex: 1;
+        width: 50%;
+        text-align: left;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss115 {
+        width: 100%;
+        }
+        }
+        
+        .MuiButtonGroup-root {
+        display: inline-flex;
+        border-radius: 4px;
+        }
+        .MuiButtonGroup-contained {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButtonGroup-fullWidth {
+        width: 100%;
+        }
+        .MuiButtonGroup-grouped {
+        min-width: 40px;
+        }
+        .MuiButtonGroup-grouped:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        }
+        .MuiButtonGroup-grouped:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        }
+        .MuiButtonGroup-groupedText:not(:last-child) {
+        border-right: 1px solid rgba(0, 0, 0, 0.23);
+        }
+        .MuiButtonGroup-groupedTextPrimary:not(:last-child) {
+        border-color: rgba(0, 71, 173, 0.5);
+        }
+        .MuiButtonGroup-groupedTextSecondary:not(:last-child) {
+        border-color: rgba(0, 43, 107, 0.5);
+        }
+        .MuiButtonGroup-groupedOutlined:not(:first-child) {
+        margin-left: -1px;
+        }
+        .MuiButtonGroup-groupedOutlined:not(:last-child) {
+        border-right-color: transparent;
+        }
+        .MuiButtonGroup-groupedOutlinedPrimary:hover {
+        border-color: #0047ad;
+        }
+        .MuiButtonGroup-groupedOutlinedSecondary:hover {
+        border-color: #002b6b;
+        }
+        .MuiButtonGroup-groupedContained {
+        box-shadow: none;
+        }
+        .MuiButtonGroup-groupedContained:not(:last-child) {
+        border-right: 1px solid #bdbdbd;
+        }
+        .MuiButtonGroup-groupedContained:not(:last-child).Mui-disabled {
+        border-right: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButtonGroup-groupedContainedPrimary:not(:last-child) {
+        border-right: 1px solid rgb(0, 49, 121);
+        }
+        .MuiButtonGroup-groupedContainedSecondary:not(:last-child) {
+        border-right: 1px solid rgb(0, 30, 74);
+        }
+        
+        .MuiPickersDay-day {
+        color: rgba(0, 0, 0, 0.87);
+        width: 36px;
+        height: 36px;
+        margin: 0 2px;
+        padding: 0;
+        font-size: 0.75rem;
+        font-weight: 500;
+        }
+        .MuiPickersDay-hidden {
+        opacity: 0;
+        pointer-events: none;
+        }
+        .MuiPickersDay-current {
+        color: #0047ad;
+        font-weight: 600;
+        }
+        .MuiPickersDay-daySelected {
+        color: #fff;
+        font-weight: 500;
+        background-color: #0047ad;
+        }
+        .MuiPickersDay-daySelected:hover {
+        background-color: #0047ad;
+        }
+        .MuiPickersDay-dayDisabled {
+        color: rgba(0, 0, 0, 0.38);
+        pointer-events: none;
+        }
+        
+        .MuiPickersSlideTransition-transitionContainer {
+        display: block;
+        position: relative;
+        }
+        .MuiPickersSlideTransition-transitionContainer>* {
+        top: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        }
+        .MuiPickersSlideTransition-slideEnter-left {
+        transform: translate(100%);
+        will-change: transform;
+        }
+        .MuiPickersSlideTransition-slideEnter-right {
+        transform: translate(-100%);
+        will-change: transform;
+        }
+        .MuiPickersSlideTransition-slideEnterActive {
+        transform: translate(0%);
+        transition: transform 350ms cubic-bezier(0.35, 0.8, 0.4, 1) 0ms;
+        }
+        .MuiPickersSlideTransition-slideExit {
+        transform: translate(0%);
+        }
+        .MuiPickersSlideTransition-slideExitActiveLeft-left {
+        transform: translate(-200%);
+        transition: transform 350ms cubic-bezier(0.35, 0.8, 0.4, 1) 0ms;
+        will-change: transform;
+        }
+        .MuiPickersSlideTransition-slideExitActiveLeft-right {
+        transform: translate(200%);
+        transition: transform 350ms cubic-bezier(0.35, 0.8, 0.4, 1) 0ms;
+        will-change: transform;
+        }
+        
+        .MuiPickersCalendarHeader-switchHeader {
+        display: flex;
+        margin-top: 4px;
+        align-items: center;
+        margin-bottom: 8px;
+        justify-content: space-between;
+        }
+        .MuiPickersCalendarHeader-transitionContainer {
+        width: 100%;
+        height: 23px;
+        overflow: hidden;
+        }
+        .MuiPickersCalendarHeader-iconButton {
+        z-index: 1;
+        background-color: #fff;
+        }
+        .MuiPickersCalendarHeader-daysHeader {
+        display: flex;
+        max-height: 16px;
+        align-items: center;
+        justify-content: center;
+        }
+        .MuiPickersCalendarHeader-dayLabel {
+        color: rgba(0, 0, 0, 0.38);
+        width: 36px;
+        margin: 0 10px;
+        text-align: center;
+        }
+        
+        .MuiPickersCalendar-transitionContainer {
+        margin-top: 12px;
+        min-height: 216px;
+        }
+        .MuiPickersCalendar-progressContainer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        .MuiPickersCalendar-week {
+        display: flex;
+        
+        }
+        
+        .jss258 {
+        padding: 20px;
+        }
+        .jss259 {
+        width: 100%;
+        display: flex;
+        padding: 20px;
+        overflow: hidden;
+        flex-flow: row wrap;
+        }
+        .jss260 {
+        width: 100%;
+        min-width: 300px;
+        padding-left: 20px;
+        border-bottom: solid 1px #ccc;
+        padding-right: 20px;
+        }
+        .jss261 {
+        width: 33%;
+        min-width: 300px;
+        padding-left: 20px;
+        padding-right: 20px;
+        }
+        @media (max-width:959.95px) {
+        .jss261 {
+        width: 50%;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss261 {
+        width: 100%;
+        }
+        }
+        .jss262 {
+        display: none;
+        }
+        .jss263 {
+        color: #fff;
+        background: #0047ad;
+        }
+        .jss263:hover {
+        background: #0047ad;
+        }
+        .jss264 {
+        color: rgba(0, 0, 0, 0.87);
+        width: 36px;
+        height: 36px;
+        margin: 0 2px;
+        padding: 0;
+        font-size: 0.75px;
+        font-family: din;
+        font-weight: 500;
+        }
+        .jss265 {
+        background: #aec2de;
+        }
+        .jss265:hover {
+        background: #749cd4;
+        }
+        .jss266 {
+        color: #000 !important;
+        }
+        .jss266 p {
+        font-weight: 700;
+        }
+        .jss267>div {
+        min-height: 66px;
+        }
+        .jss268 {
+        color: #000;
+        display: flex;
+        padding: 4px 12px;
+        flex-flow: row;
+        font-size: 1.2em;
+        font-weight: 500;
+        border-bottom: solid 1px #999;
+        background-color: #eee;
+        }
+        .jss269 {
+        color: #ccc;
+        padding: 5px 5px;
+        border-bottom: solid 1px #ccc;
+        }
+        .jss270 {
+        display: inline-block;
+        font-size: 1.1em;
+        font-weight: 500;
+        padding-left: 8px;
+        }
+        .jss271 {
+        display: flex;
+        flex-flow: row;
+        border-bottom: solid 1px #ccc;
+        }
+        
+        .jss220 {
+        padding: 20px;
+        }
+        .jss221 {
+        width: 100%;
+        display: flex;
+        padding: 20px;
+        overflow: hidden;
+        flex-flow: row wrap;
+        }
+        .jss222 {
+        width: 100%;
+        min-width: 300px;
+        padding-left: 20px;
+        border-bottom: solid 1px #ccc;
+        padding-right: 20px;
+        }
+        .jss223 {
+        width: 33%;
+        min-width: 300px;
+        padding-left: 20px;
+        padding-right: 20px;
+        }
+        @media (max-width:959.95px) {
+        .jss223 {
+        width: 50%;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss223 {
+        width: 100%;
+        }
+        }
+        .jss224 {
+        display: none;
+        }
+        .jss225 {
+        color: #fff;
+        background: #0047ad;
+        }
+        .jss225:hover {
+        background: #0047ad;
+        }
+        .jss226 {
+        color: rgba(0, 0, 0, 0.87);
+        width: 36px;
+        height: 36px;
+        margin: 0 2px;
+        padding: 0;
+        font-size: 0.75px;
+        font-family: din;
+        font-weight: 500;
+        }
+        .jss227 {
+        background: #aec2de;
+        }
+        .jss227:hover {
+        background: #749cd4;
+        }
+        .jss228 {
+        color: #000 !important;
+        }
+        .jss228 p {
+        font-weight: 700;
+        }
+        .jss229>div {
+        min-height: 66px;
+        }
+        .jss230 {
+        color: #000;
+        display: flex;
+        padding: 4px 12px;
+        flex-flow: row;
+        font-size: 1.2em;
+        font-weight: 500;
+        border-bottom: solid 1px #999;
+        background-color: #eee;
+        }
+        .jss231 {
+        color: #ccc;
+        padding: 5px 5px;
+        border-bottom: solid 1px #ccc;
+        }
+        .jss232 {
+        display: inline-block;
+        font-size: 1.1em;
+        font-weight: 500;
+        padding-left: 8px;
+        }
+        .jss233 {
+        display: flex;
+        flex-flow: row;
+        border-bottom: solid 1px #ccc;
+        }
+        
+        .jss206 {
+        padding: 20px;
+        }
+        .jss207 {
+        width: 100%;
+        display: flex;
+        padding: 20px;
+        overflow: hidden;
+        flex-flow: row wrap;
+        }
+        .jss208 {
+        width: 100%;
+        min-width: 300px;
+        padding-left: 20px;
+        border-bottom: solid 1px #ccc;
+        padding-right: 20px;
+        }
+        .jss209 {
+        width: 33%;
+        min-width: 300px;
+        padding-left: 20px;
+        padding-right: 20px;
+        }
+        @media (max-width:959.95px) {
+        .jss209 {
+        width: 50%;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss209 {
+        width: 100%;
+        padding: 0;
+        }
+        }
+        .jss210 {
+        display: none;
+        }
+        .jss211 {
+        color: #fff;
+        background: #0047ad;
+        }
+        .jss211:hover {
+        background: #0047ad;
+        }
+        .jss212 {
+        color: rgba(0, 0, 0, 0.87);
+        width: 36px;
+        height: 36px;
+        margin: 0 2px;
+        padding: 0;
+        font-size: 0.75px;
+        font-family: din;
+        font-weight: 500;
+        }
+        .jss213 {
+        background: #aec2de;
+        }
+        .jss213:hover {
+        background: #749cd4;
+        }
+        .jss214 {
+        color: #000 !important;
+        }
+        .jss214 p {
+        font-weight: 700;
+        }
+        .jss215>div {
+        min-height: 66px;
+        }
+        .jss216 {
+        color: #000;
+        display: flex;
+        padding: 4px 12px;
+        flex-flow: row;
+        font-size: 1.2em;
+        font-weight: 500;
+        border-bottom: solid 1px #999;
+        background-color: #eee;
+        }
+        .jss217 {
+        color: #ccc;
+        padding: 5px 5px;
+        border-bottom: solid 1px #ccc;
+        }
+        .jss218 {
+        display: inline-block;
+        font-size: 1.1em;
+        font-weight: 500;
+        padding-left: 8px;
+        }
+        .jss219 {
+        display: flex;
+        flex-flow: row;
+        border-bottom: solid 1px #ccc;
+        }
+        .MuiTypography-caption {
+        font-size: 0.75rem;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 400;
+        line-height: 1.66;
+        }
+        
+        
+    </aura:html>
+    
+    <aura:attribute name="calendar" type="Object"/>    
+    <aura:attribute name="monthly" type="Boolean" default="True"/>  
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>  
+    <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
+    <aura:attribute name="isDoneRendering" type="Boolean" default="false"/>
+    <aura:handler name="setAttribute" event="c:MFG_setToParent" action="{!c.setAttributeValue}"/>
+    
+    <aura:attribute name="language" type="String"/>    
+    <div class="jss111">
+        <h2 class="jss112">{!$Label.c.MFG_Availability}</h2>
+
+        <aura:if isTrue="{!v.calendar}">
+            <div class="jss113">
+                <div class="jss115">
+                    <div role="group" class="MuiButtonGroup-root" 
+                         aria-label="large outlined secondary button group">
+                        
+                        <button  class="{! if(v.monthly,'MuiButton-outlinedPrimary jss211 ','' )+
+                                        'MuiButton-root 
+                                        MuiButton-outlined 
+                                        MuiButtonGroup-grouped 
+                                        MuiButtonGroup-groupedOutlined 
+                                        MuiButtonGroup-groupedOutlined 
+                                        MuiButton-outlinedSizeSmall 
+                                        MuiButton-sizeSmall'}"
+                                tabindex="0" 
+                                type="button" 
+                                onclick="{!c.monthly}">
+                            <span class="MuiButton-label">
+                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/availability/availabilitymonth.svg#availabilitymonth'}" size="small" />
+                                <span>{!$Label.c.MFG_Month_View}</span>
+                            </span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                        <button  class="{! if(!v.monthly,'MuiButton-outlinedPrimary jss211 ','' )+
+                                        'MuiButton-root 
+                                        MuiButton-outlined 
+                                        MuiButtonGroup-grouped 
+                                        MuiButtonGroup-groupedOutlined 
+                                        MuiButtonGroup-groupedOutlined 
+                                        MuiButton-outlinedSizeSmall 
+                                        MuiButton-sizeSmall'}"
+                                tabindex="0" 
+                                type="button" 
+                                onclick="{!c.weekly}">
+                            <span class="MuiButton-label">
+                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/availability/availabilityweek.svg#availabilityweek'}" size="small" />
+                                <span>{!$Label.c.MFG_Weekly_View}</span>
+                            </span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                    </div>
+                </div>
+                <aura:if isTrue="{! v.monthly}">
+                    <div class="jss114">
+                        <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary" 
+                                tabindex="0"
+                                type="button" onclick="{!c.NewAvailabilityDate}">
+                            <span class="MuiButton-label">
+                                <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/availability/NewAvailabilityDate.svg#NewAvailabilityDate'}" size="small" />
+                                    {!$Label.c.MFG_New_Availability_Date}</span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                    </div>
+                </aura:if>
+            </div>
+
+            <aura:renderIf  isTrue="{! v.monthly}">
+                <div class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded">
+                    <div class="jss207">
+                        <aura:iteration items="{!v.calendar.months}" var="month">   
+                            <div class="jss209">
+                                <div>
+                                    <div>
+                                        <div class="MuiPickersCalendarHeader-switchHeader">
+                                            <button class="MuiButtonBase-root 
+                                                           MuiIconButton-root 
+                                                           jss224 
+                                                           MuiPickersCalendarHeader-iconButton"
+                                                    tabindex="0"
+                                                    type="button">
+                                                <span class="MuiIconButton-label">
+                                                    
+                                                    
+                                                </span>
+                                                <span class="MuiTouchRipple-root"></span>
+                                            </button>
+                                            <div class="MuiPickersSlideTransition-transitionContainer 
+                                                        MuiPickersCalendarHeader-transitionContainer">
+                                                <p class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter">{!month.monthName}</p>
+                                            </div>
+                                            <button class="MuiButtonBase-root 
+                                                           MuiIconButton-root 
+                                                           jss224 
+                                                           MuiPickersCalendarHeader-iconButton"
+                                                    tabindex="0" 
+                                                    type="button">
+                                                <span class="MuiIconButton-label">
+                                                    
+                                                </span>
+                                                <span class="MuiTouchRipple-root"></span>
+                                            </button>
+                                        </div>
+                                        <div class="MuiPickersCalendarHeader-daysHeader" style="max-width: 280px;">
+                                            <span class="MuiTypography-root MuiPickersCalendarHeader-dayLabel MuiTypography-caption">
+                                                {!if(v.language=='fr','Di','Su')} 
+                                            </span>
+                                            <span  class="MuiTypography-root MuiPickersCalendarHeader-dayLabel MuiTypography-caption">
+                                              {!if(v.language=='fr','Lu','Mo')}  
+                                            </span>
+                                            <span class="MuiTypography-root MuiPickersCalendarHeader-dayLabel MuiTypography-caption">
+                                               {!if(v.language=='fr','Ma','Tu')} 
+                                            </span>
+                                            <span class="MuiTypography-root MuiPickersCalendarHeader-dayLabel MuiTypography-caption">
+                                               {!if(v.language=='fr','Me','We')} 
+                                            </span>
+                                            <span class="MuiTypography-root MuiPickersCalendarHeader-dayLabel MuiTypography-caption">
+                                              {!if(v.language=='fr','Je','Th')}  
+                                            </span>
+                                            <span class="MuiTypography-root MuiPickersCalendarHeader-dayLabel MuiTypography-caption">
+                                              {!if(v.language=='fr','Ve','Fr')}  
+                                            </span>
+                                            <span class="MuiTypography-root MuiPickersCalendarHeader-dayLabel MuiTypography-caption">
+                                              {!if(v.language=='fr','Sa','Sa')}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="MuiPickersSlideTransition-transitionContainer MuiPickersCalendar-transitionContainer">
+                                        <div>
+                                            <aura:iteration items="{!month.weeks}" var="week">
+                                                
+                                                <div class="MuiPickersCalendar-week">
+                                                    
+                                                    <aura:iteration items="{!week.days}" var="day"> 
+                                                        <div role="presentation">
+                                                            <button class="{!if(or(and(day.disabled,day.inActive),and(day.disabled,day.inActive==false)),
+                                                                           'MuiButtonBase-root MuiIconButton-root MuiPickersDay-day jss264 MuiPickersDay-hidden',
+                                                                           
+                                                                           if(and(!day.disabled,day.inActive),
+                                                                           'MuiButtonBase-root MuiIconButton-root MuiPickersDay-day MuiPickersDay-dayDisabled',
+                                                                           
+                                                                           if(!day.disabled &amp;&amp; !day.inActive &amp;&amp; empty(day.HRAvailability),
+                                                                           'MuiButtonBase-root MuiIconButton-root jss264',
+                                                                           
+                                                                           if( !day.disabled &amp;&amp; !day.inActive &amp;&amp; !empty(day.HRAvailability),
+                                                                           'MuiButtonBase-root MuiIconButton-root jss264 jss265',
+                                                                           
+                                                                           'MuiButtonBase-root MuiIconButton-root jss264' ))))}"
+                                                                    tabindex="-1" 
+                                                                    type="button"                                         
+                                                                    data-value="{!day.sdate}"
+                                                                    onclick="{!c.viewWeekly}">
+                                                                <span class="MuiIconButton-label">
+                                                                    <p class="{! if(day.holiday,'holiday ','')+
+                                                                              if(day.isToday,'today  ','')+
+                                                                              'MuiTypography-root MuiTypography-body2 MuiTypography-colorInherit'}">
+                                                                        {!day.dateN}
+                                                                    </p>
+                                                                </span>
+                                                                <span class="MuiTouchRipple-root"></span>
+                                                            </button>
+                                                        </div>
+                                                    </aura:iteration>
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </div>
+                <aura:set attribute="else">
+                    
+                    <c:MFG_interviewsavailabilityWeekly aura:id="MFG_interviewsavailabilityWeekly" language="{!v.language}"/>
+                    
+                </aura:set>     
+            </aura:renderIf>
+        </aura:if>
+    </div>
+    
+</aura:component>

@@ -1,0 +1,58 @@
+<apex:component controller="HirePortal_FAQ_QCP_NSM_Controller">
+  
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 50%;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .container {
+            padding: 2px 2px;
+        }
+     </style>
+  
+  <apex:outputPanel rendered="{!IsNSM }">
+  
+    <div class="card">
+        <div class="container">
+        
+             <apex:outputPanel rendered="{!Contains($Profile.Name, ' EN')}"> 
+                 <b>Training Links and Documents</b><br/><br/>
+             </apex:outputPanel>
+             <apex:outputPanel rendered="{!Contains($Profile.Name, ' FR')}"> 
+                 <b>Liens et documents de formation</b><br/><br/>
+             </apex:outputPanel>
+             
+             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+             <link rel="stylesheet" href="/resources/demos/style.css"/>
+             <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+             <script>
+              $( function() {
+                 $( "#accordion" ).accordion();
+                 $("#accordion").accordion({ header: "h3", collapsible: true, active: false });
+               } );
+              </script>
+              <div id="accordion">
+              
+                  <apex:repeat value="{!lQCPSectionWrapper}" var="section" id="theRepeat">
+                      <h3>{!section.sectionName}</h3>
+                          <div>
+                            <apex:repeat value="{!section.lQCPW}" var="qcp" id="theRepeat"> 
+                                <a target='_blank' href='/servlet/servlet.FileDownload?file={!qcp.attId}'>{!qcp.fileName}</a><br/>
+                            </apex:repeat>    
+                          </div>
+                  </apex:repeat>
+  
+              </div>
+        </div>
+    </div>
+        
+  </apex:outputPanel>
+  <br/>
+</apex:component>

@@ -1,0 +1,23 @@
+<apex:page standardController="Applicant_Job_Apps__c" recordSetVar="ApplicantJobApps" extensions="MassEmailingApplicantsController" standardStylesheets="false">
+    <apex:includeLightning />
+    <apex:slds />
+    <apex:message />
+
+    
+    <div id="container" style="min-height: 200px;"/>
+	<script>
+            $Lightning.use("c:MassEmailingApplicantsApp", function()
+            {
+            $Lightning.createComponent(
+            "c:massEmailingApplicants",
+            {'jobApplicants': '{!jobApps2}' , 'jobId':'{!JobId}' },
+            "container",
+            function(cmp)
+            {
+            console.log('component created');
+                console.log(cmp);
+            });
+            });
+
+	</script>
+</apex:page>

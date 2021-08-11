@@ -1,0 +1,19 @@
+.THIS .contentPanel:before,
+.THIS .contentPanel:after {
+    content: " ";
+    display: table;
+}
+.THIS .contentPanel:after {
+    clear: both;
+}
+.THIS .left {
+    float: left;
+    width: 15%;
+}
+.THIS .right {
+    float: right;
+    width: 85%;
+}
+.THIS .slds-text-align_center{
+    text-align: left !important;
+}

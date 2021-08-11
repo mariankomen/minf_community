@@ -1,0 +1,102 @@
+<aura:component controller="MFG_SelectController"
+                access="global" >
+
+  
+
+      <aura:attribute name="recordTypeId" type="String" default=""/>
+     <aura:attribute name="objectApiName" type="String" default="SFDC_Job__c"/>
+     <aura:attribute name="fieldApiName" type="String" default="Job_Title_for_Role__c"/>
+    
+    <aura:attribute name="value" type="String" default=""/>
+    <aura:attribute name="label" type="String" default=""/>
+    <aura:attribute name="options" type="List" default="[]"/>
+    <aura:attribute name="filteredoptions" type="List" default="[]"/>
+      <aura:attribute name="listboxOpen" type="Boolean" default="false"/>
+    <aura:attribute name="noMatchesFind" type="Boolean" default="false"/>
+      <aura:attribute name="language" type="String"/>
+    <aura:html tag="style">
+        .slds-dropdown-trigger_click.slds-is-open .slds-dropdown, .slds-dropdown-trigger--click.slds-is-open .slds-dropdown {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+        }
+        .slds-dropdown {
+        z-index: 100 !important;
+        }
+    </aura:html>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    
+    <div class="slds-form-element">
+        <!--label class="slds-form-element__label" for="combobox-id-12">{!v.label}</label-->
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+          
+                <div class="{!'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click'+ if(v.listboxOpen,'slds-is-open','')}" 
+                     
+                     aria-expanded="{!v.listboxOpen}" aria-haspopup="listbox" role="combobox">
+                    
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <div onkeyup="{! c.handleKeyUp }" onclick="{!c.onfocus}">
+                            <lightning:input autocomplete="off"
+                                             aura:id="enter-search"
+                                             name="enter-search"
+                                             value="{!v.value}"
+                                             label="{!v.label}"
+                                             type="text"
+                                             required="true"
+                                            
+                                            
+                                             />
+                         
+                        </div>
+                        <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                            
+          
+                        </span>
+                    </div>
+                    <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                        
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            
+                            <aura:iteration items="{!v.filteredoptions}" var="option">
+                                
+                            <li role="presentation" class="slds-listbox__item" data-value="{!option.label}" onclick="{!c.setInputValue}">
+                                <div  class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                    <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                    <span class="slds-media__body">
+                                        <!--<span class="slds-truncate" title="{! if(v.language=='fr',option.label_fr,option.label)}"> 
+                                         {! if(v.language=='fr',option.label_fr,option.label)}
+                                        </span>-->
+                                        <span class="slds-truncate" title="{!option.label}">{!option.label}</span>
+                                    </span>
+                                </div>
+                            </li>
+                            
+                            </aura:iteration>     
+                            <aura:if isTrue="{!v.noMatchesFind}">
+                                <li role="presentation" class="slds-listbox__item">
+                                    <div  class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                        <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-truncate" title="no matches find"> 
+                                              {!$Label.c.MFG_No_matches_find}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </aura:if>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+</aura:component>

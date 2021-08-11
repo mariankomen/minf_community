@@ -1,0 +1,28 @@
+<apex:page standardController="SFDC_Job__c" title="{!$Label.NoContact_BrowserTitle}">
+
+    <apex:sectionHeader title="{!if($CurrentPage.parameters.reason == 'No Contact', $Label.NoContact_PgTitle, 'Job Update')}"/>
+    <apex:pageMessages showDetail="false"/>
+    <apex:form >
+
+        <apex:pageBlock mode="edit" >
+            <apex:pageBlockButtons location="bottom" >
+                <apex:commandButton value="{!$Label.Back_to_Job}" action="{!cancel}" />
+            </apex:pageblockButtons>
+
+            <br/>
+            <!-- Show this block if the page reason is No Contact -->
+            <apex:outputPanel rendered="{!Contains($CurrentPage.parameters.reason, 'No Contact')}">
+                <!-- confirmation page text based on SLA or other fields -->
+                <apex:outputText escape="false" value="{!$Label.NoContact_BodyText}" /><br/><br/>
+            </apex:outputPanel>
+
+            <!-- Show this block if the page reason is No Show-->
+            <apex:outputPanel rendered="{!Contains($CurrentPage.parameters.reason, 'No Show')}">
+                <!-- confirmation page text based on SLA or other fields -->
+                <apex:outputText escape="false" value="{!$Label.NoShow_BodyText}" /><br/>
+            </apex:outputPanel>
+       </apex:pageBlock>                    
+
+    </apex:form>
+     
+</apex:page>

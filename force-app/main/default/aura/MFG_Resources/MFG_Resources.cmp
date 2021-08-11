@@ -1,0 +1,22 @@
+<aura:component controller="HirePortal_FAQ_QCP_NSM_Controller">
+    
+    <aura:attribute name="isNSMEnabled" type="Boolean" default="false" />
+    <aura:attribute name="attachments" type="Map" default="{}" /> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />  
+    
+    <aura:if isTrue="{!v.isNSMEnabled}">
+        <h5 class="MuiTypography-root MuiTypography-h5" style="padding-bottom: 8px;">
+            <aura:if isTrue="{!$Locale.language == 'en'}">
+            	Qualified Candidate Profiles
+            </aura:if>
+            <aura:if isTrue="{!$Locale.language == 'Fr'}">
+            	Profils de candidats qualifiés
+            </aura:if>
+        </h5>
+       
+        <aura:iteration items="{!v.attachments}" var="att" indexVar="key"> 
+            <c:MFG_Resources_Item attachmentMap="{!att}" />
+        </aura:iteration>
+    </aura:if>
+</aura:component>

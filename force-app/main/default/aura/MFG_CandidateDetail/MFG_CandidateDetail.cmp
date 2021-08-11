@@ -1,0 +1,1603 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="MFG_CandidateDetailController"
+                >
+    
+    <aura:html tag="style">
+        
+        .MuiIconButton-root {
+        flex: 0 0 auto;
+        color: rgba(0, 0, 0, 0.54);
+        padding: 12px;
+        overflow: visible;
+        font-size: 1.5rem;
+        text-align: center;
+        transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 50%;
+        }
+        .MuiIconButton-root:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiIconButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        background-color: transparent;
+        }
+        @media (hover: none) {
+        .MuiIconButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-edgeStart {
+        margin-left: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeStart {
+        margin-left: -3px;
+        }
+        .MuiIconButton-edgeEnd {
+        margin-right: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeEnd {
+        margin-right: -3px;
+        }
+        .MuiIconButton-colorInherit {
+        color: inherit;
+        }
+        .MuiIconButton-colorPrimary {
+        color: #0047ad;
+        }
+        .MuiIconButton-colorPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-colorSecondary {
+        color: #002b6b;
+        }
+        .MuiIconButton-colorSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-sizeSmall {
+        padding: 3px;
+        font-size: 1.125rem;
+        }
+        .MuiIconButton-label {
+        width: 100%;
+        display: flex;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        
+        .MuiButton-root {
+        color: rgba(0, 0, 0, 0.87);
+        padding: 6px 16px;
+        font-size: 0.875rem;
+        min-width: 64px;
+        box-sizing: border-box;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        border-radius: 4px;
+        text-transform: uppercase;
+        }
+        .MuiButton-root:hover {
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-root:hover.Mui-disabled {
+        background-color: transparent;
+        }
+        .MuiButton-label {
+        width: 100%;
+        display: inherit;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        .MuiButton-text {
+        padding: 6px 8px;
+        }
+        .MuiButton-textPrimary {
+        color: #0047ad;
+        }
+        .MuiButton-textPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-textSecondary {
+        color: #002b6b;
+        }
+        .MuiButton-textSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlined {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        padding: 5px 15px;
+        }
+        .MuiButton-outlined.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButton-outlinedPrimary {
+        color: #0047ad;
+        border: 1px solid rgba(0, 71, 173, 0.5);
+        }
+        .MuiButton-outlinedPrimary:hover {
+        border: 1px solid #0047ad;
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlinedSecondary {
+        color: #002b6b;
+        border: 1px solid rgba(0, 43, 107, 0.5);
+        }
+        .MuiButton-outlinedSecondary:hover {
+        border: 1px solid #002b6b;
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        .MuiButton-outlinedSecondary.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-contained {
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        .MuiButton-contained:hover {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        background-color: #d5d5d5;
+        }
+        .MuiButton-contained.Mui-focusVisible {
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained:active {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        @media (hover: none) {
+        .MuiButton-contained:hover {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        }
+        .MuiButton-contained:hover.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-containedPrimary {
+        color: #fff;
+        background-color: #0047ad;
+        }
+        .MuiButton-containedPrimary:hover {
+        background-color: rgb(0, 49, 121);
+        }
+        @media (hover: none) {
+        .MuiButton-containedPrimary:hover {
+        background-color: #0047ad;
+        }
+        }
+        .MuiButton-containedSecondary {
+        color: #fff;
+        background-color: #002b6b;
+        }
+        .MuiButton-containedSecondary:hover {
+        background-color: rgb(0, 30, 74);
+        }
+        @media (hover: none) {
+        .MuiButton-containedSecondary:hover {
+        background-color: #002b6b;
+        }
+        }
+        .MuiButton-colorInherit {
+        color: inherit;
+        border-color: currentColor;
+        }
+        .MuiButton-textSizeSmall {
+        padding: 4px 5px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-textSizeLarge {
+        padding: 8px 11px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-outlinedSizeSmall {
+        padding: 3px 9px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-outlinedSizeLarge {
+        padding: 7px 21px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-containedSizeSmall {
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-containedSizeLarge {
+        padding: 8px 22px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-fullWidth {
+        width: 100%;
+        }
+        .MuiButton-startIcon {
+        display: inherit;
+        margin-left: -4px;
+        margin-right: 8px;
+        }
+        .MuiButton-endIcon {
+        display: inherit;
+        margin-left: 8px;
+        margin-right: -4px;
+        }
+        .MuiButton-iconSizeSmall>*:first-child {
+        font-size: 18px;
+        }
+        .MuiButton-iconSizeMedium>*:first-child {
+        font-size: 20px;
+        }
+        .MuiButton-iconSizeLarge>*:first-child {
+        font-size: 22px;
+        }
+        
+        .jss759 {
+        margin: 0 auto;
+        padding: 16px;
+        max-width: 1300px;
+        min-height: 500px;
+        padding-bottom: 200px;
+        }
+        @media (max-width:959.95px) {
+        .jss759 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss759 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        .jss760 {
+        color: #0047ae;
+        margin: 0;
+        font-size: 3em;
+        font-family: glober, helvetica, sans-serif;
+        font-weight: 300;
+        margin-bottom: 12px;
+        }
+        @media (max-width:959.95px) {
+        .jss760 {
+        font-size: 2.5em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss760 {
+        font-size: 2em;
+        }
+        }
+        .jss761 {
+        display: flex;
+        }
+        @media (max-width:599.95px) {
+        .jss761 {
+        flex-flow: column-reverse;
+        }
+        }
+        .jss762 {
+        flex: 1;
+        width: 50%;
+        text-align: right;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss762 {
+        width: 100%;
+        }
+        }
+        .jss763 {
+        flex: 1;
+        width: 50%;
+        text-align: left;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss763 {
+        width: 100%;
+        }
+        }
+        
+        @media print {
+        .MuiDialog-root {
+        position: absolute !important;
+        }
+        }
+        .MuiDialog-scrollPaper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        .MuiDialog-scrollBody {
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align: center;
+        }
+        .MuiDialog-scrollBody:after {
+        width: 0;
+        height: 100%;
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        }
+        .MuiDialog-container {
+        height: 100%;
+        outline: 0;
+        }
+        @media print {
+        .MuiDialog-container {
+        height: auto;
+        }
+        }
+        .MuiDialog-paper {
+        margin: 48px;
+        position: relative;
+        overflow-y: auto;
+        }
+        @media print {
+        .MuiDialog-paper {
+        box-shadow: none;
+        overflow-y: visible;
+        }
+        }
+        .MuiDialog-paperScrollPaper {
+        display: flex;
+        max-height: calc(100% - 96px);
+        flex-direction: column;
+        }
+        .MuiDialog-paperScrollBody {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+        }
+        .MuiDialog-paperWidthFalse {
+        max-width: calc(100% - 96px);
+        }
+        .MuiDialog-paperWidthXs {
+        max-width: 444px;
+        }
+        @media (max-width:539.95px) {
+        .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperWidthSm {
+        max-width: 600px;
+        }
+        @media (max-width:695.95px) {
+        .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperWidthMd {
+        max-width: 960px;
+        }
+        @media (max-width:1055.95px) {
+        .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperWidthLg {
+        max-width: 1280px;
+        }
+        @media (max-width:1375.95px) {
+        .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperWidthXl {
+        max-width: 1920px;
+        }
+        @media (max-width:2015.95px) {
+        .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 96px);
+        }
+        }
+        .MuiDialog-paperFullWidth {
+        width: calc(100% - 96px);
+        }
+        .MuiDialog-paperFullScreen {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        max-width: 100%;
+        max-height: none;
+        border-radius: 0;
+        }
+        .MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+        margin: 0;
+        max-width: 100%;
+        }
+        
+        .MuiLink-underlineNone {
+        text-decoration: none;
+        }
+        .MuiLink-underlineHover {
+        text-decoration: none;
+        }
+        .MuiLink-underlineHover:hover {
+        text-decoration: underline;
+        }
+        .MuiLink-underlineAlways {
+        text-decoration: underline;
+        }
+        .MuiLink-button {
+        border: 0;
+        cursor: pointer;
+        margin: 0;
+        outline: 0;
+        padding: 0;
+        position: relative;
+        user-select: none;
+        border-radius: 0;
+        vertical-align: middle;
+        -moz-appearance: none;
+        background-color: transparent;
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        }
+        .MuiLink-button::-moz-focus-inner {
+        border-style: none;
+        }
+        .MuiLink-button.Mui-focusVisible {
+        outline: auto;
+        }
+        
+        .MuiCollapse-container {
+        height: 0;
+        overflow: hidden;
+        transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiCollapse-entered {
+        height: auto;
+        overflow: visible;
+        }
+        .MuiCollapse-hidden {
+        visibility: hidden;
+        }
+        .MuiCollapse-wrapper {
+        display: flex;
+        }
+        .MuiCollapse-wrapperInner {
+        width: 100%;
+        }
+        
+        .MuiExpansionPanel-root {
+        position: relative;
+        transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanel-root:before {
+        top: -1px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        content: "";
+        opacity: 1;
+        position: absolute;
+        transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiExpansionPanel-root.Mui-expanded {
+        margin: 16px 0;
+        }
+        .MuiExpansionPanel-root.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiExpansionPanel-root.Mui-expanded+.MuiExpansionPanel-root:before {
+        display: none;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:first-child {
+        margin-top: 0;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:last-child {
+        margin-bottom: 0;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:before {
+        opacity: 0;
+        }
+        .MuiExpansionPanel-root:first-child:before {
+        display: none;
+        }
+        .MuiExpansionPanel-rounded {
+        border-radius: 0;
+        }
+        .MuiExpansionPanel-rounded:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        }
+        .MuiExpansionPanel-rounded:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        }
+        @supports (-ms-ime-align: auto) {
+        .MuiExpansionPanel-rounded:last-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        }
+        }
+        
+        .MuiExpansionPanelDetails-root {
+        display: flex;
+        padding: 8px 24px 24px;
+        }
+        
+        .MuiExpansionPanelSummary-root {
+        display: flex;
+        padding: 0 24px 0 24px;
+        min-height: 48px;
+        transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-root:hover:not(.Mui-disabled) {
+        cursor: pointer;
+        }
+        .MuiExpansionPanelSummary-root.Mui-expanded {
+        min-height: 64px;
+        }
+        .MuiExpansionPanelSummary-root.Mui-focused {
+        background-color: #e0e0e0;
+        }
+        .MuiExpansionPanelSummary-root.Mui-disabled {
+        opacity: 0.38;
+        }
+        .MuiExpansionPanelSummary-content {
+        margin: 12px 0;
+        display: flex;
+        flex-grow: 1;
+        transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-content.Mui-expanded {
+        margin: 20px 0;
+        }
+        .MuiExpansionPanelSummary-expandIcon {
+        transform: rotate(0deg);
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-expandIcon:hover {
+        background-color: transparent;
+        }
+        .MuiExpansionPanelSummary-expandIcon.Mui-expanded {
+        transform: rotate(180deg);
+        }
+        
+        .jss905 {
+        flex: 1;
+        display: flex;
+        min-width: 330px;
+        padding-right: 4px;
+        padding-bottom: 4px;
+        }
+        .jss906 {
+        border-bottom: solid 1px #bbb;
+        }
+        .jss907 {
+        font-weight: 700;
+        }
+        
+        .jss900 {
+        width: 100%;
+        display: flex;
+        }
+        .jss901 {
+        flex: 1;
+        margin: 0;
+        font-size: 1.6em;
+        font-family: din, helvetica, sans-serif;
+        font-weight: 500;
+        }
+        @media (max-width:959.95px) {
+        .jss901 {
+        font-size: 1.3em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss901 {
+        font-size: 1.1em;
+        }
+        }
+        .jss901 span {
+        font-weight: 300;
+        }
+        .jss903 {
+        color: #0047ad;
+        line-height: 2em;
+        }
+        .jss904 {
+        margin: 5px;
+        }
+        
+        .MuiInputBase-root {	
+        color: rgba(0, 0, 0, 0.87);	
+        cursor: text;	
+        display: inline-flex;	
+        position: relative;	
+        font-size: 1rem;	
+        box-sizing: border-box;	
+        align-items: center;	
+        font-family: din, Helvetica, Arial sans-serif;	
+        line-height: 1.1875em;	
+        }	
+        .MuiInputBase-root.Mui-disabled {	
+        color: rgba(0, 0, 0, 0.38);	
+        cursor: default;	
+        }	
+        .MuiInputBase-multiline {	
+        padding: 6px 0 7px;	
+        }	
+        .MuiInputBase-multiline.MuiInputBase-marginDense {	
+        padding-top: 3px;	
+        }	
+        .MuiInputBase-fullWidth {	
+        width: 100%;	
+        }	
+        .MuiInputBase-input {	
+        font: inherit;	
+        color: currentColor;	
+        width: 100%;	
+        border: 0;	
+        height: 1.1875em;	
+        margin: 0;	
+        display: block;	
+        padding: 6px 0 7px;	
+        min-width: 0;	
+        background: none;	
+        box-sizing: content-box;	
+        animation-name: MuiInputBase-keyframes-auto-fill-cancel;	
+        -webkit-tap-highlight-color: transparent;	
+        }	
+        .MuiInputBase-input::-webkit-input-placeholder {	
+        color: currentColor;	
+        opacity: 0.42;	
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;	
+        }	
+        .MuiInputBase-input::-moz-placeholder {	
+        color: currentColor;	
+        opacity: 0.42;	
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;	
+        }	
+        .MuiInputBase-input:-ms-input-placeholder {	
+        color: currentColor;	
+        opacity: 0.42;	
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;	
+        }	
+        .MuiInputBase-input::-ms-input-placeholder {	
+        color: currentColor;	
+        opacity: 0.42;	
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;	
+        }	
+        .MuiInputBase-input:focus {	
+        outline: 0;	
+        }	
+        .MuiInputBase-input:invalid {	
+        box-shadow: none;	
+        }	
+        .MuiInputBase-input::-webkit-search-decoration {	
+        -webkit-appearance: none;	
+        }	
+        .MuiInputBase-input.Mui-disabled {	
+        opacity: 1;	
+        }	
+        .MuiInputBase-input:-webkit-autofill {	
+        animation-name: MuiInputBase-keyframes-auto-fill;	
+        animation-duration: 5000s;	
+        }	
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-webkit-input-placeholder {	
+        opacity: 0 !important;	
+        }	
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-moz-placeholder {	
+        opacity: 0 !important;	
+        }	
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:-ms-input-placeholder {	
+        opacity: 0 !important;	
+        }	
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-ms-input-placeholder {	
+        opacity: 0 !important;	
+        }	
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-webkit-input-placeholder {	
+        opacity: 0.42;	
+        }	
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-moz-placeholder {	
+        opacity: 0.42;	
+        }	
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus:-ms-input-placeholder {	
+        opacity: 0.42;	
+        }	
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-ms-input-placeholder {	
+        opacity: 0.42;	
+        }	
+        @-webkit-keyframes MuiInputBase-keyframes-auto-fill {}	
+        @-webkit-keyframes MuiInputBase-keyframes-auto-fill-cancel {}	
+        .MuiInputBase-inputMarginDense {	
+        padding-top: 3px;	
+        }	
+        .MuiInputBase-inputSelect {	
+        padding-right: 24px;	
+        }	
+        .MuiInputBase-inputMultiline {	
+        height: auto;	
+        resize: none;	
+        padding: 0;	
+        }	
+        .MuiInputBase-inputTypeSearch {	
+        -moz-appearance: textfield;	
+        -webkit-appearance: textfield;	
+        }	
+        
+        .MuiFilledInput-root {	
+        position: relative;	
+        transition: background-color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;	
+        background-color: rgba(0, 0, 0, 0.09);	
+        border-top-left-radius: 4px;	
+        border-top-right-radius: 4px;	
+        }	
+        .MuiFilledInput-root:hover {	
+        background-color: rgba(0, 0, 0, 0.13);	
+        }	
+        .MuiFilledInput-root.Mui-focused {	
+        background-color: rgba(0, 0, 0, 0.09);	
+        }	
+        .MuiFilledInput-root.Mui-disabled {	
+        background-color: rgba(0, 0, 0, 0.12);	
+        }	
+        @media (hover: none) {	
+        .MuiFilledInput-root:hover {	
+        background-color: rgba(0, 0, 0, 0.09);	
+        }	
+        }	
+        .MuiFilledInput-underline:after {	
+        left: 0;	
+        right: 0;	
+        bottom: 0;	
+        content: "";	
+        position: absolute;	
+        transform: scaleX(0);	
+        transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;	
+        border-bottom: 2px solid rgb(0, 49, 121);	
+        pointer-events: none;	
+        }	
+        .MuiFilledInput-underline.Mui-focused:after {	
+        transform: scaleX(1);	
+        }	
+        .MuiFilledInput-underline.Mui-error:after {	
+        transform: scaleX(1);	
+        border-bottom-color: #f44336;	
+        }	
+        .MuiFilledInput-underline:before {	
+        left: 0;	
+        right: 0;	
+        bottom: 0;	
+        content: "\00a0";	
+        position: absolute;	
+        transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;	
+        border-bottom: 1px solid rgba(0, 0, 0, 0.42);	
+        pointer-events: none;	
+        }	
+        .MuiFilledInput-underline:hover:before {	
+        border-bottom: 1px solid rgba(0, 0, 0, 0.87);	
+        }	
+        .MuiFilledInput-underline.Mui-disabled:before {	
+        border-bottom-style: dotted;	
+        }	
+        .MuiFilledInput-adornedStart {	
+        padding-left: 12px;	
+        }	
+        .MuiFilledInput-adornedEnd {	
+        padding-right: 12px;	
+        }	
+        .MuiFilledInput-multiline {	
+        padding: 27px 12px 10px;	
+        }	
+        .MuiFilledInput-multiline.MuiFilledInput-marginDense {	
+        padding-top: 23px;	
+        padding-bottom: 6px;	
+        }	
+        .MuiFilledInput-input {	
+        padding: 27px 12px 10px;	
+        }	
+        .MuiFilledInput-inputMarginDense {	
+        padding-top: 23px;	
+        padding-bottom: 6px;	
+        }	
+        .MuiFilledInput-inputHiddenLabel {	
+        padding-top: 18px;	
+        padding-bottom: 19px;	
+        }	
+        .MuiFilledInput-inputHiddenLabel.MuiFilledInput-inputMarginDense {	
+        padding-top: 10px;	
+        padding-bottom: 11px;	
+        }	
+        .MuiFilledInput-inputSelect {	
+        padding-right: 24px;	
+        }	
+        .MuiFilledInput-inputMultiline {	
+        padding: 0;	
+        }	
+        .MuiFilledInput-inputAdornedStart {	
+        padding-left: 0;	
+        }	
+        .MuiFilledInput-inputAdornedEnd {	
+        padding-right: 0;	
+        }	
+        
+        .MuiSelect-select {	
+        cursor: pointer;	
+        min-width: 16px;	
+        user-select: none;	
+        border-radius: 0;	
+        -moz-appearance: none;	
+        -webkit-appearance: none;	
+        }	
+        .MuiSelect-select:focus {	
+        border-radius: 0;	
+        background-color: rgba(0, 0, 0, 0.05);	
+        }	
+        .MuiSelect-select::-ms-expand {	
+        display: none;	
+        }	
+        .MuiSelect-select.Mui-disabled {	
+        cursor: default;	
+        }	
+        .MuiSelect-select[multiple] {	
+        height: auto;	
+        }	
+        .MuiSelect-select:not([multiple]) option,	
+        .MuiSelect-select:not([multiple]) optgroup {	
+        background-color: #fff;	
+        }	
+        .MuiSelect-outlined {	
+        border-radius: 4px;	
+        }	
+        .MuiSelect-selectMenu {	
+        height: auto;	
+        overflow: hidden;	
+        white-space: nowrap;	
+        text-overflow: ellipsis;	
+        }	
+        .MuiSelect-icon {	
+        top: calc(50% - 12px);	
+        color: rgba(0, 0, 0, 0.54);	
+        right: 0;	
+        position: absolute;	
+        pointer-events: none;	
+        }	
+        .MuiSelect-iconFilled {	
+        right: 7px;	
+        }	
+        .MuiSelect-iconOutlined {	
+        right: 7px;	
+        }	
+        
+        .MuiFormControl-root {	
+        border: 0;	
+        margin: 0;	
+        display: inline-flex;	
+        padding: 0;	
+        position: relative;	
+        min-width: 0;	
+        flex-direction: column;	
+        vertical-align: top;	
+        }	
+        .MuiFormControl-marginNormal {	
+        margin-top: 16px;	
+        margin-bottom: 8px;	
+        }	
+        .MuiFormControl-marginDense {	
+        margin-top: 8px;	
+        margin-bottom: 4px;	
+        }	
+        .MuiFormControl-fullWidth {	
+        width: 100%;	
+        }	
+        .jss599 {	
+        padding: 12px 8px;	
+        }
+        
+        
+        .uiInput--input .input, .uiInput--input.input {
+        background-color: rgba(0, 0, 0, 0.09) !important;
+        width: -webkit-fill-available !important;
+        height: 43px !important;
+        border-top-left-radius: 0.25rem !important;
+        border-top-right-radius: 0.25rem !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important; 
+        
+        display: inline-block;
+        line-height: 1.875rem;
+        border-width: 0px;
+        border-style: solid;
+        border-image: initial;
+        transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+        padding: 0px 1rem 0px 0.75rem;
+        background-color: rgb(255, 255, 255);
+        box-shadow: unset !important;
+        outline: 0px;
+        border-color: rgba(0, 0, 0, 0.09) !important;
+        }
+        .uiInput--datetime .datePicker-openIcon {
+        bottom: 12px !important;
+        }
+        .uiInput--datetime .timePicker-openIcon {
+        bottom: 12px !important;
+        }
+        .form-element{
+        border-bottom: 1px solid !important;
+        }
+        
+        .uiInput--select.select, 
+        .uiInput--select .select, 
+        .uiInput--select .uiPopupTrigger a {
+        
+        background-color: rgba(0, 0, 0, 0.09) !important;
+        height: 43px !important;
+        color: rgb(51, 51, 51);
+        width: 100%;
+        border-width: 0;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.09);
+        border-image: initial;
+        border-radius: 0.25rem;
+        transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+        } 
+        .required{
+        display:none;
+        } 
+        .slds-textarea {
+        min-height: 130px;
+        background-color: #d3d3d3 !important;
+        width: -webkit-fill-available !important;
+        
+        border-top-left-radius: 0.25rem !important;
+        border-top-right-radius: 0.25rem !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        display: inline-block;
+        line-height: 1.5;
+        border-width: 0px;
+        border-style: solid;
+        border-image: initial;
+        transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+        padding: 0px 1rem 0px 0.75rem;
+        background-color: #d3d3d3
+        box-shadow: unset !important;
+        outline: 0px;
+        border-bottom: 1px solid black !important;
+        font-weight: 400;
+        
+        } 
+        .slds-form-element__label{
+        text-transform: uppercase;
+        }
+        
+    </aura:html>
+    
+ <aura:attribute name="allowedFieldOptions" type="String"/>    
+  
+    
+    <aura:attribute name="recruiterSumm" type="Boolean" default="true" access="global"/>
+    <aura:attribute name="workHistory" type="Boolean" default="false" access="global"/>
+    
+    <aura:attribute name="historyback" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="updateStatusRating" type="Boolean" default="false" access="global"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    
+    <aura:attribute name="candidate" type="Object"/>
+    <aura:attribute name="status" type="String"/>
+    
+    <aura:attribute name="candidateLoadError" type="String"/>
+    <aura:attribute name="candidateIsLoaded" type="Boolean" default="false"/>
+    <aura:attribute name="fieldOptions" type="Object"/>
+     <aura:attribute name="language" type="String"/>
+    <aura:attribute name="RejectionReasonTest" type="String" default="{!v.candidate.Rejection_Reason_for__c}" />
+     
+    <div class="">
+        <div class="jss759">
+            <div>
+                <button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary" 
+                        tabindex="0"
+                        type="button"
+                        onclick="{!c.returnToListView}">
+                    <span class="MuiButton-label">
+                        <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JDReturn.svg#JDReturn'}"
+                                          class="MuiSvgIcon-root" 
+                                          focusable="false" 
+                                          viewBox="0 0 24 24" 
+                                          ariahidden="true" 
+                                          role="presentation" 
+                                          style="padding-right: 8px;" />
+                        
+                        <aura:if isTrue="{!v.candidate.SFDC_Job__r.RecordType.DeveloperName == 'FGL_Sports'}">
+                            {!$Label.c.MFG_Job}:  {!v.candidate.SFDC_Job__r.Job_Title_for_Banner__c} -  {!v.candidate.SFDC_Job__r.Name}
+                            <aura:set attribute="else">
+                                {!$Label.c.MFG_Job}:  {!v.candidate.SFDC_Job__r.Job_Title_for_Role__c} -  {!v.candidate.SFDC_Job__r.Name}
+                            </aura:set>
+                   		</aura:if>                        
+                    </span>
+                    <span class="MuiTouchRipple-root"></span>
+                </button>
+            </div>
+            <h2 class="jss760" style="margin-bottom: 0px;">{!$Label.c.MFG_Candidate}: {!v.candidate.Candidate_Complete_Name__c} </h2>
+            <div class="jss761">
+                <div class="jss763">
+                    <div>
+                        <button class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+                                tabindex="0" type="button" style="margin-right: 8px;" onclick="{!c.viewResume}" data-value="{!v.candidate.View_Candidate_Resume__c }">
+                            <span class="MuiButton-label">{!$Label.c.MFG_View_Resume}</span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                        <button  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary" tabindex="0"
+                                type="button" style="margin-right: 8px;" onclick="{!c.viewPhoneScreen}" data-value="{!v.candidate.View_Candidate_Phone_Screen__c }">
+                            <span class="MuiButton-label">{!$Label.c.MFG_View_Phone_Screen}</span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                    </div>
+                </div>
+                
+            
+                <aura:if isTrue="{!v.candidate}">
+                <aura:if isTrue="{! if( and(v.candidate.Status__c!='Hired', v.candidate.Status__c!='Rejected'),true,false )}">
+                    <div class="jss762">
+                        <div>
+                            <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+                                    tabindex="0" type="button" style="margin-right: 8px;" onclick="{!c.updateStatusRating}">
+                                <span class="MuiButton-label">
+                                    <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/updateStatusRatingIcon.svg#updateStatusRatingIcon'}"
+                                                      class="MuiSvgIcon-root" 
+                                                      focusable="false" 
+                                                      viewBox="0 0 24 24" 
+                                                      ariahidden="true" 
+                                                      role="presentation" 
+                                                      style="padding-right: 8px;" />
+                                        {!$Label.c.MFG_Update_Status_Rating}
+                                </span>
+                                <span class="MuiTouchRipple-root"></span>
+                            </button>
+                        </div>
+                    </div>
+                </aura:if>
+                </aura:if>
+            </div>
+            <div class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded" style="padding: 16px; margin-bottom: 16px;">
+                <div style="display: flex; flex-flow: row wrap;">
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Job}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                <a onclick="{!c.goToJob}" style="color:black" data-value="{!v.candidate.SFDC_Job__c}">
+                                    <aura:if isTrue="{!v.candidate.SFDC_Job__r.RecordType.DeveloperName == 'FGL_Sports'}">
+                                        {!v.candidate.SFDC_Job__r.Name} - {!v.candidate.SFDC_Job__r.Job_Title_for_Banner__c}
+                                        <aura:set attribute="else">
+                                            {!v.candidate.SFDC_Job__r.Name} - {!v.candidate.SFDC_Job__r.Job_Title_for_Role__c}
+                                        </aura:set>
+                                    </aura:if>
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Scheduled_Interview}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                <aura:if isTrue="{!v.candidate.Scheduled_Interview_Date_Time__c}">
+                                    <div style="display: inline-flex;">
+                                        <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/scheduledInterviewIcon.svg#scheduledInterviewIcon'}"
+                                                          class="MuiSvgIcon-root" 
+                                                          focusable="false" 
+                                                          viewBox="0 0 24 24" 
+                                                          ariahidden="true" 
+                                                          role="presentation" 
+                                                          style="padding-right: 4px;" />
+                                        <span>
+                                            <lightning:formattedDateTime value="{!v.candidate.Scheduled_Interview_Date_Time__c}" 
+                                                                         month="short" 
+                                                                         day="numeric"
+                                                                         hour="numeric" 
+                                                                         minute="numeric" 
+                                                                         timeZone="America/Los_Angeles"
+                                                                         />
+                                            
+                                        </span>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div style="display: inline-flex; color: rgb(221, 221, 221);">
+                                            
+                                            <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/scheduledInterviewIcon.svg#scheduledInterviewIcon'}"
+                                                              class="MuiSvgIcon-root" 
+                                                              focusable="false" 
+                                                              viewBox="0 0 24 24" 
+                                                              ariahidden="true" 
+                                                              role="presentation" 
+                                                              style="padding-right: 4px;" />
+                                            <span>{!$Label.c.MFG_NOT_SCHEDULED}</span>
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; flex-flow: row wrap;">
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Status}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                
+                                
+                                
+                                <aura:if isTrue="{! v.candidate.Status__c!='Hired' &amp;&amp;  v.candidate.Status__c!='Rejected' &amp;&amp; v.candidate.Status__c!='Offer Accepted'}">
+                                    <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/OUTSTANDINGIcon.svg#OUTSTANDINGIcon'}"
+                                                      class="MuiSvgIcon-root" 
+                                                      focusable="false" 
+                                                      viewBox="0 0 24 24" 
+                                                      ariahidden="true" 
+                                                      role="presentation" 
+                                                      style="padding-right: 4px;" />
+                                    <span>{!$Label.c.MFG_OUTSTANDING_CANDIDATE}</span>
+
+                                    <aura:set attribute="else">
+                                        
+                                        <aura:if isTrue="{!v.candidate.Status__c=='Rejected'}">
+                                            
+                                            <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCRejected.svg#JCRejected'}"
+                                                              class="MuiSvgIcon-root" 
+                                                              focusable="false" 
+                                                              viewBox="0 0 24 24" 
+                                                              ariahidden="true" 
+                                                              role="presentation" 
+                                                              style="padding-right: 4px;" />
+                                            <span>{!$Label.c.MFG_Rejected}</span>
+                                            <aura:set attribute="else">
+                                                
+                                                <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/JCAccepted.svg#JCAccepted'}"
+                                                                  class="MuiSvgIcon-root" 
+                                                                  focusable="false" 
+                                                                  viewBox="0 0 24 24" 
+                                                                  ariahidden="true" 
+                                                                  role="presentation" 
+                                                                  style="padding-right: 4px;" />
+                                                <span>{!$Label.c.MFG_OFFER_ACCEPTED} </span>
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                        
+                                    </aura:set>
+                                    
+                                </aura:if>
+                                
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                     <aura:if isTrue="{! if(v.candidate.Status__c!='No Show for Interview',true,false)}">
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Rating}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                <span style="">
+                                    <aura:if isTrue="{!v.candidate}">
+                                     <c:MFG_JobCandidateRating rating="{!v.candidate.Candidate_Rating__c}"/>
+                                    </aura:if>
+                                   
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    </aura:if>
+                </div>
+                
+                
+                <aura:if isTrue="{!not(empty(v.candidate.Rejection_Reason_for__c))}">  
+                               <div class="jss905">
+                                    <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                        <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Rejection_Reason}</div>
+                                        <div class="MuiTypography-root MuiTypography-body1"
+                                             style="width: 100%; display: inline-flex; font-weight: 700;">
+                                            <a class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                                               href="{! 'mailto:'+ v.candidate.Candidate_Email__c}">
+                                                {!v.candidate.Rejection_Reason_for__c}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                               </aura:if> 
+                
+                
+            </div>
+            <div class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded" style="padding: 16px; margin-bottom: 16px;">
+                <div style="display: flex; flex-flow: row wrap;">
+                    <!--div style="flex: 1 1 50px; min-width: 266px; max-width: 266px; padding-right: 16px;">
+                        <div style="border: 1px solid rgb(238, 238, 238); width: 250px; height: 250px; border-radius: 10px; margin: 0px auto; background: rgb(249, 249, 249);">
+                            <c:MFG_MuiSvgIcon svgPath="{!$Resource.MindfieldHirePortal + '/CandidateFoto_large.svg#CandidateFoto_large'}"
+                                              class="MuiSvgIcon-root" 
+                                              focusable="false" 
+                                              viewBox="0 0 24 24" 
+                                              ariahidden="true" 
+                                              role="presentation" 
+                                              style="color: rgb(204, 204, 204); width: 250px; height: 250px;" />
+                        </div>
+                    </div-->
+                    <div style="flex: 1 1 400px; display: flex; flex-flow: wrap;">
+                        <div style="flex: 1 1 0%; min-width: 350px;">
+                            <div>
+                                <div class="jss905">
+                                    <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                        <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Name}</div>
+                                        <div class="MuiTypography-root MuiTypography-body1"
+                                             style="width: 100%; display: inline-flex; font-weight: 700;">
+                                            {!v.candidate.Candidate_Complete_Name__c}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="jss905">
+                                    <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                        <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Phone}</div>
+                                        <div class="MuiTypography-root MuiTypography-body1"
+                                             style="width: 100%; display: inline-flex; font-weight: 700;">
+                                            <lightning:formattedPhone value="{!v.candidate.Secondary_Phone_Number__c}"></lightning:formattedPhone>
+                                            <!--                                        {!v.candidate.Phone_Number__c}-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="jss905">
+                                    <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                        <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Email}</div>
+                                        <div class="MuiTypography-root MuiTypography-body1"
+                                             style="width: 100%; display: inline-flex; font-weight: 700;">
+                                            <a class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                                               href="{! 'mailto:'+ v.candidate.Candidate_Email__c}">
+                                                {!v.candidate.Candidate_Email__c}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                               
+                               
+                            
+                               
+                            </div>
+                        </div>
+                        <div style="flex: 1 1 0%; min-width: 350px;">
+                            <div>
+                                <div class="jss905">
+                                    <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                        <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Address}</div>
+                                        <div class="MuiTypography-root MuiTypography-body1"
+                                             style="width: 100%; display: inline-flex; font-weight: 700;">
+                                            {!v.candidate.Candidate_Address__c}<br/>
+                                            {!v.candidate.Candidate_City__c}<br/>
+                                            {!v.candidate.Candidate_Province_State__c}<br/>
+                                            {!v.candidate.Candidate_Country__c}<br/>
+                                            {!v.candidate.Candidate_Postal_Zip_Code__c}<br/>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; padding: 8px;">
+                <div style="font-size: 1.8em; font-weight: 300; font-style: italic; text-align: center; padding: 8px;">
+                    <!-- Energetic Loyal Golf Enthusiast, Golf Town would be a dream job!-->
+                    
+                </div>
+            </div>
+            
+            
+            
+            <div class="{! if(v.recruiterSumm,
+                        'MuiPaper-root MuiPaper-elevation1 MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-rounded Mui-expanded jss111',
+                        'MuiPaper-root MuiPaper-elevation1 MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-rounded')}">
+                
+                <div class="{! if(v.recruiterSumm,
+                            'MuiButtonBase-root MuiExpansionPanelSummary-root Mui-expanded',
+                            'MuiButtonBase-root MuiExpansionPanelSummary-root'
+                            )}" 
+                     tabindex="0" 
+                     role="button"
+                     aria-disabled="false" aria-expanded="false" aria-controls="panel1c-content" id="panel1c-header" onclick="{!c.recruiterSummShow}">
+                    <div class="MuiExpansionPanelSummary-content">
+                        <div class="jss900">
+                            <h5 class="MuiTypography-root jss901 MuiTypography-h5">{!$Label.c.MFG_Recruiter_Summary}</h5>
+                            <div class="jss903">{!$Label.c.MFG_View_Details}</div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="MuiButtonBase-root MuiIconButton-root MuiExpansionPanelSummary-expandIcon MuiIconButton-edgeEnd"
+                         tabindex="-1" role="button" aria-disabled="false" aria-hidden="true">
+                        <span class="MuiIconButton-label">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/JDAssets/Collapsehidden.svg#Collapsehidden'}" size="small" />
+                        </span>
+                        <span class="MuiTouchRipple-root"></span>
+                    </div>
+                </div>
+                
+                <div class="{! if(v.recruiterSumm,
+                            'MuiCollapse-container MuiCollapse-entered',
+                            'MuiCollapse-container MuiCollapse-hidden')}" 
+                     style="min-height: 0px;">
+                    <div class="MuiCollapse-wrapper">
+                        <div class="MuiCollapse-wrapperInner">
+                            <div aria-labelledby="panel1c-header" id="panel1c-content" role="region">
+                                <div class="MuiExpansionPanelDetails-root">
+                                    {!v.candidate.Recruiter_Summary_on_Candidate__c}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <!--div class="{! if(v.workHistory,
+                        'MuiPaper-root MuiPaper-elevation1 MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-rounded Mui-expanded jss111',
+                        'MuiPaper-root MuiPaper-elevation1 MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-rounded')}">
+                
+                <div class="{! if(v.workHistory,
+                            'MuiButtonBase-root MuiExpansionPanelSummary-root Mui-expanded',
+                            'MuiButtonBase-root MuiExpansionPanelSummary-root'
+                            )}" 
+                     tabindex="0" 
+                     role="button"
+                     aria-disabled="false" aria-expanded="false" aria-controls="panel1c-content" id="panel1c-header" onclick="{!c.workHistoryShow}">
+                    <div class="MuiExpansionPanelSummary-content">
+                        <div class="jss900">
+                            <h5 class="MuiTypography-root jss901 MuiTypography-h5">Work History</h5>
+                            <div class="jss903">View Details</div>
+                        </div>
+                    </div>
+                   
+                    
+                    <div class="MuiButtonBase-root MuiIconButton-root MuiExpansionPanelSummary-expandIcon MuiIconButton-edgeEnd"
+                         tabindex="-1" role="button" aria-disabled="false" aria-hidden="true">
+                        <span class="MuiIconButton-label">
+                            <c:svgIcon svgPath="/sfsites/c/resource/MindfieldHirePortal/JDAssets/Collapsehidden.svg#Collapsehidden" size="small" />
+                        </span>
+                        <span class="MuiTouchRipple-root"></span>
+                    </div>
+                </div>
+                
+                <div class="{! if(v.workHistory,
+                            'MuiCollapse-container MuiCollapse-entered',
+                            'MuiCollapse-container MuiCollapse-hidden')}" 
+                     style="min-height: 0px;">
+                    <div class="MuiCollapse-wrapper">
+                        <div class="MuiCollapse-wrapperInner">
+                            <div aria-labelledby="panel1c-header" id="panel1c-content" role="region">
+                                <div class="MuiExpansionPanelDetails-root">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div--> 
+            
+        </div>
+    </div>
+    
+    
+    <aura:if isTrue="{!v.updateStatusRating}">
+        
+        
+        
+        <div role="presentation" 
+             class="MuiDialog-root" 
+             aria-labelledby="form-dialog-title" 
+             style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;">
+            <div class="MuiBackdrop-root"
+                 aria-hidden="true"
+                 style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;">
+            </div>
+            <div tabindex="0" data-test="sentinelStart"></div>
+            <div class="MuiDialog-container MuiDialog-scrollPaper" 
+                 role="none presentation" 
+                 tabindex="-1"
+                 style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;">
+                <div class="MuiPaper-root MuiPaper-elevation24 MuiDialog-paper jss904 MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiPaper-rounded"
+                     role="dialog">
+                    <div class="MuiDialogTitle-root" id="form-dialog-title">
+                        <h2 class="MuiTypography-root MuiTypography-h6">{!$Label.c.MFG_Update_Status_Rating}</h2>
+                    </div>
+                    
+                    
+                    
+                    <div class="MuiDialogContent-root">
+                        <div style="flex: 1 1 0%; max-width: 700px; display: flex; flex-flow: column wrap;">
+                            <div style="flex: 1 1 0%; display: block; flex-flow: row wrap;">
+                                <div class="jss905">
+                                    <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                        <div class="MuiTypography-root MuiTypography-overline">
+                                             <abbr lightning-combobox_combobox="" title="required" class="slds-required">*</abbr>
+                                            {!$Label.c.MFG_Status}</div>
+                                        <div class="MuiTypography-root MuiTypography-body1"
+                                             style="width: 100%; display: inline-flex; font-weight: 700;">
+                                            <div class="MuiFormControl-root MuiTextField-root jss1074 MuiFormControl-fullWidth">
+                                                <div class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-fullWidth MuiInputBase-formControl">
+                                                    <ui:inputSelect class="MuiSelect-root MuiSelect-select MuiSelect-filled MuiInputBase-input MuiFilledInput-input 
+                                                                           jss112 MuiInputBase-inputSelect MuiFilledInput-inputSelect"
+                                                                    required="true"
+                                                                    value="{!v.candidate.Status__c}" 
+                                                                    change="{!c.handleStatusChange}"
+                                                                    aura:id="MFG_Status"
+                                                                    >
+                                                        <ui:inputSelectOption text="" label="--"  />
+                                                        <aura:iteration items="{!v.fieldOptions.statusOptions}" var="option">
+                                                            <ui:inputSelectOption text="{!option.value}"  
+                                                                                  label="{!if(v.language=='fr',option.label_fr,option.label)}" 
+                                                                                  value="{! if(v.candidate.Status__c==option.value,true,false)}"/>
+                                                        </aura:iteration>
+                                                    </ui:inputSelect> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="jss905">
+                                    <aura:if isTrue="{! if(v.candidate.Status__c=='Rejected',true,false)}">
+                                    <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                        <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Rejection_Reason}</div>
+                                        <div class="MuiTypography-root MuiTypography-body1"
+                                             style="width: 100%; display: inline-flex; font-weight: 700;">
+                                            <div class="MuiFormControl-root MuiTextField-root jss1074 MuiFormControl-fullWidth">
+                                                <div class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-fullWidth MuiInputBase-formControl">
+                                                    <ui:inputSelect class="MuiSelect-root MuiSelect-select MuiSelect-filled MuiInputBase-input MuiFilledInput-input 
+                                                                           jss112 MuiInputBase-inputSelect MuiFilledInput-inputSelect"
+                                                                    required="true" 
+                                                                    value="{!v.candidate.Rejection_Reason_for__c}"
+                                                                    aura:id="MFG_Reason">
+                                                        <ui:inputSelectOption text="" label="--"  />
+                                                        <aura:iteration items="{!v.fieldOptions.rejectionReasons}" var="option">
+                                                            <ui:inputSelectOption text="{!option.value}"  
+                                                                                  label="{!if(v.language=='fr',option.label_fr,option.label)}" 
+                                                                                  value="{! if(v.candidate.Rejection_Reason_for__c==option.value,true,false)}"/>
+                                                        </aura:iteration>
+                                                    </ui:inputSelect> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </aura:if>
+
+                                </div>
+                                <div class="jss905">
+                                    <aura:if isTrue="{! if( or(v.candidate.Rejection_Reason_for__c=='Candidate did not present well',
+                                                     v.candidate.Rejection_Reason_for__c=='Not the right fit'
+                                                     ),true,false)}">
+                                        
+                                        <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                            <lightning:textarea name="input7"
+                                                                required="true" 
+                                                                value="{!v.candidate.Rejection_Comments__c}" 
+                                                                aura:id="statusFields"
+                                                                label="{!$Label.c.MFG_Comments_Rejection}"
+                                                                maxlength="10000"
+                                                                messageWhenTooLong="A maximum of 10000 characters are allowed." 
+                                                                messageWhenValueMissing="Comments about Rejection required." />
+                                            
+                                            
+                                        </div>
+                                    </aura:if>
+                                    
+                                </div>
+                                <div class="jss905">
+                                    
+                                    <aura:if isTrue="{! if(v.candidate.Rejection_Reason_for__c!='Candidate did not attend interview',true,false)}">
+                                    <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                                        <div class="MuiTypography-root MuiTypography-overline">
+                                            <abbr lightning-combobox_combobox="" title="required" class="slds-required">*</abbr>
+                                            {!$Label.c.MFG_Rating}</div>
+                                        <div class="MuiTypography-root MuiTypography-body1"
+                                             style="width: 100%; display: inline-flex; font-weight: 700;">
+                                            <div class="MuiFormControl-root MuiTextField-root jss1074 MuiFormControl-fullWidth">
+                                                <div class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-fullWidth MuiInputBase-formControl">
+                                                  
+                                                    <ui:inputSelect class="MuiSelect-root MuiSelect-select MuiSelect-filled MuiInputBase-input MuiFilledInput-input 
+                                                                           jss112 MuiInputBase-inputSelect MuiFilledInput-inputSelect"
+                                                                    required="true" 
+                                                                    value="{!v.candidate.Candidate_Rating__c}"
+                                                                    aura:id="MFG_Rating"
+                                                                    >
+                                                     	<ui:inputSelectOption text="" label="--"  />
+                                                        <aura:iteration items="{!v.fieldOptions.ratingOptions}" var="option">
+                                                            <ui:inputSelectOption text="{!option.value}"  
+                                                                                  label="{!if(v.language=='fr',option.label_fr,option.label)}" 
+                                                                                  value="{! if(v.candidate.Candidate_Rating__c==option.value,true,false)}"/>
+                                                        </aura:iteration>
+                                                    </ui:inputSelect> 
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </aura:if>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="MuiDialogActions-root MuiDialogActions-spacing">
+                        <button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary" 
+                                tabindex="0"
+                                type="button"
+                                onclick="{!c.cancelUpdateStatusRating}">
+                            
+                            <span class="MuiButton-label">{!$Label.c.MFG_CANCEL}</span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                        
+                        <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+                                tabindex="0"
+                                type="button"
+                                onclick="{!c.updateUpdateStatusRating}">
+                            <span class="MuiButton-label">{!$Label.c.MFG_Update} </span>
+                            <span class="MuiTouchRipple-root"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div tabindex="0" data-test="sentinelEnd"></div>
+        </div>
+        
+        
+        
+    </aura:if>
+    
+</aura:component>

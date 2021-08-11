@@ -1,0 +1,111 @@
+<apex:page standardController="SFDC_Candidate__c" extensions="CandidatePageUpdate,CandidateView" showHeader="false" sidebar="false" title="{!$Label.Print_Candidate}">
+
+  <table width="100%">
+    <tr width="100%">
+        <td valign="top" align="left" width="121px"><img src="{!$Resource.MFGLogo}" width="120" height="60" alt="" /></td>
+        <td valign="middle" align="left"  style="font-size:24px;">{!$Label.Candidate_Submission}</td>
+    </tr>
+  </table>
+  
+    <apex:pageBlock title="{!$Label.Candidate_Details}">
+        <apex:pageBlockSection >
+        <!-- to add more fields to this section of the VF page, add them to the Field Set called Print Candidate under the Candidate Record object
+            and they will appear on this page -->
+        <apex:repeat value="{!$ObjectType.SFDC_Candidate__c.FieldSets.Print_Candidate}" var="f"> 
+            <apex:outputField value="{!SFDC_Candidate__c[f]}" />
+        </apex:repeat>  
+        
+        <apex:pageBlockSectionItem rendered="{!jobDept != null}">
+            <apex:outputLabel >{!$ObjectType.SFDC_Job__c.Fields.Department__c.label}</apex:outputLabel>
+            <apex:outputText value="{!jobDept}" />
+        </apex:pageBlockSectionItem>
+        
+        <apex:pageBlockSectionItem rendered="{!contains($Profile.Name, 'FGL')}">
+            <apex:outputLabel >{!$ObjectType.SFDC_Candidate__c.Fields.FGL_Candidate_ID__c.label}</apex:outputLabel>
+            <apex:outputText value="{!SFDC_Candidate__c.FGL_Candidate_ID__c}" />
+        </apex:pageBlockSectionItem>
+                    
+        </apex:pageBlockSection>
+        <apex:pageBlockSection columns="1" rendered="{!jobSLA != 'Job Posting Only'}">
+            <apex:outputField value="{!SFDC_Candidate__c.Recruiter_Summary_on_Candidate__c}"/>
+         <div ><a href="javascript:window.print()" >{!$Label.Print_This_Page}</a></div>
+        </apex:pageBlockSection>
+
+    </apex:pageBlock>
+
+    <!-- show the References for FGL Sports and AN and Mark's -->
+    <apex:pageBlock title="References" rendered="{!Contains($Profile.Name, 'FGL Sports') || Contains($Profile.Name, 'AkzoNobel') || Contains($Profile.Name, 'Marks')}">
+        <apex:pageBlockTable value="{!Refs}" var="r">
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.First_Name__c.Label}">
+                <apex:outputField value="{!r.First_Name__c}"/>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Last_Name__c.Label}">
+                <apex:outputField value="{!r.Last_Name__c}"/>
+            </apex:column>            
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Reference_Check_SLA__c.Label}">
+                <apex:outputField value="{!r.Reference_Check_SLA__c}"/>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Reference_Completed_Successfully__c.Label}">
+                <apex:outputField value="{!r.Reference_Completed_Successfully__c}"/>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Type__c.Label}">
+                <apex:outputField value="{!r.Type__c}"/>
+            </apex:column>            
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.createddate.Label}">
+                <apex:outputField value="{!r.createddate}"/>
+            </apex:column>                                    
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    
+    <!-- for Jobs not Job Posting Only, show this segment if any one of the 3 HireDesk pages have content -->
+    <apex:pageBlock title="{!$Label.Resume_and_Assessments}" rendered="{! (SFDC_Candidate__c.Candidate_Resume_Link__c != null || SFDC_Candidate__c.Candidate_Online_Assessment_Link__c != null ||
+                    SFDC_Candidate__c.Candidate_Phone_Screening_Notes_Link__c != null) && jobSLA != 'Job Posting Only'}" >
+        
+        <apex:outputText >{!$Label.Print_Candidate_Instructions}</apex:outputText>
+        <apex:pageBlockSection columns="1">
+            <apex:outputPanel rendered="{!SFDC_Candidate__c.Candidate_Resume_Link__c != null}">
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel ></apex:outputLabel>
+                    <apex:outputLink value="http://www.hiredesk.net/candidate/view/ViewResumeWithoutLogin.asp?ID={{!SFDC_Candidate__c.Candidate_Resume_Link__c}}&Comp=OWFG&WhichResume=0" target="_blank">{!$Label.Resume_Details}</apex:outputLink>
+                </apex:pageblockSectionItem>
+            </apex:outputPanel>
+
+            <apex:outputPanel rendered="{!SFDC_Candidate__c.Candidate_Phone_Screening_Notes_Link__c != null}">
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel ></apex:outputLabel>
+                    <apex:outputLink value="{!SFDC_Candidate__c.Candidate_Phone_Screening_Notes_Link__c}" target="_blank">{!$Label.Phone_Screen}</apex:outputLink>
+                </apex:pageblockSectionItem>
+            </apex:outputPanel>
+            
+            <apex:outputPanel rendered="{!SFDC_Candidate__c.Candidate_Online_Assessment_Link__c != null}">
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel ></apex:outputLabel>
+                    <apex:outputLink value="{!SFDC_Candidate__c.Candidate_Online_Assessment_Link__c}" target="_blank">{!$Label.Online_Assessment}</apex:outputLink>
+                </apex:pageblockSectionItem>
+            </apex:outputPanel>            
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    <!-- show Resume link if Job Posting Only job -->
+    <apex:pageBlock title="{!$Label.Resume}" rendered="{! SFDC_Candidate__c.Candidate_Resume_Link__c != null && jobSLA == 'Job Posting Only'}" >
+        
+        <apex:outputText >{!$Label.Print_Candidate_Instructions_Resume_Only}</apex:outputText>
+        <apex:pageBlockSection columns="1">
+            <apex:outputPanel rendered="{!SFDC_Candidate__c.Candidate_Resume_Link__c != null}">
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel ></apex:outputLabel>
+                    <apex:outputLink value="http://www.hiredesk.net/candidate/view/ViewResumeWithoutLogin.asp?ID={{!SFDC_Candidate__c.Candidate_Resume_Link__c}}&Comp=OWFG&WhichResume=0" target="_blank">{!$Label.Resume_Details}</apex:outputLink>
+                </apex:pageblockSectionItem>
+            </apex:outputPanel>
+    
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+ <table width="100%">
+    <tr width="100%">
+        <td align="left" width="75%" style="font-size:24px;">&nbsp;</td>
+        <td align="right" width="25%">{!$Label.Print_Candidate_Help}</td>
+    </tr>
+</table>
+
+</apex:page>

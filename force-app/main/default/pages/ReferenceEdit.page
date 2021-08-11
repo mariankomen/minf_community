@@ -1,0 +1,24 @@
+<apex:page standardcontroller="References__c"       
+    action="{!if(case($Profile.UserType, 
+                        'CustomerSuccess', 1,
+                        'PowerCustomerSuccess', 1,
+                        'CSPLitePortal', 1,
+                        0) == 1 && References__c.Reference_Completed_Successfully__c != 'Not Completed - No Response',
+            null,  
+            URLFor($Action.References__c.Edit, References__c.id, [retURL=$CurrentPage.parameters.retURL], true))}">
+    
+    <apex:outputPanel rendered="false"> {!References__c.Reference_Completed_Successfully__c}</apex:outputPanel>
+    <!-- want to stay here if user is portal and status in certain value -->    
+    <apex:pageMessages />
+    <apex:form >
+        <apex:sectionHeader title="{!$ObjectType.References__c.label} {!$Label.Edit}" subtitle="{!References__c.name}"/>
+        <apex:pageBlock mode="edit" title="{!$ObjectType.References__c.label} {!$Label.Edit}">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton action="{!cancel}" value="{!$Label.Cancel}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1" >
+                {!$Label.Reference_Not_Editable}
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

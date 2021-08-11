@@ -1,0 +1,27 @@
+<apex:page standardController="Applicant_Job_Apps__c" recordSetVar="ApplicantJobApps" extensions="AppJobAppsMassiveUpdateController" lightningStylesheets="true" standardStylesheets="false">
+	<apex:slds />
+    
+    <apex:form id="theForm">
+    	<div class = "slds-card slds-box">
+            <apex:pageMessages id="messages" />        
+            <apex:outputPanel layout="block"   styleClass="slds-panel slds-grid slds-grid--vertical slds-nowrap slds-form--compound" >
+                 {!$ObjectType.Applicant_Job_Apps__c.Fields.Status__c.Label} 
+                <apex:inputField value="{!tmpJobApp.Status__c}" styleClass="slds-input" >                            
+                     <apex:actionSupport event="onchange" reRender="theForm" />
+                </apex:inputField>
+  			</apex:outputPanel>
+            <apex:outputPanel layout="block"   styleClass="slds-p-top_x-small slds-panel slds-grid slds-grid--vertical slds-nowrap slds-form--compound" rendered="{!tmpJobApp.Status__c=='DeclinedbyMFG'}">
+                  {!$ObjectType.Applicant_Job_Apps__c.Fields.Declined_Reason_by_MFG__c.Label} <apex:inputField value="{!tmpJobApp.Declined_Reason_by_MFG__c}" styleClass="slds-input" />                            
+  			</apex:outputPanel>
+            <apex:outputPanel layout="block"   styleClass="slds-p-top_x-small slds-panel slds-grid slds-grid--vertical slds-nowrap slds-form--compound" rendered="{!tmpJobApp.Status__c=='RejectedbyHM'}">
+                  {!$ObjectType.Applicant_Job_Apps__c.Fields.Rejected_Reason_by_HM__c.Label} <apex:inputField value="{!tmpJobApp.Rejected_Reason_by_HM__c}" styleClass="slds-input" />                            
+  			</apex:outputPanel>
+            <br/>
+            <br/>
+            <div>                
+                <apex:commandButton styleclass="slds-button slds-button_brand" action="{!UpdateStatus}" value="Update"/>
+                <apex:commandButton styleclass="slds-button slds-button_brand" action="{!Cancel}" value="Cancel"/>
+            </div>
+        </div>
+    </apex:form>
+</apex:page>

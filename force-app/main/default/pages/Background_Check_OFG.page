@@ -1,0 +1,6 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Background Check/Sterlingbackcheck</h1><BR/><BR/>
+  To access the <a href="https://webclient.backcheck.net/Login.aspx" target="_blank">Sterlingbackcheck site</a> with Background Check results, please <a href="https://webclient.backcheck.net/Login.aspx" target="_blank">click here</a>
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>

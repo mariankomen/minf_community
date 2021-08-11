@@ -1,0 +1,156 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId"
+                controller="MFG_UserProfileController">
+    
+    <aura:attribute name="section2" type="Boolean" default="false"/>
+    <aura:attribute name="section3" type="Boolean" default="false"/>
+    
+    <aura:attribute name="user" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    <aura:if isTrue="{!v.section2}">
+        <div style="flex: 1 1 400px; display: flex; flex-flow: wrap;">
+            <div style="flex: 1 1 0%; min-width: 350px;">
+                <div>
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Name}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                {!v.user.Name}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Phone} </div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                {!v.user.Phone}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Email}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                <a class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                                   href='mailto:'>
+                                    {!v.user.Email}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="flex: 1 1 0%; min-width: 350px;">
+                <div>
+                    
+                    
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Street}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                {!v.user.Street}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_City}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                {!v.user.City}
+                            </div>
+                        </div>
+                    </div>        
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_State}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                {!v.user.State}
+                            </div>
+                        </div>
+                    </div>    
+                    
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block; padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Country}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="width: 100%; display: inline-flex; font-weight: 700;">
+                                {!v.user.Country}
+                            </div>
+                        </div>
+                    </div>      
+                    <div class="jss905">
+                        <div style="flex: 1 1 0%; display: block;  padding-right: 8px;">
+                            <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_PostalCode}</div>
+                            <div class="MuiTypography-root MuiTypography-body1"
+                                 style="widtha: 100%; display: inline-flex; font-weight: 700;">
+                                {!v.user.PostalCode}
+                            </div>
+                        </div>
+                    </div>      
+                    
+                    
+                </div>          
+                
+            </div>
+        </div>
+        
+        
+    </aura:if>
+    
+    
+    
+    
+    <aura:if isTrue="{!v.section3}">
+        <div style="display: flex; flex-flow: row wrap;">
+            <div class="jss905">
+                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Time_Zone}</div>
+                    <div class="MuiTypography-root MuiTypography-body1"
+                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                        {!v.user.TimeZoneSidKey}
+                    </div>
+                </div>
+            </div>
+            <div class="jss905">
+                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Locale}</div>
+                    <div class="MuiTypography-root MuiTypography-body1"
+                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                        
+                        <div style="display: inline-flex;">
+                            
+                            <span>
+                                {!v.user.LocaleSidKey}
+                            </span>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; flex-flow: row wrap;">
+            <div class="jss905">
+                <div style="flex: 1 1 0%; display: block; padding-bottom: 4px; padding-right: 8px;">
+                    <div class="MuiTypography-root MuiTypography-overline">{!$Label.c.MFG_Language}</div>
+                    <div class="MuiTypography-root MuiTypography-body1"
+                         style="width: 100%; display: inline-flex; font-weight: 700;">
+                        
+                        <span>{!v.user.LanguageLocaleKey}</span>  
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    
+    
+    
+</aura:component>

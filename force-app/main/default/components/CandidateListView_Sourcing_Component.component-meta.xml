@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexComponent xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>41.0</apiVersion>
+    <description>Put main OFG sourcing functionality in component.
+Used in (these wrap component page but use different standard controller.):
+1. CandidateListView_Sourcing
+2. CandidateJobListView_Sourcing (this sits in job page layout.)</description>
+    <label>CandidateListView_Sourcing Component</label>
+</ApexComponent>

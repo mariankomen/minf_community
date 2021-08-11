@@ -1,0 +1,103 @@
+<apex:page controller="FranchiseHirePortal_OrderWizard" title="Franchise HirePortal Order Summary" action="{!validateSummaryPage}" standardStylesheets="false" applyBodyTag="false" docType="html-5.0" >
+<html>
+ <head>
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/bootstrap.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+  
+ </head>
+
+     
+    <apex:form > 
+
+    <body>  
+
+        <div id="tacn_packages-container">
+        
+            <div class="tacn_full-width">
+                <div class="tacn_headline">
+                    <br/><span class="tacn_flex-h1"><h1 class="tacn_no-icon">Order Summary</h1> <h1 class="tacn_price">Order  #{!order.name}</h1></span>
+
+                </div>
+            </div>
+
+            <div class="tacn_forms-area">
+                <apex:pageMessages ></apex:pageMessages>
+                
+                <!-- move job fields into components for each type of job and dynamically cycle through jobs to show correct component based on job rec type -->                
+                <c:FranchiseHirePortal_JobView_CanSource job="{!job}" currUser="{!currUser}" orderComplete="{!order.Status__c == 'Order Completed'}" rendered="{!job.Mindfield_Service__c == 'Candidate Sourcing'}" />
+                <c:FranchiseHirePortal_JobView_FullRecruit job="{!job}" currUser="{!currUser}" orderComplete="{!order.Status__c == 'Order Completed'}" rendered="{!job.Mindfield_Service__c == 'Full-Cycle Recruitment'}" /> 
+                
+                <div class="tacn_form-full"></div>
+                <div class="tacn_form-left">  
+
+                <div class="tacn_form">            
+                <apex:outputPanel rendered="{!order.Status__c != 'Order Completed'}">                    
+
+                    <div class="tacn_form-group">
+                        <label for="">Terms &amp; Conditions</label>
+                    </div>
+                     <div class="tacn_form-group">
+                        <div class="tacn_terms">
+                            <small><apex:outputField value="{!order.Terms_Conditions_Text__c}" /></small>
+                        </div>
+                    </div>
+                    <div class="tacn_checkbox">
+                      <label>
+                        <apex:inputField value="{!order.Terms_Conditions_Accepted__c}" />
+                        I have read and agree to the above Terms &amp; Conditions
+                      </label>
+                    </div>
+                    <br/>                        
+                </apex:outputPanel>
+                                        
+                <!-- order total, show cost and taxes if tax amount > 0 -->
+
+                <apex:outputPanel rendered="{!order.Tax_Amount__c > 0}">
+                    <div class="tacn_form-group">
+                        <label for="">Order Subtotal</label>
+                        <label class="tacn_light" for=""><apex:outputText value="${0, number,###,##0.00}">
+                                                            <apex:param value="{!order.Order_Amount__c}"/>
+                                                         </apex:outputText></label>
+                    </div>
+                    <div class="tacn_form-group">
+                        <label for="">Tax Amount ({!order.Tax_Percent__c}%)</label>
+                        <label class="tacn_light" for=""><apex:outputText value="${0, number,###,##0.00}">
+                                                            <apex:param value="{!order.Tax_Amount__c}"/>
+                                                         </apex:outputText></label>
+                    </div>                                                     
+                </apex:outputPanel>
+                <div class="tacn_form-group">
+                    <label for="">Order Total</label>
+                    <label class="tacn_light" for=""><apex:outputText value="${0, number,###,##0.00}">
+                                                        <apex:param value="{!order.Order_Total__c}"/>
+                                                     </apex:outputText> {!order.Currency_Display__c}</label>
+                </div>
+                <!-- if completed, show date completed field -->
+                <apex:outputPanel rendered="{!order.Status__c == 'Order Completed'}">
+                    <div class="tacn_form-group">
+                        <label for="">Order Completed Date</label>
+                        <label class="tacn_light" for=""><apex:outputField value="{!order.Order_Completed_Date__c}" /></label>
+                    </div>
+               </apex:outputPanel>                    
+                   
+                </div>
+                <apex:commandButton action="{!ConfirmPurchase}" value="PAY NOW" styleclass="tacn_btn tacn_btn-reg" rendered="{!order.Status__c != 'Order Completed'}"/>
+                <apex:commandButton action="{!utility.cancel}" value="CANCEL" immediate="true" styleclass="tacn_btn tacn_btn-reg"/>
+                <apex:commandButton action="{!deleteOrderJobs}" value="DELETE ORDER" immediate="true" styleclass="tacn_btn tacn_btn-reg" rendered="{!order.Status__c != 'Order Completed'}"/>         
+                <a class="tacn_btn tacn_btn-gray" href="/apex/Support_Page" target="_blank">HELP?</a>
+               
+                
+
+                    
+                </div>
+                
+            </div>
+  
+    </div>
+    </body>
+                
+  </apex:form>
+  
+  </html>
+</apex:page>

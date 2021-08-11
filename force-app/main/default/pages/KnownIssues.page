@@ -1,0 +1,53 @@
+<apex:page >
+<h1>Known Issues</h1><BR />
+<h2>Last Modified: February 5th, 2013 at 714pm</h2><BR /><BR />
+<BR />
+<h3>ACTIVE ISSUES: (in priority order)</h3>
+<OL>
+<LI>HD Feed not moving candidates out of Qualified for OFG. Anticipated Fix Thursday, Feb 7th</LI>
+<LI>New Service Delivery Agreement Met isn't calculating additional candidates properly.  Anticipated Fix Thursday, Feb 7th</li>
+<LI>Live Chat Isn’t Availabile.  Anticipated Fix Monday, Feb 18th</LI>
+<LI>Some users using Google Chrome are having issues with the list views disappearing - Anticipated Fix Unknown</LI>
+<LI>OFG Views for Candidates and Jobs saying wrong thing underneath.  Anticipated Fix Sunday, Feb 9th</LI>
+<LI>Social Media Followings, for FGL, are not yet enabled/working in SF (we include the high level number of mentions in the FGL report weekly) - Anticipated fix Wed, Feb 6th</LI>
+<LI>Work.com not integrated with new SF system - Anticipated Fix Wed, February 6th</LI>
+<LI>Close Job with Hire and Close Job without a Hire button (in HirePortal) doesn't automatically save - Temporary Solution in Place.  Anticipated Fix by end of February</LI>
+<LI>About 200 old jobs (in the 15000 series) have not been transferred from old system to new system - Anticipated Fix Wednesday, Feb 6th</LI>
+<LI>OFG and HirePortal views showing for Internal Team.  Ancipated Fix Unknown</LI>
+<LI>Clients opening job with custom job description don't get a true "Thank You" page.  Anticipated Fix Unknown</LI>
+<LI>Lowe's want their recruiters to only see respective stores. Anticipated Fix Unknown </LI>
+</OL>
+<h3>RESOLVED ISSUES:</h3>
+<OL>
+<LI>DASHBOARDS Are In except for Monthly Reports - Anticipated Fix Saturday, Feb 9th</LI>
+<LI>Background Check Tab Not Working for OFG - Temporary Solution in Place.  MOVED TO IDEA</LI>
+<LI>FGL Candidate Performance Reviews not transferred from old system to new system - FIXED EARLY on February 3rd</LI>
+<LI>REPORTS and DASHBOARDS Are In.  As such, scheduled reports you are receiving are FROM OLD SYSTEM - IGNORE THEM.  FIXED EARLY on Saturday, February 2nd</LI>
+<LI>Hubspot Past Intelligence Not Loaded with new SF system - FIXED Friday January 31st</LI>
+<LI>Extra HR Users are showing up (working with SalesForce to get deleted but may still be there due to some data import issues – I mean if you search Angie, for example, three different records show up but only one says her name, the others say DELETE DELETE) - FIXED Thursday, Jauary 31st</LI>
+<LI>Duplicate Sales Accounts since everything was previously under BC Business Record type was condensed into the MFG Record Type.  FIXED Thursday, January 31st</LI>
+<LI>Candidate/Job Search in Portal (Presently Not Available).  FIXED Thursday, January 31st</LI>
+<LI>easyhome/easyfinancial want their recruiters to only see respective banners. FIXED Wed, Jan 30th</LI>
+<LI>Job Approval History, specifically for Akzo, not imported.  Can't Be Imported as per SF</LI>
+<LI>Documents Missing from Opportunities.  FIXED Wednesday, January 30th</LI>
+<LI>Job and Candidate History (e.g. this candidate's status was changed on xyz date to this status is not imported.  FIXED - Can't Be Imported as per SF - we have old system for field change history if needed</LI>
+<LI>Jobs are not automatically assigning based on "Job is for Store #" field.  WAS CLIENT UI CONFUSION - NO ACTUAL ISSUE</LI>
+<LI>There are some odd test jobs/candidates in the system.  FIXED Tues, Jan 29th</LI>
+<LI>Current Employees view brings up no one for FGL's HR users.  FIXED Tues, Jan 29th</LI>
+<LI>Can't attach cases to multiple jobs.  FIXED Tues, Jan 29th</LI>
+<LI>Resources tab isn't loading documents for all OFG stores.  FIXED Tues, Jan 29th</LI>
+<LI>FGL stores couldn't see the FGL Candidate ID field.  FIXED Tuesday, January 29th </LI>
+<LI>Clients were getting candidate notifications for updates from old system and couldn't access.  FIXED Tuesday, January 29th</LI>
+<LI>Talent Connect clients experienced candidates defaulting back to Initial Applicant stage rather than the actual stage candidate was in previously.  FIXED Tuesday, January 29th</LI>
+<LI>OFG Union Code was not transferring between SF and HD.  FIXED Tuesday, January 29th</LI>
+<LI>OnDemand Job Titles missing the Job/Role Title.  FIXED Tuesday, January 29th</LI>
+<LI>COBS Bread candidate statuses reset back to Initial Applicant.  FIXED Tuesday, January 29th</LI>
+<LI>Phone Extension Report for MFG Team Doesn't Load Extensions. FIXED Monday, Jan 28th</LI>
+<LI>Reports for OFG Users.  FIXED Tuesday, Jan 29th</LI>
+<LI>HD/SF Sync Not Fully Working (it doesn’t seem to want to accept candidates sent by the recruitment team on Saturday – moving manually until fixed).  FIXED Monday, Jan 28th</LI>
+<LI>HD/SF Sync not atting jobs to right owner.  FIXED Monday, Jan 28th</LI>
+<LI>Access for HR Users (except OFG and FGL).  FIXED Monday, Jan 28th</LI>
+<LI>Recruitment Team, specifically just the recruiters, can’t see all jobs added by clients.  LTAS’s can.  FIXED on January 27th</LI>
+<LI>Documents aren’t visible to HirePortal users - FIXED January 27th - moved Documents under Resources tab</LI>
+</OL>
+</apex:page>

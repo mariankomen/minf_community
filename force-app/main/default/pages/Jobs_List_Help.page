@@ -1,0 +1,48 @@
+<apex:page controller="JobListHelp" >
+  <!-- Begin Default Content REMOVE THIS -->
+  <apex:sectionHeader title="{!$Label.Help}" subtitle="{!$Label.Home}"/>
+  <BR/><BR/>
+    <!-- section with French translation of Help -->
+  <apex:outputPanel rendered="{!Language == 'fr'}">
+    <FONT FACE="Verdana" SIZE="3"><STRONG>Aide sur les postes</STRONG></FONT><BR/>
+  L’onglet Postes vous permet de gérer tous les aspects relatifs aux postes. Vous pouvez notamment créer des postes, mettre à jour les exigences connexes et examiner les candidats pour un poste.<BR/><BR/>
+  <STRONG>Questions courantes :</STRONG><BR/>
+  1. <I>Comment créer un poste?</I> - Pour créer un poste, cliquez simplement sur le bouton <I>Nouveau poste</I> en haut de la page ou sur le bouton bleu <I>Créer un poste</I> sur le côté gauche de l’écran.<BR/><BR/>
+  2. <I>Comment annuler un poste?</I> - Pour annuler une offre d’emploi, naviguez simplement jusqu’au poste à annuler. Une fois que vous avez accéder au poste en question, cliquez sur <I>Annuler l’offre d’emploi</I> en haut de l’écran sur la barre grise puis entrez l’information requise.<BR/><BR/>
+  3. <I>Comment dupliquer un poste</I> - Si vous avez besoin de plus de deux candidats pour un poste, vous devrez dupliquer ce dernier. Pour procéder facilement, accédez d’abord au poste à dupliquer. Ensuite, cliquez sur <I>Dupliquer</I> en haut de l’écran sur la barre grise. Le poste est dupliqué.<BR/><BR/>
+  4. <I>Comment examiner les candidats pour un poste</I> - Pour examiner les candidats pour un poste, cliquez sur <I>Voir tous les postes ouverts</I> dans le menu Affichage en haut de l’écran. Une liste de tous les postes actuellement ouverts s’affiche. Pour voir les candidats pour l’un des postes, cliquez simplement sur la référence du poste en question. Vous verrez les détails relatifs au poste ainsi qu’une liste des candidats au bas de la page. Pour mettre à jour les états des candidats, cliquez sur le bouton <I>Embaucher/refuser les candidats</I> en haut de l’écran sur la barre grise.<BR/><BR/>
+  5. <I>Comment voir les détails relatifs à un candidat</I> - Pour voir les détails relatifs à un candidat pour un poste, cliquez sur le nom du candidat. Ensuite, vous accéderez à un écran où vous pourrez passer en revue l’information liée au candidat, son CV et les évaluations.<BR/><BR/>
+  <STRONG>Termes courants :</STRONG><BR/>
+  Lorsque vous examinerez une liste de postes, les termes ou intitulés de colonnes suivants s’afficheront peut-être :<BR/>
+  1. <I>Délai d’envoi</I> - Nombre d’heures ou de jours écoulés avant que votre magasin reçoive deux candidats présélectionnés et qualifiés pour l’offre d’emploi, à partir du moment où vous avez ouvert le poste sur le portail Hiring Manager.<BR/><BR/>
+  2. <I>Délai de décision</I> - Nombre d’heures ou de jours écoulés entre le moment ou vous recevez le ou les candidats et le moment où une décision d’embauche est prise par le magasin.<BR/><BR/>
+  3. <I>Délai de conclusion</I> - Nombre d’heures ou de jours écoulés entre l’ouverture d’un poste dans le portail Hiring Manager et l’embauche d’un candidat pour le rôle.<BR/><BR/>  
+
+  <STRONG>Aide supplémentaire :</STRONG><BR/>
+  Si vous ne trouvez pas les réponses à vos questions dans ce document, n’hésitez pas à discuter en direct avec nous. Cliquez sur le bouton <I>Discussion en direct</I> à gauche de l’écran.
+
+    <p>&nbsp;</p>
+  </apex:outputPanel>
+
+  <apex:outputPanel rendered="{!Language != 'fr'}">
+  <FONT FACE="Verdana" SIZE="3"><STRONG>Jobs Help</STRONG></FONT><BR/>
+  On the jobs tab, you manage everything to do with jobs.  This includes creating jobs, updating the needs of a job and reviewing candidates within a job.<BR/><BR/>
+  <STRONG>Common Questions:</STRONG><BR/>
+  1. <I>How Do I Create a Job?</I> - To create a job, simply click the <I>New Job</I> button near the top of the page or the blue <I>Create a Job</I> button on the left side of the screen.<BR/><BR/>
+  2. <I>How Do I Cancel a Job?</I> - To cancel a job opening, simply navigate to the job you want to cancel.  Then, once you are in the job in question, click <I>Cancel Job Opening</I> (at the top of the screen in the grey bar) and then enter the required information.<BR/><BR/>
+  3. <I>How Do I Duplicate a Job</I> - If you need more than two candidates for a job, you will want to duplicate the job.  To do this easily, first go into the job you want to duplicate.  Then, once you have done this, click <I>Duplicate</I> (at the top of the screen in the grey bar) and your job will be duplicated.<BR/><BR/>
+  4. <I>How Do I Review Candidates within a Job</I> - To review the candidates within a job, you will want to click on the <I>View All Open Jobs</I> view from the View menu near the top of the screen.  Once you do this you will be presented with a list of all the jobs you presently have open.  To see the candidates for any of the jobs, simply click on the Job ID for the job in question.  You will then see the details about the job and at the bottom of the page a list of the candidates.  To update the statuses of the candidates, click the <I>Hire/Reject Candidates</I> button (in the grey bar near the top of the screen).<BR/><BR/>
+  5. <I>How Do I View a Candidates Details</I> - To review the details of a candidate within a job, you will want to click on the Candidate's Name.  Then, you will be brought to a screen where you can review their information, resume and assessments.<BR/><BR/>
+  <STRONG>Common Terms:</STRONG><BR/>
+  When looking at a list of jobs, you may also see these columns/terms, which are explained below:<BR/>
+  1. <I>Time to Send</I> - Time to Send measures the number of hours/days it take for your store to receive two qualified, screened candidates for your job opening from the time you open the job on the Hiring Manager Portal.<BR/><BR/>
+  2. <I>Time to Decide</I> - Time to Decide measures the number of hours/days it takes for your store to decide on which candidate(s) you are going to hire from the time you receive them until you make a hiring decision.<BR/><BR/>
+  3. <I>Time to Complete</I> - Time to Complete measures the number of hours/days it takes from a job being opened on the Hiring Manager Portal until a candidate is hired for the role.<BR/><BR/>  
+
+  <STRONG>Additional Help:</STRONG><BR/>
+  If you have any other questions not answered here, please Chat Live with us (click on the <I>Live Chat</I> button on the left side of the screen).
+
+    <p>&nbsp;</p>
+</apex:outputPanel>
+
+</apex:page>

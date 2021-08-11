@@ -1,0 +1,826 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="MFG_FAQController">
+
+    <aura:html tag="style">
+
+        .MuiIconButton-root {
+        flex: 0 0 auto;
+        color: rgba(0, 0, 0, 0.54);
+        padding: 12px;
+        overflow: visible;
+        font-size: 1.5rem;
+        text-align: center;
+        transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 50%;
+        }
+        .MuiIconButton-root:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiIconButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        background-color: transparent;
+        }
+        @media (hover: none) {
+        .MuiIconButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-edgeStart {
+        margin-left: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeStart {
+        margin-left: -3px;
+        }
+        .MuiIconButton-edgeEnd {
+        margin-right: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeEnd {
+        margin-right: -3px;
+        }
+        .MuiIconButton-colorInherit {
+        color: inherit;
+        }
+        .MuiIconButton-colorPrimary {
+        color: #0047ad;
+        }
+        .MuiIconButton-colorPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-colorSecondary {
+        color: #002b6b;
+        }
+        .MuiIconButton-colorSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-sizeSmall {
+        padding: 3px;
+        font-size: 1.125rem;
+        }
+        .MuiIconButton-label {
+        width: 100%;
+        display: flex;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+
+        .MuiButton-root {
+        color: rgba(0, 0, 0, 0.87);
+        padding: 6px 16px;
+        font-size: 0.875rem;
+        min-width: 64px;
+        box-sizing: border-box;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        border-radius: 4px;
+        text-transform: uppercase;
+        }
+        .MuiButton-root:hover {
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-root:hover.Mui-disabled {
+        background-color: transparent;
+        }
+        .MuiButton-label {
+        width: 100%;
+        display: inherit;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        .MuiButton-text {
+        padding: 6px 8px;
+        }
+        .MuiButton-textPrimary {
+        color: #0047ad;
+        }
+        .MuiButton-textPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-textSecondary {
+        color: #002b6b;
+        }
+        .MuiButton-textSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlined {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        padding: 5px 15px;
+        }
+        .MuiButton-outlined.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButton-outlinedPrimary {
+        color: #0047ad;
+        border: 1px solid rgba(0, 71, 173, 0.5);
+        }
+        .MuiButton-outlinedPrimary:hover {
+        border: 1px solid #0047ad;
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlinedSecondary {
+        color: #002b6b;
+        border: 1px solid rgba(0, 43, 107, 0.5);
+        }
+        .MuiButton-outlinedSecondary:hover {
+        border: 1px solid #002b6b;
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        .MuiButton-outlinedSecondary.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-contained {
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        .MuiButton-contained:hover {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        background-color: #d5d5d5;
+        }
+        .MuiButton-contained.Mui-focusVisible {
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained:active {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-contained.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        @media (hover: none) {
+        .MuiButton-contained:hover {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        background-color: #e0e0e0;
+        }
+        }
+        .MuiButton-contained:hover.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-containedPrimary {
+        color: #fff;
+        background-color: #0047ad;
+        }
+        .MuiButton-containedPrimary:hover {
+        background-color: rgb(0, 49, 121);
+        }
+        @media (hover: none) {
+        .MuiButton-containedPrimary:hover {
+        background-color: #0047ad;
+        }
+        }
+        .MuiButton-containedSecondary {
+        color: #fff;
+        background-color: #002b6b;
+        }
+        .MuiButton-containedSecondary:hover {
+        background-color: rgb(0, 30, 74);
+        }
+        @media (hover: none) {
+        .MuiButton-containedSecondary:hover {
+        background-color: #002b6b;
+        }
+        }
+        .MuiButton-colorInherit {
+        color: inherit;
+        border-color: currentColor;
+        }
+        .MuiButton-textSizeSmall {
+        padding: 4px 5px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-textSizeLarge {
+        padding: 8px 11px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-outlinedSizeSmall {
+        padding: 3px 9px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-outlinedSizeLarge {
+        padding: 7px 21px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-containedSizeSmall {
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-containedSizeLarge {
+        padding: 8px 22px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-fullWidth {
+        width: 100%;
+        }
+        .MuiButton-startIcon {
+        display: inherit;
+        margin-left: -4px;
+        margin-right: 8px;
+        }
+        .MuiButton-endIcon {
+        display: inherit;
+        margin-left: 8px;
+        margin-right: -4px;
+        }
+        .MuiButton-iconSizeSmall>*:first-child {
+        font-size: 18px;
+        }
+        .MuiButton-iconSizeMedium>*:first-child {
+        font-size: 20px;
+        }
+        .MuiButton-iconSizeLarge>*:first-child {
+        font-size: 22px;
+        }
+
+        .jss305 {
+        margin: 0 auto;
+        padding: 16px;
+        max-width: 1300px;
+        min-height: 500px;
+        padding-bottom: 200px;
+        }
+        @media (max-width:959.95px) {
+        .jss305 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss305 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        .jss306 {
+        color: #0047ae;
+        margin: 0;
+        font-size: 3em;
+        font-family: glober, helvetica, sans-serif;
+        font-weight: 300;
+        margin-bottom: 12px;
+        }
+        @media (max-width:959.95px) {
+        .jss306 {
+        font-size: 2.5em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss306 {
+        font-size: 2em;
+        }
+        }
+        .jss307 {
+        display: flex;
+        }
+        @media (max-width:599.95px) {
+        .jss307 {
+        flex-flow: column-reverse;
+        }
+        }
+        .jss308 {
+        flex: 1;
+        width: 50%;
+        text-align: right;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss308 {
+        width: 100%;
+        }
+        }
+        .jss309 {
+        flex: 1;
+        width: 50%;
+        text-align: left;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss309 {
+        width: 100%;
+        }
+        }
+
+        .MuiLink-underlineNone {
+        text-decoration: none;
+        }
+        .MuiLink-underlineHover {
+        text-decoration: none;
+        }
+        .MuiLink-underlineHover:hover {
+        text-decoration: underline;
+        }
+        .MuiLink-underlineAlways {
+        text-decoration: underline;
+        }
+        .MuiLink-button {
+        border: 0;
+        cursor: pointer;
+        margin: 0;
+        outline: 0;
+        padding: 0;
+        position: relative;
+        user-select: none;
+        border-radius: 0;
+        vertical-align: middle;
+        -moz-appearance: none;
+        background-color: transparent;
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        }
+        .MuiLink-button::-moz-focus-inner {
+        border-style: none;
+        }
+        .MuiLink-button.Mui-focusVisible {
+        outline: auto;
+        }
+
+        .MuiTab-root {
+        padding: 6px 12px;
+        overflow: hidden;
+        position: relative;
+        font-size: 0.875rem;
+        max-width: 264px;
+        min-width: 72px;
+        box-sizing: border-box;
+        min-height: 48px;
+        text-align: center;
+        flex-shrink: 0;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        white-space: normal;
+        text-transform: uppercase;
+        }
+        @media (min-width:600px) {
+        .MuiTab-root {
+        font-size: 0.8125rem;
+        min-width: 160px;
+        }
+        }
+        .MuiTab-labelIcon {
+        min-height: 72px;
+        padding-top: 9px;
+        }
+        .MuiTab-labelIcon .MuiTab-wrapper>*:first-child {
+        margin-bottom: 6px;
+        }
+        .MuiTab-textColorInherit {
+        color: inherit;
+        opacity: 0.7;
+        }
+        .MuiTab-textColorInherit.Mui-selected {
+        opacity: 1;
+        }
+        .MuiTab-textColorInherit.Mui-disabled {
+        opacity: 0.4;
+        }
+        .MuiTab-textColorPrimary {
+        color: rgba(0, 0, 0, 0.54);
+        }
+        .MuiTab-textColorPrimary.Mui-selected {
+        color: #0047ad;
+        }
+        .MuiTab-textColorPrimary.Mui-disabled {
+        color: rgba(0, 0, 0, 0.38);
+        }
+        .MuiTab-textColorSecondary {
+        color: rgba(0, 0, 0, 0.54);
+        }
+        .MuiTab-textColorSecondary.Mui-selected {
+        color: #002b6b;
+        }
+        .MuiTab-textColorSecondary.Mui-disabled {
+        color: rgba(0, 0, 0, 0.38);
+        }
+        .MuiTab-fullWidth {
+        flex-grow: 1;
+        max-width: none;
+        flex-basis: 0;
+        flex-shrink: 1;
+        }
+        .MuiTab-wrapped {
+        font-size: 0.75rem;
+        line-height: 1.5;
+        }
+        .MuiTab-wrapper {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        }
+
+        .jss359 {
+        width: 100%;
+        bottom: 0;
+        height: 2px;
+        position: absolute;
+        transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .jss360 {
+        background-color: #0047ad;
+        }
+        .jss361 {
+        background-color: #002b6b;
+        }
+        .jss362 {
+        right: 0;
+        width: 2px;
+        height: 100%;
+        }
+
+        .MuiTabs-root {
+        display: flex;
+        overflow: hidden;
+        min-height: 48px;
+        -webkit-overflow-scrolling: touch;
+        }
+        .MuiTabs-vertical {
+        flex-direction: column;
+        }
+        .MuiTabs-flexContainer {
+        display: flex;
+        }
+        .MuiTabs-flexContainerVertical {
+        flex-direction: column;
+        }
+        .MuiTabs-centered {
+        justify-content: center;
+        }
+        .MuiTabs-scroller {
+        flex: 1 1 auto;
+        display: inline-block;
+        position: relative;
+        white-space: nowrap;
+        }
+        .MuiTabs-fixed {
+        width: 100%;
+        overflow-x: hidden;
+        }
+        .MuiTabs-scrollable {
+        overflow-x: scroll;
+        scrollbar-width: none;
+        }
+        .MuiTabs-scrollable::-webkit-scrollbar {
+        display: none;
+        }
+        @media (max-width:599.95px) {
+        .MuiTabs-scrollButtonsDesktop {
+        display: none;
+        }
+        }
+
+        .MuiCollapse-container {
+        height: 0;
+        overflow: hidden;
+        transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiCollapse-entered {
+        height: auto;
+        overflow: visible;
+        }
+        .MuiCollapse-hidden {
+        visibility: hidden;
+        }
+        .MuiCollapse-wrapper {
+        display: flex;
+        }
+        .MuiCollapse-wrapperInner {
+        width: 100%;
+        }
+
+        .MuiExpansionPanel-root {
+        position: relative;
+        transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanel-root:before {
+        top: -1px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        content: "";
+        opacity: 1;
+        position: absolute;
+        transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiExpansionPanel-root.Mui-expanded {
+        margin: 16px 0;
+        }
+        .MuiExpansionPanel-root.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiExpansionPanel-root.Mui-expanded+.MuiExpansionPanel-root:before {
+        display: none;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:first-child {
+        margin-top: 0;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:last-child {
+        margin-bottom: 0;
+        }
+        .MuiExpansionPanel-root.Mui-expanded:before {
+        opacity: 0;
+        }
+        .MuiExpansionPanel-root:first-child:before {
+        display: none;
+        }
+        .MuiExpansionPanel-rounded {
+        border-radius: 0;
+        }
+        .MuiExpansionPanel-rounded:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        }
+        .MuiExpansionPanel-rounded:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        }
+        @supports (-ms-ime-align: auto) {
+        .MuiExpansionPanel-rounded:last-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        }
+        }
+
+        .MuiExpansionPanelDetails-root {
+        display: flex;
+        padding: 8px 24px 24px;
+        }
+
+        .MuiExpansionPanelSummary-root {
+        display: flex;
+        padding: 0 24px 0 24px;
+        min-height: 48px;
+        transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-root:hover:not(.Mui-disabled) {
+        cursor: pointer;
+        }
+        .MuiExpansionPanelSummary-root.Mui-expanded {
+        min-height: 64px;
+        }
+        .MuiExpansionPanelSummary-root.Mui-focused {
+        background-color: #e0e0e0;
+        }
+        .MuiExpansionPanelSummary-root.Mui-disabled {
+        opacity: 0.38;
+        }
+        .MuiExpansionPanelSummary-content {
+        margin: 12px 0;
+        display: flex;
+        flex-grow: 1;
+        transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-content.Mui-expanded {
+        margin: 20px 0;
+        }
+        .MuiExpansionPanelSummary-expandIcon {
+        transform: rotate(0deg);
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiExpansionPanelSummary-expandIcon:hover {
+        background-color: transparent;
+        }
+        .MuiExpansionPanelSummary-expandIcon.Mui-expanded {
+        transform: rotate(180deg);
+        }
+
+        .jss364 {
+        border-bottom: solid 1px #bbb;
+        }
+        .jss365 {
+        font-weight: 700;
+        }
+        .jss366 {
+        width: 100%;
+        display: flex;
+        }
+        .jss367 {
+        flex: 1;
+        margin: 0;
+        font-size: 1.2em;
+        font-family: din, helvetica, sans-serif;
+        font-weight: 500;
+        }
+        @media (max-width:959.95px) {
+        .jss367 {
+        font-size: 1.1em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss367 {
+        font-size: 1.0em;
+        }
+        }
+        .jss367 span {
+        font-weight: 300;
+        }
+        .jss368 {
+        margin: 0px !important;
+        }
+        .jss369 {
+        color: #0047ad;
+        line-height: 2em;
+        }
+        .jss370 {
+        padding: 16px;
+
+        }
+        @media (max-width:599.95px) {
+        .jss370 {
+        padding: 8px;
+        }
+        }
+
+        .jss298 {
+        border-bottom: solid 1px #bbb;
+        }
+        .jss299 {
+        font-weight: 700;
+        }
+        .jss300 {
+        width: 100%;
+        display: flex;
+        }
+        .jss301 {
+        flex: 1;
+        margin: 0;
+        font-size: 1.2em;
+        font-family: din, helvetica, sans-serif;
+        font-weight: 500;
+        }
+        @media (max-width:959.95px) {
+        .jss301 {
+        font-size: 1.1em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss301 {
+        font-size: 1.0em;
+        }
+        }
+        .jss301 span {
+        font-weight: 300;
+        }
+        .jss302 {
+        margin: 0px !important;
+        }
+        .jss303 {
+        color: #0047ad;
+        line-height: 2em;
+        }
+        .jss304 {
+        padding: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss304 {
+        padding: 8px;
+        }
+        }
+
+    </aura:html>
+    <aura:attribute name="help" type="Boolean" default="true"/>
+    <aura:attribute name="support" type="Boolean" default="false"/>
+    <aura:attribute name="resources" type="Boolean" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute name="helpFaq" type="List" default="[]"/>
+    <aura:attribute name="supportCases" type="List"/>
+    <div class="">
+        <div class="jss305">
+            <h2 class="jss306">{!$Label.c.MFG_Customer_Support}</h2>
+            <div class="jss307">
+                <div class="jss308">
+                    <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+                            tabindex="0"
+                            type="button"
+                            onclick="{!c.newSupportCase}">
+                        <span class="MuiButton-label">
+                            <c:svgIcon svgPath="{!$Resource.MindfieldHirePortal + '/header3.svg#header3'}" size="small" class=""/>
+                              {!$Label.c.MFG_Customer_Support}
+                        </span>
+                        <span class="MuiTouchRipple-root"> </span>
+                    </button>
+                </div>
+            </div>
+            <div class="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded">
+                <div class="MuiTabs-root jss298" aria-label="Support Menu">
+                    <div class="MuiTabs-scroller MuiTabs-fixed" style="overflow: hidden;">
+                        <div class="MuiTabs-flexContainer" role="tablist">
+
+
+
+                            <button class="{! if(v.help,'MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary jss299 MuiTab-fullWidth Mui-selected',
+                                    'MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary jss299 MuiTab-fullWidth')}"
+                                    tabindex="0" type="button" role="tab" aria-selected="{! if(v.help,true,false)}"
+                                    data-value="help"
+                                    onclick="{!c.tabSelect}"
+                            >
+                                <span class="MuiTab-wrapper">{!$Label.c.MFG_Help_FAQ}</span>
+                                <span class="{! if(v.help,'jss359 jss360 MuiTabs-indicator','')}"></span>
+                            </button>
+
+                            <button class="{! if(v.support,'MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary jss299 MuiTab-fullWidth Mui-selected',
+                                    'MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary jss299 MuiTab-fullWidth')}"
+                                    tabindex="0" type="button" role="tab" aria-selected="{! if(v.support,true,false)}"
+                                    data-value="support"
+                                    onclick="{!c.tabSelect}">
+                                <span class="MuiTab-wrapper">{!$Label.c.MFG_Support_Cases}</span>
+                                <span class="{! if(v.support,'jss359 jss360 MuiTabs-indicator','')}"></span>
+                            </button>
+
+                            <button class="{! if(v.resources,'MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary jss299 MuiTab-fullWidth Mui-selected',
+                                    'MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary jss299 MuiTab-fullWidth')}"
+                                    tabindex="0" type="button" role="tab" aria-selected="{! if(v.resources,true,false)}"
+                                    data-value="resources"
+                                    onclick="{!c.tabSelect}">
+                                <span class="MuiTab-wrapper">{!$Label.c.MFG_Resources}</span>
+                                <span class="{! if(v.resources,'jss359 jss360 MuiTabs-indicator','')}"></span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <aura:if isTrue="{!v.help}">
+                            <div class="jss370">
+                                <div style="padding-bottom: 24px;">
+                                    <p class="MuiTypography-root MuiTypography-body1">Mindfield Group is here to help you with any
+                                        questions. If the FAQ or Resouce sections don't contain the answers you are looking for please
+                                        call us, email us or create a case.</p>
+                                    <h6 class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter">
+                                        <a class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                                           href="mailto:%20support@mindfield.com">support@mindfield.com</a></h6>
+                                    <h4 class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter">1.877.834.1751</h4>
+                                </div>
+                                <h5 class="MuiTypography-root MuiTypography-h5" style="padding-bottom: 8px;">{!$Label.c.MFG_FAQ}</h5>
+                                <aura:iteration items="{!v.helpFaq}" var="item">
+                                    <c:MFG_FAQ_Item item="{!item}"/>
+                                </aura:iteration>
+
+
+                            </div>
+
+
+                        </aura:if>
+                        <aura:renderIf  isTrue="{!v.support}">
+                            <div class="jss370">
+                                <c:MFG_SupportCasesListView></c:MFG_SupportCasesListView>
+                            </div>
+                        </aura:renderIf >
+                        <aura:if isTrue="{!v.resources}">
+
+
+                        </aura:if>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</aura:component>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexComponent xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>40.0</apiVersion>
+    <description>For the new service model we dynamically build out the QCP section.</description>
+    <label>HirePortal_FAQ_QCP_NSM</label>
+</ApexComponent>

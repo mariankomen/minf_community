@@ -1,0 +1,88 @@
+<apex:page showHeader="false" applyHtmlTag="false" applyBodyTag="false">    
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<style> 
+      .container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+}
+
+.tox.tox-tinymce {
+	flex: 1;
+}
+    </style>
+	<apex:includeScript value="{!URLFOR($Resource.tinymce,'/tinymce/js/tinymce/tinymce.min.js')}"/>    
+    
+    
+  <script type="text/javascript">
+    
+     function sendToLC(content) {         
+         // console.log('text area changed ' + content);
+            parent.postMessage(content, '*');
+        }
+    
+    window.addEventListener('message', event =>  {    
+        const data = event.data;
+        
+        if (data.content)       
+        {
+        	tinymce.get('myTextarea').setContent(data.content);                	 
+        }
+        
+        }, false);
+
+  tinymce.init({
+      setup:function(ed) {
+       ed.on('change', function(e) {
+           
+          sendToLC( ed.getContent());
+       });
+		ed.on('paste', function(e) {
+           
+          sendToLC( ed.getContent());
+       });
+		ed.on('cut', function(e) {
+           
+          sendToLC( ed.getContent());
+       });          
+        ed.on('keyup', function(e) {
+           
+          sendToLC( ed.getContent());
+       });       
+          
+   },
+    selector: '#myTextarea',        
+    
+    plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'table emoticons template paste autoresize'
+    ],
+    toolbar: 'undo redo | styleselect | bold italic | fontselect fontsizeselect| alignleft aligncenter alignright alignjustify | ' +
+      'bullist numlist outdent indent | link image |' +
+      'forecolor backcolor emoticons',
+    menu: {
+      favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | spellchecker | emoticons'}
+    },
+    menubar: 'edit insert format tools table help',
+    content_css: 'css/content.css'
+  });
+  </script>
+</head>
+
+<body>
+    <div class="container">
+  <textarea id="myTextarea" onchange="sendToLC()"></textarea>
+    </div>    
+</body>
+</html>
+
+</apex:page>

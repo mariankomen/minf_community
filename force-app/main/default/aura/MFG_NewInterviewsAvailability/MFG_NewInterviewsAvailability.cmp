@@ -1,0 +1,1306 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes"
+    controller="MFG_HiringManagerAvailabilityController">
+    <ltng:require scripts="{!join(',',
+                           $Resource.moment)}" afterScriptsLoaded="{!c.doInit}" />
+
+    <aura:html tag="style">
+        .MuiIconButton-root {
+        flex: 0 0 auto;
+        color: rgba(0, 0, 0, 0.54);
+        padding: 12px;
+        overflow: visible;
+
+        text-align: center;
+        transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 50%;
+        }
+        .MuiIconButton-root:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiIconButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        background-color: transparent;
+        }
+        @media (hover: none) {
+        .MuiIconButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-edgeStart {
+        margin-left: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeStart {
+        margin-left: -3px;
+        }
+        .MuiIconButton-edgeEnd {
+        margin-right: -12px;
+        }
+        .MuiIconButton-sizeSmall.MuiIconButton-edgeEnd {
+        margin-right: -3px;
+        }
+        .MuiIconButton-colorInherit {
+        color: inherit;
+        }
+        .MuiIconButton-colorPrimary {
+        color: #0047ad;
+        }
+        .MuiIconButton-colorPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-colorSecondary {
+        color: #002b6b;
+        }
+        .MuiIconButton-colorSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiIconButton-colorSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiIconButton-sizeSmall {
+        padding: 3px;
+        font-size: 1.125rem;
+        }
+        .MuiIconButton-label {
+        width: 100%;
+        display: flex;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+
+        .MuiButton-root {
+        color: rgba(0, 0, 0, 0.87);
+        padding: 6px 16px;
+        font-size: 0.875rem;
+        min-width: 64px;
+        box-sizing: border-box;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2,
+        1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        border-radius: 4px;
+        text-transform: uppercase;
+        }
+        .MuiButton-root:hover {
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.08);
+        }
+        .MuiButton-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-root:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-root:hover.Mui-disabled {
+        background-color: transparent;
+        }
+        .MuiButton-label {
+        width: 100%;
+        display: inherit;
+        align-items: inherit;
+        justify-content: inherit;
+        }
+        .MuiButton-text {
+        padding: 6px 8px;
+        }
+        .MuiButton-textPrimary {
+        color: #0047ad;
+        }
+        .MuiButton-textPrimary:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-textSecondary {
+        color: #002b6b;
+        }
+        .MuiButton-textSecondary:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-textSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlined {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        padding: 5px 15px;
+        }
+        .MuiButton-outlined.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        .MuiButton-outlinedPrimary {
+        color: #0047ad;
+        border: 1px solid rgba(0, 71, 173, 0.5);
+        }
+        .MuiButton-outlinedPrimary:hover {
+        border: 1px solid #0047ad;
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedPrimary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-outlinedSecondary {
+        color: #002b6b;
+        border: 1px solid rgba(0, 43, 107, 0.5);
+        }
+        .MuiButton-outlinedSecondary:hover {
+        border: 1px solid #002b6b;
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        .MuiButton-outlinedSecondary.Mui-disabled {
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        }
+        @media (hover: none) {
+        .MuiButton-outlinedSecondary:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiButton-contained {
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0,
+        0, 0.12);
+        background-color: #e0e0e0;
+        }
+        .MuiButton-contained:hover {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,
+        0, 0, 0.12);
+        background-color: #d5d5d5;
+        }
+        .MuiButton-contained.Mui-focusVisible {
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0,
+        0, 0, 0.12);
+        }
+        .MuiButton-contained:active {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0,
+        0, 0, 0.12);
+        }
+        .MuiButton-contained.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        @media (hover: none) {
+        .MuiButton-contained:hover {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0,
+        0, 0.12);
+        background-color: #e0e0e0;
+        }
+        }
+        .MuiButton-contained:hover.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        .MuiButton-containedPrimary {
+        color: #fff;
+        background-color: #0047ad;
+        }
+        .MuiButton-containedPrimary:hover {
+        background-color: rgb(0, 49, 121);
+        }
+        @media (hover: none) {
+        .MuiButton-containedPrimary:hover {
+        background-color: #0047ad;
+        }
+        }
+        .MuiButton-containedSecondary {
+        color: #fff;
+        background-color: #002b6b;
+        }
+        .MuiButton-containedSecondary:hover {
+        background-color: rgb(0, 30, 74);
+        }
+        @media (hover: none) {
+        .MuiButton-containedSecondary:hover {
+        background-color: #002b6b;
+        }
+        }
+        .MuiButton-colorInherit {
+        color: inherit;
+        border-color: currentColor;
+        }
+        .MuiButton-textSizeSmall {
+        padding: 4px 5px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-textSizeLarge {
+        padding: 8px 11px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-outlinedSizeSmall {
+        padding: 3px 9px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-outlinedSizeLarge {
+        padding: 7px 21px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-containedSizeSmall {
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        }
+        .MuiButton-containedSizeLarge {
+        padding: 8px 22px;
+        font-size: 0.9375rem;
+        }
+        .MuiButton-fullWidth {
+        width: 100%;
+        }
+        .MuiButton-startIcon {
+        display: inherit;
+        margin-left: -4px;
+        margin-right: 8px;
+        }
+        .MuiButton-endIcon {
+        display: inherit;
+        margin-left: 8px;
+        margin-right: -4px;
+        }
+        .MuiButton-iconSizeSmall>*:first-child {
+        font-size: 18px;
+        }
+        .MuiButton-iconSizeMedium>*:first-child {
+        font-size: 20px;
+        }
+        .MuiButton-iconSizeLarge>*:first-child {
+        font-size: 22px;
+        }
+
+        .jss114 {
+        margin: 0 auto;
+        padding: 16px;
+        max-width: 1300px;
+        min-height: 500px;
+        padding-bottom: 200px;
+        }
+        @media (max-width:959.95px) {
+        .jss114 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss114 {
+        padding: 16px;
+        padding-bottom: 200px;
+        }
+        }
+        .jss115 {
+        color: #0047ae;
+        margin: 0;
+        font-size: 3em;
+        font-family: glober, helvetica, sans-serif;
+        font-weight: 300;
+        margin-bottom: 12px;
+        }
+        @media (max-width:959.95px) {
+        .jss115 {
+        font-size: 2.5em;
+        }
+        }
+        @media (max-width:599.95px) {
+        .jss115 {
+        font-size: 2em;
+        }
+        }
+        .jss116 {
+        display: flex;
+        }
+        @media (max-width:599.95px) {
+        .jss116 {
+        flex-flow: column-reverse;
+        }
+        }
+        .jss117 {
+        flex: 1;
+        width: 50%;
+        text-align: right;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss117 {
+        width: 100%;
+        }
+        }
+        .jss118 {
+        flex: 1;
+        width: 50%;
+        text-align: left;
+        padding-bottom: 16px;
+        }
+        @media (max-width:599.95px) {
+        .jss118 {
+        width: 100%;
+        }
+        }
+
+        .MuiInputBase-root {
+        color: rgba(0, 0, 0, 0.87);
+        cursor: text;
+        display: inline-flex;
+        position: relative;
+        font-size: 1rem;
+        box-sizing: border-box;
+        align-items: center;
+        font-family: din, Helvetica, Arial sans-serif;
+        line-height: 1.1875em;
+        }
+        .MuiInputBase-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.38);
+        cursor: default;
+        }
+        .MuiInputBase-multiline {
+        padding: 6px 0 7px;
+        }
+        .MuiInputBase-multiline.MuiInputBase-marginDense {
+        padding-top: 3px;
+        }
+        .MuiInputBase-fullWidth {
+        width: 100%;
+        }
+        .MuiInputBase-input {
+        font: inherit;
+        color: currentColor;
+        width: 100%;
+        border: 0;
+        height: 1.1875em;
+        margin: 0;
+        display: block;
+        padding: 6px 0 7px;
+        min-width: 0;
+        background: none;
+        box-sizing: content-box;
+        animation-name: MuiInputBase-keyframes-auto-fill-cancel;
+        -webkit-tap-highlight-color: transparent;
+        }
+        .MuiInputBase-input::-webkit-input-placeholder {
+        color: currentColor;
+        opacity: 0.42;
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputBase-input::-moz-placeholder {
+        color: currentColor;
+        opacity: 0.42;
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputBase-input:-ms-input-placeholder {
+        color: currentColor;
+        opacity: 0.42;
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputBase-input::-ms-input-placeholder {
+        color: currentColor;
+        opacity: 0.42;
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputBase-input:focus {
+        outline: 0;
+        }
+        .MuiInputBase-input:invalid {
+        box-shadow: none;
+        }
+        .MuiInputBase-input::-webkit-search-decoration {
+        -webkit-appearance: none;
+        }
+        .MuiInputBase-input.Mui-disabled {
+        opacity: 1;
+        }
+        .MuiInputBase-input:-webkit-autofill {
+        animation-name: MuiInputBase-keyframes-auto-fill;
+        animation-duration: 5000s;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-webkit-input-placeholder {
+        opacity: 0 !important;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-moz-placeholder {
+        opacity: 0 !important;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:-ms-input-placeholder {
+        opacity: 0 !important;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input::-ms-input-placeholder {
+        opacity: 0 !important;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-webkit-input-placeholder {
+        opacity: 0.42;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-moz-placeholder {
+        opacity: 0.42;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus:-ms-input-placeholder {
+        opacity: 0.42;
+        }
+        label[data-shrink=false]+.MuiInputBase-formControl .MuiInputBase-input:focus::-ms-input-placeholder {
+        opacity: 0.42;
+        }
+        @-webkit-keyframes MuiInputBase-keyframes-auto-fill {}
+        @-webkit-keyframes MuiInputBase-keyframes-auto-fill-cancel {}
+        .MuiInputBase-inputMarginDense {
+        padding-top: 3px;
+        }
+        .MuiInputBase-inputSelect {
+        padding-right: 24px;
+        }
+        .MuiInputBase-inputMultiline {
+        height: auto;
+        resize: none;
+        padding: 0;
+        }
+        .MuiInputBase-inputTypeSearch {
+        -moz-appearance: textfield;
+        -webkit-appearance: textfield;
+        }
+
+        .MuiFilledInput-root {
+        position: relative;
+        transition: background-color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        }
+        .MuiFilledInput-root:hover {
+        background-color: rgba(0, 0, 0, 0.13);
+        }
+        .MuiFilledInput-root.Mui-focused {
+        background-color: rgba(0, 0, 0, 0.09);
+        }
+        .MuiFilledInput-root.Mui-disabled {
+        background-color: rgba(0, 0, 0, 0.12);
+        }
+        @media (hover: none) {
+        .MuiFilledInput-root:hover {
+        background-color: rgba(0, 0, 0, 0.09);
+        }
+        }
+        .MuiFilledInput-underline:after {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: "";
+        position: absolute;
+        transform: scaleX(0);
+        transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+        border-bottom: 2px solid rgb(0, 49, 121);
+        pointer-events: none;
+        }
+        .MuiFilledInput-underline.Mui-focused:after {
+        transform: scaleX(1);
+        }
+        .MuiFilledInput-underline.Mui-error:after {
+        transform: scaleX(1);
+        border-bottom-color: #f44336;
+        }
+        .MuiFilledInput-underline:before {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: "\00a0";
+        position: absolute;
+        transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+        pointer-events: none;
+        }
+        .MuiFilledInput-underline:hover:before {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.87);
+        }
+        .MuiFilledInput-underline.Mui-disabled:before {
+        border-bottom-style: dotted;
+        }
+        .MuiFilledInput-adornedStart {
+        padding-left: 12px;
+        }
+        .MuiFilledInput-adornedEnd {
+        padding-right: 12px;
+        }
+        .MuiFilledInput-multiline {
+        padding: 27px 12px 10px;
+        }
+        .MuiFilledInput-multiline.MuiFilledInput-marginDense {
+        padding-top: 23px;
+        padding-bottom: 6px;
+        }
+        .MuiFilledInput-input {
+        padding: 27px 12px 10px;
+        }
+        .MuiFilledInput-inputMarginDense {
+        padding-top: 23px;
+        padding-bottom: 6px;
+        }
+        .MuiFilledInput-inputHiddenLabel {
+        padding-top: 18px;
+        padding-bottom: 19px;
+        }
+        .MuiFilledInput-inputHiddenLabel.MuiFilledInput-inputMarginDense {
+        padding-top: 10px;
+        padding-bottom: 11px;
+        }
+        .MuiFilledInput-inputSelect {
+        padding-right: 24px;
+        }
+        .MuiFilledInput-inputMultiline {
+        padding: 0;
+        }
+        .MuiFilledInput-inputAdornedStart {
+        padding-left: 0;
+        }
+        .MuiFilledInput-inputAdornedEnd {
+        padding-right: 0;
+        }
+
+        .MuiSelect-select {
+        cursor: pointer;
+        min-width: 16px;
+        user-select: none;
+        border-radius: 0;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        }
+        .MuiSelect-select:focus {
+        border-radius: 0;
+        background-color: rgba(0, 0, 0, 0.05);
+        }
+        .MuiSelect-select::-ms-expand {
+        display: none;
+        }
+        .MuiSelect-select.Mui-disabled {
+        cursor: default;
+        }
+        .MuiSelect-select[multiple] {
+        height: auto;
+        }
+        .MuiSelect-select:not([multiple]) option,
+        .MuiSelect-select:not([multiple]) optgroup {
+        background-color: #fff;
+        }
+        .MuiSelect-outlined {
+        border-radius: 4px;
+        }
+        .MuiSelect-selectMenu {
+        height: auto;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        }
+        .MuiSelect-icon {
+        top: calc(50% - 12px);
+        color: rgba(0, 0, 0, 0.54);
+        right: 0;
+        position: absolute;
+        pointer-events: none;
+        }
+        .MuiSelect-iconFilled {
+        right: 7px;
+        }
+        .MuiSelect-iconOutlined {
+        right: 7px;
+        }
+
+        .jss507 {
+        padding: 9px;
+        }
+        .jss510 {
+
+        top: 0;
+        left: 0;
+        width: 100%;
+        cursor: inherit;
+        height: 100%;
+        margin: 0;
+        opacity: 0;
+        padding: 0;
+        z-index: 1;
+        position: absolute;
+        }
+
+        .MuiCheckbox-root {
+        color: rgba(0, 0, 0, 0.54);
+        }
+        .MuiCheckbox-colorPrimary.Mui-checked {
+        color: #0047ad;
+        }
+        .MuiCheckbox-colorPrimary.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        .MuiCheckbox-colorPrimary.Mui-checked:hover {
+        background-color: rgba(0, 71, 173, 0.08);
+        }
+        @media (hover: none) {
+        .MuiCheckbox-colorPrimary.Mui-checked:hover {
+        background-color: transparent;
+        }
+        }
+        .MuiCheckbox-colorSecondary.Mui-checked {
+        color: #002b6b;
+        }
+        .MuiCheckbox-colorSecondary.Mui-disabled {
+        color: rgba(0, 0, 0, 0.26);
+        }
+        .MuiCheckbox-colorSecondary.Mui-checked:hover {
+        background-color: rgba(0, 43, 107, 0.08);
+        }
+        @media (hover: none) {
+        .MuiCheckbox-colorSecondary.Mui-checked:hover {
+        background-color: transparent;
+        }
+        }
+
+        .MuiFormLabel-root {
+        color: rgba(0, 0, 0, 0.54);
+        padding: 0;
+        font-size: 1rem;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 400;
+        line-height: 1;
+        }
+        .MuiFormLabel-root.Mui-focused {
+        color: rgb(0, 49, 121);
+        }
+        .MuiFormLabel-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.38);
+        }
+        .MuiFormLabel-root.Mui-error {
+        color: #f44336;
+        }
+        .MuiFormLabel-asterisk.Mui-error {
+        color: #f44336;
+        }
+
+        .MuiInputLabel-root {
+        display: block;
+        transform-origin: top left;
+        }
+        .MuiInputLabel-formControl {
+        top: 0;
+        left: 0;
+        position: absolute;
+        transform: translate(0, 24px) scale(1);
+        }
+        .MuiInputLabel-marginDense {
+        transform: translate(0, 21px) scale(1);
+        }
+        .MuiInputLabel-shrink {
+        transform: translate(0, 1.5px) scale(0.75);
+        transform-origin: top left;
+        }
+        .MuiInputLabel-animated {
+        transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+        }
+        .MuiInputLabel-filled {
+        z-index: 1;
+        transform: translate(12px, 20px) scale(1);
+        pointer-events: none;
+        }
+        .MuiInputLabel-filled.MuiInputLabel-marginDense {
+        transform: translate(12px, 17px) scale(1);
+        }
+        .MuiInputLabel-filled.MuiInputLabel-shrink {
+        transform: translate(12px, 10px) scale(0.75);
+        }
+        .MuiInputLabel-filled.MuiInputLabel-shrink.MuiInputLabel-marginDense {
+        transform: translate(12px, 7px) scale(0.75);
+        }
+        .MuiInputLabel-outlined {
+        z-index: 1;
+        transform: translate(14px, 20px) scale(1);
+        pointer-events: none;
+        }
+        .MuiInputLabel-outlined.MuiInputLabel-marginDense {
+        transform: translate(14px, 12px) scale(1);
+        }
+        .MuiInputLabel-outlined.MuiInputLabel-shrink {
+        transform: translate(14px, -6px) scale(0.75);
+        }
+
+        .MuiFormControl-root {
+        border: 0;
+        margin: 0;
+        display: inline-flex;
+        padding: 0;
+        position: relative;
+        min-width: 0;
+        flex-direction: column;
+        vertical-align: top;
+        }
+        .MuiFormControl-marginNormal {
+        margin-top: 16px;
+        margin-bottom: 8px;
+        }
+        .MuiFormControl-marginDense {
+        margin-top: 8px;
+        margin-bottom: 4px;
+        }
+        .MuiFormControl-fullWidth {
+        width: 100%;
+        }
+
+        .MuiFormHelperText-root {
+        color: rgba(0, 0, 0, 0.54);
+        margin: 0;
+        font-size: 0.75rem;
+        margin-top: 8px;
+        min-height: 1em;
+        text-align: left;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 400;
+        line-height: 1em;
+        }
+        .MuiFormHelperText-root.Mui-disabled {
+        color: rgba(0, 0, 0, 0.38);
+        }
+        .MuiFormHelperText-root.Mui-error {
+        color: #f44336;
+        }
+        .MuiFormHelperText-marginDense {
+        margin-top: 4px;
+        }
+        .MuiFormHelperText-contained {
+        margin: 8px 14px 0;
+        }
+
+        .MuiFormControlLabel-root {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        margin-left: -11px;
+        margin-right: 16px;
+        vertical-align: middle;
+        -webkit-tap-highlight-color: transparent;
+        }
+        .MuiFormControlLabel-root.Mui-disabled {
+        cursor: default;
+        }
+        .MuiFormControlLabel-labelPlacementStart {
+        margin-left: 16px;
+        margin-right: -11px;
+        flex-direction: row-reverse;
+        }
+        .MuiFormControlLabel-labelPlacementTop {
+        margin-left: 16px;
+        flex-direction: column-reverse;
+        }
+        .MuiFormControlLabel-labelPlacementBottom {
+        margin-left: 16px;
+        flex-direction: column;
+        }
+        .MuiFormControlLabel-label.Mui-disabled {
+        color: rgba(0, 0, 0, 0.38);
+        }
+
+        .jss415 {
+        flex: 1;
+        display: flex;
+        min-width: 330px;
+        padding-right: 4px;
+        padding-bottom: 4px;
+        }
+        .jss416 {
+        border-bottom: solid 1px #bbb;
+        }
+        .jss417 {
+        font-weight: 700;
+        }
+
+        .jss409 {
+        display: flex;
+        flex-wrap: wrap;
+        }
+        .jss410 {
+        width: 100%;
+        }
+        .jss411 {
+        width: 200px;
+        }
+        .jss412 {
+        display: none;
+        }
+        .jss413 {
+        padding: 12px 8px;
+        }
+        .jss414 {
+        background: #fff;
+        margin-right: 8px;
+        }
+
+        .required{
+        display:none;
+        }
+
+
+        .slds-select {
+        font-weight: 600;
+        background-color: rgba(0, 0, 0, 0.09) !important;
+        width: -webkit-fill-available !important;
+        height: 43px !important;
+        border-top-left-radius: 0.25rem !important;
+        border-top-right-radius: 0.25rem !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        display: inline-block;
+        line-height: 1.875rem;
+        border-width: 0px;
+        border-style: solid;
+        border-image: initial;
+        transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+        padding: 0px 1rem 0px 0.75rem;
+        background-color: rgb(255, 255, 255);
+        box-shadow: unset !important;
+        outline: 0px;
+        border-bottom: 2px solid black;
+
+
+        }
+
+
+        .slds-input {
+        font-weight: 600;
+        background-color: rgba(0, 0, 0, 0.09) !important;
+        width: -webkit-fill-available !important;
+        height: 43px !important;
+        border-top-left-radius: 0.25rem !important;
+        border-top-right-radius: 0.25rem !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        display: inline-block;
+        line-height: 1.875rem;
+        border-width: 0px;
+        border-style: solid;
+        border-image: initial;
+        transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+        padding: 0px 1rem 0px 0.75rem;
+        background-color: rgb(255, 255, 255);
+        box-shadow: unset !important;
+        outline: 0px;
+        border-bottom: 2px solid black;
+
+
+        }
+
+        .slds-textarea {
+        min-height: 130px;
+        background-color: rgba(0, 0, 0, 0.09) !important;
+        width: -webkit-fill-available !important;
+
+        border-top-left-radius: 0.25rem !important;
+        border-top-right-radius: 0.25rem !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        display: inline-block;
+        line-height: 1.5;
+        border-width: 0px;
+        border-style: solid;
+        border-image: initial;
+        transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+        padding: 0px 1rem 0px 0.75rem;
+        background-color: rgb(255, 255, 255);
+        box-shadow: unset !important;
+        outline: 0px;
+        border-bottom: 2px solid black !important;
+        font-weight: 600;
+
+        }
+        .slds-dueling-list__options [aria-selected="true"], .slds-picklist__options [aria-selected="true"] {
+        background-color: #0047ad !important;
+        color: rgb(255, 255, 255);
+
+        }
+
+        .slds-checkbox [type="checkbox"]:checked + .slds-checkbox_faux::after, .slds-checkbox [type="checkbox"]:checked
+        + .slds-checkbox--faux::after, .slds-checkbox [type="checkbox"]:checked ~ .slds-checkbox_faux::after,
+        .slds-checkbox [type="checkbox"]:checked ~ .slds-checkbox--faux::after, .slds-checkbox [type="checkbox"]:checked
+        + .slds-checkbox__label .slds-checkbox_faux::after, .slds-checkbox [type="checkbox"]:checked +
+        .slds-checkbox__label .slds-checkbox--faux::after {
+        /* display: block !important;
+        content: "" !important;
+        height: 1.25rem !important;
+        width: 1.5rem !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate3d(-50%, -50%, 0px) rotate(-45deg) !important;
+        border-bottom: 2px solid rgb(37, 116, 169) !important;
+        border-left: 2px solid rgb(37, 116, 169) !important;*/
+        }
+        [role=combobox] input[readonly] {
+        padding-left: .75rem;
+        border-color: #000000;
+        background-color: rgb(255, 255, 255);
+        font-size: inherit;
+        font-weight: 600;
+        }
+
+        .slds-form-element__label {
+        overflow-wrap: break-word;
+        display: inline-block;
+        color: rgb(105, 105, 105);
+
+        padding-right: 0.5rem;
+        padding-top: 0.25rem;
+        margin-bottom: 0.125rem;
+
+        font-size: 0.75rem;
+        font-family: din, Helvetica, Arial sans-serif;
+        font-weight: 400;
+        line-height: 2.66;
+        text-transform: uppercase;
+        }
+
+
+        .slds-dueling-list__column_responsive .slds-dueling-list__options {
+        width: auto;
+        max-width: 100%;
+        background-color: rgba(0, 0, 0, 0.09) !important;
+        }
+        .slds-listbox__option .slds-truncate {
+        display: inline-block;
+        vertical-align: middle;
+        font-weight: 600;
+        }
+        .slds-dueling-list__options, .slds-picklist__options {
+        width: 15rem;
+        height: 15rem;
+        background-color: rgb(255, 255, 255);
+        border-width: 0;
+        border-style: solid;
+        border-bottom: 2px solid black !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-image: initial;
+        border-radius: 0.25rem;
+        padding: 0.25rem 0px;
+        overflow: auto;
+        }
+        lightning-datepicker{
+        width: -webkit-fill-available;
+        }
+        lightning-timepicker{
+        width: -webkit-fill-available;
+        }
+
+        .slds-dueling-list__column span.slds-form-element__label:first-of-type {
+        display: none;
+        }
+
+        .uiOutputDate{
+        font-weight: 600;
+        }
+        .MuiDialog-scrollPaper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+
+        .MuiDialog-container {
+        height: 100%;
+        outline: 0;
+        }
+        @media print {
+        .MuiDialog-container {
+        height: auto;
+        }
+        @media print {
+            .MuiDialog-root {
+            position: absolute !important;
+            }
+            }
+            .MuiDialog-scrollPaper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            }
+            .MuiDialog-scrollBody {
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: center;
+            }
+            .MuiDialog-scrollBody:after {
+            width: 0;
+            height: 100%;
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            }
+            .MuiDialog-container {
+            height: 100%;
+            outline: 0;
+            }
+            @media print {
+            .MuiDialog-container {
+            height: auto;
+            }
+            }
+            .MuiDialog-paper {
+            margin: 48px;
+            position: relative;
+            overflow-y: auto;
+            }
+            @media print {
+            .MuiDialog-paper {
+            box-shadow: none;
+            overflow-y: visible;
+            max-width: 60% !important;
+            }
+            }
+            .MuiDialog-paperScrollPaper {
+            display: flex;
+            max-height: calc(100% - 96px);
+            flex-direction: column;
+            }
+            .MuiDialog-paperScrollBody {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+            }
+            .MuiDialog-paperWidthFalse {
+            max-width: calc(100% - 96px);
+            }
+            .MuiDialog-paperWidthXs {
+            max-width: 444px;
+            }
+            @media (max-width:539.95px) {
+            .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+            max-width: calc(100% - 96px);
+            }
+            }
+            .MuiDialog-paperWidthSm {
+            max-width: 600px;
+            }
+            @media (max-width:695.95px) {
+            .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+            max-width: calc(100% - 96px);
+            }
+            }
+            .MuiDialog-paperWidthMd {
+            max-width: 960px;
+            }
+            @media (max-width:1055.95px) {
+            .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+            max-width: calc(100% - 96px);
+            }
+            }
+            .MuiDialog-paperWidthLg {
+            max-width: 1280px;
+            }
+            @media (max-width:1375.95px) {
+            .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+            max-width: calc(100% - 96px);
+            }
+            }
+            .MuiDialog-paperWidthXl {
+            max-width: 1920px;
+            }
+            @media (max-width:2015.95px) {
+            .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+            max-width: calc(100% - 96px);
+            }
+            }
+            .MuiDialog-paperFullWidth {
+            width: calc(100% - 96px);
+            }
+            .MuiDialog-paperFullScreen {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            max-width: 60%;
+            max-height: none;
+            border-radius: 0;
+            }
+            .MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+            margin: 0;
+            max-width: 60%;
+            }
+            .MuiPaper-root{
+                max-width: 60% !important;
+            }
+    </aura:html>
+
+
+
+
+    <aura:attribute name="accountId" type="String" />
+    <aura:attribute name="reOccur" type="Boolean" default="false" />
+    <aura:attribute name="startTime" type="Time" />
+    <aura:attribute name="endTime" type="Time" />
+
+    <aura:attribute name="minimumNumbersOfDay" type="Integer" />
+    <aura:attribute name="minimumNumbersOfHour" type="Double" />
+    <aura:attribute name="maxNumbersOfDay" type="Integer" />
+    <aura:attribute name="hasAvailability" type="Boolean" default="false" />
+    <aura:attribute name="language" type="String" />
+
+    <aura:attribute name="Recurrence_Ends_OnV" type="Date" />
+
+    <aura:attribute name="value" type="List" />
+
+    <aura:attribute name="job_is_for_Store_if_applicable" type="String" />
+    <aura:attribute name="JobId" type="String" />
+
+    <aura:attribute name="saveAndNew" type="Boolean" default="false" />
+
+
+    <div class="jss114">
+        <h2 class="jss115">{!$Label.c.MFG_New_Availability}</h2>
+
+
+        <div class="jss116"></div>
+        <div class="MuiPaper-root MuiPaper-elevation3 MuiPaper-rounded" style="padding: 16px;">
+
+
+            <lightning:recordEditForm objectApiName="MFG_Hiring_Manager_Availability__c" aura:id="newHrAvailability"
+                onload="{!c.handleLoadEdit}" onsubmit="{!c.handleSubmitEdit}" onsuccess="{!c.handleSuccessEdit}">
+                <lightning:messages />
+
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12 slds-p-horizontal_x-small">
+
+                        <label class="slds-form-element__label"><span style="color:#c23934">*</span>
+                            {!$Label.c.MFG_Interview_Start_Date}</label>
+                        <lightning:inputField fieldName="Interview_Start_Date__c" variant="label-hidden"
+                            onchange="{!c.changeValue}" aura:id="Interview_Start_Date" />
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-horizontal_x-small">
+                        <lightning:input type="time" name="Start Time" label="{!$Label.c.MFG_Start_Time}"
+                            required="true" value="{!v.startTime}" onchange="{!c.changetimevalue}" aura:id="startTime"
+                            min="07:00:00.000" max="19:00:00.000" />
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-horizontal_x-small">
+                        <lightning:input type="time" name="End Time" label="{!$Label.c.MFG_End_Time}" required="true"
+                            value="{!v.endTime}" onchange="{!c.changetimevalue}" aura:id="endTime" min="07:00:00.000"
+                            max="19:00:00.000" />
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12 slds-p-horizontal_x-small">
+                        <label class="slds-form-element__label"><span style="color:#c23934">*</span>
+                            {!$Label.c.MFG_Interview_Duration}</label>
+                        <lightning:inputField fieldName="Interview_Duration__c" variant="label-hidden"
+                            onchange="{!c.changeValue}" aura:id="Interview_Duration" />
+                    </div>
+
+
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12 slds-p-horizontal_x-small">
+                        <label class="slds-form-element__label"><span style="color:#c23934">*</span>
+                            {!$Label.c.Repeat_for_X_weeks}</label>
+                        <lightning:inputField fieldName="Repeat_for_x_Weeks__c" variant="label-hidden"
+                            onchange="{!c.changeValue}" aura:id="Repeat_for_x_Weeks" />
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12 slds-p-horizontal_x-small"
+                        style="{!if(v.reOccur,'display: block;','display: none;')}">
+                        <label class="slds-form-element__label"><span style="color:#c23934">*</span>
+                            {!$Label.c.Recurs_Every_Week_On}</label>
+                        <lightning:inputField fieldName="Recurs_every_week_on__c" variant="label-hidden"
+                            onchange="{!c.changeValue}" aura:id="Recurs_every_week_on" />
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12 slds-p-horizontal_x-small">
+                        <label class="slds-form-element__label">{!$Label.c.MFG_Recurrence_Ends_On}</label>
+                        <ui:outputDate aura:id="oDate" value="{!v.Recurrence_Ends_OnV}" />
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12 slds-p-horizontal_x-small"
+                        style="visibility: hidden; height: 0px;">
+
+                        <lightning:inputField fieldName="Recurrence_Ends_On__c" variant="label-inline" disabled="true"
+                            aura:id="Recurrence_Ends_On" required="false" class="asoutput"
+                            value="{!v.Recurrence_Ends_OnV}" />
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="slds-m-top_medium" style="padding: 16px 0px;">
+                    <lightning:button variant="brand" type="submit" name="save" label="{!$Label.c.MFG_SAVE}"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+                        onclick="{!c.validate}" />
+
+                    <lightning:button variant="base" type="submit" name="saveAndNew"
+                        label="{!$Label.c.MFG_SAVE_AND_NEW}"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+                        onclick="{!c.validate}" />
+
+                    <lightning:button variant="base" name="save" label="{!$Label.c.MFG_CANCEL}"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+                        onclick="{!c.cancelEditMode}" />
+                </div>
+            </lightning:recordEditForm>
+
+
+        </div>
+    </div>
+        <aura:if isTrue="{! !v.hasAvailability}">
+            <div role="presentation" class="MuiDialog-root" aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;  ">
+                <div class="MuiBackdrop-root" aria-hidden="true"
+                    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;">
+                </div>
+                <div tabindex="0" data-test="sentinelStart"></div>
+                <div class="MuiDialog-container MuiDialog-scrollPaper" role="none presentation" tabindex="-1"
+                    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; ">
+                    <div class="MuiPaper-root MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiPaper-rounded"
+                        role="dialog" style="max-width: 600px !important;">
+                        <div class="MuiDialogTitle-root" id="alert-dialog-title">
+                            <h2 class="MuiTypography-root MuiTypography-h6">
+                                <aura:if isTrue="{!v.language=='English'}">
+    
+                                    Please set up additional interview availability
+                                </aura:if>
+                                <aura:if isTrue="{!v.language=='French'}">
+    
+                                    Veuillez proposer des disponibilités supplémentaires pour des entrevues.
+                                </aura:if>
+                            </h2>
+                        </div>
+                        <div class="MuiDialogContent-root">
+                            <p class="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                                id="alert-dialog-description">
+                                <aura:if isTrue="{!v.language=='English'}">
+                                    To allow for Qualified Candidate interviews to be scheduled as quickly as possible, we
+                                    require a minimum {!v.minimumNumbersOfHour} interview hours be available every
+                                    {!v.minimumNumbersOfDay} days for the next {!v.maxNumbersOfDay} days.
+                                </aura:if>
+                                <aura:if isTrue="{!v.language=='French'}">
+                                    Afin qu’on puisse planifier dès que possible la tenue d’entrevues avec des candidats
+                                    qualifiés, nous exigeons au moins {!v.minimumNumbersOfHour} heures de disponibilités
+                                    pour des entrevues par semaine pendant les {!v.maxNumbersOfDay} prochains jours.
+                                </aura:if>
+                            </p>
+                        </div>
+                        <div class="MuiDialogActions-root MuiDialogActions-spacing">
+                            <!--button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary" 
+                                    tabindex="0" 
+                                    type="button"
+                                    onclick="{!c.cancelHRA}"
+                                    >
+                                <span class="MuiButton-label">Cancel</span>
+                                <span class="MuiTouchRipple-root"></span>
+                            </button-->
+                            <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+                                tabindex="0" type="button" onclick="{!c.hasAvailabilityOk}">
+                                <span class="MuiButton-label">{!$Label.c.MFG_OK}</span>
+                                <span class="MuiTouchRipple-root"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div tabindex="0" data-test="sentinelEnd">
+                </div>
+            </div>
+        </aura:if>
+
+  
+ 
+</aura:component>

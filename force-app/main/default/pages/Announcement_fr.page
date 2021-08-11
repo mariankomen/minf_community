@@ -1,0 +1,151 @@
+<apex:page controller="Announcement_Controller" >
+  <script type="text/javascript" id="hs-script-loader" async="//js.hs-scripts.com/7969380.js"></script> 
+<!---  holiday message.......
+<table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%" style="display:{!if(getIsHoliday=true,"block","none")};">
+    <tbody>
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Announcement</span></font>
+        </td>
+    </tr>
+    <tr>    
+        <td>
+            <br/>Bonjour!<br/><br/>
+
+            Nos bureaux seront fermés lundi le&nbsp;<apex:outputText value="{0, date,MM/dd/yy}">
+                                                    <apex:param value="{!NOW()}" />
+                                                </apex:outputText> en raison de la fête de&nbsp;<apex:outputText value="{!getStatHolidayName}"/>.
+            Nos heures de support habituelles se résumeront mardi, 2 août 7 :00  à 17 :00 (PST). Si vous avez besoin d’assistance pendant que nous sommes fermés s’il vous plait envoyer un courriel à <apex:outputlink value="mailto:{support@mindfieldgroup.com}"> support@mindfieldgroup.com </apex:outputLink> et nous vous répondrons dès le prochain jour ouvrable.<br/><br/>
+
+            Je vous remercie!<br/>
+            Team Customer Experience<br/><br/>
+        </td>
+    </tr>
+    
+     </tbody>
+</table>
+-->
+    
+     <!-- 2019 message-----------------------------------------------------------------------------------------------
+     <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Portal Announcements</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+             <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="3"><tbody><tr><td>
+                    <p>
+                    <h1>Sondage Satisfaction Client</h1><br/>
+                     Merci à ceux et celles qui ont remplis le sondage de satisfaction. 
+                     Votre avis est très important et précieux pour nous.
+                     Nous nous efforçons constamment à améliorer notre service envers vous, et faire en sorte que les processus d’embauches soient moins douloureux.
+                     Attendez-vous à de nouvelles initiatives pour la nouvelle année et ce, grâce à vos commentaires. 
+                    </p> 
+                    
+                   <p>
+                    <h1>Transmission de CV via télécopieur</h1><br/>
+                     En vigueur immédiatement, prenez note que Mindfield met fin à son service de réception de CV par télécopieur.
+                     Toutes les candidates et tous les candidats référés par les gestionnaires, ou qui postulent spontanément en magasin devront être ajoutés au Portail d’embauche.
+                     Si vous avez des questions sur comment procéder, veuillez contacter l’équipe Expérience Client. 
+                    </p>  
+                    
+                    <p>
+                    <h1>Nouveau Processus de demande d'emploi</h1><br/>
+                     Mindfield a lancé un nouveau processus en ligne amélioré pour les candidats, donnant un accès plus rapide et plus facile et ce, sur n’importe-quel type d’appareil.
+                     Vous pouvez voir ce nouveau processus en cliquant sur le bouton ‘’appliquer’’, sur un poste disponible sur votre site de carrières.
+                     Nous avons vu une augmentation marquée de demande d’emploi complété depuis son implantation.
+                    </p>  
+                    
+                    <p>
+                    L’Équipe Mindfield.
+                    </p>  
+                     
+                 </td></tr></tbody>
+                </table>
+               </span></td></tr></tbody>
+     </table>
+     <br/>
+     <br/>
+    END 2019 message-------------------------------------------------------------------------------------------------- -->
+    
+   <apex:outputPanel rendered="{!OR
+                                (Contains($Profile.Name, 'Marks')                             
+                              )}">
+    <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Heures d'assistance à la clientèle et d&apos;alertes</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="5">
+                     <!--French Holiday Hours Message Below -->
+                  <tbody><tr><td>             <br></br>
+                Heures d’ouverture du service du soutien à la clientèle-Lundi au vendredi, de 7 :00 à 17 :00 (HP).&nbsp;
+            <br></br>
+            <br></br>
+            Connectez-vous au service du soutien à la clientèle de MFG via :
+            <ul><li>Clavardage en ligne, cliquez sur le logo dans le coin gauche inférieur de votre écran</li>
+            <li>Appelez au numéro sans frais qui se situe au bas de cet écran</li>
+            <li>Email: <a href="mailto:support@mindfieldgroup.com">support@mindfieldgroup.com</a></li></ul>
+            Vous avez des questions après les heures d’ouverture? Envoyez un message via le Clavardage hors ligne ou laissez un message sur le répondeur et nous vous répondrons dans les 1 jour ouvrable. Nous sommes ici pour vous aider!
+            </td>
+    </tr>
+    </tbody>
+</table></span></td></tr></tbody></table>
+</apex:outputPanel>
+
+
+<apex:outputPanel rendered="{!NOT
+                                (Contains($Profile.Name, 'Marks')                             
+                              )}">
+    <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Heures d'assistance à la clientèle et d&apos;alertes</span></font>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="5">
+            
+                <tbody><tr><td>           <br></br>Heures d’ouverture du service du soutien à la clientèle-Lundi au vendredi, de 7 :00 à 17 :00 (HP).&nbsp;
+            <br></br>
+            <br></br>
+            Connectez-vous au service du soutien à la clientèle de MFG via :
+            <ul><li>Clavardage en ligne, cliquez sur le logo dans le coin gauche inférieur de votre écran</li>
+            <li>Appelez au numéro sans frais qui se situe au bas de cet écran</li>
+            <li>Email: <a href="mailto:support@mindfieldgroup.com">support@mindfieldgroup.com</a></li></ul>
+            
+            Vous avez des questions après les heures d’ouverture? Envoyez un message via le Clavardage hors ligne ou laissez un message sur le répondeur et nous vous répondrons dans les 1 jour ouvrable. Nous sommes ici pour vous aider!
+       
+
+        </td>
+    </tr>
+    </tbody>
+</table></span></td></tr></tbody></table>
+</apex:outputPanel>
+<apex:outputPanel rendered="{!OR
+                                (Contains($Profile.Name, 'Golf Town hireportal HR User (NSM) FR'),
+                                Contains($Profile.Name, 'Golf Town hireportal Store User (NSM) FR'),
+                                Contains($Profile.Name, 'Sporting Life Store User (NSM) FR'),
+                                Contains($Profile.Name, 'Sporting Life HR User (NSM) FR')                             
+                              )}">
+ </apex:outputPanel>
+<apex:outputPanel rendered="{!OR
+                                (Contains($Profile.Name, 'Marks')                             
+                              )}">
+              
+   <img src="https://mindfield--c.na37.content.force.com/servlet/servlet.ImageServer?id=0150P000007ATUV&oid=00DU0000000YNAR&lastMod=1569876500000" alt="NSM" height="400" width="920" ></img>
+</apex:outputPanel>
+</apex:page>

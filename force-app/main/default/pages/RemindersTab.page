@@ -1,0 +1,18 @@
+<apex:page tabStyle="MFG_Reminder__c" title="Reminders">
+
+    <!-- Custom content for Reminders Tab -->
+        
+        <table border="1" bordercolor="#000000" cellpadding="10" cellspacing="10" width="100%">
+            <tbody>
+            <tr><td bgcolor="#ffffff"><span style="font-weight: bold; font-family: Verdana,Helvetica,Sans-Serif;">Reminders</span>
+                <br>
+                <span style="font-family: Verdana,Helvetica,Sans-Serif;">Reminders are important things you need to do (such as reviewing candidates or providing updates on the outcome of candidates) so that the Recruitment Team can follow-up with candidates as appropriate.</span><BR><BR>
+                <span style="font-family: Verdana,Helvetica,Sans-Serif;"><I>Instructions</I>: To see your current reminders, please select from the appropriate View drop-down menu below.  Once you have completed the task you are being reminded of, please click the checkbox to the left of the reminder and click the <I>Complete Reminders</I> button below in the grey bar.</span>
+             </td></tr>
+             </tbody>
+          </table> <br>
+
+    <!-- Add the standard list views back in -->          
+        <apex:listViews type="MFG_Reminder__c"/>
+
+</apex:page>

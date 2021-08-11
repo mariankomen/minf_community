@@ -1,0 +1,5 @@
+<design:component>
+	<design:attribute name="section2" label="section2" />
+<design:attribute name="section3" label="section3" />
+
+</design:component>

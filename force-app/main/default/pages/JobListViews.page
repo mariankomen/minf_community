@@ -1,0 +1,39 @@
+<apex:page standardController="SFDC_Job__c" title="{!$Label.Job}"  extensions="JobListViews" recordSetVar="jobs" action="{!pageredirect}">
+
+    <apex:outputPanel rendered="{!Begins(p.name,'1800')}">
+        <style>  
+            .btn {
+                  display:none; !important;
+            }
+
+          </style>
+    </apex:outputPanel>
+
+
+        <apex:sectionHeader title="{!$Label.Job}" subtitle="{!$Label.Home}"/>
+        <!-- section with dropdown with relevant list view names -->
+        <apex:form >
+            <apex:pageBlock >
+                <!-- add new options into the apex class JobListViews -->
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$Label.View}:" />                  
+                        <apex:selectList value="{!selectedlist}" size="1"  >
+                            <apex:selectOptions value="{!listnames}"/>
+                            
+                            <apex:actionSupport event="onchange" action="{!selectList}">
+                               <apex:param name="listid" value="{!selectedlist}"/>
+                            </apex:actionSupport>
+                            
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+        </apex:form>
+        
+        <!-- section that rerenders based on selection to display the correct list view -->
+        <apex:outputPanel id="lists">
+            <apex:enhancedList customizable="true" listid="{!selectedlist}" height="500" />
+        </apex:outputPanel>        
+
+</apex:page>

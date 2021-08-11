@@ -1,0 +1,97 @@
+<apex:page controller="Announcement_Controller" >
+
+<table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%" style="display:{!if(getIsHoliday=true,"block","none")};">
+    <tbody>
+    <tr height="25" valign="middle">
+        <td align="center" bgcolor="#4991ea" valign="middle">
+            <font color="#FFFFFF"><span style="font-family:Verdana,Helvetica,Sans-Serif; font-color:#FFFF; font-weight: bold;">Customer Support Hours</span></font>
+        </td>
+    </tr>
+    
+     <tr>
+        <td bgcolor="#ffffff">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="5">
+                    <tbody>
+                        <tr>
+                            <td>
+            <br/>Hello!<br/><br/>
+
+            The Mindfield office will be closed <apex:outputText value="{0, date, EEEE MMMM d','  yyyy}">
+                                                    <apex:param value="{!NOW()}" />
+                                                </apex:outputText> in observance of&nbsp;<apex:outputText value="{!getStatHolidayName}"/>.
+            Normal support hours of 7am to 5pm PST will resume on the next business day.
+            If you require any assistance while we are closed please email us at <apex:outputlink value="mailto:{support@mindfieldgroup.com}"> support@mindfieldgroup.com</apex:outputLink> and we will respond to your email first thing next business day morning.<br/><br/>
+
+            Thank you!<br/>
+            Team Customer Experience<br/><br/>
+        </td>
+                        </tr>
+                    </tbody>
+                </table>    
+                
+            </span> 
+        </td>
+    </tr>
+           </tbody>
+</table>
+    
+    <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    <tr>
+        <td bgcolor="#ffffff">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <table cellpadding="5"><tbody><tr><td>
+                Customer Support Hours – Monday to Friday, 7:00am to 5:00pm (PST)
+                <br></br>
+                <br></br>
+                <br></br>Connect with the MFG Help Desk via:
+                <ul>
+                <li><strong>Live Chat</strong> click the "Live Chat" link at the top right corner of your screen.&nbsp; </li>
+                <li>Call the Toll Free number at 866-631-1566</li>
+                </ul>After hours? Leave a message via Offline Chat Request or Voicemail and we’ll respond within 1 business day. We’re here to help. &nbsp;It’s that easy.
+        </td>
+    </tr>
+    </tbody>
+</table>
+</span></td></tr></tbody></table>
+
+<br/>
+ <!-- OFG Sourcing Announcement-->
+ <table bgcolor="#ffffff" border="1" bordercolor="#000000" cellpadding="5" cellspacing="0" width="100%">
+    <tbody>
+    <tr>
+        <td bgcolor="#ffffff">
+            <span style="font-family: Verdana,Helvetica,Sans-Serif;">
+                <p>
+                 <strong>
+                  We would like to thank the Overwaitea Food Group and all the managers and head office team for their partnership over the past 10+ years.  
+                  As of November 1st 2018 our service is being de-activated and there are some key dates that all portal users must be aware of:
+               
+                  <ul>
+                      <li>
+                          October 22nd – Job ordering capability was removed from the system.  
+                          All active jobs and applicants will be available to you up until November 1st 2018.
+                      </li>
+                      <li>
+                          November 1st – HirePortal access will be removed for all users.
+                          Managers will no longer be able to log in and access the candidates in the HirePortal.
+                      </li>
+                  </ul>
+                  
+                  Please direct any questions to the Save-on-Foods People Team.<br/><br/>
+                  Thank you, <br/>
+                  The Mindfield Team
+                  </strong>
+               
+                </p>
+            </span>
+         </td>
+     </tr>
+     </tbody>
+ </table>
+ 
+ <!-- OFG Sourcing Announcement, 5 user limit per store
+ <img src="https://mindfield--c.na37.content.force.com/servlet/servlet.ImageServer?id=0150P0000077Vv6&oid=00DU0000000YNAR&lastMod=1516822838000" height="685" width="1285"></img>
+ -->
+</apex:page>

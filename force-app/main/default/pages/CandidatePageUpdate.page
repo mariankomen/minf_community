@@ -1,0 +1,22 @@
+<apex:page standardController="SFDC_Candidate__c" extensions="CandidatePageUpdate" action="{!FindJobSubmission}">
+  <!-- If page is displayed that is because there is no appropriate Job Submission to be updated.  Show message and return button -->
+    <apex:sectionHeader title="{!$Label.CanPageUpdate_Header} {!SFDC_Candidate__c.First_Name__c} {!SFDC_Candidate__c.Last_Name__c}" />
+    <apex:form >
+        <apex:pageBlock >
+        <!-- Buttons block -->
+        <apex:pageBlockButtons location="bottom">
+                    <apex:commandButton value="Cancel" action="/{!sfdc_candidate__c.id}" />   
+        </apex:pageBlockButtons>
+            <br></br>
+            <!-- French message -->
+            <apex:outputText value="Il n’y a aucun poste qui nécessite une mise à jour du statut du candidat." rendered="{!UserLang == 'fr'}"/>
+            <!-- English message -->
+            <apex:outputPanel rendered="{!UserLang != 'fr'}">
+                There are no jobs that require a candidate status update.  To change this candidate’s status, please call the MindField Group Help Desk at 
+                866-511-9554 and press extension 4 or you can Chat Live via the Hiring Manager Portal.  
+            </apex:outputPanel>
+            <br></br>
+            <br></br>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

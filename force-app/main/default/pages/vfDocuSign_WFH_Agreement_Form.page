@@ -1,0 +1,55 @@
+<apex:page standardController="SFDC_Employee__c">
+<apex:includeScript value="/soap/ajax/34.0/connection.js" />
+<apex:includeScript value="/apex/dsfs__DocuSign_JavaScript" />
+ <script>
+ var RC = '';
+var RSL='';
+var RSRO='';
+var RROS='';
+var CCNM='';
+var CRCL='';
+var OCO='';
+var CRL='Email~{!SFDC_Employee__c.Work_Email_Address__c};' +
+        'FirstName~{!SFDC_Employee__c.Name};' +
+        'LastName~;' +
+        'Role~Signer 1;' +
+        'RoutingOrder~1,' +
+        
+        'Email~wanda.parsons@mindfieldgroup.com;' +
+        'FirstName~Wanda;' +
+        'LastName~Parsons;' +
+        'Role~Signer 2;' +
+        'RoutingOrder~2,' +
+
+        'Email~{!SFDC_Employee__c.Manager_Email__c};' +
+        'FirstName~{!SFDC_Employee__c.Manager_Name__c};' +
+        'LastName~;' +
+        'Role~Signer 3;' +
+        'RoutingOrder~3,' +
+        
+        'LoadDefaultContacts~0';
+
+var CCRM='Signer 1~Employee;Signer 2~People and Culture;' +
+         'Signer 3~Direct Manager';
+
+var CCTM='Signer 1~Signer,Signer 2~Signer,' + 
+         'Signer 3~Signer';
+
+var DST='6ca6a313-cdc9-49ce-b222-f3d63273101e';
+var LA='';
+var CEM='Please fill out and sign the employee work from home agreement form for {!SFDC_Employee__c.Name}';
+var CES='Employee WFH Agreement Form - {!SFDC_Employee__c.Name}';  
+var STB='0';
+var SSB='1';
+var SES='0';
+var SEM='0';
+var SRS='';
+var SCS='0';
+var RES='';
+
+window.location.href = 
+"/apex/dsfs__DocuSign_CreateEnvelope?DSEID=0&SourceID={!SFDC_Employee__c.Id}&RC="+RC+"&RSL="+RSL+"&RSRO="+RSRO+"&RROS="+RROS+"&CCRM="+CCRM+"&CCTM="+CCTM+"&CRCL="+CRCL+"&CRL="+CRL+"&OCO="+OCO+"&DST="+DST+"&CCNM="+CCNM+"&LA="+LA+"&CEM="+CEM+"&CES="+CES+"&SRS="+SRS+"&STB="+STB+"&SSB="+SSB+"&SES="+SES+"&SEM="+SEM+"&SRS="+SRS+"&SCS="+SCS+"&RES="+RES;
+ 
+ 
+ </script>
+</apex:page>

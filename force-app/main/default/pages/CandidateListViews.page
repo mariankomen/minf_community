@@ -1,0 +1,40 @@
+<apex:page standardController="SFDC_Job_Candidate__c" title="{!$ObjectType.SFDC_Job_Candidate__c.label}"  extensions="CandidateListViews" recordSetVar="cans"
+    action="{!pageredirect}" id="pg">  
+
+        <apex:sectionHeader title="{!$ObjectType.SFDC_Job_Candidate__c.label}" subtitle="{!$Label.Home}"/>
+        <!-- section with dropdown with relevant list view names -->
+        <apex:form id="form">
+            <script >
+                <!-- called by Candidate Rating popup to refresh page grabbing most recent list Id-->
+                function CloseWindow()
+                {
+                    window.parent.location.href = '/apex/CandidateListViews?listId='+document.getElementById('pg:form:selList').innerHTML
+                }
+            </script>            
+            <apex:pageBlock >
+                <!-- add new options into the apex class CandidateListViews -->
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$Label.View}:" />                  
+                        <apex:selectList value="{!selectedlist}" size="1"  >
+                            <apex:selectOptions value="{!listnames}"/>
+                            <apex:actionSupport event="onchange" action="{!selectList}">
+                               <apex:param name="listid" value="{!selectedlist}"/>
+                            </apex:actionSupport>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+            </apex:pageBlock> 
+            <!-- keep most recently selected list id so when we refresh we can add it to the URL -->
+            <apex:outputPanel id="selList" style="display: none;">{!selectedlist}</apex:outputPanel>
+        </apex:form>
+                
+        <style type="text/css">
+            h2.title {color:black;}
+        </style>        
+        <!-- section that rerenders based on selection to display the correct list view -->
+        <apex:outputPanel id="lists">
+            <apex:enhancedList customizable="true" listid="{!selectedlist}" height="500" />
+        </apex:outputPanel>        
+
+</apex:page>

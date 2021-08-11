@@ -1,0 +1,21 @@
+<!-- April 2018, modified so OFG sourcing stays on the same candiate page rather then going back to the job
+     New: 'CSPLitePortal', if(SFDC_Job_Candidate__c.RecordType.Name!='Overwaitea Food Group Sourcing', URLFor($Page.CandidateUpdate, null ,[id=SFDC_Job_Candidate__c.SFDC_Job__c]), URLFor($Action.SFDC_Job_Candidate__c.Edit, SFDC_Job_Candidate__c.id, [retURL=URLFOR($Action.SFDC_Job_Candidate__c.View, SFDC_Job_Candidate__c)], true)),
+     Original: 'CSPLitePortal', if(SFDC_Job_Candidate__c.RecordType.Name!='Overwaitea Food Group Sourcing', URLFor($Page.CandidateUpdate, null ,[id=SFDC_Job_Candidate__c.SFDC_Job__c]), URLFor($Action.SFDC_Job_Candidate__c.Edit, SFDC_Job_Candidate__c.id, [retURL=URLFOR($Action.SFDC_Job__c.View, SFDC_Job_Candidate__c.SFDC_Job__c)], true)),
+ -->
+
+
+<apex:page standardController="SFDC_Job_Candidate__c" 
+    action="{!case($Profile.UserType, 
+        'CustomerSuccess', URLFor($Page.CandidateUpdate, null ,[id=SFDC_Job_Candidate__c.SFDC_Job__c]),
+        'PowerCustomerSuccess', URLFor($Page.CandidateUpdate, null ,[id=SFDC_Job_Candidate__c.SFDC_Job__c]),
+        'CSPLitePortal', if(SFDC_Job_Candidate__c.RecordType.Name!='Overwaitea Food Group Sourcing', URLFor($Page.CandidateUpdate, null ,[id=SFDC_Job_Candidate__c.SFDC_Job__c]), URLFor($Action.SFDC_Job_Candidate__c.Edit, SFDC_Job_Candidate__c.id, [retURL=URLFOR($Action.SFDC_Job_Candidate__c.View, SFDC_Job_Candidate__c)], true)),
+        URLFor($Action.SFDC_Job_Candidate__c.Edit, SFDC_Job_Candidate__c.id, [retURL=URLFOR($Action.SFDC_Job__c.View, SFDC_Job_Candidate__c.SFDC_Job__c)], true))}"
+    >
+    
+    <!-- This page is meant to take a Portal user to the CandidateUpdate page but allow internal users to edit a single -->
+    <!--  Candidate Submitted record.  The Save will take you to the Job page.  -->
+    Job Id: {!SFDC_Job_Candidate__c.SFDC_Job__c} <!-- This field must remain on the page for reference in URL -->
+    Job Id: {!SFDC_Job_Candidate__c.RecordType.Name}
+
+
+</apex:page>

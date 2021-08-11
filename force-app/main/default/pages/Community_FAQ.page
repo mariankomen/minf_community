@@ -1,0 +1,8 @@
+<apex:page >
+
+<apex:outputPanel >
+<c:HirePortal_FAQ_QCP_NSM />              
+</apex:outputPanel>
+
+
+</apex:page>

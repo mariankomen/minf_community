@@ -1,0 +1,17 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction" access="global" controller="TalemetryGateway">
+
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="sobjecttype" type="String" default="{!v.sObjectName}"/>
+    <aura:attribute name="showSpinner" type="Boolean" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+    
+    <div class="slds-modal__content slds-p-around--x-small slds-align_absolute-center slds-size_1-of-1 slds-is-relative">
+        <form class="slds-form--stacked"><br/><br/><br/>
+            <aura:renderIf isTrue="{!v.showSpinner}">
+               <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:renderIf><br/><br/>
+
+        </form> 
+    </div>    
+    
+</aura:component>

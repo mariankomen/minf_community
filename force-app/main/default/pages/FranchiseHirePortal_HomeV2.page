@@ -1,0 +1,230 @@
+<apex:page title="Franchise HirePortal - Create Jobs" sidebar="false" standardStylesheets="false" showHeader="false"  >
+
+    <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>     
+    <style>
+        /* -- UNIVERSAL -- */
+        h1 {
+          font-size: 21px !important;
+          font-weight: 400 !important;
+          color: white !important;
+          display: inline !important;
+          padding-left: 16px !important;
+          line-height: 32px !important; }
+
+
+        h2 {
+          display: block !important;
+          padding: 0px 32px 0px 32px !important;
+          font-size: 15px !important;
+          font-weight: 400 !important;
+          color: #4f5c67 !important;
+          text-align: center !important;
+          line-height: 21px !important; }
+
+        h2 a {display: inline !important; text-decoration: none !important; }
+
+        /* -- HOMEPAGE -- */
+        #tacn_home_new-container {
+          border-collapse: collapse; 
+          border-spacing: 0; 
+          width: 100%; 
+          max-width: 100%;
+          position: relative !important;
+          margin: 0 auto !important;
+          font-family: "Noto Sans", sans-serif !important;
+          -webkit-font-smoothing: antialiased !important; 
+        }
+
+          #tacn_home_new-container td,
+          #tacn_home_new-container th {
+            vertical-align: top;
+            width: 25% !important; 
+            background-color: whitesmoke !important;
+          }
+            #tacn_home_new-container th {
+              padding: 24px;
+              background-color: #2c8dfb !important;
+            }
+            #tacn_home_new-container td {
+              padding: 32px;
+            }
+            
+            #tacn_home_new-container .tacn_border-head {
+              border-right: 1px solid #0862bf !important; }
+            #tacn_home_new-container .tacn_border-intro {
+              border-right: 1px solid #dcdcdc !important; }
+            #tacn_home_new-container .tacn_border-features {
+              border-right: 1px solid #dcdcdc !important; }
+
+
+            #tacn_home_new-container .tacn_intro {
+              background-color: #eeefef !important;}
+            #tacn_home_new-container .tacn_intro p {
+              text-align: center !important; 
+              font-size: 15px !important;}
+            #tacn_home_new-container .tacn_intro a {
+              color: #2c8dfb !important;
+              }
+            #tacn_home_new-container .tacn_intro a:hover {
+              color: #0862bf !important;
+              }
+
+            #tacn_home_new-container .tacn_features h3 {
+              color: #2c8dfb !important; 
+              font-size: 16px !important; 
+              margin-top: 0 !important;}
+
+            #tacn_home_new-container .tacn_features ul {
+              padding-left: 1em !important;
+              }
+
+            #tacn_home_new-container .tacn_features li {
+              font-size: 15px !important;
+              color: #4f5c67 !important;
+              padding-bottom: 12px;
+              }
+            
+            #tacn_home_new-container tfoot td {padding-top: 0 !important; text-align: center !important;}
+            
+            #tacn_home_new-container .tacn_btn {
+              margin-top: 0 !important;
+              background-color: #2c8dfb !important;
+            }
+            #tacn_home_new-container .tacn_btn:hover {
+              background-color: #0862bf !important;
+            }
+
+            
+            #tacn_home_new-container th.featured_cell {
+              background-color: #0862bf !important;
+              }
+            #tacn_home_new-container .tacn_intro.featured_cell {
+              background-color: #dfe0e2 !important;
+              }
+            #tacn_home_new-container .tacn_features.featured_cell,
+            #tacn_home_new-container .tacn_action.featured_cell {  
+              background-color: #e7e7e7 !important;
+              }
+            #tacn_home_new-container .tacn_features.featured_cell h3 {
+              color: #0862bf !important;
+            }
+
+    </style>
+
+ 
+    <table id="tacn_home_new-container">
+        <thead>
+            <tr>
+                <th class="tacn_border-head">
+                    <h1>Job Posting</h1>
+                </th>
+                <th class="tacn_border-head">
+                    <h1>Candidate Sourcing</h1>
+                </th>
+                <th class="tacn_border-head">
+                    <h1>Full-Cycle Recruitment</h1>
+                </th>
+                <th class="featured_cell">
+                    <h1>Subscription Service</h1>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tacn_intro tacn_border-intro">
+                    <p>Our standard service that provides a simplified and efficient way to get your job on the corporate career site and on the web.</p>
+                </td>
+                <td class="tacn_intro tacn_border-intro">
+                    <p>We develop a custom candidate sourcing program that increases the volume and quality of applicants for your job.</p>
+                </td>
+                <td class="tacn_intro tacn_border-intro">
+                    <p>We handle the recruitment process on your behalf.  You choose who you want to hire.</p>
+                </td>
+                <td class="tacn_intro featured_cell">
+                    <p>Our subscription services are designed to help those franchise owners with their ongoing hiring needs.</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="tacn_features tacn_border-features">
+                    <h3>Features</h3>
+                    <ul>
+                        <li>HirePortal system</li>
+                        <li>Career site posting</li>
+                        <li>Job advertising – basic</li>
+                        <li>Like-minds Predictor</li>
+                        	<ul>
+                                <li>Cultural and behavioural assessment</li>
+                                <li>Candidate scoring</li>
+                        	</ul>
+                        <li>Candidate Eligibility </li>
+                    </ul>
+                </td>
+                <td class="tacn_features tacn_border-features">
+                    <h3>Features</h3>
+                    <ul>
+                        <li>HirePortal system</li>
+                        <li>Career site posting</li>
+                        <li>Job advertising - advanced</li>
+                        <li>Candidate sourcing – multi-channel</li>
+                        <li>Like-minds Predictor</li>
+                            <UL>
+                            <li>Cultural and behavioural assessment</li>
+                            <li>Candidate scoring</li>
+                            </UL>
+                        <li>Candidate eligibility</li>
+                    </ul>
+                </td>
+                <td class="tacn_features tacn_border-features">
+                    <h3>Features</h3>
+                    <ul>
+                        <li>HirePortal system</li>
+                        <li>Career site posting</li>
+                        <li>Job advertising - advanced</li>
+                        <li>Candidate sourcing – multi-channel</li>
+                        <li>Like-minds Predictor</li>
+                            <UL>
+                            <li>Cultural and behavioural assessment</li>
+                            <li>Candidate scoring</li>
+                            </UL>
+                        
+                        
+                        <li>Candidate resume screening</li>
+                        <li>Behavioural-based telephone interviews</li>
+                        <li>2 qualified candidates for each opening</li>
+                        <li>Interview scheduling (Optional)</li>
+                    </ul>
+                </td>
+                <td class="tacn_features featured_cell">
+                    <h3><strong>Additional</strong> Features</h3>
+                    <ul>
+                        <li>End to end workforce quality suite and reporting</li>
+                        <li>Volume discount pricing packages</li>
+                        <li>Dedicated Account Manager</li>
+                        <li>Monthly and quarterly reports</li>
+                        <li>Enhanced service and support levels</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="tacn_action tacn_border-features">
+                    <a class="tacn_btn tacn_btn-reg" href="/apex/FranchiseHirePortal_ProductMatrix?product=posting" target="_top">LEARN MORE</a>
+                </td>
+                <td class="tacn_action tacn_border-features">
+                    <a class="tacn_btn tacn_btn-reg" href="/apex/FranchiseHirePortal_ProductMatrix?product=sourcing" target="_top">LEARN MORE</a>
+                </td>
+                <td class="tacn_action tacn_border-features">
+                    <a class="tacn_btn tacn_btn-reg" href="/apex/FranchiseHirePortal_ProductMatrix?product=fullcycle" target="_top">LEARN MORE</a>
+                </td>
+                <td class="tacn_action featured_cell">
+                    <a class="tacn_btn tacn_btn-reg" href="/apex/FranchiseHirePortal_ProductMatrix?product=subscription" target="_top">LEARN MORE</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+    
+</apex:page>

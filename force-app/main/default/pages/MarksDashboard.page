@@ -1,0 +1,28 @@
+<apex:page readOnly="true" showHeader="false" sidebar="false" title="Mark's Job Dashboard">
+    <apex:form >
+    <apex:sectionHeader title="Mark's Dashboard"/>
+    <!-- include styles used in the chart components here -->
+    <apex:stylesheet value="{!URLFOR($Resource.MFGVisualforceChartCSS)}"/>
+
+        <apex:panelGrid columns="3">
+            <!-- first chart -->
+            <apex:outputPanel >
+                <!-- add job title list in the 'JobTitlesList' attribute with commas between titles and no spaces, also add to this ReportId attribute with ?pv0= to make the report
+                     dynamic to the job titles sent into the chart.  Spaces and parentheses within a job title is ok -->
+                <c:Chart_JobAgeByTitle ReportId="00OU0000001Iw0w?pv0=Sales Associate,Shipper/Receiver,Visual Merchandiser,Keyholder" JobTitlesList="Sales Associate,Shipper/Receiver,Visual Merchandiser,Keyholder"/>
+            </apex:outputPanel> 
+            
+            <!-- second chart -->
+            <apex:outputPanel >
+                <c:Chart_AvgDaysOpen reportId="00OU0000001Iw0x" />
+            </apex:outputPanel>
+
+            <!-- third chart -->
+            <apex:outputPanel >
+                <c:Chart_HiringFunnel reportId="00OU0000001Iw0v" />
+            </apex:outputPanel>            
+        </apex:panelGrid>
+
+
+</apex:form>
+</apex:page>

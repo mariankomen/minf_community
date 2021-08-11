@@ -1,0 +1,24 @@
+<template>
+    <template if:true={fileID}>
+        <lightning-tabset variant="scoped">
+            <template for:each={tabs} for:item="tab">
+                <lightning-tab key={tab.value} label={tab.label} value={tab.value} onactive={setFileID}>
+                    <c-file-viewer
+            height-in-rem={heightInRem}
+            file-id={fileID}
+            conten-body-id={contenBodyId}
+            version-id={versionId}
+            file-extension={fileExtension}
+            version-data={versionData}
+        ></c-file-viewer>
+                </lightning-tab>
+            </template>
+        </lightning-tabset>       
+        
+    </template>
+ 
+    <template if:false={fileID}>
+        <lightning-card><div class="slds-text-align_center">No related PDF file found.</div></lightning-card>
+    </template>
+
+</template>

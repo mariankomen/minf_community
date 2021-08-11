@@ -1,0 +1,60 @@
+<apex:page title="Job Orders" controller="JobOrder_Tab">
+  <apex:pageBlock title="Viewing Orders" id="ordersList">
+  <apex:form id="theForm">
+    <apex:pageBlockSection columns="1">
+      <apex:pageBlockTable var="o" value="{!CurrentOrderList}" >
+          <apex:column >
+              <apex:facet name="header">
+                  <apex:commandLink action="{!SortToggle}" rerender="ordersList" status="TableUpdateStatus">
+                      <apex:param name="SortField" value="Name" assignTo="{!SortField}" />
+                      <apex:outputText value="{!$ObjectType.Job_Order__c.Fields.Name.Label}{!IF(SortField=='Name',IF(SortDirection='asc','▲','▼'),'')}" />
+                  </apex:commandLink>
+              </apex:facet>
+              <apex:outputLink value="/{!o.Id}" >{!o.Name}</apex:outputlink>
+          </apex:column>
+          <apex:column >
+              <apex:facet name="header">
+                  <apex:commandLink action="{!SortToggle}" rerender="ordersList" status="TableUpdateStatus">
+                      <apex:param name="SortField" value="status__c" assignTo="{!SortField}" />
+                      <apex:outputText value="{!$ObjectType.Job_Order__c.Fields.Status__c.Label}{!IF(SortField=='status__c',IF(SortDirection='asc','▲','▼'),'')}" />
+                  </apex:commandLink>
+              </apex:facet>
+              <apex:outputField value="{!o.Status__c}" />
+          </apex:column>
+          <apex:column >
+              <apex:facet name="header">
+                  <apex:commandLink action="{!SortToggle}" rerender="ordersList" status="TableUpdateStatus">
+                      <apex:param name="SortField" value="order_total__c" assignTo="{!SortField}" />
+                      <apex:outputText value="{!$ObjectType.Job_Order__c.Fields.Order_Total__c.Label}{!IF(SortField=='order_total__c',IF(SortDirection='asc','▲','▼'),'')}" />
+                  </apex:commandLink>
+              </apex:facet>
+              <apex:outputField value="{!o.Order_Total__c}" />
+          </apex:column>                  
+          <apex:column >
+              <apex:facet name="header">
+                  <apex:commandLink action="{!SortToggle}" rerender="ordersList" status="TableUpdateStatus">
+                      <apex:param name="SortField" value="job_title__c" assignTo="{!SortField}" />
+                      <apex:outputText value="{!$ObjectType.Job_Order__c.Fields.Job_Title__c.Label}{!IF(SortField=='job_title__c',IF(SortDirection='asc','▲','▼'),'')}" />
+                  </apex:commandLink>
+              </apex:facet>
+              <apex:outputField value="{!o.Job_Title__c}" />
+          </apex:column> 
+          <apex:column >
+              <apex:facet name="header">
+                  <apex:commandLink action="{!SortToggle}" rerender="ordersList" status="TableUpdateStatus">
+                      <apex:param name="SortField" value="createddate" assignTo="{!SortField}" />
+                      <apex:outputText value="{!$ObjectType.Job_Order__c.Fields.createddate.Label}{!IF(SortField=='createddate',IF(SortDirection='asc','▲','▼'),'')}" />
+                  </apex:commandLink>
+              </apex:facet>
+              <apex:outputField value="{!o.createddate}" />
+          </apex:column>
+        </apex:pageBlockTable> 
+
+    </apex:pageBlockSection>
+    <apex:panelGrid columns="2">
+      <apex:commandLink action="{!StdSetControllerOrder.previous}" rendered="{!StdSetControllerOrder.hasprevious}">Previous</apex:commandlink>
+      <apex:commandLink action="{!StdSetControllerOrder.next}" rendered="{!StdSetControllerOrder.hasnext}" >Next</apex:commandlink>
+    </apex:panelGrid>
+  </apex:form> 
+  </apex:pageBlock>
+</apex:page>

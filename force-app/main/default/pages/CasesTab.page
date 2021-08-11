@@ -1,0 +1,25 @@
+<apex:page tabStyle="Case" 
+action="{!case($Profile.UserType,
+        'PowerCustomerSuccess', null, 
+        'CustomerSuccess', null,
+        'CSPLitePortal', null,
+        URLFor($Action.Case.Tab, $ObjectType.Case, null, true))}">
+<!-- This custom Case tab only shows for the Portal users - other users are sent to the default tab -->
+
+    <!-- Custom content for Cases Tab -->
+        
+        <!--<table border="1" bordercolor="#000000" cellpadding="10" cellspacing="10" width="100%">
+            <tbody>
+            <tr><td bgcolor="#ffffff"><span style="font-weight: bold; font-family: Verdana,Helvetica,Sans-Serif;">Cases</span>
+                <!--<br>
+                <span style="font-family: Verdana,Helvetica,Sans-Serif;">Cases is your central issue management system.  Whenever you have an issue, from not receiving candidates within your desired timeframe, or have concerns over the quality of candidates you are sent, you can now let us know so we can fix the issue.  We will respond to your issue within 48 hours.</span><BR><BR>
+                <span style="font-family: Verdana,Helvetica,Sans-Serif;"><I>Instructions</I>: To open a case, please click on the New Case button below.  You will then be prompted to enter the appropriate details about your issue.  Alternatively, if you want to review the status of a case you already have logged with us, please choose the appropriate View from the drop-down below.</SPAN></td></tr>
+             </tbody>
+          </table> <br>-->
+    <a name="skiplink"><img src="/s.gif" height='1' width='1' alt="Content Starts Here" class="skiplink" title="Content Starts Here"/></a><div class="bPageTitle"><div class="ptBody secondaryPalette"><div class="content"><img src="/s.gif" alt="Candidate"  class="pageTitleIcon" title="Candidate"/><h1 class="pageType">Cases<span  class="titleSeparatingColon">:</span></h1><h2 class="pageDescription"> Home</h2><div class="blank">&nbsp;</div></div><div class="links"></div></div>
+    <!-- Add the standard list views back in -->          
+        <apex:listViews type="Case"/>
+  
+        
+
+</apex:page>

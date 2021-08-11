@@ -1,0 +1,8 @@
+<apex:page standardController="Job_Order__c"   
+  action="{!case($Profile.UserType, 
+          'CustomerSuccess', '/apex/FranchiseHirePortal_OrderPg3_Summary?id='+job_Order__c.id,
+        'PowerCustomerSuccess', '/apex/FranchiseHirePortal_OrderPg3_Summary?id='+job_Order__c.id,
+        'CSPLitePortal', '/apex/FranchiseHirePortal_OrderPg3_Summary?id='+job_Order__c.id,
+        If(job_Order__c.id != null, URLFor($Action.job_Order__c.View, job_Order__c.id, null, true), null))}"
+ >
+</apex:page>

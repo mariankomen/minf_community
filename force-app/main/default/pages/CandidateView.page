@@ -1,0 +1,82 @@
+<apex:page standardController="SFDC_Candidate__c"  extensions="CandidateView"
+    action="{!case($Profile.UserType, 
+        'CustomerSuccess', null,
+        'PowerCustomerSuccess', null,
+        'CSPLitePortal', null,
+        URLFor($Action.SFDC_Candidate__c.View, SFDC_Candidate__c.id, null, true))}">
+        
+
+    <apex:detail relatedList="false"/>
+
+    <!-- Dont show anymore for OFG -->
+    <apex:pageBlock title="{!$Label.Jobs_Submitted_To}" rendered="{!NOT(Contains($Profile.Name, 'OFG HirePortal'))}">
+        <apex:pageBlockTable value="{!SFDC_Candidate__c.Candidates_Submitted_to_Job1__r}" var="cans">
+                <apex:column > 
+                <apex:facet name="header">{!$Label.Job_Submission}</apex:facet>
+                <apex:outputLink value="{!URLfor($Action.SFDC_Job_Candidate__c.View, cans.id)}">{!cans.name}</apex:outputLink>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">{!$Label.Job_ID}</apex:facet>
+                <apex:outputLink value="{!URLfor($Action.SFDC_Job__c.View, cans.SFDC_Job__c)}">{!cans.Job_ID__c}</apex:outputLink>
+            </apex:column>
+            <apex:column value="{!cans.Job_Title__c}"/>
+            <apex:column value="{!cans.Status__c}"/>
+            <apex:column value="{!cans.Date_Candidate_Sent__c}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    
+    <!-- show the References for FGL Sports and Mark's and mr Lube Husaro which only shows completed -->
+    <apex:pageBlock title="References" rendered="{!$ObjectType.References__c.accessible && (Contains($Profile.Name, 'FGL Sports') || Contains($Profile.Name, 'HY Louie') || Contains($Profile.Name, 'Marks') 
+                                                    || Contains($Profile.Name, 'Husaro'))}">
+        <apex:pageBlockTable value="{!Refs2}" var="r">
+            <!-- only show Action column if the user has edit rights to References (Feb 12/14: hidden for now, when ready, add this: rendered="{!$Objecttype.References__c.Updateable}" -->
+            <apex:column headerValue="Action" rendered="false">
+                <!-- only show Edit link if the status is Not Completed - No Response since all others will leave portal user at ReferenceEdit page with warning message -->
+                <apex:outputLink value="{!URLfor($Action.References__c.Edit, r.id)}" rendered="{!r.Reference_Completed_Successfully__c == 'Not Completed - No Response'}">Edit</apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Name.Label}">
+                <apex:outputLink value="{!URLfor($Action.References__c.View, r.id)}">{!r.name}</apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.First_Name__c.Label}">
+                <apex:outputField value="{!r.First_Name__c}"/>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Last_Name__c.Label}">
+                <apex:outputField value="{!r.Last_Name__c}"/>
+            </apex:column>            
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Reference_Completed_Successfully__c.Label}">
+                <apex:outputField value="{!r.Reference_Completed_Successfully__c}"/>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Type__c.Label}">
+                <apex:outputField value="{!r.Type__c}"/>
+            </apex:column>            
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.createddate.Label}">
+                <apex:outputField value="{!r.createddate}"/>
+            </apex:column>                                    
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    
+     <!-- show the References for PPG/AkzoNobel and Earls so that it shows all references, not just those completed -->
+    <apex:pageBlock title="References" rendered="{!$ObjectType.References__c.accessible && (Contains($Profile.Name, 'AkzoNobel') || Contains($Profile.Name, 'Earls'))}">
+        <apex:pageBlockTable value="{!Refs2}" var="r">
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Name.Label}">
+                <apex:outputLink value="{!URLfor($Action.References__c.View, r.id)}">{!r.name}</apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.First_Name__c.Label}">
+                <apex:outputField value="{!r.First_Name__c}"/>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Last_Name__c.Label}">
+                <apex:outputField value="{!r.Last_Name__c}"/>
+            </apex:column>            
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Reference_Completed_Successfully__c.Label}">
+                <apex:outputField value="{!r.Reference_Completed_Successfully__c}"/>
+            </apex:column>
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.Type__c.Label}">
+                <apex:outputField value="{!r.Type__c}"/>
+            </apex:column>            
+            <apex:column headerValue="{!$ObjectType.References__c.Fields.createddate.Label}">
+                <apex:outputField value="{!r.createddate}"/>
+            </apex:column>                                    
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    
+</apex:page>

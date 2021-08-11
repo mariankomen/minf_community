@@ -1,0 +1,36 @@
+<apex:page standardStylesheets="false" sidebar="false" showHeader="false" >
+
+        <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.HirePortal_Resources, '/css/HirePortal.css')}"/>
+
+
+    <body>
+
+        <div id="tacn_sidebar-container">
+            
+          <form action="/apex/PortalSearch" target="_parent">
+            <div id="tacn_search">
+                <input type="text" autocomplete="off" name="searchTerms" placeholder="Search HirePortal..."/>
+                <input type="submit" value="GO"/>   
+            </div>
+          </form>
+            
+            <h3>I would like to...</h3>
+
+            <ul>
+                <li><a href="/a0P/e" target="_parent">Create Head Office Job</a></li>
+                <li><a href="{!URLFOR($Action.sfdc_job__c.Tab,$ObjectType.sfdc_job__c)}" target="_parent">View Jobs</a></li>
+                <li><a href="/apex/CandidateListViews" target="_parent">View Candidates</a></li>
+                <li><a href="/apex/Support_Page?sfdc.tabName=01rU0000000Dvod" target="_parent">Need Help?</a></li>
+            </ul>
+
+            <h3>Career Sites</h3>
+            <ul>
+                <li><a href="http://www.1800gotjunkjobs.com" target="_blank">1-800-GOT-JUNK?</a></li>
+            </ul>
+
+        </div>
+
+    </body>
+
+</apex:page>

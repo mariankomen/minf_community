@@ -1,0 +1,85 @@
+<apex:page controller="JobConfirmation" tabStyle="SFDC_Job__c" id="pg" title="{!$Label.JobConf_Job_Confirmation}">
+<script type="text/javascript"> 
+    function showContact(block) 
+    { 
+        document.getElementById("pg:theform:blk:contactPanel").style.display = "block";
+    } 
+    function hideContact(block) 
+    { 
+        document.getElementById("pg:theform:blk:contactPanel").style.display = "none";
+    } 
+</script> 
+<style>
+#contactContainer { 
+    width:270px; 
+    border: 2px solid black; 
+}
+</style>
+    
+    <br/>
+    <apex:sectionHeader title="{!$Label.Thank_You}!"/>
+    <apex:pageMessages showDetail="false"/>
+    <apex:form id="theform">
+
+        <apex:pageBlock mode="edit" id="blk">
+            <apex:pageBlockButtons location="bottom" >
+                <apex:commandButton value="{!$Label.Back_to_Job}" action="/{!job.id}" />
+                <!-- duplicate button shows for users not in the banned profile list and URL is built in controller to use the custom setting for fields to null -->
+                <apex:commandButton value="{!$Label.Duplicate_Job}" action="/{!duplicateURL}" rendered="{!allowDuplication}"/> 
+            </apex:pageblockButtons>
+
+            <br/>
+            
+            <!-- confirmation page text based on Job fields; currently available: online_posting__c, name, Specific_Candidate_Preference__c, SLA_Level__c, recordtypeid 
+                Num_of_Days_for_Delivery_Agreement__c, Num_of_Candidates_for_Delivery_Agreement__c NOTE: user profiles must have at least Visible for each field, can be read only -->
+
+
+          <!-- MAY 2019, REMOVE ALL BELOW AND SIMPLIFY, NOW JUST SHOW BASIC MASSAGE REGARDLESS OF SLA TYPE -->
+          <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}"/>
+          <!----------
+            <apex:outputText escape="false" value="{!$Label.JobConf_SLA_Job_Posting_Only}" rendered="{!job.SLA_Level__c == 'Job Posting Only'}"/>
+            <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.SLA_Level__c == 'Front Line'}"/>
+            <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.SLA_Level__c == 'Management'}"/>
+            <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.SLA_Level__c == 'Other (3 in 30)'}"/>
+            <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.SLA_Level__c == 'OnDemand Opening/Client'}"/>
+            <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.SLA_Level__c == 'Store Project - Included in RPO Billing'}"/>            
+            <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.SLA_Level__c == 'Store Project - Separate Invoice from RPO Billing'}"/>    
+            //Added new SLA Speciality
+            <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.SLA_Level__c == 'Speciality'}"/>          
+
+            //no SLA filled in 
+            <apex:outputPanel rendered="{!job.SLA_Level__c == null}">
+                //if # Days/# Candidates for Service Agreement are both NULL then use standard blank SLA text
+                <apex:outputText escape="false" value="{!$Label.JobConf_No_SLA_Job_Posting_Only}" rendered="{!job.Num_of_Days_for_Delivery_Agreement__c == null && job.Num_of_Candidates_for_Delivery_Agreement__c == null}"/>                
+                
+                //if # Days or # candidates for Service Agreement >= 1
+                <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.Num_of_Days_for_Delivery_Agreement__c >= 1 || job.Num_of_Candidates_for_Delivery_Agreement__c >= 1}"/>                
+                /if both # Days and # Candidates for Service Agreement are < 1
+                <apex:outputText escape="false" value="{!$Label.JobConf_Standard_Text}" rendered="{!job.Num_of_Days_for_Delivery_Agreement__c < 1 && job.Num_of_Candidates_for_Delivery_Agreement__c < 1}"/> 
+            </apex:outputPanel>
+
+            //display reminder of open candidates for Save on Foods AB of certain MF Products and if more than 1 open candidate
+            <apex:outputPanel rendered="{!job.Num_Open_Candidates_upon_Creation__c > 1 && showOpenCandidates}">
+                <apex:outputText escape="false">
+                <br/><br/><b>IMPORTANT INFORMATION:</b> According to our records, you presently have {!floor(job.Num_Open_Candidates_upon_Creation__c)} candidates outstanding who were sent more than 4 days ago
+                 with no update. Can you please assist us by updating the candidate status in the Hiring Manager Portal or if any of these candidates may be suitable for this role, 
+                 please let us know via live chat or phone at {!job.HM_Portal_Phone_Number__c} ext 4.
+                </apex:outputText>
+            </apex:outputPanel>
+             -->
+            
+            <!-- help section -->
+            <p><apex:outputLink onmouseover="showContact()"> {!$Label.JobConf_Need_Help}</apex:outputLink></p>
+            <apex:outputPanel id="contactPanel" style="display:none">
+              <div id="contactContainer" onmouseout="hideContact();">
+                        {!$Label.JobConf_Help_Comments}  
+                </div>  
+            </apex:outputPanel>
+            
+            <p>{!$Label.JobConf_Want_to_Learn_About}&nbsp; <apex:outputLink value="http://www.mindfieldgroup.com" target="_blank">Mindfield</apex:outputLink>?</p>
+            <br/><br/>
+       </apex:pageBlock>                    
+
+    </apex:form>
+     
+</apex:page>

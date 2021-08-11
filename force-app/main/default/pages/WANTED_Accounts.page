@@ -1,0 +1,3 @@
+<apex:page standardController="Account" tabStyle="Account">
+<iframe height="600px" id="WANTEDCRM" name="WANTED" src="https://www.wantedanalytics.com/hdd/analytics/search?passkey=316C72CADlisa.mccann@mindfieldgroup.com&adv={!Account.Name}&crm=1&timeframe=last15days" width="100%"></iframe>
+</apex:page>

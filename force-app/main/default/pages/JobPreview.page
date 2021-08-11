@@ -1,0 +1,37 @@
+<apex:page controller="JobPreview_Controller" tabStyle="SFDC_Job__c" title="{!$Label.Job_Preview}" action="{!PreviewRedirect}">
+    <br/>
+    <apex:sectionHeader title="{!$Label.Job_Preview}"/>
+    <apex:sectionHeader title="  sgvsregre"/>
+    <apex:pageMessages showDetail="false"/>
+    <apex:form >
+
+        <apex:pageBlock mode="edit" >
+            <apex:pageBlockButtons location="bottom" >
+                <apex:commandButton value="{!$Label.Confirm_Job}" action="{!confirm}" />
+                <apex:commandButton value="{!$Label.Modify_Job}" action="{!modifyJob}" /> 
+                <apex:commandButton value="{!$Label.Cancel_Job}" action="{!deleteJob}" /> 
+            </apex:pageBlockButtons>
+
+            <br/>
+
+            Please review the Job Posting preview below and then click <b>Confirm Job</b> to finalize your request. If you need to make any modifications, click <b>Modify Job</b> to go 
+            back to the Create Job screen. Or if you no longer need this job posting, click <b>Cancel Job</b>.<br/>
+            <br/>
+            <Apex:outputPanel rendered="{!showDesc}">
+                <h1>{!$Label.Job_Description}</h1><br/>
+                <!-- it seems that using the outputField changes the size of the standard text, making it narrower as it puts it into an html table -->
+                <apex:outputText escape="false" value="{!job.Job_Description_Original__c}" /><br/>
+                <br/>
+            </Apex:outputPanel>
+            
+            <apex:outputPanel rendered="{!showCandReqt}">
+                <h1>{!$Label.Job_Description}</h1><br/>
+                <apex:outputField value="{!job.Job_Role_Title__c}" /><br/><br/>
+                <h1>{!$Label.Candidate_Requirements}</h1><br/>
+                <apex:outputText escape="false" value="{!job.Candidate_Requirements__c}" />
+            </apex:outputPanel>
+       </apex:pageBlock>                    
+
+    </apex:form>
+     
+</apex:page>
